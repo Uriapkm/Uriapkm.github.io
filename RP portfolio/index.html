@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Uriapkm - 3D Design & Rapid Prototyping Portfolio</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header class="hero">
+        <div class="header-top">
+            <img src="logo.png" alt="Uriapkm Logo" class="logo">
+            <div class="header-titles">
+                <h1>Uriapkm</h1>
+                <p class="subtitle">3D Design & Rapid Prototyping in Engineering</p>
+            </div>
+        </div>
+        <nav class="main-nav">
+            </nav>
+    </header>
+
+    <section class="intro">
+        <h2>My Approach to Design Engineering</h2>
+        <p>Explore my creations where innovation meets functionality. From concept to final prototype, every project is an engineering challenge solved with precision and creativity.</p>
+    </section>
+
+    <section id="proyectos" class="portafolio">
+        <h2>My Featured Projects</h2>
+        <div class="gallery">
+
+            <div class="project-item">
+                <img class="thumbnail-image" src="images/laura.PNG" alt="Robotic Arm Prototype"
+                     data-full-src="images/brazo-robotico-miniatura.jpg"
+                     data-video-src="videos/brazo-robotico-video.mp4">
+                <div class="project-info">
+                    <h3>Variable Angle Adapter for Droplet Sliding Analysis</h3>
+                    <p>An adapter allowing precise tilting of a surface to observe and analyze droplet sliding, integrating with a camera for rheological property studies.</p>
+                </div>
+            </div>
+
+            <div class="project-item">
+                <img class="thumbnail-image" src="images/soporte botellas redox.PNG" alt="Redox Flow experiment setup"
+                     data-full-src="images/soporte botellas redox.PNG"
+                     data-video-src="videos/dron-inspeccion-video.mp4">
+                <div class="project-info">
+                    <h3>Redox Flow experiment setup</h3>
+                    <p>Custom bottle support for a redox flow battery experiment.</p>
+                </div>
+            </div>
+
+            <div class="project-item">
+                <img class="thumbnail-image" src="images/instron.PNG" alt="Custom Industrial Machinery"
+                     data-full-src="images/instron.PNG"
+                     data-video-src="videos/ejemplo-maquinaria-video.mp4">
+                <div class="project-info">
+                    <h3>Instron custom design</h3>
+                    <p>Instron equipment custom attachment for compression experiments.</p>
+                </div>
+            </div>
+
+            <div class="project-item">
+                <img class="thumbnail-image" src="images/fengjing cell.PNG" alt="Large-Format 3D Printer Prototype"
+                     data-full-src="images/ejemplo-impresora-miniatura.jpg"
+                     data-video-src="videos/ejemplo-impresora-video.mp4">
+                <div class="project-info">
+                    <h3>Novel Lead-Acid Technology Battery Design</h3>
+                    <p>Modular 3D print design for novel battery Technology.</p>
+                </div>
+            </div>
+
+             <div class="project-item">
+                <img class="thumbnail-image" src="images/lab6.PNG" alt="Large-Format 3D Printer Prototype"
+                     data-full-src="images/ejemplo-impresora-miniatura.jpg"
+                     data-video-src="videos/ejemplo-impresora-video.mp4">
+                <div class="project-info">
+                    <h3>Redox Laboratory Design</h3>
+                    <p>Custom Laboratory Design for Redox Flow Battery Technologies.  </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div id="lightbox" class="lightbox-overlay">
+        <span class="close-button">&times;</span>
+        <div class="lightbox-content">
+            <img class="lightbox-image" src="" alt="">
+            <video class="lightbox-video" src="" controls loop muted style="display: none;"></video>
+        </div>
+    </div>
+
+    <section id="sobre-mi" class="contacto">
+        <h2>About Me</h2>
+        <p>I’m Asier Uria, a technical specialist with nearly 10 years of hands-on experience in <strong>3D printing and CAD design</strong>. I focus on <strong>rapid prototyping</strong> of functional parts for testing and development, combining precision engineering with creative problem-solving. I’m proficient in <strong>Fusion 360</strong> and fully capable of maintaining, calibrating, and optimizing FDM printers.</p>
+        <p>I'm also passionate about <strong>programming, basic electronics, and woodworking</strong>, which complement my technical design approach. I’m looking for opportunities where I can contribute to product development and innovation through agile prototyping and practical engineering.</p>
+        <p>You can download my resume <a href="ruta/a/tu-cv.pdf" target="_blank">here</a>.</p>
+    </section>
+
+    <section id="contacto" class="contacto">
+        <h2>Contact</h2>
+        <form>
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="message">Message:</label>
+            <textarea id="message" name="message" required></textarea>
+
+            <button type="submit" class="btn">Send Message</button>
+        </form>
+        <div class="form-messages"></div>
+        <p style="margin-top: 20px;">You can also contact me through:</p>
+        <p><a href="mailto:tuemail@ejemplo.com">tuemail@ejemplo.com</a></p>
+        <p><a href="https://www.linkedin.com/in/tu-perfil-linkedin" target="_blank">LinkedIn</a></p>
+    </section>
+
+    <footer class="footer">
+        <p>&copy; 2025 Uriapkm. All rights reserved.</p>
+        <p>Designed and developed by Uriapkm.</p>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
