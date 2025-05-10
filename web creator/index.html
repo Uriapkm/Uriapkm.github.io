@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generador de Prompts para Webs | Uriapkm</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="hero">
+        <div class="header-top">
+            <img src="logo.png" alt="Uriapkm Logo" class="logo">
+            <div class="header-titles">
+                <h1>Generador de Prompts para Webs</h1>
+                <p class="subtitle">Crea prompts personalizados y descarga tu web con IA</p>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section id="generador" class="generator-section">
+            <h2>Define tu Web con IA</h2>
+            <p>Rellena los campos a continuación para generar un prompt detallado que podrás usar con una IA de desarrollo web.</p>
+
+            <form id="promptGeneratorForm">
+                <fieldset>
+                    <legend>Información Básica de la Web</legend>
+                    <div class="form-group">
+                        <label for="temaWeb">1. Tema de la Web:</label>
+                        <input type="text" id="temaWeb" placeholder="Ej: Tienda de pesca, Escuela de idiomas" required>
+                        <small>Describe la temática principal de tu sitio web.</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="publicoObjetivo">2. Público Objetivo:</label>
+                        <input type="text" id="publicoObjetivo" placeholder="Ej: Jóvenes, profesionales, familias" required>
+                        <small>¿A quién va dirigida tu web?</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="seccionesClave">3. Secciones Clave (mínimo 3, separadas por comas):</label>
+                        <input type="text" id="seccionesClave" placeholder="Ej: Inicio, Servicios, Productos, Contacto" required>
+                        <small>Enumera las secciones principales de tu web.</small>
+                    </div>
+                </fieldset>
+
+                <fieldset>
+                    <legend>Diseño y Estilo Visual</legend>
+                    <div class="form-group">
+                        <label for="coloresPrincipales">4. Colores Principales:</label>
+                        <input type="text" id="coloresPrincipales" placeholder="Ej: Azul marino y blanco, tonos tierra y verde" required>
+                        <small>Define la paleta de colores que te gustaría usar.</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="estiloVisual">5. Estilo Visual:</label>
+                        <input type="text" id="estiloVisual" placeholder="Ej: Minimalista y moderno, rústico y acogedor" required>
+                        <small>Describe la estética general del diseño.</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="tipografia">6. Tipografía Preferida (opcional):</label>
+                        <input type="text" id="tipografia" placeholder="Ej: Sans-serif moderna, serif clásica para títulos">
+                        <small>Indica si tienes alguna preferencia de fuente (Google Fonts, etc.).</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="incluirLogo">7. Incluir Logo en el Prompt:</label>
+                        <input type="checkbox" id="incluirLogo">
+                        <small>Marca esta opción si quieres que la IA tenga en cuenta la inclusión de un logo llamado `logo.png` en el diseño.</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="incluirImagenes">8. Incluir Imágenes en el Prompt:</label>
+                        <input type="checkbox" id="incluirImagenes">
+                        <small>Marca esta opción si quieres que la IA tenga en cuenta la inclusión de imágenes en el diseño.</small>
+                        <p class="warning">**Advertencia:** Esta opción requiere conocimientos de HTML para gestionar correctamente las rutas de las imágenes. Si no estás familiarizado, es mejor no añadir esta opción en el prompt.</p>
+                    </div>
+                </fieldset>
+
+                <fieldset>
+                    <legend>Interacciones y Contacto</legend>
+                    <div class="form-group">
+                        <label for="llamadaAccion">9. Llamada a la Acción Principal (CTA):</label>
+                        <input type="text" id="llamadaAccion" placeholder="Ej: '¡Reserva tu clase ahora!', 'Ver productos'" required>
+                        <small>El texto del botón o enlace principal que quieres que el usuario haga clic.</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="telefono">10. Teléfono de Contacto (opcional):</label>
+                        <input type="tel" id="telefono" placeholder="Ej: +34 123 456 789">
+                        <small>El número de teléfono para contacto directo.</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">11. Correo Electrónico de Contacto (opcional):</label>
+                        <input type="email" id="email" placeholder="Ej: info@tudominio.com">
+                        <small>La dirección de correo electrónico para consultas.</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="direccion">12. Dirección Física (opcional):</label>
+                        <input type="text" id="direccion" placeholder="Ej: Calle Falsa 123, Ciudad, País">
+                        <small>La dirección de tu negocio o ubicación principal.</small>
+                    </div>
+                </fieldset>
+
+                <fieldset>
+                    <legend>Enlaces a Redes Sociales y Otros</legend>
+                    <div class="form-group">
+                        <label for="linkedin">13. Enlace a LinkedIn (opcional):</label>
+                        <input type="url" id="linkedin" placeholder="Ej: https://www.linkedin.com/in/tuperfil">
+                    </div>
+                    <div class="form-group">
+                        <label for="twitter">14. Enlace a X (Twitter) (opcional):</label>
+                        <input type="url" id="twitter" placeholder="Ej: https://twitter.com/tuusuario">
+                    </div>
+                    <div class="form-group">
+                        <label for="instagram">15. Enlace a Instagram (opcional):</label>
+                        <input type="url" id="instagram" placeholder="Ej: https://www.instagram.com/tuperfil">
+                    </div>
+                    <div class="form-group">
+                        <label for="facebook">16. Enlace a Facebook (opcional):</label>
+                        <input type="url" id="facebook" placeholder="Ej: https://www.facebook.com/tupagina">
+                    </div>
+                    <div class="form-group">
+                        <label for="github">17. Enlace a GitHub (opcional):</label>
+                        <input type="url" id="github" placeholder="Ej: https://github.com/tuusuario">
+                    </div>
+                    <div class="form-group">
+                        <label for="otrosEnlaces">18. Otros Enlaces Importantes (opcional, uno por línea):</label>
+                        <textarea id="otrosEnlaces" rows="3" placeholder="Ej:
+https://tudominio.com/privacidad
+https://tudominio.com/terminos"></textarea>
+                        <small>Enlaces adicionales como política de privacidad, términos y condiciones, etc.</small>
+                    </div>
+                </fieldset>
+
+                <fieldset>
+                    <legend>Funcionalidades Avanzadas</legend>
+                    <div class="form-group">
+                        <label for="requisitosAdicionales">19. Requisitos Adicionales o Funciones Específicas (opcional):</label>
+                        <textarea id="requisitosAdicionales" rows="4" placeholder="Ej: Formulario de suscripción a newsletter, carrusel de imágenes, mapa interactivo..."></textarea>
+                        <small>Cualquier otra característica o funcionalidad específica no mencionada antes.</small>
+                    </div>
+                </fieldset>
+
+                <button type="submit" class="btn">Generar Prompt</button>
+            </form>
+
+            <div class="result-section">
+                <h3>Prompt Generado:</h3>
+                <textarea id="generatedPrompt" rows="15" readonly></textarea>
+                <button id="copyPromptBtn" class="btn copy-btn">Copiar Prompt</button>
+                <p class="copy-message" id="copyMessage"></p>
+            </div>
+        </section>
+
+        <section id="instructions" class="instructions-section">
+            <h2>Flujo de Trabajo: Crea tu Web con el Prompt Generado</h2>
+            <p>Una vez que hayas generado tu prompt, sigue estos sencillos pasos para crear y descargar tu propia página web:</p>
+
+            <div class="workflow-steps">
+                <div class="step">
+                    <h3>1. Copia el Prompt</h3>
+                    <p>Haz clic en el botón "Copiar Prompt" para guardar el texto generado en tu portapapeles.</p>
+                </div>
+                <div class="step">
+                    <h3>2. Elige tu IA de Desarrollo Web</h3>
+                    <p>Accede a una Inteligencia Artificial capaz de generar código web. Algunas opciones populares incluyen:</p>
+                    <ul>
+                        <li>**Gemini (como esta IA):** Puedes pegarlo directamente en nuestro chat.</li>
+                        <li>**ChatGPT (OpenAI):** Pega el prompt en la interfaz de chat.</li>
+                        <li>**Copilot (Microsoft):** Pégalo en tu entorno de desarrollo si estás utilizando VS Code.</li>
+                        <li>**Otras IAs especializadas en código:** Hay muchas otras disponibles o en desarrollo.</li>
+                    </ul>
+                </div>
+                <div class="step">
+                    <h3>3. Pega y Ejecuta el Prompt</h3>
+                    <p>Pega el prompt copiado en la interfaz de la IA y envíalo. La IA comenzará a generar el código HTML, CSS y JavaScript de tu web.</p>
+                </div>
+                <div class="step">
+                    <h3>4. Pega el Código Generado aquí</h3>
+                    <p>Una vez que la IA te dé el código, pégalo en los apartados correspondientes de abajo.
+                        **¡Importante!** Pega cada sección de código en su propia casilla (HTML en HTML, CSS en CSS, y JS en JS).</p>
+                    <div class="form-group">
+                        <label for="htmlCode">HTML (`index.html`):</label>
+                        <textarea id="htmlCode" rows="10" placeholder="Pega aquí el código HTML generado por la IA"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="cssCode">CSS (`style.css`):</label>
+                        <textarea id="cssCode" rows="10" placeholder="Pega aquí el código CSS generado por la IA"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="jsCode">JavaScript (`script.js`):</label>
+                        <textarea id="jsCode" rows="10" placeholder="Pega aquí el código JavaScript generado por la IA"></textarea>
+                    </div>
+                </div>
+                <div class="step">
+                    <h3>4.1. Añade tus Imágenes (Opcional)</h3>
+                    <p>Si tu diseño web incluye imágenes, puedes seleccionarlas aquí para que se incluyan automáticamente en el archivo ZIP. La IA debería haberte dado las rutas de las imágenes en el HTML (ej. `src="images/mi-imagen.jpg"`).</p>
+                    <div class="form-group">
+                        <label for="imagenInput">Selecciona tus imágenes:</label>
+                        <input type="file" id="imagenInput" accept="image/*" multiple>
+                        <small>Puedes seleccionar múltiples imágenes a la vez.</small>
+                        <div id="previsualizaciones" class="previews-container"></div>
+                    </div>
+                    <p class="note">**¡Importante!** Si la IA te sugiere una carpeta para las imágenes (ej. `images/`), asegúrate de usar esa ruta en tu código HTML para que las imágenes se muestren correctamente al descomprimir.</p>
+                </div>
+                <div class="step">
+                    <h3>4.2. Añade tu Logo (Opcional)</h3>
+                    <p>Si marcaste la opción de "Incluir Logo" en el prompt, aquí puedes subir el archivo `logo.png` que se incluirá en el ZIP.</p>
+                    <div class="form-group">
+                        <label for="logoInput">Selecciona tu logo (`logo.png`):</label>
+                        <input type="file" id="logoInput" accept=".png">
+                        <small>Asegúrate de que el archivo sea `logo.png` para que se muestre correctamente en la web generada por la IA.</small>
+                        <div id="logoPreview" class="previews-container"></div>
+                    </div>
+                </div>
+                <div class="step">
+                    <h3>5. Descarga tu Web</h3>
+                    <p>Cuando tengas el código y las imágenes listos, haz clic en el botón para descargar tu web en un archivo ZIP.</p>
+                    <button id="downloadWebBtn" class="btn download-btn">Descargar mi Web (ZIP)</button>
+                    <p class="download-message" id="downloadMessage"></p>
+                </div>
+                <div class="step">
+                    <h3>6. Abre tu Web Localmente</h3>
+                    <p>Descomprime el archivo ZIP descargado. Dentro encontrarás `index.html`, `style.css`, `script.js` y, si los añadiste, una carpeta `images/` con tus fotos. Para ver tu página web, simplemente haz doble clic en el archivo `index.html` en tu carpeta. Se abrirá en tu navegador predeterminado.</p>
+                </div>
+                <div class="step">
+                    <h3>7. Personaliza y Refina</h3>
+                    <p>El código generado es una base. Puedes abrir los archivos `.html`, `.css` y `.js` con un editor de texto simple (como Notepad++, VS Code, Sublime Text) y modificar:</p>
+                    <ul>
+                        <li>**Textos:** Cambia los títulos, párrafos y contenido para adaptarlos a tu información real.</li>
+                        <li>**Imágenes:** Sustituye las imágenes de ejemplo por las tuyas propias (asegúrate de que las rutas en el HTML/CSS sean correctas).</li>
+                        <li>**Estilos:** Ajusta colores, fuentes, espaciados y responsive para un diseño perfecto.</li>
+                        <li>**Funcionalidad:** Modifica o extiende el JavaScript si necesitas interacciones más complejas.</li>
+                    </ul>
+                    <p class="note">Recuerda que cada vez que hagas un cambio en los archivos, debes guardar y recargar la página en tu navegador para ver las actualizaciones.</p>
+                </div>
+                <div class="step">
+                    <h3>8. ¡Publica tu Web! (Opcional)</h3>
+                    <p>Una vez que estés satisfecho con tu web, puedes publicarla para que sea accesible online. Esto generalmente implica:</p>
+                    <ul>
+                        <li>**Contratar un Hosting:** Un servicio que almacena tus archivos web.</li>
+                        <li>**Obtener un Dominio:** La dirección de tu web (ej. `tudominio.com`).</li>
+                        <li>**Subir los Archivos:** Usar un cliente FTP o el panel de control del hosting para subir tu carpeta (`index.html`, `style.css`, `script.js`, etc.).</li>
+                    </ul>
+                    <p class="note">Si necesitas ayuda con la publicación, puedes generar otro prompt para la IA preguntándole "cómo publicar mi página web creada con HTML, CSS y JS".</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2025 Uriapkm. Todos los derechos reservados.</p>
+    </footer>
+
+    <script src="jszip.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,433 @@
+/* ----------------------- */
+/* RESET BÁSICO Y GLOBAL   */
+/* ----------------------- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #444;
+    background-color: #fdfdfd;
+    line-height: 1.6;
+}
+
+/* ----------------------- */
+/* HERO / HEADER           */
+/* ----------------------- */
+.hero {
+    background-color: #1E90FF; /* Azul */
+    color: #fff;
+    text-align: center;
+    padding: 40px 20px;
+    border-bottom-left-radius: 50% 20px;
+    border-bottom-right-radius: 50% 20px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.header-top {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.logo {
+    max-width: 80px;
+    height: auto;
+    border-radius: 10px;
+    transition: transform 0.2s ease;
+}
+
+.logo:hover {
+    transform: scale(1.05);
+}
+
+.header-titles {
+    text-align: left;
+}
+
+.hero h1 {
+    font-size: 2.5rem;
+    margin-bottom: 5px;
+    color: #fff;
+}
+
+.hero .subtitle {
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+    color: #ddd;
+}
+
+@media (max-width: 600px) {
+    .header-top {
+        flex-direction: column;
+        text-align: center;
+    }
+    .header-titles {
+        text-align: center;
+    }
+    .hero h1 {
+        font-size: 2rem;
+    }
+    .hero .subtitle {
+        font-size: 0.9rem;
+    }
+}
+
+
+/* ----------------------- */
+/* SECTION GENERATOR       */
+/* ----------------------- */
+.generator-section {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 30px;
+    background-color: #fff;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    border-radius: 12px;
+    text-align: center;
+}
+
+.generator-section h2 {
+    font-size: 2rem;
+    color: #1E90FF;
+    margin-bottom: 15px;
+}
+
+.generator-section p {
+    font-size: 1.1rem;
+    color: #666;
+    margin-bottom: 30px;
+}
+
+/* Formulario */
+#promptGeneratorForm {
+    display: grid;
+    gap: 20px;
+    text-align: left;
+}
+
+/* Fieldsets para agrupar campos */
+fieldset {
+    border: 1px solid #eee;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 30px;
+    box-shadow: 0 1px 5px rgba(0,0,0,0.03);
+}
+
+fieldset legend {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #1E90FF;
+    padding: 0 10px;
+    margin-left: -10px; /* Ajuste para que la leyenda no corte el borde */
+}
+
+.form-group {
+    margin-bottom: 10px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #333;
+}
+
+.form-group input[type="text"],
+.form-group input[type="tel"],
+.form-group input[type="email"],
+.form-group input[type="url"],
+.form-group textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+}
+
+.form-group input[type="text"]:focus,
+.form-group input[type="tel"]:focus,
+.form-group input[type="email"]:focus,
+.form-group input[type="url"]:focus,
+.form-group textarea:focus {
+    border-color: #1E90FF;
+    outline: none;
+}
+
+.form-group small {
+    display: block;
+    color: #888;
+    font-size: 0.85rem;
+    margin-top: 5px;
+}
+
+/* Botones */
+.btn {
+    background-color: #1E90FF;
+    color: #fff;
+    padding: 14px 25px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1.1rem;
+    font-weight: 600;
+    transition: background 0.3s ease, transform 0.2s ease;
+    display: inline-block;
+    width: auto;
+    margin-top: 10px;
+}
+
+.btn:hover {
+    background-color: #105fa3;
+    transform: translateY(-2px);
+}
+
+.result-section {
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+}
+
+.result-section h3 {
+    font-size: 1.5rem;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+#generatedPrompt {
+    width: 100%;
+    min-height: 250px; /* Más alto para el prompt extendido */
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-family: 'Consolas', 'Monaco', monospace; /* Fuentes monospace populares */
+    font-size: 0.95rem;
+    background-color: #f5f5f5;
+    resize: vertical;
+    box-sizing: border-box;
+    line-height: 1.5;
+    white-space: pre-wrap;
+    word-break: break-word;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.copy-btn {
+    margin-top: 15px;
+    background-color: #28a745; /* Verde para copiar */
+}
+
+.copy-btn:hover {
+    background-color: #218838;
+}
+
+.copy-message {
+    color: #28a745;
+    margin-top: 10px;
+    font-weight: bold;
+    visibility: hidden; /* Oculto por defecto */
+    opacity: 0;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.copy-message.show {
+    visibility: visible;
+    opacity: 1;
+}
+
+/* ----------------------- */
+/* INSTRUCTIONS SECTION    */
+/* ----------------------- */
+.instructions-section {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 30px;
+    background-color: #fff;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    border-radius: 12px;
+    text-align: center;
+}
+
+.instructions-section h2 {
+    font-size: 2rem;
+    color: #1E90FF;
+    margin-bottom: 25px;
+}
+
+.instructions-section p {
+    font-size: 1.1rem;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+.workflow-steps {
+    display: grid;
+    gap: 30px;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Columnas adaptables */
+    text-align: left;
+    margin-top: 30px;
+}
+
+.workflow-steps .step {
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    padding: 25px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    border: 1px solid #eee;
+}
+
+.workflow-steps .step h3 {
+    font-size: 1.4rem;
+    color: #333;
+    margin-bottom: 15px;
+    position: relative;
+    padding-left: 35px; /* Espacio para el número de paso */
+}
+
+/* Numeros de paso */
+.workflow-steps .step h3::before {
+    content: counter(step-counter); /* Usa el contador */
+    counter-increment: step-counter; /* Incrementa el contador */
+    position: absolute;
+    left: 0;
+    top: -5px; /* Ajusta verticalmente */
+    background-color: #1E90FF;
+    color: white;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.1rem;
+    font-weight: bold;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.instructions-section .workflow-steps {
+    counter-reset: step-counter; /* Reinicia el contador para esta sección */
+}
+
+
+.workflow-steps .step p {
+    font-size: 1rem;
+    color: #555;
+    margin-bottom: 10px;
+}
+
+.workflow-steps .step ul {
+    list-style: none;
+    padding-left: 0;
+    margin-top: 10px;
+}
+
+.workflow-steps .step ul li {
+    margin-bottom: 5px;
+    padding-left: 20px;
+    position: relative;
+    color: #555;
+}
+
+.workflow-steps .step ul li::before {
+    content: '•'; /* Punto de lista personalizado */
+    color: #1E90FF; /* Color del tema */
+    font-weight: bold;
+    display: inline-block;
+    width: 1em;
+    margin-left: -1em;
+}
+
+.workflow-steps .step .note {
+    font-size: 0.9rem;
+    color: #888;
+    font-style: italic;
+    margin-top: 15px;
+    border-top: 1px dashed #eee;
+    padding-top: 10px;
+}
+
+/* Estilos para los textareas de código separados */
+.form-group textarea {
+    min-height: 150px; /* Altura ajustada para los textareas de código */
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 0.95rem;
+    background-color: #fbfbfb; /* Ligeramente diferente para distinguirlos */
+}
+
+/* Contenedor de previsualizaciones de imágenes */
+.previews-container {
+    margin-top: 15px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    border: 1px dashed #ccc;
+    padding: 10px;
+    min-height: 60px; /* Para que tenga algo de altura incluso sin imágenes */
+    align-items: center;
+    justify-content: center;
+    color: #888;
+    font-style: italic;
+    border-radius: 8px;
+}
+
+.previews-container img {
+    max-width: 120px;
+    max-height: 120px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    object-fit: contain; /* Para que la imagen se adapte sin distorsionarse */
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+
+.download-btn {
+    background-color: #007bff; /* Un azul diferente para descargar */
+    margin-top: 15px;
+}
+
+.download-btn:hover {
+    background-color: #0056b3;
+}
+
+.download-message {
+    color: #007bff;
+    margin-top: 10px;
+    font-weight: bold;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.download-message.show {
+    visibility: visible;
+    opacity: 1;
+}
+
+@media (max-width: 768px) {
+    .instructions-section {
+        padding: 20px;
+        margin: 20px;
+    }
+    .workflow-steps {
+        grid-template-columns: 1fr; /* Una columna en móviles */
+    }
+}
+
+
+/* ----------------------- */
+/* FOOTER                  */
+/* ----------------------- */
+.footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 20px 0;
+    margin-top: 40px;
+    font-size: 0.9rem;
+}
