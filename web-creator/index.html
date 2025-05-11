@@ -146,6 +146,7 @@ https://yourdomain.com/terms"></textarea>
                 </fieldset>
 
                 <button type="submit" class="btn">Generate Prompt</button>
+               
             </form>
 
             <div class="result-section">
@@ -153,6 +154,10 @@ https://yourdomain.com/terms"></textarea>
                 <textarea id="generatedPrompt" rows="15" readonly></textarea>
                 <button id="copyPromptBtn" class="btn copy-btn">Copy Prompt</button>
                 <p class="copy-message" id="copyMessage"></p>
+                <!-- Nuevo botón de donación debajo de "Copy Prompt" -->
+                <div class="donation-button">
+                    <a href="https://ko-fi.com/uriapkm" target="_blank" class="btn-donation">☕ Support Me on Ko-fi</a>
+                </div>
             </div>
         </section>
 
@@ -222,6 +227,10 @@ https://yourdomain.com/terms"></textarea>
                     <p>When you have the code and images ready, click the button to download your website as a ZIP file.</p>
                     <button id="downloadWebBtn" class="btn download-btn">Download My Website (ZIP)</button>
                     <p class="download-message" id="downloadMessage"></p>
+                    <!-- Nuevo botón de donación debajo de "Download My Website (ZIP)" -->
+                    <div class="donation-button">
+                        <a href="https://ko-fi.com/uriapkm" target="_blank" class="btn-donation">☕ Support Me on Ko-fi</a>
+                    </div>
                 </div>
                 <div class="step">
                     <h3>6. Open Your Website Locally</h3>
@@ -254,7 +263,34 @@ https://yourdomain.com/terms"></textarea>
 
     <footer class="footer">
         <p>&copy; 2025 Uriapkm. All rights reserved.</p>
+        <div class="donation-button">
+            <a href="https://ko-fi.com/uriapkm" target="_blank" class="btn-donation">☕ Support Me on Ko-fi</a>
+        </div>
     </footer>
+
+    <style>
+    /* Estilo para el botón de donación */
+    .donation-button {
+        text-align: center;
+        margin-top: 10px;
+    }
+
+    .btn-donation {
+        display: inline-block;
+        background-color: #FF5E5B;
+        color: white;
+        padding: 10px 20px;
+        font-size: 16px;
+        font-weight: bold;
+        text-decoration: none;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-donation:hover {
+        background-color: #E04848;
+    }
+    </style>
 
     <script src="jszip.min.js"></script>
     <script src="script.js"></script>
