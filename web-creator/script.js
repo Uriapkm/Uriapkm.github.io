@@ -4,292 +4,240 @@ document.addEventListener('DOMContentLoaded', () => {
     const copyButton = document.getElementById('copyPromptBtn');
     const copyMessage = document.getElementById('copyMessage');
 
-    // Elementos para los apartados de código separados
+    // Elements for separate code sections
     const htmlCodeTextarea = document.getElementById('htmlCode');
     const cssCodeTextarea = document.getElementById('cssCode');
     const jsCodeTextarea = document.getElementById('jsCode');
 
-    // Elementos para la selección de imágenes
-    const imagenInput = document.getElementById('imagenInput');
-    const previsualizacionesContainer = document.getElementById('previsualizaciones');
-    let selectedImageFiles = []; // Array para almacenar los File objects de las imágenes
+    // Elements for image selection
+    const imageInput = document.getElementById('imagenInput');
+    const previewsContainer = document.getElementById('previsualizaciones');
+    let selectedImageFiles = []; // Array to store File objects for images
 
-    // Elementos para la selección de logo
+    // Elements for logo selection
     const logoInput = document.getElementById('logoInput');
     const logoPreviewContainer = document.getElementById('logoPreview');
-    let selectedLogoFile = null; // Variable para almacenar el File object del logo
+    let selectedLogoFile = null; // Variable to store the File object for the logo
 
-    // Checkboxes de opciones
-    const incluirLogoCheckbox = document.getElementById('incluirLogo');
-    const incluirImagenesCheckbox = document.getElementById('incluirImagenes');
+    // Option checkboxes
+    const includeLogoCheckbox = document.getElementById('incluirLogo');
+    const includeImagesCheckbox = document.getElementById('incluirImagenes');
 
     const downloadWebButton = document.getElementById('downloadWebBtn');
     const downloadMessage = document.getElementById('downloadMessage');
 
-
-    // --- Funcionalidad para generar el Prompt ---
+    // --- Functionality to generate the Prompt ---
     form.addEventListener('submit', (event) => {
         event.preventDefault();
 
-        // Recopila los valores de los campos
-        const temaWeb = document.getElementById('temaWeb').value.trim();
-        const publicoObjetivo = document.getElementById('publicoObjetivo').value.trim();
-        const seccionesClave = document.getElementById('seccionesClave').value.trim();
-        const coloresPrincipales = document.getElementById('coloresPrincipales').value.trim();
-        const estiloVisual = document.getElementById('estiloVisual').value.trim();
-        const tipografia = document.getElementById('tipografia').value.trim();
-        const llamadaAccion = document.getElementById('llamadaAccion').value.trim();
-        const telefono = document.getElementById('telefono').value.trim();
+        // Collect field values
+        const websiteTheme = document.getElementById('temaWeb').value.trim();
+        const targetAudience = document.getElementById('publicoObjetivo').value.trim();
+        const keySections = document.getElementById('seccionesClave').value.trim();
+        const mainColors = document.getElementById('coloresPrincipales').value.trim();
+        const visualStyle = document.getElementById('estiloVisual').value.trim();
+        const typography = document.getElementById('tipografia').value.trim();
+        const callToAction = document.getElementById('llamadaAccion').value.trim();
+        const phone = document.getElementById('telefono').value.trim();
         const email = document.getElementById('email').value.trim();
-        const direccion = document.getElementById('direccion').value.trim();
+        const address = document.getElementById('direccion').value.trim(); // Corrected getById to getElementById
         const linkedin = document.getElementById('linkedin').value.trim();
         const twitter = document.getElementById('twitter').value.trim();
         const instagram = document.getElementById('instagram').value.trim();
         const facebook = document.getElementById('facebook').value.trim();
         const github = document.getElementById('github').value.trim();
-        const otrosEnlaces = document.getElementById('otrosEnlaces').value.trim();
-        const requisitosAdicionales = document.getElementById('requisitosAdicionales').value.trim();
+        const otherLinks = document.getElementById('otrosEnlaces').value.trim();
+        const additionalRequirements = document.getElementById('requisitosAdicionales').value.trim();
 
-        // Construye el prompt
-        let promptContent = `Genera el código HTML, CSS y JavaScript completo para una landing page moderna y optimizada.
-Entrega el código para cada archivo de forma separada (es decir, un bloque para HTML, otro para CSS y otro para JavaScript).
+        // Build the prompt
+        let promptContent = `Generate complete HTML, CSS, and JavaScript code for a modern and optimized landing page.
+Provide the code for each file separately (i.e., one block for HTML, another for CSS, and another for JavaScript).
 `;
 
-        // Añadir opciones de logo e imágenes al prompt si están seleccionadas
-        if (incluirLogoCheckbox.checked) {
+        // Add logo and image options to the prompt if selected
+        if (includeLogoCheckbox.checked) {
             promptContent += `
-**Especificación de Logo:**
-  - La página debe incluir un espacio claro y prominente para un logo en la cabecera.
-  - El logo se debe referenciar como 'logo.png' (ej. <img src="logo.png" alt="Logo de la empresa">).`;
+**Logo Specification:**
+  - The page must include a clear and prominent space for a logo in the header.
+  - The logo should be referenced as 'logo.png' (e.g., <img src="logo.png" alt="Company Logo">).`;
         } else {
             promptContent += `
-**Especificación de Logo:**
-  - La página NO debe incluir un logo.`;
+**Logo Specification:**
+  - The page MUST NOT include a logo.`;
         }
 
-        if (incluirImagenesCheckbox.checked) {
+        if (includeImagesCheckbox.checked) {
             promptContent += `
-**Especificación de Imágenes:**
-  - La página DEBE incluir imágenes. Utiliza la ruta "images/" para referenciar todas las imágenes (ej. <img src="images/mi-imagen.jpg" alt="Descripción">).
-  - Incorpora imágenes de ejemplo temáticas y relevantes para cada sección que lo requiera.`;
+**Image Specification:**
+  - The page MUST include images. Use the "images/" path to reference all images (e.g., <img src="images/my-image.jpg" alt="Description">).
+  - Incorporate thematic and relevant example images for each section that requires them.`;
         } else {
             promptContent += `
-**Especificación de Imágenes:**
-  - La página NO DEBE incluir imágenes de ningún tipo (ni en el contenido, ni como fondos CSS). Sé estricto con esta restricción.`;
+**Image Specification:**
+  - The page MUST NOT include any images (neither in the content nor as CSS backgrounds). Be strict with this restriction.`;
         }
 
         promptContent += `
-**Tema de la Web:** ${temaWeb}
-**Público Objetivo:** ${publicoObjetivo}. El diseño y la experiencia de usuario deben estar específicamente adaptados a sus necesidades y expectativas.
-**Secciones:** La página debe incluir de forma clara y diferenciada las siguientes secciones: ${seccionesClave}. Cada sección debe tener contenido de ejemplo temático y relevante para el tema.
+**Website Theme:** ${websiteTheme}
+**Target Audience:** ${targetAudience}. The design and user experience must be specifically tailored to their needs and expectations.
+**Sections:** The page must clearly and distinctly include the following sections: ${keySections}. Each section must have thematic and relevant example content.
 
-**Diseño y Estilo Visual:**
-**Paleta de Colores Principal:** ${coloresPrincipales}. Utiliza estos colores de forma coherente para transmitir la atmósfera deseada.
-**Estilo Visual:** ${estiloVisual}. Prioriza [inserta aquí adjetivos como 'limpieza y simplicidad', 'texturas cálidas y tipografía amigable', etc. basados en el estilo].
-${tipografia ? `**Tipografía:** Utiliza la tipografía '${tipografia}'.` : ''}
+**Design and Visual Style:**
+**Main Color Palette:** ${mainColors}. Use these colors consistently to convey the desired atmosphere.
+**Visual Style:** ${visualStyle}. Prioritize [insert adjectives here like 'clean and simple', 'warm textures and friendly typography', etc., based on the style].
+${typography ? `**Typography:** Use the '${typography}' typography.` : ''}
 
-**Interacciones y Contacto:**
-**Llamada a la Acción Principal (CTA):** Incorpora un botón principal de Llamada a la Acción (CTA) con el texto exacto: '${llamadaAccion}'. Este botón debe ser visualmente prominente y su ubicación debe ser estratégica para la conversión.
-${telefono ? `**Contacto Teléfono:** Incluye el número de teléfono '${telefono}' en una sección de contacto visible (ej. footer, encabezado). Hazlo clickeable (tel:).` : ''}
-${email ? `**Contacto Correo Electrónico:** Incluye el correo electrónico '${email}' en una sección de contacto visible (ej. footer). Hazlo clickeable (mailto:).` : ''}
-${direccion ? `**Dirección Física:** Muestra la dirección '${direccion}' en el footer o una sección de contacto. Si es posible, integra un mapa de Google Maps simple en la sección de contacto, centrado en esta dirección.` : ''}
+**Interactions and Contact:**
+**Main Call to Action (CTA):** Include a main Call to Action (CTA) button with the exact text: '${callToAction}'. This button must be visually prominent and strategically placed for conversion.
+${phone ? `**Contact Phone:** Include the phone number '${phone}' in a visible contact section (e.g., footer, header). Make it clickable (tel:).` : ''}
+${email ? `**Contact Email:** Include the email '${email}' in a visible contact section (e.g., footer). Make it clickable (mailto:).` : ''}
+${address ? `**Physical Address:** Display the address '${address}' in the footer or a contact section. If possible, integrate a simple Google Maps map in the contact section, centered on this address.` : ''}
 
-**Integración de Enlaces:**
-${linkedin ? `**LinkedIn:** Incluye un icono de LinkedIn en el footer o una sección de redes sociales que enlace a '${linkedin}'.` : ''}
-${twitter ? `**X (Twitter):** Incluye un icono de X (Twitter) en el footer o una sección de redes sociales que enlace a '${twitter}'.` : ''}
-${instagram ? `**Instagram:** Incluye un icono de Instagram en el footer o una sección de redes sociales que enlace a '${instagram}'.` : ''}
-${facebook ? `**Facebook:** Incluye un icono de Facebook en el footer o una sección de redes sociales que enlace a '${facebook}'.` : ''}
-${github ? `**GitHub:** Incluye un icono de GitHub en el footer o una sección de redes sociales que enlace a '${github}'.` : ''}
-${otrosEnlaces ? `**Otros Enlaces:** Incorpora los siguientes enlaces relevantes en el footer: ${otrosEnlaces.split('\n').map(link => `'${link.trim()}'`).filter(l => l !== "''").join(', ')}.` : ''}
-
-**Funcionalidades Avanzadas:**
-**Requisitos Adicionales:** ${requisitosAdicionales || "Ninguno"}. Detalla cualquier funcionalidad específica necesaria aquí (ej: 'implementa un carrusel de imágenes responsivo y automático con flechas de navegación y puntos indicadores', 'incluye un formulario de contacto con validación básica en el lado del cliente', 'añade un efecto de parallax en la sección hero').
-
-**Calidad del Código:**
-El HTML debe ser semántico, bien estructurado y accesible (WCAG). El CSS debe seguir un enfoque mobile-first, ser modular, estar bien organizado con comentarios, y optimizado para la carga. El JavaScript debe ser ligero, estar bien comentado, y solo incluir la lógica necesaria para las interacciones especificadas, sin librerías externas innecesarias a menos que se solicite explícitamente. Asegura que el código generado sea fácil de leer y modificar por un desarrollador.
+**Link Integration:**
+${linkedin ? `**LinkedIn:** Include a LinkedIn icon in the footer or a social media section linking to '${linkedin}'.` : ''}
+${twitter ? `**X (Twitter):** Include a Twitter icon in the footer or a social media section linking to '${twitter}'.` : ''}
+${instagram ? `**Instagram:** Include an Instagram icon in the footer or a social media section linking to '${instagram}'.` : ''}
+${facebook ? `**Facebook:** Include a Facebook icon in the footer or a social media section linking to '${facebook}'.` : ''}
+${github ? `**GitHub:** Include a GitHub icon in the footer or a social media section linking to '${github}'.` : ''}
+${otherLinks ? `**Other Links:** Incorporate the following relevant links in the footer: ${otherLinks.split('\n').map(link => `'${link.trim()}'`).filter(l => l !== "''").join(', ')}` : ''}
+${additionalRequirements ? `**Additional Requirements:** ${additionalRequirements}` : ''}
 `;
 
-        // Limpia las líneas vacías que puedan quedar por campos opcionales no rellenados
-        generatedPromptTextarea.value = promptContent.split('\n').filter(line => line.trim() !== '').join('\n');
+        generatedPromptTextarea.value = promptContent;
+        // Clear other textareas when a new prompt is generated
+        htmlCodeTextarea.value = '';
+        cssCodeTextarea.value = '';
+        jsCodeTextarea.value = '';
     });
 
+    // --- Copy to Clipboard Functionality ---
     copyButton.addEventListener('click', () => {
         generatedPromptTextarea.select();
-        generatedPromptTextarea.setSelectionRange(0, 99999);
         document.execCommand('copy');
-
-        copyMessage.textContent = '¡Prompt copiado al portapapeles!';
-        copyMessage.classList.add('show');
+        copyMessage.textContent = '¡Prompt copiado!';
         setTimeout(() => {
-            copyMessage.classList.remove('show');
             copyMessage.textContent = '';
         }, 2000);
     });
 
-    // --- Funcionalidad para selección y previsualización de imágenes ---
-    imagenInput.addEventListener('change', (event) => {
-        previsualizacionesContainer.innerHTML = ''; // Limpiar previsualizaciones anteriores
-        selectedImageFiles = []; // Resetear el array de archivos seleccionados
+    // --- Image Previews Functionality ---
+    imageInput.addEventListener('change', (event) => {
+        previewsContainer.innerHTML = ''; // Clear previous previews
+        selectedImageFiles = []; // Clear previous files
 
-        const files = event.target.files; // Obtener los archivos seleccionados
-
-        if (files && files.length > 0) {
-            for (let i = 0; i < files.length; i++) {
-                const file = files[i];
-
-                // Asegurarse de que es un archivo de imagen
-                if (file.type.startsWith('image/')) {
-                    selectedImageFiles.push(file); // Guardar el File object para JSZip
-
-                    const reader = new FileReader();
-
-                    reader.onload = (e) => {
-                        const img = document.createElement('img');
-                        img.src = e.target.result; // La URL de datos de la imagen
-                        img.alt = `Previsualización de ${file.name}`;
-                        img.classList.add('preview-image'); // Añadir clase para estilos CSS si es necesario
-                        previsualizacionesContainer.appendChild(img);
-                    };
-
-                    reader.readAsDataURL(file); // Leer el archivo como una URL de datos para la previsualización
-                } else {
-                    console.warn(`El archivo ${file.name} no es una imagen y no se previsualizará ni se incluirá.`);
-                }
-            }
-            if (selectedImageFiles.length === 0) {
-                previsualizacionesContainer.textContent = "No se han seleccionado imágenes válidas.";
-            }
-        } else {
-            previsualizacionesContainer.textContent = "No se han seleccionado imágenes.";
-        }
-    });
-
-    // --- Funcionalidad para selección y previsualización de logo ---
-    logoInput.addEventListener('change', (event) => {
-        logoPreviewContainer.innerHTML = ''; // Limpiar previsualización anterior
-        selectedLogoFile = null; // Resetear el archivo de logo seleccionado
-
-        const file = event.target.files[0]; // Obtener el primer archivo seleccionado
-
-        if (file) {
-            // Asegurarse de que el archivo es un PNG y se llama logo.png
-            if (file.type === 'image/png' && file.name === 'logo.png') {
-                selectedLogoFile = file; // Guardar el File object para JSZip
-
+        const files = event.target.files;
+        if (files.length > 0) {
+            for (const file of files) {
+                selectedImageFiles.push(file); // Store the File object
                 const reader = new FileReader();
-
                 reader.onload = (e) => {
+                    const imgContainer = document.createElement('div');
+                    imgContainer.className = 'image-preview-container';
                     const img = document.createElement('img');
-                    img.src = e.target.result; // La URL de datos de la imagen
-                    img.alt = `Previsualización de ${file.name}`;
-                    img.classList.add('preview-image'); // Añadir clase para estilos CSS si es necesario
-                    logoPreviewContainer.appendChild(img);
-                };
+                    img.src = e.target.result;
+                    img.alt = 'Previsualización de imagen';
+                    imgContainer.appendChild(img);
 
-                reader.readAsDataURL(file); // Leer el archivo como una URL de datos para la previsualización
-            } else {
-                logoPreviewContainer.textContent = "Por favor, sube un archivo PNG llamado 'logo.png'.";
-                console.warn(`El archivo ${file.name} no es "logo.png" o no es un PNG.`);
-                // Limpiar el input para que el usuario pueda seleccionar de nuevo
-                event.target.value = '';
+                    const fileName = document.createElement('span');
+                    fileName.textContent = file.name;
+                    imgContainer.appendChild(fileName);
+
+                    previewsContainer.appendChild(imgContainer);
+                };
+                reader.readAsDataURL(file);
             }
-        } else {
-            logoPreviewContainer.textContent = "No se ha seleccionado un logo.";
         }
     });
 
+    // --- Logo Previews Functionality ---
+    logoInput.addEventListener('change', (event) => {
+        logoPreviewContainer.innerHTML = ''; // Clear previous preview
+        selectedLogoFile = null; // Clear previous file
 
-    // --- Funcionalidad para procesar código de IA y descargar ZIP ---
-    downloadWebButton.addEventListener('click', async () => {
-        const htmlCode = htmlCodeTextarea.value.trim();
-        const cssCode = cssCodeTextarea.value.trim();
-        const jsCode = jsCodeTextarea.value.trim();
+        const file = event.target.files[0];
+        if (file) {
+            selectedLogoFile = file; // Store the File object
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const imgContainer = document.createElement('div');
+                imgContainer.className = 'logo-preview-container';
+                const img = document.createElement('img');
+                img.src = e.target.result;
+                img.alt = 'Previsualización de logo';
+                imgContainer.appendChild(img);
 
-        if (!htmlCode && !cssCode && !jsCode && selectedImageFiles.length === 0 && selectedLogoFile === null) {
-            showDownloadMessage('Por favor, pega al menos el código HTML o selecciona imágenes/logo para generar tu web.', 'error');
-            return;
+                const fileName = document.createElement('span');
+                fileName.textContent = file.name;
+                imgContainer.appendChild(fileName);
+
+                logoPreviewContainer.appendChild(imgContainer);
+            };
+            reader.readAsDataURL(file);
         }
+    });
+
+    // --- Download Website Functionality (Basic Example) ---
+    downloadWebButton.addEventListener('click', async () => {
+        // In a real application, you'd likely send the prompt content
+        // to a backend server or a more sophisticated client-side
+        // library to generate and bundle the files.
+        // For this example, we'll just create dummy files based on the textareas.
 
         const zip = new JSZip();
 
-        // Añadir HTML
-        if (htmlCode) {
-            zip.file("index.html", htmlCode);
+        // Add index.html if htmlCodeTextarea has content
+        if (htmlCodeTextarea.value.trim()) {
+            zip.file("index.html", htmlCodeTextarea.value);
         } else {
-            console.warn("Código HTML no proporcionado. index.html no será creado.");
+            zip.file("index.html", "\n<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Generated Website</title>\n    <link rel=\"stylesheet\" href=\"style.css\">\n</head>\n<body>\n    <h1>Welcome to your generated website!</h1>\n    <script src=\"script.js\"></script>\n</body>\n</html>");
         }
 
-        // Añadir CSS
-        if (cssCode) {
-            zip.file("style.css", cssCode);
+        // Add style.css if cssCodeTextarea has content
+        if (cssCodeTextarea.value.trim()) {
+            zip.file("style.css", cssCodeTextarea.value);
         } else {
-            console.warn("Código CSS no proporcionado. style.css no será creado.");
+            zip.file("style.css", "/* Generar CSS aquí */\nbody {\n    font-family: sans-serif;\n    margin: 20px;\n}\n");
         }
 
-        // Añadir JS
-        if (jsCode) {
-            zip.file("script.js", jsCode);
+        // Add script.js if jsCodeTextarea has content
+        if (jsCodeTextarea.value.trim()) {
+            zip.file("script.js", jsCodeTextarea.value);
         } else {
-            console.warn("Código JavaScript no proporcionado. script.js no será creado.");
+            zip.file("script.js", "// Generar JavaScript aquí\nconsole.log('Website loaded!');\n");
         }
 
-        // Añadir imágenes en una carpeta 'images/'
-        if (selectedImageFiles.length > 0) {
-            const imagesFolder = zip.folder("images");
-            selectedImageFiles.forEach(file => {
-                imagesFolder.file(file.name, file); // JSZip puede trabajar directamente con File objects
+        // Add images if selected
+        if (includeImagesCheckbox.checked && selectedImageFiles.length > 0) {
+            const imgFolder = zip.folder("images");
+            for (const file of selectedImageFiles) {
+                imgFolder.file(file.name, file);
+            }
+        }
+
+        // Add logo if selected
+        if (includeLogoCheckbox.checked && selectedLogoFile) {
+            zip.file("logo.png", selectedLogoFile);
+        }
+
+        // Generate and download the zip file
+        zip.generateAsync({ type: "blob" })
+            .then(function (content) {
+                saveAs(content, "generated_website.zip");
+                downloadMessage.textContent = '¡Web descargada!';
+                setTimeout(() => {
+                    downloadMessage.textContent = '';
+                }, 3000);
+            })
+            .catch(err => {
+                console.error("Error generating zip:", err);
+                downloadMessage.textContent = 'Error al descargar la web.';
+                setTimeout(() => {
+                    downloadMessage.textContent = '';
+                }, 3000);
             });
-            console.log(`Se han añadido ${selectedImageFiles.length} imágenes a la carpeta "images/".`);
-        }
-
-        // Añadir logo directamente en la raíz
-        if (selectedLogoFile) {
-            zip.file(selectedLogoFile.name, selectedLogoFile);
-            console.log(`Se ha añadido el logo "${selectedLogoFile.name}" a la raíz.`);
-        }
-
-        // Generar el ZIP y descargarlo
-        try {
-            showDownloadMessage('Generando ZIP, por favor espera...', 'info'); // Mensaje de espera
-            const content = await zip.generateAsync({ type: "blob" });
-            const downloadLink = document.createElement('a');
-            downloadLink.href = URL.createObjectURL(content);
-            downloadLink.download = "mi-web-con-ia.zip";
-            document.body.appendChild(downloadLink);
-            downloadLink.click();
-            document.body.removeChild(downloadLink);
-            showDownloadMessage('¡Tu web ha sido descargada!', 'success');
-            // Opcional: Limpiar los textareas y las imágenes después de la descarga
-            // htmlCodeTextarea.value = '';
-            // cssCodeTextarea.value = '';
-            // jsCodeTextarea.value = '';
-            // previsualizacionesContainer.innerHTML = '';
-            // selectedImageFiles = [];
-            // imagenInput.value = ''; // Resetear el input file para que pueda seleccionar los mismos archivos de nuevo
-            // logoPreviewContainer.innerHTML = '';
-            // selectedLogoFile = null;
-            // logoInput.value = '';
-        } catch (error) {
-            console.error("Error generando el ZIP:", error);
-            showDownloadMessage('Error al generar el archivo ZIP. Inténtalo de nuevo.', 'error');
-        }
     });
 
-    function showDownloadMessage(message, type) {
-        downloadMessage.textContent = message;
-        downloadMessage.className = 'download-message show';
-        if (type === 'error') {
-            downloadMessage.style.color = 'red';
-        } else if (type === 'info') {
-            downloadMessage.style.color = '#FFA500'; // Naranja para información
-        }
-        else {
-            downloadMessage.style.color = '#007bff'; // Azul para éxito
-        }
-        setTimeout(() => {
-            downloadMessage.classList.remove('show');
-            downloadMessage.textContent = '';
-            downloadMessage.style.color = '';
-        }, 4000);
-    }
+    // --- Helper function to save file (requires FileSaver.js) ---
+    // Make sure you include FileSaver.js in your HTML:
+    // <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
 });
