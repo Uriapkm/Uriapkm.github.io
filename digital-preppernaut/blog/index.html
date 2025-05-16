@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog - The Digital Preppernaut</title>
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+    <header class="main-header">
+        <nav class="nav-container">
+            <div class="logo">The Digital Preppernaut</div>
+            <button class="mobile-menu-toggle" aria-label="Toggle Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="index.html" class="active">Blog</a></li>
+                <li><a href="../prepping-esencial/index.html">Digital Prepping</a></li>
+                <li><a href="../software-offline/index.html">Offline Software</a></li>
+                <li><a href="../ciberseguridad/index.html">Cybersecurity</a></li>
+                <li><a href="../open-source/index.html">Open Source</a></li>
+                <li><a href="../mis-herramientas/index.html">My Tools</a></li>
+                <li><a href="../recursos/index.html">Resources</a></li>
+                <li><a href="../about-contact/index.html">About / Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="main-content">
+        <h1>Blog Archive</h1>
+        <section class="blog-archive">
+            <article class="post-preview">
+                <h2><a href="example-post-1.html">Basic Guide to Digital Preparedness</a></h2>
+                <p class="post-meta">May 15, 2025</p>
+                <p class="post-excerpt">An introduction to the fundamental concepts of digital preparedness and the importance of maintaining offline copies of critical data.</p>
+            </article>
+
+            <article class="post-preview">
+                <h2><a href="example-post-2.html">Essential Software for Digital Preppers</a></h2>
+                <p class="post-meta">May 14, 2025</p>
+                <p class="post-excerpt">A curated list of open-source tools that every digital prepper should know about and have available offline.</p>
+            </article>
+
+            <article class="post-preview">
+                <h2><a href="advanced-guide.html">Advanced Digital Preparedness Strategies</a></h2>
+                <p class="post-meta">May 16, 2025</p>
+                <p class="post-excerpt">Deep dive into advanced digital preparedness techniques, including data encryption, redundant backups, and offline system maintenance.</p>
+            </article>
+        </section>
+
+        <section class="write-post">
+            <h2>Write Your Own Post</h2>
+            <form action="https://formspree.io/f/xkgryrkq" method="POST">
+                <div class="form-group">
+                    <label for="postTitle">Post Title:</label>
+                    <input type="text" id="postTitle" name="postTitle" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="authorName">Your Name:</label>
+                    <input type="text" id="authorName" name="authorName" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="postContent">Post Content:</label>
+                    <textarea id="postContent" name="postContent" rows="10" required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Your Email:</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+
+                <button type="submit" class="submit-btn">Submit Post</button>
+            </form>
+        </section>
+    </main>
+
+    <footer class="main-footer">
+        <p>&copy; 2025 The Digital Preppernaut. All rights reserved.</p>
+    </footer>
+
+    <script src="../js/main.js"></script>
+</body>
+</html>

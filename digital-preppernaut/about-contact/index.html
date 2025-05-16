@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About / Contact - The Digital Preppernaut</title>
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+    <header class="main-header">
+        <nav class="nav-container">
+            <div class="logo">The Digital Preppernaut</div>
+            <button class="mobile-menu-toggle" aria-label="Toggle Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../blog/index.html">Blog</a></li>
+                <li><a href="../prepping-esencial/index.html">Digital Prepping</a></li>
+                <li><a href="../software-offline/index.html">Offline Software</a></li>
+                <li><a href="../ciberseguridad/index.html">Cybersecurity</a></li>
+                <li><a href="../open-source/index.html">Open Source</a></li>
+                <li><a href="../mis-herramientas/index.html">My Tools</a></li>
+                <li><a href="../recursos/index.html">Resources</a></li>
+                <li><a href="index.html" class="active">About / Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="main-content">
+        <h1>About The Digital Preppernaut</h1>
+        
+        <section class="mission-section">
+            <h2>Our Mission</h2>
+            <p>The Digital Preppernaut was born from the need to provide resources and knowledge about digital preparedness. We focus on promoting technological independence, privacy, and digital resilience through the use of free software and secure practices.</p>
+        </section>
+
+        <section class="values-section">
+            <h2>Core Values</h2>
+            <div class="values-grid">
+                <div class="value-card">
+                    <h3>Independence</h3>
+                    <p>We promote digital autonomy and the ability to maintain control over our data.</p>
+                </div>
+                <div class="value-card">
+                    <h3>Transparency</h3>
+                    <p>All our content and code is open and verifiable by the community.</p>
+                </div>
+                <div class="value-card">
+                    <h3>Education</h3>
+                    <p>We share knowledge to empower others in their digital preparedness.</p>
+                </div>
+                <div class="value-card">
+                    <h3>Community</h3>
+                    <p>We build a support network to share resources and experiences.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="contact-section">
+            <h2>Contact</h2>
+            <div class="contact-methods">
+                <div class="contact-card">
+                    <h3>Secure Email</h3>
+                    <p>For general inquiries and collaborations:</p>
+                    <p class="contact-info">contact [at] digitalpreppernaut [dot] org</p>
+                    <p class="note">PGP key available on our keyserver</p>
+                </div>
+
+                <div class="contact-card">
+                    <h3>Matrix</h3>
+                    <p>For secure chat:</p>
+                    <p class="contact-info">@preppernaut:matrix.org</p>
+                </div>
+
+                <div class="contact-card">
+                    <h3>Repository</h3>
+                    <p>Contribute to the project:</p>
+                    <p class="contact-info">github.com/digitalpreppernaut</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="contact-form-section">
+            <h2>Send us a Message</h2>
+            <p>Use this form to send suggestions, report issues, or get in touch with us.</p>
+            
+            <form action="https://formspree.io/f/xkgryrkq" method="POST">
+                <div class="form-group">
+                    <label for="email">Your Email:</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="subject">Subject:</label>
+                    <select id="subject" name="subject" required>
+                        <option value="">Select a topic</option>
+                        <option value="suggestion">Suggestion</option>
+                        <option value="bug-report">Bug Report</option>
+                        <option value="collaboration">Collaboration</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="message">Message:</label>
+                    <textarea id="message" name="message" rows="5" required></textarea>
+                </div>
+
+                <button type="submit">Send Message</button>
+            </form>
+        </section>
+
+        <section class="privacy-notice">
+            <h2>Privacy Notice</h2>
+            <p>This site does not use cookies, does not track users, and does not collect personal data. The contact methods provided are designed to maintain your privacy.</p>
+        </section>
+    </main>
+
+    <footer class="main-footer">
+        <p>&copy; 2025 The Digital Preppernaut. All rights reserved.</p>
+    </footer>
+
+    <script src="../js/main.js"></script>
+</body>
+</html>
