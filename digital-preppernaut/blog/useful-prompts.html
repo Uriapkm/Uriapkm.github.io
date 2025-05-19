@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Essential AI Prompts for Digital Preppers - The Digital Preppernaut</title>
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+    <header class="main-header">
+        <nav class="nav-container">
+            <div class="logo">The Digital Preppernaut</div>
+            <button class="mobile-menu-toggle" aria-label="Toggle Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="index.html" class="active">Blog</a></li>
+                <li><a href="../prepping-esencial/index.html">Digital Prepping</a></li>
+                <li><a href="../software-offline/index.html">Offline Software</a></li>
+                <li><a href="../ciberseguridad/index.html">Cybersecurity</a></li>
+                <li><a href="../open-source/index.html">Open Source</a></li>
+                <li><a href="../mis-herramientas/index.html">My Tools</a></li>
+                <li><a href="../recursos/index.html">Resources</a></li>
+                <li><a href="../about-contact/index.html">About / Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="main-content">
+        <article class="blog-post">
+            <h1>Essential AI Prompts for Digital Preppers</h1>
+            <p class="post-meta">May 19, 2025</p>
+
+            <section class="intro-section">
+                <h2>🧠 One Small Step: A Simple Way to Help Anyone Start Prepping</h2>
+                <p>Let's face it—most people won't read a full survival manual. They won't sit through a 30-minute video on resilience. Some won't even finish a blog post.</p>
+
+                <p>But that doesn't mean they don't need help.<br>
+                It just means they need one simple, practical step to get started.</p>
+
+                <p>That's the idea behind The Digital Preppernaut.</p>
+
+                <p>I'm not trying to turn anyone into a hardcore survivalist. This project is for regular people—your friends, your partner, your coworkers—who shrug off prepping until something actually goes wrong.</p>
+
+                <p>Instead of overwhelming them with gear lists or scenarios, I'm giving them something easy:</p>
+                <p>👉 Copy-paste prompts they can use in ChatGPT (or similar tools) to get personalized, beginner-friendly guidance on:</p>
+
+                <ul>
+                    <li>Downloading offline maps for their city</li>
+                    <li>Backing up important files without cloud services</li>
+                    <li>Managing passwords securely without Big Tech</li>
+                    <li>Saving emergency contacts offline and on paper</li>
+                </ul>
+
+                <p>It's not just about digital prep—it's about getting people to take action, even if it's just one step. And once they do, it's much easier to go deeper.</p>
+
+                <p>Because sometimes, the best way to help someone start preparing… is to make it stupid simple.</p>
+            </section>
+
+            <h2>🗺️ How to Get Offline Maps</h2>
+            <p>Click below to get a personalized prompt:</p>
+            <div class="prompt-container">
+    <input type="text" id="countryInput" placeholder="Enter your country" class="prompt-input">
+    <input type="text" id="cityInput" placeholder="Enter your city/region" class="prompt-input">
+    <button onclick="updateMapsPrompt()">Show Personalized Prompt</button>
+</div>
+<pre id="mapsPrompt" style="display:none; white-space:pre-wrap; background:#f0f0f0; padding:1em; border-radius:8px; margin-top:10px;">
+</pre>
+
+<script>
+function updateMapsPrompt() {
+    const country = document.getElementById('countryInput').value || '[your country]';
+    const city = document.getElementById('cityInput').value || '[your city/region]';
+    
+    const promptTemplate = `Act as a digital resilience and emergency preparedness expert. I want you to create a complete, beginner-friendly guide to getting offline maps for ${country}, specifically for the ${city} area.
+
+The goal is to have reliable, detailed maps available without internet or mobile service, and without using any Google products.
+
+The guide should include:
+
+Recommendations for free and open-source apps (like Organic Maps or OSMAnd) that work on Android and/or Windows/Linux desktop.
+
+Step-by-step instructions on how to:
+
+Download and install the app
+
+Download specific map data for ${city}, ${country}
+
+Use it offline (e.g., search, bookmarks, GPS)
+
+Optional: customize or annotate maps if possible
+
+Where to download map files manually (e.g., direct .obf files or .osm data)
+
+How to store the app and maps on a USB drive, SD card or old phone for long-term use
+
+Tips for using these tools in emergency or off-grid scenarios
+
+Optional: how to print essential map sections on paper
+
+Keep it practical, up-to-date, and beginner-friendly. Assume I have no experience and I want something that will work fully offline during a power outage or disaster.`;
+
+    const promptElement = document.getElementById('mapsPrompt');
+    promptElement.textContent = promptTemplate;
+    promptElement.style.display = 'block';
+}
+</script>
+
+            <h2>🔐 How to Store Passwords Offline</h2>
+            <p>Click below to get a personalized prompt:</p>
+            <div class="prompt-container">
+    <input type="text" id="osInput" placeholder="Enter your operating system (Windows/Linux/macOS/Android)" class="prompt-input">
+    <button onclick="updatePasswordPrompt()">Show Personalized Prompt</button>
+</div>
+<pre id="passwordPrompt" style="display:none; white-space:pre-wrap; background:#f0f0f0; padding:1em; border-radius:8px; margin-top:10px;">
+</pre>
+
+<style>
+.prompt-container {
+    margin: 1em 0;
+}
+.prompt-input {
+    padding: 8px;
+    margin-right: 10px;
+    width: 300px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+</style>
+
+<script>
+function updatePasswordPrompt() {
+    const os = document.getElementById('osInput').value || '[your operating system]';
+    const promptTemplate = `Act as a digital security and resilience expert. I want you to create a clear, beginner-friendly guide on how to manage my passwords securely without using the cloud, and with tools that work completely offline.
+
+I use ${os}, and I want to keep my password database safe, encrypted, and easy to back up.
+
+The guide should include:
+
+A recommendation for a free and open-source password manager that works offline (e.g., KeePassXC, KeePassDX, etc.)
+
+Step-by-step instructions to:
+
+Install the app on ${os}
+
+Create a secure password database
+
+Add and organize passwords
+
+Set up a strong master password
+
+Use two-factor protection (if available offline)
+
+How to encrypt and back up the database:
+
+Save it to USB / SD card / encrypted drive
+
+Make redundant backups
+
+Best practices for physical storage
+
+Optional: how to print a physical copy securely as a last resort
+
+Do not recommend any cloud storage or online sync tools. Assume I might be in a scenario with no internet or electricity. The goal is maximum privacy, control, and resilience.`;
+
+    const promptElement = document.getElementById('passwordPrompt');
+    promptElement.textContent = promptTemplate;
+    promptElement.style.display = 'block';
+}
+</script>
+
+            <h2>☎️ Save Emergency Numbers Locally</h2>
+            <p>Click below to get a personalized prompt:</p>
+            <div class="prompt-container">
+                <input type="text" id="cityRegionInput" placeholder="Enter your city/region" class="prompt-input">
+                <input type="text" id="countryStateInput" placeholder="Enter your country/state" class="prompt-input">
+                <button onclick="updateEmergencyPrompt()">Show Personalized Prompt</button>
+            </div>
+            <pre id="emergencyPrompt" style="display:none; white-space:pre-wrap; background:#f0f0f0; padding:1em; border-radius:8px; margin-top:10px;">
+            </pre>
+
+            <script>
+            function updateEmergencyPrompt() {
+                const cityRegion = document.getElementById('cityRegionInput').value || '[your city/region]';
+                const countryState = document.getElementById('countryStateInput').value || '[your country/state]';
+                
+                const promptTemplate = `Act as a preparedness and digital resilience expert. I need a guide to help me build a local emergency contact list for ${cityRegion}, ${countryState} that I can use offline in case of power or internet outages.
+
+The goal is to gather reliable, up-to-date contact information for my area, and save it in formats I can access even without a phone signal, Wi-Fi, or electricity.
+
+The guide should include:
+
+A list of essential emergency contacts specific to ${cityRegion}and surroundings, including:
+
+Emergency services (police, fire department, medical emergencies)
+
+Nearest hospitals and clinics
+
+Electrical or water utility companies
+
+Local government / civil protection agencies
+
+Nearest embassies or consulates (if relevant)
+
+Nonprofits or volunteer emergency response groups (Red Cross, etc.)
+
+The information should be formatted in a printable document (A4 or Letter), organized and easy to read.
+
+Suggestions on how to:
+
+Save this list as a PDF or text file on a phone, USB stick, or SD card
+
+Print and laminate a copy to keep in an emergency binder or go-bag
+
+Set it up for offline access on mobile devices (e.g. via a notes app or offline document viewer)
+
+Keep it practical, beginner-friendly, and focused on offline survival. Assume I may have no internet, no electricity, and no mobile coverage during an emergency.`;
+
+                const promptElement = document.getElementById('emergencyPrompt');
+                promptElement.textContent = promptTemplate;
+                promptElement.style.display = 'block';
+            }
+            </script>
+
+            <h2>💽 Build a USB "Prepper Disk"</h2>
+            <p>Click below to get a personalized prompt:</p>
+            <div class="prompt-container">
+                <input type="text" id="countryRegionInput" placeholder="Enter your country/region" class="prompt-input">
+                <input type="text" id="disasterTypeInput" placeholder="Enter disaster type (blackout/cyberattack/etc)" class="prompt-input">
+                <input type="text" id="osTypeInput" placeholder="Enter your OS (Windows/Linux/macOS)" class="prompt-input">
+                <button onclick="updateUsbPrompt()">Show Personalized Prompt</button>
+            </div>
+            <pre id="usbPrompt" style="display:none; white-space:pre-wrap; background:#f0f0f0; padding:1em; border-radius:8px; margin-top:10px;">
+            </pre>
+
+            <script>
+            function updateUsbPrompt() {
+                const countryRegion = document.getElementById('countryRegionInput').value || '[your country/region]';
+                const disasterType = document.getElementById('disasterTypeInput').value || '[type of disaster]';
+                const osType = document.getElementById('osTypeInput').value || '[your operating system]';
+                
+                const promptTemplate = `Act as a digital resilience and emergency preparedness expert. I want to create a USB "Prepper Disk" with essential tools and information that I can rely on during a total internet and power outage.
+
+I live in ${countryRegion}, and I'm mostly preparing for ${disasterType}.
+I use ${osType}.
+
+Create a beginner-friendly, step-by-step guide that includes:
+
+Recommendations for portable, free, open-source tools I can install on the USB drive, such as:
+
+Offline maps and GPS tools (specifically for ${countryRegion})
+Password managers compatible with ${osType}
+File encryption and backup tools
+First aid guides and emergency manuals
+Offline encyclopedias (like Kiwix or WikiMed)
+
+Instructions on:
+
+How to create a bootable or portable USB for ${osType}
+How to store documents, backups, and PDFs
+How to organize folders for easy access in an emergency
+Which personal documents or files I should include (ID scans, insurance info, medical info, etc.)
+How to encrypt the USB and protect it with a strong password (using tools compatible with ${osType})
+How to test it on another device to make sure it works offline
+
+The goal is to build a fully self-contained, secure, and useful digital survival kit that works without needing an internet connection, mobile network, or cloud access. Focus on tools and methods that are proven to work in ${disasterType} scenarios.`;
+
+                const promptElement = document.getElementById('usbPrompt');
+                promptElement.textContent = promptTemplate;
+                promptElement.style.display = 'block';
+            }
+            </script>
+        </article>
+    </main>
+
+    <footer class="main-footer">
+        <p>&copy; 2025 The Digital Preppernaut. All rights reserved.</p>
+    </footer>
+
+    <script src="../js/main.js"></script>
+</body>
+</html>

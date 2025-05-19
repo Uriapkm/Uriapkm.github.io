@@ -5,28 +5,35 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Parke Print & Design – Soluciones Integrales de Diseño y Prototipado 3D</title>
   <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <script src="contact.js" defer></script>
   </head>
 <body>
-  <header class="hero" role="banner">
-    <div class="header-top">
-      <a href="#inicio" aria-label="Volver al inicio">
-        <img src="logo.png" alt="Logo de Parke Print & Design" class="logo" />
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="#inicio" class="nav-logo">
+        <img src="logo.png" alt="Parke Print & Design" />
       </a>
-      <div class="header-titles">
-        <h1>Parke Print & Design</h1>
-        <p class="subtitle">Soluciones de diseño y prototipado 3D para empresas y particulares en el Parque Tecnológico de Álava</p>
+      <div class="nav-links">
+        <a href="#inicio">Inicio</a>
+        <a href="#servicios-empresas">Empresas</a>
+        <a href="#servicios-particulares">Particulares</a>
+        <a href="#galeria">Galería</a>
+        <a href="#tienda">Tienda</a>
+        <a href="#contacto" class="cta-button">Contacto</a>
       </div>
     </div>
+  </nav>
 
-    <nav class="main-nav" role="navigation" aria-label="Navegación principal">
-      <a href="#inicio">Inicio</a>
-      <a href="#servicios-empresas">Servicios Empresas</a>
-      <a href="#servicios-particulares">Servicios Particulares</a>
-      <a href="#galeria">Galería</a>
-      <a href="#store">Tienda</a>
-      <a href="#contacto">Contacto</a>
-    </nav>
+  <header class="hero">
+    <div class="hero-content">
+      <h1>Soluciones de Impresión 3D<br>Para Tu Empresa</h1>
+      <p>Diseño profesional y prototipado rápido en el Parque Tecnológico de Álava</p>
+      <div class="hero-buttons">
+        <a href="#servicios-empresas" class="primary-btn">Servicios Empresariales</a>
+        <a href="#contacto" class="secondary-btn">Solicitar Presupuesto</a>
+      </div>
+    </div>
   </header>
 
   <main>
@@ -142,25 +149,22 @@
       </div>
     </section>
 
-    <<section id="tienda" class="tienda">
+    <section id="tienda" class="tienda">
       <h2><i class="fas fa-palette"></i> Galería artesanal</h2>
       <p class="descripcion-tienda">Piezas impresas en 3D y pintadas a mano. Cada una es única. Entrega en mano. No se hacen envíos.</p>
     
       <div class="productos-container">
         <div class="producto">
-          <h3>Figura de dragón</h3>
-          <p>Impresión en resina, pintada a mano con acabado metálico.</p>
+          <img src="images/maceta dictador.jpg" alt="Maceta Kim Jong Un" class="producto-imagen">
+          <h3>Maceta Dictador</h3>
+          <p>Maceta decorativa pintada a mano inspirada en Kim Jong Un. Perfecta para plantas pequeñas o cactus.</p>
           <p><strong>Precio:</strong> 25€</p>
         </div>
         <div class="producto">
-          <h3>Miniatura de guerrero</h3>
-          <p>Escala 1:24, ideal para coleccionistas o dioramas. Pintura detallada a pincel.</p>
-          <p><strong>Precio:</strong> 18€</p>
-        </div>
-        <div class="producto">
-          <h3>Escultura abstracta</h3>
-          <p>Pieza decorativa con pintura degradada a mano. Base incluida.</p>
-          <p><strong>Precio:</strong> 30€</p>
+          <img src="images/ogro (1).jpg" alt="Figura Ogro Procesión" class="producto-imagen">
+          <h3>Ogro en Procesión</h3>
+          <p>Figura satírica de un ogro con capirote en procesión. Pintada a mano con detalles minuciosos.</p>
+          <p><strong>Precio:</strong> 45€</p>
         </div>
       </div>
     </section>

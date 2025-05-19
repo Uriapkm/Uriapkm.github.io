@@ -22,3 +22,13 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+
+// Add this function to handle prompt toggling
+function togglePrompt(promptId) {
+    const promptElement = document.getElementById(promptId);
+    if (promptElement.style.display === 'none') {
+        promptElement.style.display = 'block';
+    } else {
+        promptElement.style.display = 'none';
+    }
+}
