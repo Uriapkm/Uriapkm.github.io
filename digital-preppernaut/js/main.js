@@ -32,3 +32,20 @@ function togglePrompt(promptId) {
         promptElement.style.display = 'none';
     }
 }
+
+// Theme switching functionality
+function setTheme(themeName) {
+    localStorage.setItem('theme', themeName);
+    document.documentElement.className = themeName;
+}
+
+// Check for saved theme preference or default to 'prepper'
+function initTheme() {
+    const savedTheme = localStorage.getItem('theme') || 'prepper';
+    setTheme(savedTheme);
+}
+
+// Initialize theme on page load
+document.addEventListener('DOMContentLoaded', () => {
+    initTheme();
+});
