@@ -3,8 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About / Contact - The Digital Preppernaut</title>
+    <title>The Digital Preppernaut - Digital Preparedness</title>
+    <!-- Fix CSS paths by adding ../ to point to parent directory -->
     <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/prepper.css">
+    <link rel="stylesheet" href="../css/normie.css">
+    <!-- Fix JavaScript path -->
+    <script src="../js/theme-switcher.js"></script>
 </head>
 <body>
     <header class="main-header">
@@ -28,6 +33,11 @@
             </ul>
         </nav>
     </header>
+
+    <div class="theme-switcher">
+        <button class="theme-btn" data-theme="prepper">🎖️ Prepper Mode</button>
+        <button class="theme-btn" data-theme="normie">🌟 Normal Mode</button>
+    </div>
 
     <main class="main-content">
         <h1>About The Digital Preppernaut</h1>

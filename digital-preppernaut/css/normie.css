@@ -190,6 +190,22 @@ html.normie .theme-btn.active {
     border-color: var(--accent);
 }
 
+/* Footer styles */
+html.normie .main-footer {
+    background: var(--bg-secondary);
+    border-top: 1px solid var(--border-color);
+    padding: var(--space-md);
+    text-align: center;
+    position: relative;
+    z-index: 1;
+}
+
+html.normie .main-footer p {
+    color: #000000;
+    font-size: 0.875rem;
+    margin: 0;
+}
+
 /* Responsive design */
 @media (min-width: 768px) {
     html.normie .nav-links {
@@ -198,11 +214,30 @@ html.normie .theme-btn.active {
         padding: 0;
         gap: var(--space-sm);
         border: none;
-        background: transparent;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        border-radius: var(--border-radius-md);
+        padding: var(--space-xs) var(--space-sm);
+        margin: 0 var(--space-md);
     }
 
     html.normie .nav-links a {
         padding: var(--space-xs) var(--space-sm);
+        color: var(--text-primary);
+        font-weight: 500;
+        border-radius: var(--border-radius-sm);
+        transition: all 0.2s ease;
+    }
+
+    html.normie .nav-links a:hover {
+        background: var(--accent);
+        color: white;
+    }
+
+    html.normie .nav-links a.active {
+        background: var(--accent);
+        color: white;
     }
 
     html.normie .mobile-menu-toggle {
@@ -211,24 +246,64 @@ html.normie .theme-btn.active {
 
     html.normie .hero {
         padding: var(--space-xl);
+        max-width: 1200px;
+        margin: var(--space-xl) auto;
+    }
+
+    html.normie .theme-switcher {
+        position: relative;
+        margin-left: var(--space-md);
     }
 }
 
-/* Add responsive adjustments */
-@media (max-width: 768px) {
+/* Mobile optimizations */
+@media (max-width: 767px) {
+    html.normie .nav-container {
+        padding: var(--space-xs);
+    }
+
+    html.normie .nav-links {
+        background: rgba(255, 255, 255, 0.98);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        box-shadow: var(--shadow-md);
+    }
+
     html.normie .theme-switcher {
-        margin-right: var(--space-lg);
+        margin-right: var(--space-xl);
     }
     
     html.normie .theme-btn {
-        padding: var(--space-xs);
-        font-size: 0.75rem;
+        padding: var(--space-xs) var(--space-sm);
+        font-size: 0.875rem;
+    }
+
+    html.normie .hero {
+        margin: var(--space-md);
+        padding: var(--space-lg);
     }
 }
 
-/* Accessibility improvements */
+/* Performance and accessibility */
 @media (prefers-reduced-motion: reduce) {
     html.normie * {
+        animation: none !important;
         transition: none !important;
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    html.normie {
+        color-scheme: dark;
+    }
+}
+
+/* Print styles */
+@media print {
+    html.normie * {
+        background: transparent !important;
+        color: black !important;
+        box-shadow: none !important;
+        text-shadow: none !important;
     }
 }
