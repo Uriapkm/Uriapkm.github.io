@@ -29,18 +29,41 @@
     --border-radius-md: 0.5rem;
     --border-radius-lg: 1rem;
     --header-height: 4rem;
+
+    /* Add background image variables */
+    --bg-image: url('../images/subtle-pattern.png');
+    --bg-overlay: linear-gradient(to bottom, rgba(255, 255, 255, 0.97), rgba(255, 255, 255, 0.95));
 }
 
 html.normie body {
     font-family: 'Inter', system-ui, sans-serif;
     line-height: 1.7;
     color: var(--text-primary);
-    background: var(--bg-primary);
+    background-image: var(--bg-image);
+    background-repeat: repeat;
+    background-attachment: fixed;
+    position: relative;
+}
+
+html.normie body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--bg-overlay);
+    z-index: 0;
+}
+
+html.normie .main-content {
+    position: relative;
+    z-index: 1;
 }
 
 /* Modern header */
 html.normie .main-header {
-    background: var(--bg-primary);
+    background: rgba(255, 255, 255, 0.9);
     border-bottom: 1px solid var(--border-color);
     height: var(--header-height);
     position: sticky;
@@ -48,6 +71,7 @@ html.normie .main-header {
     z-index: 50;
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
+    box-shadow: var(--shadow-sm);
 }
 
 html.normie .nav-container {
@@ -133,6 +157,39 @@ html.normie .hero {
     margin: var(--space-lg) auto;
 }
 
+/* Theme switcher styles */
+html.normie .theme-switcher {
+    position: relative;
+    display: flex;
+    gap: var(--space-xs);
+    margin-left: auto;
+    margin-right: var(--space-sm);
+}
+
+html.normie .theme-btn {
+    padding: var(--space-xs) var(--space-sm);
+    border-radius: var(--border-radius-sm);
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: var(--shadow-sm);
+    font-size: 0.875rem;
+}
+
+html.normie .theme-btn:hover {
+    background: var(--bg-secondary);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+}
+
+html.normie .theme-btn.active {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+}
+
 /* Responsive design */
 @media (min-width: 768px) {
     html.normie .nav-links {
@@ -154,6 +211,18 @@ html.normie .hero {
 
     html.normie .hero {
         padding: var(--space-xl);
+    }
+}
+
+/* Add responsive adjustments */
+@media (max-width: 768px) {
+    html.normie .theme-switcher {
+        margin-right: var(--space-lg);
+    }
+    
+    html.normie .theme-btn {
+        padding: var(--space-xs);
+        font-size: 0.75rem;
     }
 }
 
