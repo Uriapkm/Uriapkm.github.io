@@ -6,21 +6,17 @@ document.addEventListener('DOMContentLoaded', () => {
     if (menuToggle && navLinks) {
         menuToggle.addEventListener('click', () => {
             navLinks.classList.toggle('active');
-            
-            // Animate hamburger menu
-            const spans = menuToggle.querySelectorAll('span');
-            spans.forEach(span => span.classList.toggle('active'));
+            menuToggle.classList.toggle('open');
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!menuToggle.contains(e.target) && !navLinks.contains(e.target)) {
+                navLinks.classList.remove('active');
+                menuToggle.classList.remove('open');
+            }
         });
     }
-
-    // Close menu when clicking outside
-    document.addEventListener('click', (e) => {
-        if (!menuToggle.contains(e.target) && !navLinks.contains(e.target)) {
-            navLinks.classList.remove('active');
-            const spans = menuToggle.querySelectorAll('span');
-            spans.forEach(span => span.classList.remove('active'));
-        }
-    });
 });
 
 // Add this function to handle prompt toggling
