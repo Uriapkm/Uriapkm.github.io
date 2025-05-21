@@ -1,85 +1,178 @@
+// Main initialization
 document.addEventListener('DOMContentLoaded', () => {
-  const form = document.getElementById('contactFormGlobal'); // ID correcto
-  const messages = document.getElementById('form-messages');
-
-  form.addEventListener('submit', function(e) {
-    e.preventDefault();
-
-    // Validar campos obligatorios
-    const name = form.querySelector('#name').value.trim();
-    const email = form.querySelector('#email').value.trim();
-    const message = form.querySelector('#message').value.trim();
-    const clientType = form.querySelector('#client_type').value.trim(); // Nuevo campo
-
-    if (!name || !email || !message || !clientType) {
-      messages.textContent = 'Por favor, completa todos los campos obligatorios.';
-      messages.style.color = 'red';
-      return;
-    }
-
-    // Preparar datos y enviar
-    fetch(form.action, {
-      method: 'POST',
-      headers: { 'Accept': 'application/json' },
-      body: new FormData(form)
-    })
-    .then(response => {
-      if (response.ok) {
-        messages.textContent = '¡Solicitud enviada con éxito! Te contactaremos pronto.';
-        messages.style.color = 'green';
-        form.reset();
-      } else {
-        return response.json().then(data => {
-          throw new Error(data.errors ? data.errors.map(e => e.message).join(', ') : 'Error en el envío.');
-        });
-      }
-    })
-    .catch(error => {
-      messages.textContent = 'Hubo un problema al enviar el formulario.';
-      messages.style.color = 'red';
-      console.error('Form submission error:', error);
-    });
-  });
-
-  // Funciones para la galería "revolver"
-  const slider = document.querySelector('.gallery-slider');
-  const items = document.querySelectorAll('.gallery-item');
-  const prevBtn = document.querySelector('.prev-btn');
-  const nextBtn = document.querySelector('.next-btn');
-
-  if (slider && items.length > 0 && prevBtn && nextBtn) {
-    let currentIndex = 0;
-    const itemWidth = items[0].offsetWidth; // Ancho de cada imagen
-
-    function updateSlider() {
-      slider.style.transform = `translateX(${-currentIndex * itemWidth}px)`;
-    }
-
-    function nextSlide() {
-      currentIndex = (currentIndex + 1) % items.length;
-      updateSlider();
-    }
-
-    function prevSlide() {
-      currentIndex = (currentIndex - 1 + items.length) % items.length;
-      updateSlider();
-    }
-
-    // Navegación manual
-    nextBtn.addEventListener('click', nextSlide);
-    prevBtn.addEventListener('click', prevSlide);
-
-    // Automático (Revolver)
-    let interval = setInterval(nextSlide, 3000); // Cambia cada 3 segundos
-
-    // Opcional: Pausar al pasar el ratón
-    slider.addEventListener('mouseenter', () => clearInterval(interval));
-    slider.addEventListener('mouseleave', () => {
-      interval = setInterval(nextSlide, 3000);
-    });
-
-    // Inicializar al cargar la página (por si hay problemas con el ancho)
-    window.addEventListener('load', updateSlider);
-    window.addEventListener('resize', updateSlider); // Actualizar al cambiar el tamaño de la ventana
-  }
+    App.init();
 });
+
+const App = {
+    init() {
+        ContactForm.init();
+        Gallery.init();
+        MobileMenu.init();
+    }
+};
+
+const ContactForm = {
+    init() {
+        const form = document.getElementById('contactFormGlobal');
+        const messages = document.getElementById('form-messages');
+        
+        if (!form || !messages) return;
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (!this.validate(form)) {
+                this.showMessage('Por favor, completa todos los campos obligatorios.', 'error');
+                return;
+            }
+
+            try {
+                const response = await this.submit(form);
+                this.handleResponse(response);
+            } catch (error) {
+                this.showMessage(error.message, 'error');
+            }
+        });
+    },
+
+    validate(form) {
+        return ['name', 'email', 'message', 'client_type'].every(field => {
+            return form.querySelector(`#${field}`).value.trim() !== '';
+        });
+    },
+
+    async submit(form) {
+        const response = await fetch(form.action, {
+            method: 'POST',
+            headers: { 'Accept': 'application/json' },
+            body: new FormData(form)
+        });
+        
+        if (!response.ok) {
+            const data = await response.json();
+            throw new Error(data.errors?.map(e => e.message).join(', ') || 'Error en el envío.');
+        }
+        
+        return response;
+    },
+
+    showMessage(text, type = 'success') {
+        const messages = document.getElementById('form-messages');
+        messages.textContent = text;
+        messages.style.color = type === 'error' ? '#dc3545' : '#28a745';
+    },
+
+    handleResponse(response) {
+        this.showMessage('Mensaje enviado correctamente. ¡Gracias!');
+        document.getElementById('contactFormGlobal').reset();
+    }
+};
+
+const Gallery = {
+    slider: null,
+    autoplayInterval: 3000,
+
+    init() {
+        this.slider = {
+            container: document.querySelector('.gallery-slider'),
+            items: document.querySelectorAll('.gallery-item'),
+            prevBtn: document.querySelector('.prev-btn'),
+            nextBtn: document.querySelector('.next-btn'),
+            currentIndex: 0
+        };
+
+        if (!this.isValid()) return;
+
+        this.initControls();
+        this.initAutoplay();
+        this.initResponsive();
+    },
+
+    isValid() {
+        return this.slider.container && 
+               this.slider.items.length > 0 && 
+               this.slider.prevBtn && 
+               this.slider.nextBtn;
+    },
+
+    initControls() {
+        this.slider.nextBtn.addEventListener('click', () => this.next());
+        this.slider.prevBtn.addEventListener('click', () => this.prev());
+    },
+
+    next() {
+        this.slider.currentIndex = (this.slider.currentIndex + 1) % this.slider.items.length;
+        this.updatePosition();
+    },
+
+    prev() {
+        this.slider.currentIndex = (this.slider.currentIndex - 1 + this.slider.items.length) % this.slider.items.length;
+        this.updatePosition();
+    },
+
+    updatePosition() {
+        const itemWidth = this.slider.items[0].offsetWidth;
+        this.slider.container.style.transform = `translateX(${-this.slider.currentIndex * itemWidth}px)`;
+    },
+
+    initAutoplay() {
+        let interval;
+        const startAutoplay = () => interval = setInterval(() => this.next(), this.autoplayInterval);
+        const stopAutoplay = () => clearInterval(interval);
+
+        this.slider.container.addEventListener('mouseenter', stopAutoplay);
+        this.slider.container.addEventListener('mouseleave', startAutoplay);
+        startAutoplay();
+    },
+
+    initResponsive() {
+        const updateSlider = () => this.updatePosition();
+        window.addEventListener('load', updateSlider);
+        window.addEventListener('resize', updateSlider);
+    }
+};
+
+const MobileMenu = {
+    init() {
+        const menuToggle = document.getElementById('menuToggle');
+        const navLinks = document.getElementById('navLinks');
+        
+        if (!menuToggle || !navLinks) return;
+
+        this.addEventListeners(menuToggle, navLinks);
+    },
+
+    addEventListeners(menuToggle, navLinks) {
+        // Toggle menu
+        menuToggle.addEventListener('click', () => {
+            this.toggleMenu(menuToggle, navLinks);
+        });
+
+        // Close menu when clicking links
+        navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                this.closeMenu(menuToggle, navLinks);
+            });
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!navLinks.contains(e.target) && 
+                !menuToggle.contains(e.target) && 
+                navLinks.classList.contains('active')) {
+                this.closeMenu(menuToggle, navLinks);
+            }
+        });
+    },
+
+    toggleMenu(menuToggle, navLinks) {
+        menuToggle.classList.toggle('active');
+        navLinks.classList.toggle('active');
+        document.body.classList.toggle('menu-open');
+    },
+
+    closeMenu(menuToggle, navLinks) {
+        menuToggle.classList.remove('active');
+        navLinks.classList.remove('active');
+        document.body.classList.remove('menu-open');
+    }
+};

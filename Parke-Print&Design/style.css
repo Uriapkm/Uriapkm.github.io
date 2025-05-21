@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Open+Sans:wght@400;600&family=Inter:wght@400;500&display=swap');
+
 /* ----------------------- */
 /* RESET BÁSICO Y GLOBAL  */
 /* ----------------------- */
@@ -8,6 +10,18 @@
   --background-light: #f8f9fa;
   --text-dark: #2c3e50;
   --text-light: #6c757d;
+  --font-primary: 'Poppins', sans-serif;
+  --font-secondary: 'Open Sans', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --border-radius-sm: 8px;
+  --border-radius-md: 15px;
+  --border-radius-lg: 30px;
+  --box-shadow-sm: 0 2px 5px rgba(0,0,0,0.05);
+  --box-shadow-md: 0 4px 10px rgba(0,0,0,0.1);
+  --box-shadow-lg: 0 4px 15px rgba(0,0,0,0.15);
+  --transition-standard: all 0.3s ease;
+  --section-padding: 80px 40px;
+  --container-width: 1200px;
 }
 
 * {
@@ -36,6 +50,7 @@ body {
   text-align: center;
   color: white;
   padding: 2rem;
+  position: relative;
 }
 
 .hero-content {
@@ -44,9 +59,16 @@ body {
 }
 
 .hero h1 {
-  font-size: 3.5rem;
+  font-size: 3.2rem;
   line-height: 1.2;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.hero h1 .highlight {
+  font-size: 2.4rem;
+  color: var(--primary-color);
+  display: block;
+  margin-top: 0.5rem;
 }
 
 .hero p {
@@ -121,6 +143,14 @@ body {
   color: #ddd; /* Un color más claro para el subtítulo */
 }
 
+.hero-tagline {
+    font-size: 1.4rem;
+    font-weight: 500;
+    color: white;
+    margin-bottom: 2rem;
+    letter-spacing: 0.5px;
+}
+
 /* ----------------------- */
 /* NAVEGACIÓN PRINCIPAL   */
 /* ----------------------- */
@@ -128,15 +158,17 @@ body {
   position: fixed;
   width: 100%;
   top: 0;
-  background: rgba(255, 255, 255, 0.95);
-  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  background: rgba(255, 255, 255, 0.98);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
   z-index: 1000;
+  backdrop-filter: blur(10px);
+  border-bottom: 2px solid var(--primary-color);
 }
 
 .nav-container {
-  max-width: 1800px;
+  max-width: var(--container-width);
   margin: 0 auto;
-  padding: 0.5rem 2rem; /* Adjusted padding */
+  padding: 1rem 2rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -154,43 +186,62 @@ body {
 
 .nav-links {
   display: flex;
-  gap: 2rem;
+  gap: 2.5rem;
   align-items: center;
 }
 
 .nav-links a {
   text-decoration: none;
   color: var(--text-dark);
-  font-weight: 500;
-  transition: color 0.3s;
+  font-weight: 600;
+  font-size: 1.1rem;
+  padding: 0.5rem 1rem;
+  border-radius: var(--border-radius-sm);
+  transition: all 0.3s ease;
+  position: relative;
 }
 
-.nav-links a:hover {
-  color: var(--primary-color);
+.nav-links a:not(.cta-button):after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: 0;
+  left: 50%;
+  background-color: var(--primary-color);
+  transition: all 0.3s ease;
+}
+
+.nav-links a:not(.cta-button):hover:after {
+  width: 100%;
+  left: 0;
 }
 
 .cta-button {
   background: var(--primary-color);
   color: white !important;
-  padding: 0.5rem 1.5rem;
-  border-radius: 25px;
-  transition: background 0.3s !important;
+  padding: 0.8rem 1.8rem !important;
+  border-radius: var(--border-radius-lg);
+  transition: all 0.3s ease !important;
+  box-shadow: 0 2px 8px rgba(30, 144, 255, 0.3);
 }
 
 .cta-button:hover {
   background: var(--accent-color);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(30, 144, 255, 0.4);
 }
 
 /* ----------------------- */
 /* SECCIÓN INTRO          */
 /* ----------------------- */
 .intro {
-  padding: 2rem;
+  padding: 4rem;  /* Aumentado de 2rem */
   background-color: #fff; /* Fondo blanco para la sección */
   text-align: center;
   box-shadow: 0 2px 5px rgba(0,0,0,0.05); /* Sombra suave */
   border-radius: 8px;
-  margin: 20px auto; /* Margen y centrado */
+  margin: 40px auto; /* Aumentado de 20px */
   max-width: 1200px;
 }
 
@@ -227,11 +278,11 @@ body {
 /* SECCIÓN SERVICIOS       */
 /* ----------------------- */
 .servicios {
-  padding: 60px 30px;
+  padding: 80px 40px; /* Aumentado de 60px 30px */
   background-color: #fdfdfd; /* Mantuve tu color original para esta sección */
   box-shadow: 0 2px 5px rgba(0,0,0,0.05);
   border-radius: 8px;
-  margin: 20px auto;
+  margin: 40px auto; /* Aumentado de 20px */
   max-width: 1200px;
 }
 
@@ -248,13 +299,14 @@ body {
   margin: 0 auto;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 40px;
+  gap: 60px; /* Aumentado de 40px */
+  padding: 20px;
 }
 
 .services-list li {
   background-color: #f9f9f9;
   border-radius: 15px;
-  padding: 30px;
+  padding: 40px; /* Aumentado de 30px */
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
   transition: transform 0.3s ease-in-out;
 }
@@ -287,7 +339,7 @@ body {
 /* GALLERY / PORTAFOLIO    */
 /* ----------------------- */
 .portafolio {
-  padding: 50px 20px;
+  padding: 80px 40px; /* Aumentado de 50px 20px */
   background-color: #f4f7f9; /* Tu color de fondo para portafolio */
   box-shadow: 0 2px 5px rgba(0,0,0,0.05);
   border-radius: 8px;
@@ -314,10 +366,10 @@ body {
 .gallery {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Mantuve este minmax */
-  gap: 25px; /* Mantuve el gap */
+  gap: 40px; /* Aumentado de 25px */
   max-width: 1000px; /* Ancho máximo de la galería */
   margin: 0 auto;
-  padding: 20px 0;
+  padding: 40px 0; /* Aumentado de 20px */
 }
 
 .project-item {
@@ -390,17 +442,19 @@ body {
 .productos-container {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 30px;
+  gap: 40px; /* Aumentado de 30px */
   max-width: 1100px;
   margin: 0 auto;
+  padding: 20px;
 }
 
 .producto {
   background-color: #fff;
   border-radius: 15px;
-  padding: 25px;
+  padding: 35px; /* Aumentado de 25px */
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease;
+  margin-bottom: 20px;
 }
 
 .producto:hover {
@@ -432,7 +486,7 @@ body {
 /* SECCIÓN CONTACTO        */
 /* ----------------------- */
 .contacto {
-  padding: 50px 20px;
+  padding: 80px 40px; /* Aumentado de 50px 20px */
   background-color: #fff;
   text-align: center;
   box-shadow: 0 2px 5px rgba(0,0,0,0.05);
@@ -448,11 +502,12 @@ body {
   font-size: 2rem;
 }
 .contacto form {
-  max-width: 600px;
+  max-width: 700px; /* Aumentado de 600px */
   margin: 0 auto;
   display: grid;
-  gap: 20px;
+  gap: 30px; /* Aumentado de 20px */
   text-align: left; /* Para alinear las etiquetas */
+  padding: 20px;
 }
 .contacto label {
   font-weight: 600;
@@ -462,12 +517,13 @@ body {
 .contacto textarea,
 .contacto select, /* Añadido para el select */
 .contacto input[type="file"] {
-  padding: 12px;
+  padding: 15px; /* Aumentado de 12px */
   border: 1px solid #ccc;
   border-radius: 8px;
   font-size: 1rem;
   width: 100%;
   box-sizing: border-box; /* Para que el padding y borde no aumenten el ancho */
+  margin-top: 8px;
 }
 .contacto textarea {
   resize: vertical;
@@ -527,8 +583,8 @@ footer { /* Se cambió de .footer a footer ya que el HTML usa la etiqueta direct
   background-color: #333;
   color: #fff;
   text-align: center;
-  padding: 30px 20px;
-  margin-top: 40px;
+  padding: 50px 20px; /* Aumentado de 30px 20px */
+  margin-top: 60px; /* Aumentado de 40px */
 }
 footer a {
   color: #1E90FF;
@@ -536,7 +592,8 @@ footer a {
   font-weight: 500;
 }
 footer p {
-  margin-bottom: 8px;
+  margin-bottom: 15px; /* Aumentado de 8px */
+  line-height: 1.8; /* Aumentado de 1.6 */
 }
 
 
@@ -544,78 +601,371 @@ footer p {
 /* RESPONSIVE              */
 /* ----------------------- */
 @media (max-width: 768px) {
-  .hero h1 {
-    font-size: 2.2rem;
+  /* Ajustes de navegación */
+  .navbar {
+    background: white;
+    padding: 1rem;
   }
-  .services-list,
-  .gallery,
-  .product-grid { /* Añadido product-grid para responsive */
-    grid-template-columns: 1fr;
-    gap: 30px; /* Ajuste el gap si es necesario para móviles */
+
+  .menu-toggle {
+    display: block;
+    width: 30px;
+    height: 30px;
+    padding: 0;
+    background: none;
+    border: none;
+    cursor: pointer;
+    z-index: 1001;
   }
-  .main-nav {
-    flex-direction: column;
-    gap: 5px;
+
+  .menu-toggle span {
+    display: block;
+    width: 25px;
+    height: 2px;
+    background-color: var(--primary-color);
+    margin: 6px auto;
+    transition: all 0.3s ease;
   }
-  .main-nav a {
-    padding: 8px 10px;
-  }
-  .header-top {
+
+  .nav-links {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 80%;
+    height: 100vh;
+    background: white;
+    padding: 80px 20px 20px;
+    transition: all 0.3s ease;
     flex-direction: column;
     align-items: center;
-    text-align: center;
+    box-shadow: -2px 0 10px rgba(0,0,0,0.1);
   }
-  .hero h1,
-  .hero .subtitle {
-    text-align: center;
+
+  .nav-links.active {
+    right: 0;
   }
-  .contacto form {
-    padding: 15px;
+
+  body.menu-open {
+    overflow: hidden;
+  }
+
+  .menu-toggle.active span:first-child {
+    transform: rotate(45deg) translate(6px, 6px);
+  }
+
+  .menu-toggle.active span:nth-child(2) {
+    opacity: 0;
+  }
+
+  .menu-toggle.active span:last-child {
+    transform: rotate(-45deg) translate(6px, -6px);
   }
 }
 
-@media (max-width: 600px) {
-    /* Se mantiene el media query de tu referencia para el header */
-    .header-top {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-    }
+/* Ajustes específicos para pantallas muy pequeñas */
+@media (max-width: 480px) {
+  .hero h1 {
+    font-size: 1.8rem;
+  }
 
-    .hero h1,
-    .hero .subtitle {
-        text-align: center;
-    }
+  .hero p {
+    font-size: 1rem;
+  }
 
-    .main-nav {
-        gap: 10px; /* Ajuste el gap para móviles */
-    }
-    .product-grid > div {
-        width: 100%; /* Asegura que los productos ocupen todo el ancho en pantallas pequeñas */
-    }
+  .nav-links {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .primary-btn,
+  .secondary-btn {
+    width: 100%;
+    text-align: center;
+  }
+
+  /* Ajuste de padding y márgenes */
+  .section {
+    padding: 3rem 1rem;
+  }
+
+  .card {
+    padding: 1.5rem;
+  }
 }
 
-html {
-  scroll-behavior: smooth;
+/* Ajustes para evitar solapamientos con el menú fijo inferior */
+body {
+  padding-bottom: 70px; /* Espacio para el menú inferior en móvil */
+}
+
+/* Mejoras de usabilidad táctil */
+@media (hover: none) {
+  .nav-links a,
+  .btn,
+  .card {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .nav-links a:active,
+  .btn:active {
+    transform: scale(0.98);
+  }
 }
 
 /* ----------------------- */
 /* ESTILOS GENERALES      */
 /* ----------------------- */
 .section {
-  padding: 6rem 2rem;
+  padding: 8rem 2rem; /* Aumentado de 6rem a 8rem */
 }
 
 .section-title {
   font-size: 2.5rem;
   text-align: center;
-  margin-bottom: 3rem;
+  margin-bottom: 4rem; /* Aumentado de 3rem a 4rem */
   color: var(--text-dark);
 }
 
-.section-subtitle {
+/* Espaciado mejorado para secciones principales */
+.intro {
+  padding: 4rem;  /* Aumentado de 2rem */
+  margin: 40px auto; /* Aumentado de 20px */
+}
+
+.servicios {
+  padding: 80px 40px; /* Aumentado de 60px 30px */
+  margin: 40px auto; /* Aumentado de 20px */
+}
+
+.services-list {
+  gap: 60px; /* Aumentado de 40px */
+  padding: 20px;
+}
+
+.services-list li {
+  padding: 40px; /* Aumentado de 30px */
+}
+
+/* Mejora del espaciado en el portafolio */
+.portafolio {
+  padding: 80px 40px; /* Aumentado de 50px 20px */
+}
+
+.gallery {
+  gap: 40px; /* Aumentado de 25px */
+  padding: 40px 0; /* Aumentado de 20px */
+}
+
+/* Mejora del espaciado en la tienda */
+.productos-container {
+  gap: 40px; /* Aumentado de 30px */
+  padding: 20px;
+}
+
+.producto {
+  padding: 35px; /* Aumentado de 25px */
+  margin-bottom: 20px;
+}
+
+/* Mejora del espaciado en el formulario de contacto */
+.contacto {
+  padding: 80px 40px; /* Aumentado de 50px 20px */
+}
+
+.contacto form {
+  gap: 30px; /* Aumentado de 20px */
+  max-width: 700px; /* Aumentado de 600px */
+  padding: 20px;
+}
+
+.contacto input,
+.contacto textarea,
+.contacto select {
+  padding: 15px; /* Aumentado de 12px */
+  margin-top: 8px;
+}
+
+/* Mejora del espaciado en el footer */
+footer {
+  padding: 50px 20px; /* Aumentado de 30px 20px */
+  margin-top: 60px; /* Aumentado de 40px */
+}
+
+/* Variables de diseño unificadas */
+:root {
+  /* ... existing variables ... */
+  --border-radius-sm: 8px;
+  --border-radius-md: 15px;
+  --border-radius-lg: 30px;
+  --box-shadow-sm: 0 2px 5px rgba(0,0,0,0.05);
+  --box-shadow-md: 0 4px 10px rgba(0,0,0,0.1);
+  --box-shadow-lg: 0 4px 15px rgba(0,0,0,0.15);
+  --transition-standard: all 0.3s ease;
+  --section-padding: 80px 40px;
+  --container-width: 1200px;
+}
+
+/* Estilos unificados para botones */
+.btn {
+  padding: 0.8rem 2rem;
+  border-radius: var(--border-radius-lg);
+  font-weight: 600;
+  text-decoration: none;
+  transition: var(--transition-standard);
+  display: inline-block;
   text-align: center;
-  color: var(--text-light);
-  max-width: 600px;
-  margin: 0 auto 4rem;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-primary {
+  background: var(--primary-color);
+  color: white;
+}
+
+.btn-secondary {
+  background: transparent;
+  border: 2px solid var(--primary-color);
+  color: var(--primary-color);
+}
+
+/* Estilos unificados para tarjetas/cajas */
+.card {
+  background-color: #fff;
+  border-radius: var(--border-radius-md);
+  box-shadow: var(--box-shadow-md);
+  padding: 2rem;
+  transition: var(--transition-standard);
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--box-shadow-lg);
+}
+
+/* Actualización de componentes existentes */
+.services-list li,
+.project-item,
+.producto,
+.contacto,
+.intro {
+  @extend .card;
+}
+
+.primary-btn,
+.secondary-btn,
+.cta-button,
+.contacto .btn,
+.intro .btn {
+  @extend .btn;
+}
+
+/* Contenedores de sección unificados */
+.section-container {
+  max-width: var(--container-width);
+  margin: 0 auto;
+  padding: var(--section-padding);
+}
+
+.intro,
+.servicios,
+.portafolio,
+.tienda,
+.contacto {
+  @extend .section-container;
+}
+
+/* Estilos unificados para imágenes */
+.img-wrapper {
+  border-radius: var(--border-radius-sm);
+  overflow: hidden;
+  box-shadow: var(--box-shadow-sm);
+}
+
+.project-item img,
+.producto-imagen,
+.logo {
+  @extend .img-wrapper;
+}
+
+/* Estilos unificados para formularios */
+.form-control {
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: var(--border-radius-sm);
+  width: 100%;
+  transition: var(--transition-standard);
+}
+
+.form-control:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px rgba(30, 144, 255, 0.1);
+  outline: none;
+}
+
+.contacto input,
+.contacto textarea,
+.contacto select {
+  @extend .form-control;
+}
+
+/* Estilos del menú móvil */
+@media (max-width: 768px) {
+  .navbar {
+    background: white;
+    padding: 1rem;
+  }
+
+  .menu-toggle {
+    display: block;
+    width: 30px;
+    height: 30px;
+    padding: 0;
+    background: none;
+    border: none;
+    cursor: pointer;
+    z-index: 1001;
+  }
+
+  .menu-toggle span {
+    display: block;
+    width: 25px;
+    height: 2px;
+    background-color: var(--primary-color);
+    margin: 6px auto;
+    transition: all 0.3s ease;
+  }
+
+  .nav-links {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 80%;
+    height: 100vh;
+    background: white;
+    padding: 80px 20px 20px;
+    transition: all 0.3s ease;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: -2px 0 10px rgba(0,0,0,0.1);
+  }
+
+  .nav-links.active {
+    right: 0;
+  }
+
+  body.menu-open {
+    overflow: hidden;
+  }
+
+  .menu-toggle.active span:first-child {
+    transform: rotate(45deg) translate(6px, 6px);
+  }
+
+  .menu-toggle.active span:nth-child(2) {
+    opacity: 0;
+  }
+
+  .menu-toggle.active span:last-child {
+    transform: rotate(-45deg) translate(6px, -6px);
+  }
 }

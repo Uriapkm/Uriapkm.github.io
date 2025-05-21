@@ -10,74 +10,87 @@
   </head>
 <body>
   <nav class="navbar">
-    <div class="nav-container">
-      <a href="#inicio" class="nav-logo">
-        <img src="logo.png" alt="Parke Print & Design" />
-      </a>
-      <div class="nav-links">
-        <a href="#inicio">Inicio</a>
-        <a href="#servicios-empresas">Empresas</a>
-        <a href="#servicios-particulares">Particulares</a>
-        <a href="#galeria">Galería</a>
-        <a href="#tienda">Tienda</a>
-        <a href="#contacto" class="cta-button">Contacto</a>
-      </div>
+  <div class="nav-container">
+    <a href="#inicio" class="nav-logo">
+      <img src="logo.png" alt="Parke Print & Design" />
+    </a>
+    
+    <button class="menu-toggle" id="menuToggle" aria-label="Menú">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+    
+    <div class="nav-links" id="navLinks">
+      <a href="#inicio">Inicio</a>
+      <a href="#servicios-empresas">Empresas</a>
+      <a href="#servicios-particulares">Particular</a>
+      <a href="#galeria">Galería</a>
+      <a href="#tienda">Tienda</a>
+      <a href="#contacto" class="cta-button">Contactar</a>
     </div>
-  </nav>
+  </div>
+</nav>
 
   <header class="hero">
     <div class="hero-content">
-      <h1>Soluciones de Impresión 3D<br>Para Tu Empresa</h1>
-      <p>Diseño profesional y prototipado rápido en el Parque Tecnológico de Álava</p>
-      <div class="hero-buttons">
-        <a href="#servicios-empresas" class="primary-btn">Servicios Empresariales</a>
-        <a href="#contacto" class="secondary-btn">Solicitar Presupuesto</a>
-      </div>
+        <div class="hero-headline">
+            <h1>Diseño e Impresión 3D<br>
+                <span class="highlight">En 24h · Parque Tecnológico Álava</span>
+            </h1>
+            <p class="hero-tagline">Prototipos · Piezas técnicas · Diseños personalizados</p>
+        </div>
+        <div class="hero-buttons">
+            <a href="#servicios-empresas" class="primary-btn">Ver Servicios</a>
+            <a href="#contacto" class="secondary-btn">Contactar</a>
+        </div>
     </div>
   </header>
-
-  <main>
+<main>
     <section id="inicio" class="intro">
       <h2>Un servicio local, directo y cercano para el Parque Tecnológico de Álava</h2>
       <p>Como diseñador y técnico de impresión 3D local, ofrezco un apoyo directo y exclusivo a las empresas y particulares del Parque Tecnológico de Álava. Trabajo de cerca contigo para entender tus necesidades y ofrecer soluciones ágiles y profesionales.</p>
       <p>Si tu empresa está ubicada en el Parque, puedo ayudarte con la validación de prototipos, el diseño de piezas técnicas o la producción de pequeñas series sin las complicaciones de tratar con grandes empresas o intermediarios. Si eres un particular con una idea, ¡también puedo ayudarte a hacerla realidad!</p>
-      <a href="#servicios-empresas" class="btn">Descubre nuestros servicios para empresas</a>
-      <a href="#servicios-particulares" class="btn">Descubre nuestros servicios para particulares</a>
+      <div class="intro-buttons">
+        <a href="#servicios-empresas" class="btn">Servicios Empresas</a>
+        <a href="#servicios-particulares" class="btn">Servicios Particulares</a>
+      </div>
     </section>
 
     <section id="servicios-empresas" class="servicios">
-      <h2>Servicios para Empresas</h2>
-      <p style="text-align: center; margin-bottom: 20px;">Optimizamos tus procesos y materializamos tus proyectos con soluciones 3D a medida.</p>
+      <h2>Empresas</h2>
       <ul class="services-list">
         <li>
-          <h3>Prototipado Rápido “In-Situ”</h3>
-          <p>Visita presencial para mediciones, diseño CAD y entrega de prototipo en menos de 24 h.</p>
+            <h3>Prototipado Rápido</h3>
+            <p>De tu idea a pieza física en 24h</p>
         </li>
         <li>
-          <h3>Diseño 3D Profesional y Diseño de Utillaje</h3>
-          <p>Modelado CAD desde cero, optimización para impresión y corrección de archivos STL.</p>
+            <h3>Diseño 3D</h3>
+            <p>Modelado CAD y optimización para impresión</p>
         </li>
         <li>
-          <h3>Impresión 3D Bajo Demanda</h3>
-          <p>Tecnología FDM para prototipos funcionales y SLA para detalles finos, con múltiples materiales.</p>
+            <h3>Producción</h3>
+            <p>Series cortas en FDM y SLA</p>
         </li>
       </ul>
-      <div style="text-align: center; margin-top: 30px;">
-        <a href="#contacto" class="btn">Solicita tu solución para Empresas</a>
-      </div>
     </section>
 
     <section id="servicios-particulares" class="servicios">
-      <h2>Servicios para Particulares: ¡Haz Realidad Tus Ideas!</h2>
-      <p style="text-align: center; margin-bottom: 20px;">Desde regalos únicos hasta soluciones prácticas para el hogar.</p>
+      <h2>Particulares</h2>
       <ul class="services-list">
-        <li><h3>Regalos Personalizados</h3><p>Llavero con tu inicial, posavasos personalizados, figuras divertidas… ¡tú imagina!</p></li>
-        <li><h3>Gadgets y Accesorios Útiles</h3><p>Soportes para móvil, organizadores de escritorio, tapas de latas, mini ganchos…</p></li>
-        <li><h3>Decoración y Arte Personalizado</h3><p>Pequeñas esculturas, adornos temáticos, topes originales para puertas…</p></li>
+        <li>
+            <h3>Regalos Únicos</h3>
+            <p>Diseños personalizados a tu gusto</p>
+        </li>
+        <li>
+            <h3>Piezas Prácticas</h3>
+            <p>Soluciones para el hogar y oficina</p>
+        </li>
+        <li>
+            <h3>Decoración</h3>
+            <p>Arte y adornos a medida</p>
+        </li>
       </ul>
-      <div style="text-align: center; margin-top: 30px;">
-        <a href="#contacto" class="btn">Pide tu creación personalizada</a>
-      </div>
     </section>
 
     <section id="galeria" class="portafolio">
