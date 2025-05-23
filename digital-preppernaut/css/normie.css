@@ -377,3 +377,24 @@ html.normie .mobile-menu-toggle {
         text-shadow: none !important;
     }
 }
+.tool-card 
+
+.tool-links {
+    margin-top: var(--space-md);
+    text-align: center;
+}
+
+.tool-card .button {
+    display: inline-block;
+    padding: var(--space-sm) var(--space-md);
+    background: var(--accent);
+    color: var(--bg-primary);
+    text-decoration: none;
+    border-radius: var(--border-radius-sm);
+    transition: all 0.2s ease;
+}
+
+.tool-card .button:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}

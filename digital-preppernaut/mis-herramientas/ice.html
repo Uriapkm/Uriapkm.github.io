@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Digital Preppernaut - Digital Preparedness</title>
+    <!-- Fix CSS paths by adding ../ to point to parent directory -->
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/prepper.css">
+    <link rel="stylesheet" href="../css/normie.css">
+    <!-- Fix JavaScript path -->
+    <script src="../js/theme-switcher.js"></script>
+</head>
+</head>
+<body>
+    <header class="main-header">
+        <nav class="nav-container">
+            <div class="logo">The Digital Preppernaut</div>
+            <button class="mobile-menu-toggle" aria-label="Toggle Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../blog/index.html">Blog</a></li>                <li><a href="../prepping-esencial/index.html">Digital Prepping</a></li>
+                <li><a href="../software-offline/index.html">Offline Software</a></li>
+                <li><a href="../ciberseguridad/index.html">Cybersecurity</a></li>
+                <li><a href="../open-source/index.html">Open Source</a></li>
+                <li><a href="index.html" class="active">My Tools</a></li>
+                <li><a href="../recursos/index.html">Resources</a></li>
+                <li><a href="../about-contact/index.html">About / Contact</a></li>
+            </ul>
+        </nav>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ICE Card Generator | The Digital Preppernaut</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/prepper.css">
+    <link rel="stylesheet" href="../css/normie.css">
+    <!-- QR Code Generator -->
+    <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
+    <!-- HTML to Image -->
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <style>
+        .ice-card {
+            --card-padding: 2rem;
+            --card-width: min(100%, 600px);
+            width: var(--card-width);
+            min-height: fit-content;
+            margin: 2rem auto;
+            background: var(--bg-primary);
+            border-radius: 16px;
+            box-shadow: 
+                0 4px 6px -1px rgba(0, 0, 0, 0.1),
+                0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-header {
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-soft) 100%);
+            padding: var(--card-padding);
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            color: white;
+        }
+
+        .photo-frame {
+            width: 120px;
+            height: 120px;
+            background: white;
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-radius: 12px;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .photo-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .header-info h1 {
+            font-size: 1.8rem;
+            margin: 0;
+            font-weight: 600;
+            line-height: 1.2;
+        }
+
+        .card-body {
+            padding: var(--card-padding);
+            display: grid;
+            gap: 2rem;
+        }
+
+        .info-section {
+            display: grid;
+            gap: 0.5rem;
+        }
+
+        .info-section-title {
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--accent);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .info-section-title::before {
+            content: '';
+            display: block;
+            width: 12px;
+            height: 2px;
+            background: var(--accent);
+        }
+
+        .info-content {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: var(--text-primary);
+            padding: 1rem;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            border-left: 3px solid var(--accent);
+        }
+
+        .card-footer {
+            padding: var(--card-padding);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border-color);
+        }
+
+        .qr-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .qr-code {
+            width: 120px;
+            height: 120px;
+            padding: 8px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .qr-code img {
+            width: 100%;
+            height: 100%;
+        }
+
+        .emergency-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 0.5rem 1rem;
+            border-radius: 999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--accent);
+            letter-spacing: 0.1em;
+            backdrop-filter: blur(4px);
+        }
+
+        @media (max-width: 768px) {
+            .ice-card {
+                --card-padding: 1.5rem;
+                margin: 1rem;
+            }
+
+            .card-header {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+            }
+
+            .photo-frame {
+                width: 100px;
+                height: 100px;
+            }
+
+            .header-info h1 {
+                font-size: 1.5rem;
+            }
+
+            .card-footer {
+                flex-direction: column;
+                gap: 1.5rem;
+                text-align: center;
+            }
+        }
+
+        @media print {
+            .ice-card {
+                box-shadow: none;
+                margin: 0;
+                border: 1px solid #eee;
+            }
+
+            .card-header {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+        }
+
+        /* Update the preview container */
+        #preview {
+            background: var(--bg-primary);
+            padding: 2rem;
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-lg);
+        }
+
+        /* Add some animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .ice-card {
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        /* Update mobile styles */
+        @media (max-width: 768px) {
+            .ice-card {
+                width: 100%;
+                padding: 1.5rem;
+            }
+
+            .photo-container {
+                width: 70px;
+                height: 70px;
+            }
+
+            .qr-code {
+                width: 90px;
+                height: 90px;
+                bottom: 1rem;
+                right: 1rem;
+            }
+
+            #infoDisplay {
+                margin-bottom: 110px;
+                font-size: 0.85rem;
+            }
+        }
+
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            .ice-card, .ice-card * {
+                visibility: visible;
+            }
+            .ice-card {
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%, -50%);
+                box-shadow: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="main-header">
+        <nav class="nav-container">
+            <!-- ...existing navigation... -->
+        </nav>
+    </header>
+
+    <div class="theme-switcher">
+        <button class="theme-btn" data-theme="prepper">🎖️ Prepper Mode</button>
+        <button class="theme-btn" data-theme="normie">🌟 Normal Mode</button>
+    </div>
+
+    <main class="main-content">
+        <div class="ice-generator">
+            <h1>ICE Card Generator</h1>
+            <p>Create an In Case of Emergency card that works completely offline. No data is ever stored or transmitted.</p>
+
+            <form id="iceForm">
+                <div class="form-group">
+                    <label for="fullName">Full Name*</label>
+                    <input type="text" id="fullName" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="medicalInfo">Medical Information*</label>
+                    <textarea id="medicalInfo" rows="4" required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="emergency">Emergency Contact*</label>
+                    <input type="text" id="emergency" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="photo">Photo (optional)</label>
+                    <input type="file" id="photo" accept="image/*">
+                </div>
+
+                <div id="customFields" class="custom-fields"></div>
+                
+                <button type="button" class="add-field-btn" onclick="addCustomField()">
+                    + Add Custom Field
+                </button>
+            </form>
+
+            <div id="preview" class="ice-card">
+                <div class="emergency-badge">ICE CARD</div>
+                
+                <div class="card-header">
+                    <div class="photo-frame">
+                        <img id="photoPreview" src="placeholder.png" alt="">
+                    </div>
+                    <div class="header-info">
+                        <h1 id="nameDisplay">Full Name</h1>
+                    </div>
+                </div>
+
+                <div class="card-body">
+                    <!-- Sections will be dynamically inserted here -->
+                </div>
+
+                <div class="card-footer">
+                    <div class="qr-section">
+                        <div class="qr-code" id="qrcode"></div>
+                        <small>Scan for digital version</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="download-buttons">
+                <button onclick="downloadFullCard()" class="download-btn">
+                    📄 Download Full Card
+                </button>
+                <button onclick="downloadQR()" class="download-btn">
+                    🔲 Download QR Code
+                </button>
+                <button onclick="print()" class="download-btn">
+                    🖨️ Print Card
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <footer class="main-footer">
+        <p>&copy; 2025 The Digital Preppernaut. All rights reserved.</p>
+    </footer>
+
+    <script src="../js/theme-switcher.js"></script>
+    <script>
+        // ICE Card Generator JavaScript
+        let customFieldCount = 0;
+
+        function addCustomField() {
+            customFieldCount++;
+            const fieldContainer = document.createElement('div');
+            fieldContainer.className = 'form-group';
+            fieldContainer.innerHTML = `
+                <label for="custom${customFieldCount}">Custom Field</label>
+                <input type="text" id="custom${customFieldCount}" placeholder="Label: Value">
+            `;
+            document.getElementById('customFields').appendChild(fieldContainer);
+        }
+
+        function updatePreview() {
+            const name = document.getElementById('fullName').value;
+            const medical = document.getElementById('medicalInfo').value;
+            const emergency = document.getElementById('emergency').value;
+
+            // Update name in header
+            document.getElementById('nameDisplay').textContent = name || 'Full Name';
+
+            // Create sections container
+            const sectionsContainer = document.createElement('div');
+            sectionsContainer.className = 'card-body';
+
+            // Medical Info Section
+            if (medical) {
+                const medicalSection = createSection('Medical Information', medical);
+                sectionsContainer.appendChild(medicalSection);
+            }
+
+            // Emergency Contact Section
+            if (emergency) {
+                const emergencySection = createSection('Emergency Contact', emergency);
+                sectionsContainer.appendChild(emergencySection);
+            }
+
+            // Add custom fields
+            const customFields = document.querySelectorAll('#customFields input');
+            customFields.forEach(field => {
+                if (field.value) {
+                    const [label, value] = field.value.split(':');
+                    if (value) {
+                        const section = createSection(label.trim(), value.trim());
+                        sectionsContainer.appendChild(section);
+                    }
+                }
+            });
+
+            // Replace existing sections
+            const existingBody = document.querySelector('.card-body');
+            if (existingBody) {
+                existingBody.replaceWith(sectionsContainer);
+            } else {
+                document.querySelector('.ice-card').appendChild(sectionsContainer);
+            }
+
+            // Generate QR Code
+            generateQRCode(name, medical, emergency, customFields);
+        }
+
+        function createSection(title, content) {
+            const section = document.createElement('div');
+            section.className = 'info-section';
+            section.innerHTML = `
+                <div class="info-section-title">${title}</div>
+                <div class="info-content">${content}</div>
+            `;
+            return section;
+        }
+
+        function generateQRCode(name, medical, emergency, customFields) {
+            let qrText = `ICE CARD - ${name}\n\n`;
+            qrText += `Medical Info:\n${medical}\n\n`;
+            qrText += `Emergency Contact:\n${emergency}`;
+            
+            customFields.forEach(field => {
+                if (field.value) qrText += `\n\n${field.value}`;
+            });
+
+            const qrContainer = document.getElementById('qrcode');
+            qrContainer.innerHTML = '';
+            
+            const qr = qrcode(0, 'M');
+            qr.addData(qrText);
+            qr.make();
+            
+            const qrImage = document.createElement('img');
+            qrImage.src = qr.createDataURL();
+            qrContainer.appendChild(qrImage);
+        }
+
+        // Photo handling
+        document.getElementById('photo').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('photoPreview').src = e.target.result;
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Auto-update preview when form changes
+        document.getElementById('iceForm').addEventListener('input', updatePreview);
+
+        // Download as PNG
+        function downloadPNG() {
+            html2canvas(document.getElementById('preview')).then(canvas => {
+                const link = document.createElement('a');
+                link.download = 'ICE-Card.png';
+                link.href = canvas.toDataURL();
+                link.click();
+            });
+        }
+
+        function downloadFullCard() {
+            html2canvas(document.querySelector('.ice-card')).then(canvas => {
+                const link = document.createElement('a');
+                link.download = 'ICE-Card.png';
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+            });
+        }
+
+        function downloadQR() {
+            html2canvas(document.querySelector('.qr-code')).then(canvas => {
+                const link = document.createElement('a');
+                link.download = 'ICE-QR.png';
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+            });
+        }
+
+        // Initialize
+        updatePreview();
+    </script>
+    <!-- Add this script before the closing </body> tag -->
+    <script>
+    // Mobile menu functionality
+    document.addEventListener('DOMContentLoaded', () => {
+        const menuToggle = document.querySelector('.mobile-menu-toggle');
+        const navLinks = document.querySelector('.nav-links');
+
+        menuToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            menuToggle.classList.toggle('open');
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!menuToggle.contains(e.target) && !navLinks.contains(e.target)) {
+                navLinks.classList.remove('active');
+                menuToggle.classList.remove('open');
+            }
+        });
+    });
+    </script>
+</body>
+</html>
