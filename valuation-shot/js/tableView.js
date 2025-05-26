@@ -25,12 +25,7 @@ export function renderTable(metrics) {
   body.appendChild(tr);
 
   if (dataTable) dataTable.destroy();
-  dataTable = new DataTable('#metricsTable', {
-    paging: false,
-    info: false,
-    searching: false,
-    scrollX: true,
-  });
+  dataTable = $('#metricsTable').DataTable({ paging:false, info:false, searching:false, scrollX:true });
 }
 
 export function colourRows(metrics, thresholds) {
