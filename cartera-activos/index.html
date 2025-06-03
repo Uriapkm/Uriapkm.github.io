@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Seguimiento Cartera</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <h1>Control de Cartera</h1>
+  </header>
+
+  <!-- ================== CONTROLES DE EXPORT / IMPORT ================== -->
+  <section id="controls">
+    <button id="export-portfolio-btn">Exportar Cartera</button>
+    <input type="file" id="import-portfolio-input" accept=".json">
+    <button id="export-history-btn">Exportar Historial</button>
+  </section>
+
+  <!-- ================== RESUMEN DE LA CARTERA ================== -->
+  <section id="summary">
+    <p>Inversión total: <span id="total-cost">0.00</span> €</p>
+    <p>Valor actual: <span id="total-current">0.00</span> €</p>
+    <p>Rentabilidad total: <span id="total-return">0.00</span> %</p>
+    <p>Última actualización: <span id="last-update">—</span></p>
+  </section>
+
+  <!-- ================== FORMULARIO Y TABLA DE CARTERA ================== -->
+  <section id="portfolio-section">
+    <!-- Formulario para añadir/actualizar una acción -->
+    <form id="add-stock-form">
+      <input type="text" id="ticker" placeholder="Ticker (ej: AAPL)" required>
+      <input type="number" id="quantity" placeholder="Cantidad" min="1" required>
+      <input type="number" id="purchase-price" placeholder="Precio Compra (€)" step="0.01" required>
+      <button type="submit">Añadir/Actualizar</button>
+    </form>
+
+    <!-- Tabla donde se muestran los activos -->
+    <table id="portfolio-table">
+      <thead>
+        <tr>
+          <th>Ticker</th>
+          <th>Cantidad</th>
+          <th>Precio Compra (€)</th>
+          <th>Precio Actual (€)</th>
+          <th>Valor Actual (€)</th>
+          <th>Rentabilidad (%)</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Filas inyectadas por JavaScript -->
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ================== HISTORIAL DE MOVIMIENTOS ================== -->
+  <section id="history-section">
+    <h2>Historial de Movimientos</h2>
+    <table id="history-table">
+      <thead>
+        <tr>
+          <th>Fecha</th>
+          <th>Ticker</th>
+          <th>Cantidad</th>
+          <th>Precio Compra (€)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Filas inyectadas por JavaScript -->
+      </tbody>
+    </table>
+  </section>
+
+  <script src="app.js"></script>
+</body>
+</html>
