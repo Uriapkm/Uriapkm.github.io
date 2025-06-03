@@ -4,6 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Seguimiento Cartera</title>
+  <!-- Meta SEO básicos -->
+  <meta name="description" content="Herramienta sencilla para controlar tu cartera de inversión y su rentabilidad en tiempo real">
+  <meta property="og:title" content="Control de Cartera">
+  <meta property="og:description" content="Sigue tus activos, actualiza precios y revisa tu historial de movimientos">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://uriapkm.github.io/cartera-activos/">
+  <!-- Estilos -->
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -13,9 +20,11 @@
 
   <!-- ================== CONTROLES DE EXPORT / IMPORT ================== -->
   <section id="controls">
-    <button id="export-portfolio-btn">Exportar Cartera</button>
-    <input type="file" id="import-portfolio-input" accept=".json">
-    <button id="export-history-btn">Exportar Historial</button>
+    <button id="export-portfolio-btn" aria-label="Exportar cartera">Exportar Cartera</button>
+    <label for="import-portfolio-input" class="sr-only">Importar Cartera JSON</label>
+    <input type="file" id="import-portfolio-input" accept=".json" aria-label="Importar cartera">
+    <button id="export-history-btn" aria-label="Exportar historial de movimientos">Exportar Historial</button>
+    <button id="refresh-prices-btn" aria-label="Refrescar precios manualmente">Refrescar Precios</button>
   </section>
 
   <!-- ================== RESUMEN DE LA CARTERA ================== -->
@@ -24,53 +33,61 @@
     <p>Valor actual: <span id="total-current">0.00</span> €</p>
     <p>Rentabilidad total: <span id="total-return">0.00</span> %</p>
     <p>Última actualización: <span id="last-update">—</span></p>
+    <p class="note">Precios actualizados cada 15 minutos. Puedes refrescar manualmente.</p>
   </section>
 
   <!-- ================== FORMULARIO Y TABLA DE CARTERA ================== -->
   <section id="portfolio-section">
     <!-- Formulario para añadir/actualizar una acción -->
-    <form id="add-stock-form">
-      <input type="text" id="ticker" placeholder="Ticker (ej: AAPL)" required>
-      <input type="number" id="quantity" placeholder="Cantidad" min="1" required>
-      <input type="number" id="purchase-price" placeholder="Precio Compra (€)" step="0.01" required>
-      <button type="submit">Añadir/Actualizar</button>
+    <form id="add-stock-form" aria-label="Formulario para agregar o actualizar un activo">
+      <label for="ticker" class="sr-only">Ticker</label>
+      <input type="text" id="ticker" placeholder="Ticker (ej: AAPL)" required aria-required="true">
+      <label for="quantity" class="sr-only">Cantidad</label>
+      <input type="number" id="quantity" placeholder="Cantidad" min="1" required aria-required="true">
+      <label for="purchase-price" class="sr-only">Precio Compra</label>
+      <input type="number" id="purchase-price" placeholder="Precio Compra (€)" step="0.01" required aria-required="true">
+      <button type="submit" aria-label="Añadir o actualizar activo">Añadir/Actualizar</button>
     </form>
 
-    <!-- Tabla donde se muestran los activos -->
-    <table id="portfolio-table">
-      <thead>
-        <tr>
-          <th>Ticker</th>
-          <th>Cantidad</th>
-          <th>Precio Compra (€)</th>
-          <th>Precio Actual (€)</th>
-          <th>Valor Actual (€)</th>
-          <th>Rentabilidad (%)</th>
-          <th>Acciones</th>
-        </tr>
-      </thead>
-      <tbody>
-        <!-- Filas inyectadas por JavaScript -->
-      </tbody>
-    </table>
+    <!-- Contenedor para tabla responsiva -->
+    <div class="table-wrapper">
+      <table id="portfolio-table">
+        <thead>
+          <tr>
+            <th>Ticker</th>
+            <th>Cantidad</th>
+            <th>Precio Compra (€)</th>
+            <th>Precio Actual (€)</th>
+            <th>Valor Actual (€)</th>
+            <th>Rentabilidad (%)</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Filas inyectadas por JavaScript -->
+        </tbody>
+      </table>
+    </div>
   </section>
 
   <!-- ================== HISTORIAL DE MOVIMIENTOS ================== -->
   <section id="history-section">
     <h2>Historial de Movimientos</h2>
-    <table id="history-table">
-      <thead>
-        <tr>
-          <th>Fecha</th>
-          <th>Ticker</th>
-          <th>Cantidad</th>
-          <th>Precio Compra (€)</th>
-        </tr>
-      </thead>
-      <tbody>
-        <!-- Filas inyectadas por JavaScript -->
-      </tbody>
-    </table>
+    <div class="table-wrapper">
+      <table id="history-table">
+        <thead>
+          <tr>
+            <th>Fecha</th>
+            <th>Ticker</th>
+            <th>Cantidad</th>
+            <th>Precio Compra (€)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Filas inyectadas por JavaScript -->
+        </tbody>
+      </table>
+    </div>
   </section>
 
   <script src="app.js"></script>

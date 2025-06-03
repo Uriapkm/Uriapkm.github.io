@@ -1,7 +1,4 @@
-// app.js
-
 // ------ CONSTANTES Y REFERENCIAS A ELEMENTOS ------
-
 const portfolioKey = 'userPortfolio';
 const historyKey   = 'userHistory';
 
@@ -13,6 +10,7 @@ const addStockForm      = document.getElementById('add-stock-form');
 const exportBtn         = document.getElementById('export-portfolio-btn');
 const importInput       = document.getElementById('import-portfolio-input');
 const exportHistoryBtn  = document.getElementById('export-history-btn');
+const refreshBtn        = document.getElementById('refresh-prices-btn');
 
 const totalCostElem     = document.getElementById('total-cost');
 const totalCurrentElem  = document.getElementById('total-current');
@@ -21,8 +19,9 @@ const lastUpdateElem    = document.getElementById('last-update');
 
 const historyTableBody  = document.querySelector('#history-table tbody');
 
-// ------ FUNCIONES DE LOCALSTORAGE ------
+let isLoading = false;
 
+// ------ FUNCIONES DE LOCALSTORAGE ------
 function loadPortfolio() {
   const data = localStorage.getItem(portfolioKey);
   return data ? JSON.parse(data) : [];
@@ -42,9 +41,12 @@ function saveHistory(history) {
 }
 
 // ------ EXPORTAR / IMPORTAR CARTERA ------
-
 function exportPortfolio() {
   const portfolio = loadPortfolio();
+  if (portfolio.length === 0) {
+    alert('No hay activos para exportar.');
+    return;
+  }
   const jsonStr = JSON.stringify(portfolio, null, 2);
   const blob = new Blob([jsonStr], { type: 'application/json' });
   const url = URL.createObjectURL(blob);
@@ -55,6 +57,7 @@ function exportPortfolio() {
   a.click();
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
+  alert('Cartera exportada correctamente.');
 }
 
 function importPortfolio(event) {
@@ -88,9 +91,12 @@ function importPortfolio(event) {
 }
 
 // ------ EXPORTAR HISTORIAL ------
-
 function exportHistory() {
   const history = loadHistory();
+  if (history.length === 0) {
+    alert('No hay historial para exportar.');
+    return;
+  }
   const jsonStr = JSON.stringify(history, null, 2);
   const blob = new Blob([jsonStr], { type: 'application/json' });
   const url = URL.createObjectURL(blob);
@@ -101,10 +107,10 @@ function exportHistory() {
   a.click();
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
+  alert('Historial exportado correctamente.');
 }
 
 // ------ CONSULTA DE PRECIO ACTUAL CON FINNHUB ------
-
 async function fetchCurrentPrice(ticker) {
   try {
     const response = await fetch(`${API_URL}?symbol=${ticker}&token=${API_KEY}`);
@@ -119,8 +125,19 @@ async function fetchCurrentPrice(ticker) {
   }
 }
 
-// ------ RENDERIZADO DE FILAS DE CARTERA ------
+// ------ MANEJO DE SPINNER EN BOTÓN DE REFRESCAR ------
+function setLoading(state) {
+  isLoading = state;
+  if (state) {
+    refreshBtn.textContent = 'Refrescando...';
+    refreshBtn.disabled = true;
+  } else {
+    refreshBtn.textContent = 'Refrescar Precios';
+    refreshBtn.disabled = false;
+  }
+}
 
+// ------ RENDERIZADO DE FILAS DE CARTERA ------
 /**
  * @param {Object} holding  — { ticker, quantity, purchasePrice }
  * @param {number} index    — índice en el array
@@ -134,20 +151,18 @@ async function createRow(holding, index) {
     <td>${ticker}</td>
     <td>${quantity}</td>
     <td>${purchasePrice.toFixed(2)}</td>
-    <td class="current-price">—</td>
+    <td class="current-price" aria-live="polite">—</td>
     <td class="current-value">—</td>
     <td class="return">—</td>
-    <td><button class="delete-btn">Eliminar</button></td>
+    <td><button class="delete-btn" aria-label="Eliminar ${ticker}">Eliminar</button></td>
   `;
 
-  // Botón de eliminar fila
   tr.querySelector('.delete-btn').addEventListener('click', () => {
     deleteHolding(index);
   });
 
   tableBody.appendChild(tr);
 
-  // Obtener precio actual
   const currentPrice = await fetchCurrentPrice(ticker);
   const totalCost = purchasePrice * quantity;
   let totalValue = 0;
@@ -169,8 +184,9 @@ async function createRow(holding, index) {
 }
 
 // ------ RENDERIZADO COMPLETO DE LA CARTERA Y RESUMEN ------
-
 async function renderPortfolio() {
+  if (isLoading) return;
+  setLoading(true);
   tableBody.innerHTML = '';
   const portfolio = loadPortfolio();
 
@@ -183,23 +199,21 @@ async function renderPortfolio() {
     sumCurrent += totalValue;
   }
 
-  // Calcular rentabilidad total
   let totalReturnPct = 0;
   if (sumCost > 0) {
     totalReturnPct = ((sumCurrent - sumCost) / sumCost) * 100;
   }
 
-  // Actualizar sección de resumen
   totalCostElem.textContent = sumCost.toFixed(2);
   totalCurrentElem.textContent = sumCurrent.toFixed(2);
   totalReturnElem.textContent = totalReturnPct.toFixed(2);
 
   const now = new Date();
   lastUpdateElem.textContent = now.toLocaleString('es-ES');
+  setLoading(false);
 }
 
 // ------ ELIMINAR UN HOLDING ------
-
 function deleteHolding(index) {
   const portfolio = loadPortfolio();
   portfolio.splice(index, 1);
@@ -208,12 +222,10 @@ function deleteHolding(index) {
 }
 
 // ------ RENDERIZADO DEL HISTORIAL ------
-
 function renderHistory() {
   historyTableBody.innerHTML = '';
   const history = loadHistory();
 
-  // Mostrar en orden cronológico inverso (últimos primero)
   const sorted = history.slice().sort((a, b) => {
     return new Date(b.date) - new Date(a.date);
   });
@@ -232,7 +244,6 @@ function renderHistory() {
 }
 
 // ------ AÑADIR / ACTUALIZAR HOLDING Y GUARDAR EN HISTORIAL ------
-
 addStockForm.addEventListener('submit', async (e) => {
   e.preventDefault();
 
@@ -240,8 +251,16 @@ addStockForm.addEventListener('submit', async (e) => {
   const quantityInput     = parseInt(document.getElementById('quantity').value);
   const purchasePriceInput= parseFloat(document.getElementById('purchase-price').value);
 
-  if (!tickerInput || quantityInput <= 0 || purchasePriceInput <= 0) {
-    alert('Revisa los campos: todos son obligatorios y positivos.');
+  if (!tickerInput) {
+    alert('Debes ingresar un ticker válido.');
+    return;
+  }
+  if (isNaN(quantityInput) || quantityInput <= 0) {
+    alert('La cantidad debe ser un número entero mayor que 0.');
+    return;
+  }
+  if (isNaN(purchasePriceInput) || purchasePriceInput <= 0) {
+    alert('El precio de compra debe ser un número mayor que 0.');
     return;
   }
 
@@ -252,7 +271,6 @@ addStockForm.addEventListener('submit', async (e) => {
   let addedPrice    = purchasePriceInput;
 
   if (existingIndex !== -1) {
-    // Ya existe: recalcular cantidad total y precio medio
     const existing = portfolio[existingIndex];
     const totalShares = existing.quantity + quantityInput;
     const totalCost   = (existing.quantity * existing.purchasePrice) + (quantityInput * purchasePriceInput);
@@ -264,7 +282,6 @@ addStockForm.addEventListener('submit', async (e) => {
       purchasePrice: newAvgPrice
     };
   } else {
-    // No existe: agregar nuevo
     portfolio.push({
       ticker: tickerInput,
       quantity: quantityInput,
@@ -274,7 +291,6 @@ addStockForm.addEventListener('submit', async (e) => {
 
   savePortfolio(portfolio);
 
-  // Añadir entrada al historial
   const history = loadHistory();
   history.push({
     date: new Date().toISOString(),
@@ -284,20 +300,23 @@ addStockForm.addEventListener('submit', async (e) => {
   });
   saveHistory(history);
 
-  // Limpiar formulario y refrescar interfaz
   addStockForm.reset();
   await renderPortfolio();
   renderHistory();
 });
 
-// ------ EVENTOS PARA EXPORTAR / IMPORTAR / HISTORIAL ------
-
+// ------ EVENTOS PARA EXPORTAR / IMPORTAR / HISTORIAL / REFRESH ------
 exportBtn.addEventListener('click', exportPortfolio);
 importInput.addEventListener('change', importPortfolio);
 exportHistoryBtn.addEventListener('click', exportHistory);
+refreshBtn.addEventListener('click', renderPortfolio);
+
+// ------ ACTUALIZACIÓN AUTOMÁTICA CADA 15 MINUTOS ------
+setInterval(() => {
+  renderPortfolio();
+}, 15 * 60 * 1000);
 
 // ------ AL CARGAR LA PÁGINA ------
-
 window.addEventListener('load', () => {
   renderPortfolio();
   renderHistory();
