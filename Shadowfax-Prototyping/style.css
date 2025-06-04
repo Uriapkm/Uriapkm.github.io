@@ -12,6 +12,28 @@ body {
   padding: 3rem 1rem;
 }
 
+.logo {
+  width: 60px;
+  height: auto;
+}
+
+.main-nav {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+.main-nav a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.main-nav a:hover {
+  text-decoration: underline;
+}
+
 .tagline {
   font-size: 1.2rem;
   margin-bottom: 1rem;
@@ -50,9 +72,19 @@ h2 {
   gap: 1rem;
 }
 
+.gallery-grid figure {
+  margin: 0;
+}
+
 .gallery-grid img {
   width: 100%;
   border-radius: 8px;
+}
+
+.gallery-grid figcaption {
+  text-align: center;
+  font-size: 0.9rem;
+  margin-top: 0.25rem;
 }
 
 footer {
@@ -65,4 +97,34 @@ footer {
 blockquote {
   font-style: italic;
   color: #555;
+}
+
+.cta-button {
+  display: inline-block;
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  background-color: #203a43;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 4px;
+}
+
+.cta-button:hover {
+  background-color: #2c5364;
+}
+
+.industries ul {
+  list-style: disc;
+  margin-left: 1.5rem;
+}
+
+.testimonial {
+  background-color: #e1ecf1;
+  padding: 1rem;
+  border-left: 4px solid #203a43;
+  margin: 1rem 0;
+}
+
+.viewer iframe {
+  border: none;
 }
