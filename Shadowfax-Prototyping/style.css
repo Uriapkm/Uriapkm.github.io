@@ -1,42 +1,68 @@
 body {
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Roboto', sans-serif;
   margin: 0;
-  padding: 0;
-  background: #f4f4f4;
-  color: #333;
+  background: #f3f8fc;
+  color: #222;
 }
+
 .hero {
-  background: linear-gradient(135deg, #333, #555);
-  color: white;
+  background: linear-gradient(120deg, #2c5364, #203a43, #0f2027);
+  color: #fff;
   text-align: center;
-  padding: 4rem 1rem;
+  padding: 3rem 1rem;
 }
+
 .tagline {
-  font-style: italic;
+  font-size: 1.2rem;
   margin-bottom: 1rem;
+  font-weight: 400;
 }
+
 main {
-  padding: 2rem;
-  max-width: 800px;
+  max-width: 900px;
   margin: 0 auto;
-}
-section {
-  margin-bottom: 3rem;
-}
-.services ul {
-  list-style: disc;
-  padding-left: 1.5rem;
-}
-.placeholder {
-  background: #ddd;
   padding: 2rem;
-  text-align: center;
-  border-radius: 8px;
-  color: #555;
 }
+
+h2 {
+  color: #203a43;
+  margin-top: 0;
+}
+
+.services ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.services li {
+  background: #e1ecf1;
+  border-radius: 6px;
+  padding: 0.5rem 1rem;
+  flex: 1 1 200px;
+}
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.gallery-grid img {
+  width: 100%;
+  border-radius: 8px;
+}
+
 footer {
-  background: #333;
-  color: white;
+  background: #203a43;
+  color: #fff;
   text-align: center;
   padding: 1rem;
+}
+
+blockquote {
+  font-style: italic;
+  color: #555;
 }
