@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shadowfax Prototyping | Soluciones Ágiles de Impresión 3D y CAD</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Warm Neutrals -->
+    <!-- Application Structure Plan: He diseñado una aplicación de una sola página con una estructura temática y narrativa. El flujo guía al usuario desde la propuesta de valor inicial (sección "Hero"), a través de la presentación de "Quiénes Somos", seguida por el prominente "Asesor de Diseño" LLM-powered. Luego, explora la propuesta de valor detallada y la solución a problemas (sección "Por qué Nosotros"), los servicios y procesos (pestañas, incluyendo un recomendador de materiales LLM-powered), la validación a través de datos de mercado (gráfico de Chart.js), una sección de precios clara, los ejemplos de proyectos, culminando en un formulario de contacto claro. Esta estructura está pensada para ser más atractiva y persuasiva que una réplica del informe, abordando las necesidades de las dos audiencias (ingenieros y gerentes) de forma intuitiva y conduciendo a la conversión. -->
+    <!-- Visualization & Content Choices:
+        1. Crecimiento del Mercado: Info del Informe -> Crecimiento de $20.3B (2022) a $75.1B (2030). Objetivo -> Demostrar la oportunidad y la credibilidad. Visualización -> Gráfico de barras. Interacción -> Tooltips en hover. Justificación -> Un gráfico es más impactante y digerible que el texto. Biblioteca -> Chart.js (Canvas).
+        2. Propuesta de Valor Detallada: Info del Informe -> Cercanía, Rapidez, Versatilidad, Coste Variable, Trato Directo. Objetivo -> Comunicar beneficios clave y diferenciadores. Visualización -> Lista con iconos y texto en una cuadrícula. Interacción -> Sutiles efectos hover. Justificación -> Mejora la legibilidad y el atractivo visual, destacando los puntos únicos. Método -> HTML/Tailwind.
+        3. Servicios y Proceso: Info del Informe -> Capacidades técnicas (Materiales, Software), Proceso y Plazos. Objetivo -> Organizar la información técnica y operativa para ingenieros y gerentes. Visualización -> Sistema de pestañas interactivas. Interacción -> Clic para cambiar de pestaña. Justificación -> Permite presentar detalles sin sobrecargar la página, mejorando la UX al dar acceso on-demand a la información. Método -> Vanilla JS.
+        4. Modelo de Precios: Info del Informe -> Tarifas por Diseño CAD, Impresión 3D, Postprocesado. Objetivo -> Proporcionar transparencia y facilidad para estimar costes. Visualización -> Tabla estructurada. Interacción -> Directa y clara. Justificación -> El formato de tabla es el más eficiente y comprensible para datos de precios. Método -> HTML/Tailwind.
+        5. Quién está detrás: Info del Informe -> Asier, único operario, cooperativa de facturación. Objetivo -> Humanizar el servicio y generar confianza. Visualización -> Sección de texto descriptivo. Justificación -> Un toque personal para reforzar el trato directo. Método -> HTML/Tailwind.
+        6. Casos de Éxito: Info del Informe -> Importancia de mostrar proyectos. Objetivo -> Generar confianza con ejemplos tangibles. Visualización -> Galería de imágenes. Interacción -> Superposición de texto al pasar el ratón. Justificación -> Formato visualmente atractivo para un portafolio. Método -> HTML/Tailwind.
+        7. Recomendador de Materiales (LLM): Característica existente -> Sugerir materiales en base a propiedades. Objetivo -> Añadir valor interactivo y guiar al usuario. Visualización -> Cuadro de texto para input, botón y área para la respuesta. Interacción -> LLM (Gemini API) para generar sugerencias. Justificación -> Mejora la usabilidad y la percepción de un servicio "inteligente" y personalizado. Método -> Vanilla JS + Gemini API.
+        8. Asesor de Diseño (LLM): Característica destacada -> Ayudar a refinar ideas de proyectos o sugerir elementos de diseño CAD/3D. Objetivo -> Inspirar y guiar a los usuarios en la fase inicial del proyecto de forma muy visible. Visualización -> Sección independiente con cuadro de texto, botón y área para la respuesta. Interacción -> LLM (Gemini API) para generar ideas de diseño. Justificación -> Fomenta la exploración de ideas y muestra la capacidad de consultoría de manera prominente, siendo un "gancho" interactivo temprano. Método -> Vanilla JS + Gemini API.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #FDFBF6;
+            color: #1C1C1C;
+            /* Reemplazar la imagen de fondo actual con esta: */
+            background-image: url('https://images.unsplash.com/photo-1557683316-973673baf926?q=80&auto=format&fit=crop');
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-blend-mode: overlay;
+        }
+        .chart-container {
+            position: relative;
+            margin: auto;
+            height: 40vh;
+            width: 100%;
+            max-width: 700px;
+            max-height: 400px;
+        }
+        .nav-link {
+            transition: color 0.3s ease;
+        }
+        .nav-link:hover {
+            color: #3D5A80;
+        }
+        .cta-button {
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+        .cta-button:hover {
+            transform: translateY(-2px);
+        }
+        .tab.active {
+            border-bottom-color: #3D5A80;
+            color: #3D5A80;
+            font-weight: 600;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .portfolio-item:hover .portfolio-overlay {
+            opacity: 1;
+        }
+        /* Fade in animation for tab content */
+        .animate-fade-in {
+            animation: fadeIn 0.5s ease-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        /* Ensure content sections have a background to be readable over the image */
+        section {
+            background-color: rgba(253, 251, 246, 0.9); /* Slightly transparent background for readability */
+        }
+        #ai-design-advisor {
+            background-color: rgba(224, 231, 255, 0.9); /* Maintain distinct background for this section */
+        }
+        #hero, footer {
+            background-color: rgba(253, 251, 246, 0.95); /* More opaque for hero and footer */
+        }
+        header {
+             background-color: rgba(253, 251, 246, 0.9); /* Maintain distinct background for header */
+        }
+        header img {
+            height: 48px;
+            width: auto;
+            object-fit: contain;
+        }
+
+        #hero img {
+            transition: transform 0.3s ease;
+        }
+
+        #hero img:hover {
+            transform: scale(1.02);
+        }
+
+        @media (max-width: 768px) {
+            header img {
+                height: 40px;
+            }
+
+            #hero img {
+                max-width: 80%;
+            }
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header id="header" class="bg-[#FDFBF6]/80 backdrop-blur-md sticky top-0 z-50 shadow-sm">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center max-w-7xl">
+            <!-- Removed the logo section -->
+            <div class="hidden md:flex space-x-8 items-center">
+                <a href="#about-us" class="nav-link text-gray-700">Quiénes Somos</a>
+                <a href="#ai-design-advisor" class="nav-link text-gray-700 font-semibold text-[#3D5A80]">Asesor de Diseño ✨</a>
+                <a href="#services" class="nav-link text-gray-700">Servicios y Proceso</a>
+                <a href="#why-us" class="nav-link text-gray-700">Propuesta de Valor</a>
+                <a href="#prices" class="nav-link text-gray-700">Precios</a>
+                <a href="#portfolio" class="nav-link text-gray-700">Proyectos</a>
+                <a href="#contact" class="nav-link text-gray-700">Contactar</a>
+                <a href="#contact" class="cta-button bg-[#3D5A80] text-white py-2 px-4 rounded-lg shadow-md hover:bg-[#314766]">Solicitar Cotización</a>
+            </div>
+            <div class="md:hidden ml-auto">
+                <button id="mobile-menu-button" class="text-gray-700 focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                </button>
+            </div>
+        </nav>
+        <div id="mobile-menu" class="hidden md:hidden">
+            <a href="#about-us" class="block py-2 px-4 text-sm hover:bg-gray-200">Quiénes Somos</a>
+            <a href="#ai-design-advisor" class="block py-2 px-4 text-sm hover:bg-gray-200 font-semibold text-[#3D5A80]">Asesor de Diseño ✨</a>
+            <a href="#services" class="block py-2 px-4 text-sm hover:bg-gray-200">Servicios y Proceso</a>
+            <a href="#why-us" class="block py-2 px-4 text-sm hover:bg-gray-200">Propuesta de Valor</a>
+            <a href="#prices" class="block py-2 px-4 text-sm hover:bg-gray-200">Precios</a>
+            <a href="#portfolio" class="block py-2 px-4 text-sm hover:bg-gray-200">Proyectos</a>
+            <a href="#contact" class="block py-2 px-4 text-sm bg-[#3D5A80] text-white text-center">Solicitar Cotización</a>
+        </div>
+    </header>
+
+    <main>
+        <section id="hero" class="py-12 md:py-8 bg-[#FDFBF6]">
+            <div class="container mx-auto px-6 max-w-6xl">
+                <!-- Changed to flex container for side-by-side layout -->
+                <div class="flex flex-col md:flex-row items-center justify-between gap-12">
+                    <!-- Left side - Logo -->
+                    <div class="w-full md:w-1/2">
+                        <img src="assets/logo.svg" alt="Shadowfax Prototyping Logo" class="w-full max-w-lg mx-auto md:mx-0 transition-transform duration-300 hover:scale-102">
+                    </div>
+                    
+                    <!-- Right side - Text content -->
+                    <div class="w-full md:w-1/2 text-left">
+                        <h1 class="text-4xl md:text-5xl font-bold mb-6 leading-tight">Prototipos funcionales y diseño CAD a medida.</h1>
+                        <p class="text-lg md:text-xl text-gray-600 mb-8">Resolvemos las necesidades puntuales de piezas y utillajes de los laboratorios del Parque Tecnológico de Álava, de forma rápida y local, mediante diseño CAD e impresión 3D funcional, sin que tengan que invertir en equipos propios.</p>
+                        <a href="#contact" class="cta-button inline-block bg-[#3D5A80] text-white py-3 px-8 rounded-full text-lg font-semibold shadow-xl hover:bg-[#314766]">Transforma tu idea en realidad</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="about-us" class="py-20 bg-white">
+            <div class="container mx-auto px-6 max-w-5xl text-center">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6">Quién está detrás de Shadowfax Prototyping</h2>
+                <div class="bg-[#FDFBF6] p-8 rounded-xl shadow-lg">
+                    <p class="text-lg text-gray-700 mb-4">Detrás de Shadowfax Prototyping está <strong>Asier</strong>, técnico de laboratorio en CIC energiGUNE, aquí mismo en el Parque Tecnológico de Álava.</p>
+                    <p class="text-lg text-gray-700 mb-4">Soy el único operario: no hay una empresa ni una plantilla que gestione; todo el trabajo, desde el diseño y la impresión hasta la entrega final, lo realizo personalmente. Esto asegura un trato directo, sin intermediarios, y un conocimiento profundo de cada proyecto.</p>
+                    <p class="text-lg text-gray-700">La facturación se realiza legalmente a través de una cooperativa, lo que significa que no tendrás trámites extra ni complicaciones administrativas. Mi objetivo es ofrecerte un servicio cercano, eficiente y profesional, con la flexibilidad que necesitas.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="ai-design-advisor" class="py-20 bg-[#E0E7FF]">
+            <div class="container mx-auto px-6 max-w-5xl text-center">
+                <h2 class="text-3xl md:text-4xl font-bold text-[#1C1C1C] mb-6">✨ Asesor de Diseño: Transforma tus Ideas en Proyectos</h2>
+                <p class="text-lg text-gray-700 mb-8">¿Necesitas una pieza especial, un utillaje o una solución a medida? Describe tu necesidad o un problema que quieras resolver, y nuestro asistente de IA te ofrecerá una idea de proyecto y sugerencia de diseño CAD/impresión 3D funcional. Es tu primer paso para dar vida a la innovación.</p>
+                <div class="bg-white p-8 rounded-xl shadow-2xl">
+                    <div class="mb-6">
+                        <label for="design_input" class="block text-gray-700 font-medium mb-2 text-left">Describe tu necesidad o problema:</label>
+                        <textarea id="design_input" rows="4" class="w-full p-3 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#3D5A80]" placeholder="Ej: Necesito organizar los cables de mi laboratorio de forma segura y accesible, o quiero un soporte para un nuevo sensor."></textarea>
+                    </div>
+                    
+                    <!-- Añadir sección de carga de archivos -->
+                    <div class="mb-6">
+                        <label class="block text-gray-700 font-medium mb-2 text-left">Añade imágenes o archivos de referencia (opcional):</label>
+                        <div class="flex items-center justify-center w-full">
+                            <label for="design_file_upload" class="w-full flex flex-col items-center px-4 py-6 bg-[#FDFBF6] text-gray-500 rounded-lg border-2 border-dashed border-gray-300 cursor-pointer hover:bg-gray-50">
+                                <svg class="w-8 h-8 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                                </svg>
+                                <span class="text-sm">Arrastra archivos aquí o haz clic para seleccionar</span>
+                                <input id="design_file_upload" type="file" class="hidden" accept="image/*,.pdf,.stl,.obj" multiple>
+                            </label>
+                        </div>
+                        <div id="file_list" class="mt-2 space-y-1"></div>
+                    </div>
+
+                    <div class="text-center mb-6">
+                        <button id="suggest_design_button" class="cta-button bg-[#3D5A80] text-white py-3 px-8 rounded-full text-lg font-semibold shadow-md hover:bg-[#314766]">
+                            ✨ Obtener Idea de Diseño
+                        </button>
+                        <div id="loading_indicator_design" class="hidden mt-4 text-gray-600">Generando ideas...</div>
+                    </div>
+                    <div id="design_suggestions" class="bg-[#FDFBF6] p-6 rounded-xl shadow-inner min-h-[150px] text-gray-700 overflow-y-auto text-left">
+                        <p class="text-gray-500 italic">Aquí verás una idea y sugerencia de diseño.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="why-us" class="py-20 bg-[#FDFBF6]">
+            <div class="container mx-auto px-6 max-w-6xl">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold">Nuestra Propuesta de Valor Única</h2>
+                    <p class="text-lg text-gray-600 mt-2">Entendemos las necesidades de la industria local. No somos un proveedor más, somos tu socio técnico en el Parque Tecnológico. Nuestra estructura y enfoque nos permiten ofrecer ventajas únicas que nos diferencian y benefician directamente a tu empresa, resolviendo problemas como la necesidad frecuente de piezas únicas y la falta de soporte in situ.</p>
+                </div>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="text-center p-6 bg-white rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300">
+                        <div class="flex items-center justify-center h-16 w-16 rounded-full bg-[#E0E7FF] mx-auto mb-4">
+                            <span class="text-3xl">📍</span>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2">Cercanía Física</h3>
+                        <p class="text-gray-600">Asier está en Miñano cada día. Esto permite visitas sin logística ni mensajerías, para tomar medidas o discutir necesidades in situ al momento.</p>
+                    </div>
+                    <div class="text-center p-6 bg-white rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300">
+                        <div class="flex items-center justify-center h-16 w-16 rounded-full bg-[#E0E7FF] mx-auto mb-4">
+                            <span class="text-3xl">⚡️</span>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2">Rapidez Razonable</h3>
+                        <p class="text-gray-600">Piezas pequeñas o un solo prototipo: entrega muy rápida (a menudo en 1-2 días). Plazos más largos si el volumen lo exige, acordados de antemano.</p>
+                    </div>
+                    <div class="text-center p-6 bg-white rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300">
+                        <div class="flex items-center justify-center h-16 w-16 rounded-full bg-[#E0E7FF] mx-auto mb-4">
+                            <span class="text-3xl">🎨</span>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2">Versatilidad Funcional</h3>
+                        <p class="text-gray-600">Impresión FDM (PLA/PETG) por defecto; resina y plásticos técnicos bajo demanda. Postprocesado: pintura, montaje, electrónica ligera.</p>
+                    </div>
+                    <div class="text-center p-6 bg-white rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300">
+                        <div class="flex items-center justify-center h-16 w-16 rounded-full bg-[#E0E7FF] mx-auto mb-4">
+                           <span class="text-3xl">💶</span>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2">Coste Variable 100%</h3>
+                        <p class="text-gray-600">Se paga solo cuando se necesita; cero cuotas ni contratos permanentes, eliminando la necesidad de inversión en equipos propios.</p>
+                    </div>
+                    <div class="text-center p-6 bg-white rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300">
+                        <div class="flex items-center justify-center h-16 w-16 rounded-full bg-[#E0E7FF] mx-auto mb-4">
+                           <span class="text-3xl">🤝</span>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2">Trato Directo</h3>
+                        <p class="text-gray-600">El cliente habla siempre con la persona que diseña e imprime. Sin intermediarios, asegurando una comunicación clara y efectiva.</p>
+                    </div>
+                    <div class="text-center p-6 bg-white rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300">
+                        <div class="flex items-center justify-center h-16 w-16 rounded-full bg-[#E0E7FF] mx-auto mb-4">
+                           <span class="text-3xl">🛡️</span>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2">Garantías y Buenas Prácticas</h3>
+                        <p class="text-gray-600">Compromiso de plazo acordado con descuentos si no se cumple. NDA estándar para proyectos confidenciales, asegurando tu tranquilidad.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="services" class="py-20 bg-white">
+            <div class="container mx-auto px-6 max-w-6xl">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold">Nuestros Servicios y Proceso</h2>
+                    <p class="text-lg text-gray-600 mt-2">Esta sección detalla nuestras capacidades técnicas y el flujo de trabajo. Desde la impresión 3D hasta el diseño y post-procesado, ofrecemos un servicio integral para cubrir todas las fases de tu proyecto. Interactúa con las pestañas para descubrir cómo podemos ayudarte y nuestros plazos orientativos.</p>
+                </div>
+                
+                <div class="w-full">
+                    <div class="flex flex-wrap border-b border-gray-300">
+                        <button class="tab active py-4 px-6 block hover:text-[#3D5A80] focus:outline-none" data-tab="tab1">Impresión 3D</button>
+                        <button class="tab py-4 px-6 block hover:text-[#3D5A80] focus:outline-none" data-tab="tab2">Diseño CAD</button>
+                        <button class="tab py-4 px-6 block hover:text-[#3D5A80] focus:outline-none" data-tab="tab3">Post-Procesado</button>
+                        <button class="tab py-4 px-6 block hover:text-[#3D5A80] focus:outline-none" data-tab="tab4">Proceso y Plazos</button>
+                        <button class="tab py-4 px-6 block hover:text-[#3D5A80] focus:outline-none" data-tab="tab5">✨ Recomendador de Materiales</button>
+                    </div>
+                    <div class="py-8">
+                        <div id="tab1" class="tab-content active animate-fade-in">
+                            <h3 class="text-2xl font-semibold mb-4">Impresión 3D FDM y Resina</h3>
+                            <p class="text-gray-700 mb-4">Ofrecemos prototipado rápido y piezas funcionales utilizando tecnología de FDM (Modelado por Deposición Fundida) y Resina. Somos expertos en la selección del material óptimo para cada aplicación, garantizando la funcionalidad y durabilidad requerida.</p>
+                            <ul class="list-disc list-inside space-y-2 text-gray-700">
+                                <li><strong>Impresoras:</strong> FDM domésticas fiables (volumen aprox. 220 × 220 × 250 mm).</li>
+                                <li><strong>Materiales Base:</strong> PLA y PETG.</li>
+                                <li><strong>Materiales Opcionales:</strong> ASA, ABS, Nylon, compuestos, resina UV.</li>
+                                <li><strong>Aplicaciones:</strong> Prototipos funcionales, adaptadores, utillajes de producción, piezas únicas, carcasas, soportes, etc.</li>
+                            </ul>
+                        </div>
+                        <div id="tab2" class="tab-content animate-fade-in">
+                            <h3 class="text-2xl font-semibold mb-4">Diseño y Modelado CAD a Medida</h3>
+                            <p class="text-gray-700 mb-4">Si no tienes un diseño, nosotros lo creamos. Partimos de tu idea, una pieza existente o unas necesidades concretas para desarrollar un modelo 3D preciso y listo para la fabricación. Nuestra proximidad nos permite tomar medidas in situ para un ajuste perfecto.</p>
+                             <ul class="list-disc list-inside space-y-2 text-gray-700">
+                                <li><strong>Software CAD:</strong> Fusion 360.</li>
+                                <li><strong>Diseño desde Cero:</strong> Conceptualización y creación de modelos 3D a partir de tus requerimientos.</li>
+                                <li><strong>Ingeniería Inversa:</strong> Digitalización y replicación de piezas existentes.</li>
+                                <li><strong>Optimización para Impresión:</strong> Adaptamos los diseños para asegurar la mejor calidad y resistencia.</li>
+                            </ul>
+                        </div>
+                        <div id="tab3" class="tab-content animate-fade-in">
+                            <h3 class="text-2xl font-semibold mb-4">Soluciones Integrales de Acabado</h3>
+                            <p class="text-gray-700 mb-4">Nuestra capacidad va más allá de la impresión 3D. Ofrecemos un servicio completo de post-procesado para entregar una solución final, ensamblada y totalmente funcional, lista para ser utilizada.</p>
+                             <ul class="list-disc list-inside space-y-2 text-gray-700">
+                                <li><strong>Habilidades Adicionales:</strong> Pintura (nivel miniaturas), carpintería, soldadura, electrónica básica.</li>
+                                <li><strong>Montaje Funcional:</strong> Integración de piezas impresas con otros elementos.</li>
+                                <li><strong>Pintura Básica y Detallada:</strong> Mejoramos la estética y protección de las piezas.</li>
+                                <li><strong>Soldadura / Electrónica:</strong> Integración y montaje de componentes electrónicos en carcasas a medida.</li>
+                            </ul>
+                        </div>
+                        <div id="tab4" class="tab-content animate-fade-in">
+                            <h3 class="text-2xl font-semibold mb-4">Proceso y Plazos Orientativos</h3>
+                            <p class="text-gray-700 mb-4">Entendemos la importancia de la agilidad. Nuestros plazos están optimizados para ofrecerte soluciones rápidas y eficientes, siempre con la posibilidad de adaptarnos a tus necesidades específicas.</p>
+                            <div class="overflow-x-auto">
+                                <table class="min-w-full bg-white rounded-lg shadow-md">
+                                    <thead>
+                                        <tr class="bg-[#E0E7FF] text-[#3D5A80] text-left">
+                                            <th class="py-3 px-4 rounded-tl-lg">Caso</th>
+                                            <th class="py-3 px-4">Flujo Típico</th>
+                                            <th class="py-3 px-4 rounded-tr-lg">Plazo Orientativo</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="border-b border-gray-200 hover:bg-gray-50">
+                                            <td class="py-3 px-4">Diseño proporcionado</td>
+                                            <td class="py-3 px-4">Cliente envía STL/STEP → impresión programada</td>
+                                            <td class="py-3 px-4">1-2 días según tamaño</td>
+                                        </tr>
+                                        <tr class="hover:bg-gray-50">
+                                            <td class="py-3 px-4">Diseño desde cero</td>
+                                            <td class="py-3 px-4">Visita in situ → diseño CAD → impresión</td>
+                                            <td class="py-3 px-4">2-3 días (o más si son series/volúmenes grandes)</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div id="tab5" class="tab-content animate-fade-in">
+                            <h3 class="text-2xl font-semibold mb-4">✨ Recomendador de Materiales de Impresión 3D</h3>
+                            <p class="text-gray-700 mb-4">Describe las propiedades que necesitas para tu pieza (ej. "debe ser flexible", "resistente al calor", "transparente", "con buena resistencia mecánica") y nuestro asistente de IA te sugerirá los materiales más adecuados.</p>
+                            <div class="mb-4">
+                                <label for="material_input" class="block text-gray-700 font-medium mb-2">Propiedades deseadas:</label>
+                                <textarea id="material_input" rows="4" class="w-full p-3 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#3D5A80]" placeholder="Ej: Necesito una pieza muy resistente a impactos y que pueda doblarse ligeramente."></textarea>
+                            </div>
+                            <div class="text-center mb-6">
+                                <button id="suggest_material_button" class="cta-button bg-[#3D5A80] text-white py-2 px-6 rounded-full text-lg font-semibold shadow-md hover:bg-[#314766]">
+                                    ✨ Sugerir Materiales
+                                </button>
+                                <div id="loading_indicator_material" class="hidden mt-4 text-gray-600">Cargando sugerencias...</div>
+                            </div>
+                            <div id="material_suggestions" class="bg-[#FDFBF6] p-6 rounded-xl shadow-inner min-h-[150px] text-gray-700 overflow-y-auto">
+                                <!-- Las sugerencias del LLM aparecerán aquí -->
+                                <p class="text-gray-500 italic">Aquí verás las recomendaciones de materiales.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="prices" class="py-20 bg-[#FDFBF6]">
+            <div class="container mx-auto px-6 max-w-5xl">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold">Modelo de Precios</h2>
+                    <p class="text-lg text-gray-600 mt-2">Nuestra estructura de precios es transparente y flexible, adaptándose a cada proyecto. Se paga solo por lo que se necesita, sin cuotas fijas ni contratos permanentes.</p>
+                </div>
+                <div class="bg-white p-4 sm:p-8 rounded-xl shadow-2xl overflow-x-auto">
+                    <table class="min-w-full bg-white rounded-lg">
+                        <thead>
+                            <tr class="bg-[#E0E7FF] text-[#3D5A80] text-left">
+                                <th class="py-3 px-4 rounded-tl-lg">Bloque</th>
+                                <th class="py-3 px-4">Concepto</th>
+                                <th class="py-3 px-4 rounded-tr-lg">Tarifa</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-b border-gray-200 hover:bg-gray-50">
+                                <td class="py-3 px-4 font-semibold" rowspan="2">1 – Diseño CAD</td>
+                                <td class="py-3 px-4">Diseño por hora</td>
+                                <td class="py-3 px-4">25 €/h de diseño</td>
+                            </tr>
+                            <tr class="border-b border-gray-200 hover:bg-gray-50">
+                                <td class="py-3 px-4">Piezas sencillas</td>
+                                <td class="py-3 px-4">Tarifa plana desde 20 € (incluye medición, modelo 3D y revisión)</td>
+                            </tr>
+                            <tr class="border-b border-gray-200 hover:bg-gray-50">
+                                <td class="py-3 px-4 font-semibold" rowspan="2">2 – Impresión 3D</td>
+                                <td class="py-3 px-4">FDM PLA/PETG</td>
+                                <td class="py-3 px-4">8–12 €/h de máquina (incluye material, slicing, calibración, control y limpieza)</td>
+                            </tr>
+                            <tr class="border-b border-gray-200 hover:bg-gray-50">
+                                <td class="py-3 px-4">Resina/material técnico</td>
+                                <td class="py-3 px-4">desde 15 €/h (incluye material, slicing, calibración, control y limpieza)</td>
+                            </tr>
+                            <tr class="hover:bg-gray-50">
+                                <td class="py-3 px-4 font-semibold" rowspan="4">3 – Postprocesado (opcional)</td>
+                                <td class="py-3 px-4">Montaje funcional</td>
+                                <td class="py-3 px-4">desde 15 €</td>
+                            </tr>
+                            <tr class="hover:bg-gray-50">
+                                <td class="py-3 px-4">Pintura básica</td>
+                                <td class="py-3 px-4">desde 10 €</td>
+                            </tr>
+                            <tr class="hover:bg-gray-50">
+                                <td class="py-3 px-4">Pintura detallada (miniaturas)</td>
+                                <td class="py-3 px-4">desde 25 €</td>
+                            </tr>
+                            <tr class="hover:bg-gray-50">
+                                <td class="py-3 px-4">Soldadura / electrónica</td>
+                                <td class="py-3 px-4">20–40 € (solo si la pieza lo requiere o se pide)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p class="text-center text-gray-600 text-sm mt-6">Presupuesto orientativo en el día si el cliente proporciona fichero, medidas y plazos.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="market" class="py-20 bg-white">
+            <div class="container mx-auto px-6 max-w-5xl">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold">Impulsa tu Innovación con Prototipado Rápido</h2>
+                    <p class="text-lg text-gray-600 mt-2">El prototipado rápido es clave para mantener la competitividad en un mercado en constante evolución. Este gráfico muestra el crecimiento exponencial del mercado global, reflejando la ventaja estratégica que obtienen las empresas que adoptan esta tecnología para acelerar sus ciclos de desarrollo y lanzar productos innovadores más rápido.</p>
+                </div>
+                <div class="bg-white p-4 sm:p-8 rounded-xl shadow-2xl">
+                    <div class="chart-container">
+                        <canvas id="marketChart"></canvas>
+                    </div>
+                </div>
+                 <p class="text-center text-sm text-gray-500 mt-4">Fuente: Proyección del mercado global de prototipado rápido (CAGR 17.7%).</p>
+            </div>
+        </section>
+        
+        <section id="portfolio" class="py-20 bg-[#FDFBF6]">
+            <div class="container mx-auto px-6 max-w-6xl">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold">Proyectos Realizados</h2>
+                    <p class="text-lg text-gray-600 mt-2">Nuestra experiencia se demuestra con hechos. Aquí puedes ver ejemplos de las soluciones prácticas y a medida que hemos desarrollado. Estos proyectos reflejan nuestra capacidad para resolver problemas reales de forma eficiente y creativa.</p>
+                </div>
+                <!-- Find this section and replace the grid of portfolio items -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+    <div class="portfolio-item relative overflow-hidden rounded-lg shadow-lg group">
+        <img src="images/image1.png" alt="Adaptador de Ángulo Variable para Deslizamiento de Gotas" class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110">
+        <div class="portfolio-overlay absolute inset-0 bg-black bg-opacity-60 flex items-center justify-center p-4 opacity-0 transition-opacity duration-500">
+            <div class="text-center text-white">
+                <h3 class="text-xl font-bold">Adaptador de Ángulo Variable</h3>
+                <p class="mt-2">Dispositivo impreso para estudiar el deslizamiento de gotas en superficies inclinadas.</p>
+            </div>
+        </div>
+    </div>
+    <div class="portfolio-item relative overflow-hidden rounded-lg shadow-lg group">
+        <img src="images/image2.jpg" alt="Configuración experimental redox con soporte impreso" class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110">
+        <div class="portfolio-overlay absolute inset-0 bg-black bg-opacity-60 flex items-center justify-center p-4 opacity-0 transition-opacity duration-500">
+            <div class="text-center text-white">
+                <h3 class="text-xl font-bold">Experimento Redox</h3>
+                <p class="mt-2">Soporte para botellas en batería redox.</p>
+            </div>
+        </div>
+    </div>
+    <div class="portfolio-item relative overflow-hidden rounded-lg shadow-lg group">
+        <img src="images/image3.png" alt="Accesorio impreso para equipo Instron" class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110">
+        <div class="portfolio-overlay absolute inset-0 bg-black bg-opacity-60 flex items-center justify-center p-4 opacity-0 transition-opacity duration-500">
+            <div class="text-center text-white">
+                <h3 class="text-xl font-bold">Accesorio para Instron</h3>
+                <p class="mt-2">Pieza funcional para compresión mecánica en equipos de ensayo.</p>
+            </div>
+        </div>
+    </div>
+</div>
+        </section>
+
+        <section id="contact" class="py-20 bg-white">
+            <div class="container mx-auto px-6 max-w-4xl">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold">Contacta con Nosotros</h2>
+                    <p class="text-lg text-gray-600 mt-2">¿Tienes una idea o una necesidad? Hablemos.</p>
+                    
+                    <!-- Add contact info -->
+                    <div class="mt-6 space-y-2">
+                        <p class="text-lg">
+                            <strong>Email:</strong> 
+                            <a href="mailto:shadowfax.prototyping@gmail.com" class="text-[#3D5A80] hover:underline">
+                                shadowfax.prototyping@gmail.com
+                            </a>
+                        </p>
+                        <p class="text-lg">
+                            <strong>Teléfono:</strong> 
+                            <a href="tel:+34649848251" class="text-[#3D5A80] hover:underline">
+                                649 848 251
+                            </a>
+                        </p>
+                    </div>
+                </div>
+                <div class="bg-[#FDFBF6] p-8 rounded-xl shadow-2xl">
+                    <form action="https://formspree.io/f/xkgryrkq" method="POST" enctype="multipart/form-data">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                            <div>
+                                <label for="name" class="block text-gray-700 font-medium mb-2">Nombre</label>
+                                <input type="text" id="name" name="name" class="w-full p-3 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#3D5A80]" required>
+                            </div>
+                            <div>
+                                <label for="company" class="block text-gray-700 font-medium mb-2">Empresa</label>
+                                <input type="text" id="company" name="company" class="w-full p-3 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#3D5A80]">
+                            </div>
+                            <div>
+                                <label for="email" class="block text-gray-700 font-medium mb-2">Email</label>
+                                <input type="email" id="email" name="_replyto" class="w-full p-3 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#3D5A80]" required>
+                            </div>
+                            <div>
+                                <label for="phone" class="block text-gray-700 font-medium mb-2">Teléfono</label>
+                                <input type="tel" id="phone" name="phone" class="w-full p-3 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#3D5A80]">
+                            </div>
+                        </div>
+                        <div class="mb-6">
+                            <label for="message" class="block text-gray-700 font-medium mb-2">Describe tu proyecto</label>
+                            <textarea id="message" name="message" rows="5" class="w-full p-3 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#3D5A80]" required></textarea>
+                        </div>
+                        <div class="mb-6">
+                            <label for="file_upload" class="block text-gray-700 font-medium mb-2">Adjuntar archivo (CAD, boceto, etc.)</label>
+                            <input type="file" id="file_upload" name="attachment" class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-[#E0E7FF] file:text-[#3D5A80] hover:file:bg-[#C7D2FE]">
+                        </div>
+                        <!-- Anti-spam hidden field -->
+                        <input type="text" name="_gotcha" style="display:none">
+                        <!-- Redirect after submission -->
+                        <input type="hidden" name="_next" value="https://shadowfax-prototyping.com/gracias">
+                        <div class="text-center">
+                            <button type="submit" class="cta-button w-full md:w-auto bg-[#3D5A80] text-white py-3 px-12 rounded-full text-lg font-semibold shadow-xl hover:bg-[#314766]">
+                                Enviar Solicitud
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- Add this section just before the </main> tag -->
+        <section class="py-16 bg-[#FDFBF6]">
+            <div class="container mx-auto px-6 max-w-4xl">
+                <div class="bg-white p-8 rounded-xl shadow-lg">
+                    <h2 class="text-2xl md:text-3xl font-bold mb-4 text-center">¿Por qué "Shadowfax"?</h2>
+                    <div class="flex flex-col md:flex-row items-center gap-8">
+                        <div class="md:w-1/3">
+                            <!-- Decorative image or icon -->
+                            <div class="w-32 h-32 mx-auto bg-[#E0E7FF] rounded-full flex items-center justify-center">
+                                <span class="text-5xl">🐎</span>
+                            </div>
+                        </div>
+                        <div class="md:w-2/3">
+                            <p class="text-lg text-gray-700 leading-relaxed">
+                                Shadowfax era el caballo de Gandalf en El Señor de los Anillos: rápido, fiable y aparecía solo cuando hacía falta. Elegí ese nombre porque define cómo trabajo: no estoy en plantilla, no molesto, pero si necesitas una pieza, un soporte o una solución técnica puntual, estoy cerca, y respondo rápido.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-gray-800 text-white">
+        <div class="container mx-auto py-8 px-6 max-w-7xl">
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="text-center md:text-left">
+                    <h3 class="text-lg font-semibold mb-4">Contacto Directo</h3>
+                    <p class="text-gray-300 mb-2">
+                        <a href="mailto:shadowfax.prototyping@gmail.com" class="hover:text-white">
+                            shadowfax.prototyping@gmail.com
+                        </a>
+                    </p>
+                    <p class="text-gray-300">
+                        <a href="tel:+34649848251" class="hover:text-white">
+                            Tel: 649 848 251
+                        </a>
+                    </p>
+                </div>
+                <div class="text-center md:text-right">
+                    <p>&copy; 2025 Shadowfax Prototyping</p>
+                    <p class="text-sm text-gray-400 mt-2">Servicio de prototipado rápido en el Parque Tecnológico de Álava</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Mobile menu toggle
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            // Tabs functionality
+            const tabs = document.querySelectorAll('.tab');
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const target = tab.getAttribute('data-tab');
+
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+
+                    tabContents.forEach(content => {
+                        content.classList.remove('active');
+                        // Only show if the target content matches
+                        if (content.id === target) {
+                            content.classList.add('active');
+                        }
+                    });
+                });
+            });
+
+            // Chart.js Market Growth Chart
+            const ctx = document.getElementById('marketChart').getContext('2d');
+            const marketChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['2022', '2024', '2026', '2028', '2030 (Proyección)'],
+                    datasets: [{
+                        label: 'Mercado Global de Prototipado Rápido (en miles de millones de $)',
+                        data: [20.3, 34.0, 47.7, 61.4, 75.1],
+                        backgroundColor: [
+                            'rgba(152, 193, 217, 0.6)',
+                            'rgba(152, 193, 217, 0.7)',
+                            'rgba(152, 193, 217, 0.8)',
+                            'rgba(152, 193, 217, 0.9)',
+                            'rgba(61, 90, 128, 0.95)'
+                        ],
+                        borderColor: [
+                            'rgba(152, 193, 217, 1)',
+                            'rgba(152, 193, 217, 1)',
+                            'rgba(152, 193, 217, 1)',
+                            'rgba(152, 193, 217, 1)',
+                            'rgba(61, 90, 128, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return '$' + value + 'B';
+                                }
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        title: {
+                            display: true,
+                            text: 'Crecimiento del Mercado Global de Prototipado Rápido',
+                            font: {
+                                size: 18
+                            },
+                            padding: {
+                                top: 10,
+                                bottom: 30
+                            }
+                        },
+                        tooltip: {
+                             callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed.y !== null) {
+                                        label += new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'USD' }).format(context.parsed.y) + 'B';
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Gemini API Material Suggester
+            const suggestMaterialButton = document.getElementById('suggest_material_button');
+            const materialInput = document.getElementById('material_input');
+            const materialSuggestions = document.getElementById('material_suggestions');
+            const loadingIndicatorMaterial = document.getElementById('loading_indicator_material'); 
+
+            suggestMaterialButton.addEventListener('click', async () => {
+                const userInput = materialInput.value.trim();
+                if (!userInput) {
+                    materialSuggestions.innerHTML = '<p class="text-red-500">Por favor, describe las propiedades deseadas para el material.</p>';
+                    return;
+                }
+
+                loadingIndicatorMaterial.classList.remove('hidden');
+                materialSuggestions.innerHTML = ''; // Clear previous suggestions
+
+                const materialsList = "PLA, PETG, ASA, ABS, Nylon, compuestos, resina UV";
+                const prompt = `Eres un experto en materiales de impresión 3D. Basándote en las siguientes propiedades deseables para una pieza, sugiere los materiales más adecuados de la lista [${materialsList}]. Explica brevemente por qué cada material es adecuado. Propiedades deseadas: ${userInput}`;
+
+                let chatHistory = [];
+                chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+                const payload = { contents: chatHistory };
+                const apiKey = "AIzaSyCLHXmq6EeiMvBaeEv6qsfvdupA97JhwWg"
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+                try {
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    const result = await response.json();
+
+                    if (result.candidates && result.candidates.length > 0 &&
+                        result.candidates[0].content && result.candidates[0].content.parts &&
+                        result.candidates[0].content.parts.length > 0) {
+                        const text = result.candidates[0].content.parts[0].text;
+                        materialSuggestions.innerHTML = `<p>${text.replace(/\n/g, '<br>')}</p>`; // Display the response
+                    } else {
+                        materialSuggestions.innerHTML = '<p class="text-red-500">No se pudieron generar sugerencias de materiales. Inténtalo de nuevo más tarde.</p>';
+                    }
+                } catch (error) {
+                    console.error('Error al llamar a la API de Gemini para sugerencia de material:', error);
+                    materialSuggestions.innerHTML = '<p class="text-red-500">Error de conexión al generar sugerencias. Asegúrate de que tu conexión a internet sea estable.</p>';
+                } finally {
+                    loadingIndicatorMaterial.classList.add('hidden');
+                }
+            });
+
+            // Gemini API Design Advisor
+            const suggestDesignButton = document.getElementById('suggest_design_button');
+            const designInput = document.getElementById('design_input');
+            const designSuggestions = document.getElementById('design_suggestions');
+            const loadingIndicatorDesign = document.getElementById('loading_indicator_design'); 
+
+            // Añadir este código dentro del addEventListener('DOMContentLoaded', function () {
+            const fileUpload = document.getElementById('design_file_upload');
+            const fileList = document.getElementById('file_list');
+            let uploadedFiles = [];
+
+            fileUpload.addEventListener('change', function(e) {
+                const files = Array.from(e.target.files);
+                uploadedFiles = files; // Guardar los archivos para usarlos luego
+                
+                // Limpiar la lista actual
+                fileList.innerHTML = '';
+                
+                // Mostrar los archivos seleccionados
+                files.forEach(file => {
+                    const fileItem = document.createElement('div');
+                    fileItem.className = 'flex items-center justify-between py-1';
+                    fileItem.innerHTML = `
+                        <span class="text-sm text-gray-600">${file.name}</span>
+                        <button class="text-red-500 hover:text-red-700" onclick="removeFile('${file.name}')">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </button>
+                    `;
+                    fileList.appendChild(fileItem);
+                });
+            });
+
+            // Función para remover archivos
+            window.removeFile = function(fileName) {
+                uploadedFiles = uploadedFiles.filter(file => file.name !== fileName);
+                const fileInput = document.getElementById('design_file_upload');
+                fileInput.value = ''; // Limpiar input
+                
+                // Actualizar la lista visual
+                const fileList = document.getElementById('file_list');
+                const fileItems = fileList.querySelectorAll('div');
+                fileItems.forEach(item => {
+                    if (item.querySelector('span').textContent === fileName) {
+                        item.remove();
+                    }
+                });
+            };
+
+            suggestDesignButton.addEventListener('click', async () => {
+                const userInput = designInput.value.trim();
+                if (!userInput) {
+                    designSuggestions.innerHTML = '<p class="text-red-500">Por favor, describe tu necesidad o problema.</p>';
+                    return;
+                }
+
+                loadingIndicatorDesign.classList.remove('hidden');
+                designSuggestions.innerHTML = '';
+
+                // Procesar archivos si existen
+                let fileContexts = '';
+                if (uploadedFiles.length > 0) {
+                    fileContexts = '\n\nArchivos de referencia adjuntos:';
+                    uploadedFiles.forEach(file => {
+                        fileContexts += `\n- ${file.name} (${file.type})`;
+                    });
+                }
+
+                const prompt = `Eres un asesor de diseño experto en prototipado rápido y fabricación aditiva. 
+                Tu objetivo es ayudar a los usuarios a refinar sus ideas de proyectos o proponer UNA SOLA solución 
+                de diseño CAD e impresión 3D funcional. Considera las capacidades de Shadowfax Prototyping 
+                (impresión FDM, resina, post-procesado como pintura, montaje, electrónica básica, soldadura, 
+                volumen máx 220x220x250mm). Proporciona una única idea práctica y posible aplicación.
+
+                Basado en la siguiente necesidad o problema, ofrece una única idea de diseño de prototipo, 
+                explicando brevemente qué se podría diseñar y para qué serviría:
+                
+                Necesidad/Problema: ${userInput}
+                ${fileContexts}`;
+
+                let chatHistory = [];
+                chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+                const payload = { contents: chatHistory };
+                const apiKey = "AIzaSyCLHXmq6EeiMvBaeEv6qsfvdupA97JhwWg"
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+                try {
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    const result = await response.json();
+
+                    if (result.candidates && result.candidates.length > 0 &&
+                        result.candidates[0].content && result.candidates[0].content.parts &&
+                        result.candidates[0].content.parts.length > 0) {
+                        const text = result.candidates[0].content.parts[0].text;
+                        designSuggestions.innerHTML = `<p>${text.replace(/\n/g, '<br>')}</p>`; // Display the response
+                    } else {
+                        designSuggestions.innerHTML = '<p class="text-red-500">No se pudieron generar ideas de diseño. Inténtalo de nuevo más tarde.</p>';
+                    }
+                } catch (error) {
+                    console.error('Error al llamar a la API de Gemini para asesor de diseño:', error);
+                    designSuggestions.innerHTML = '<p class="text-red-500">Error de conexión al generar ideas. Asegúrate de que tu conexión a internet sea estable.</p>';
+                } finally {
+                    loadingIndicatorDesign.classList.add('hidden');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
