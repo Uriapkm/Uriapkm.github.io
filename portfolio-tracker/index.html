@@ -1,95 +1,542 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Portfolio Tracker</title>
-  <!-- Basic SEO Meta -->
-  <meta name="description" content="Simple tool to monitor your investment portfolio and its real-time returns">
-  <meta property="og:title" content="Portfolio Tracker">
-  <meta property="og:description" content="Track your holdings, update prices and review your transaction history">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://uriapkm.github.io/portfolio-tracker/">
-  <!-- Estilos -->
-  <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Local Encrypted Wallet</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom font for better aesthetics */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Hide number input arrows for better appearance */
+        input[type="number"]::-webkit-outer-spin-button,
+        input[type="number"]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        input[type="number"] {
+            -moz-appearance: textfield;
+        }
+    </style>
 </head>
-<body>
-  <header>
-    <h1>Portfolio Tracker</h1>
-  </header>
+<body class="bg-gray-100 text-gray-800 flex items-center justify-center min-h-screen p-4">
+    <div class="bg-white p-8 rounded-lg shadow-xl w-full max-w-2xl">
+        <h1 class="text-3xl font-bold mb-6 text-center text-gray-900">Encrypted Financial Wallet (100% Local)</h1>
 
-  <!-- ================== EXPORT / IMPORT CONTROLS ================== -->
-  <section id="controls">
-    <button id="export-portfolio-btn" aria-label="Export portfolio">Export Portfolio</button>
-    <label for="import-portfolio-input" class="sr-only">Import Portfolio JSON</label>
-    <input type="file" id="import-portfolio-input" accept=".json" aria-label="Import portfolio">
-    <button id="export-history-btn" aria-label="Export transaction history">Export History</button>
-    <button id="refresh-prices-btn" aria-label="Manually refresh prices">Refresh Prices</button>
-  </section>
+        <section id="authSection" class="mb-8">
+            <div class="mb-4">
+                <label for="fixedPwd" class="block text-sm font-medium text-gray-700 mb-1">Fixed Password</label>
+                <input id="fixedPwd" type="password" autocomplete="off" placeholder="Enter your fixed password..."
+                       class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 text-base font-mono">
+            </div>
 
-  <!-- ================== PORTFOLIO SUMMARY ================== -->
-  <section id="summary">
-    <p>Total investment: <span id="total-cost">0.00</span> €</p>
-    <p>Current value: <span id="total-current">0.00</span> €</p>
-    <p>Total return: <span id="total-return">0.00</span> %</p>
-    <p>Last update: <span id="last-update">—</span></p>
-    <p class="note">Prices update every 15 minutes. You can refresh manually.</p>
-  </section>
+            <div class="mb-4">
+                <label for="encText" class="block text-sm font-medium text-gray-700 mb-1">Variable Password (Base64 Encrypted String)</label>
+                <textarea id="encText" placeholder="Paste your encrypted string here..."
+                          class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 text-base font-mono min-h-[6rem] resize-y"></textarea>
+            </div>
 
-  <!-- ================== PORTFOLIO FORM AND TABLE ================== -->
-  <section id="portfolio-section">
-    <!-- Form to add/update a holding -->
-    <form id="add-stock-form" aria-label="Form to add or update a holding">
-      <label for="ticker" class="sr-only">Ticker</label>
-      <input type="text" id="ticker" placeholder="Ticker (e.g. AAPL)" required aria-required="true">
-      <label for="quantity" class="sr-only">Quantity</label>
-      <input type="number" id="quantity" placeholder="Quantity" min="1" required aria-required="true">
-      <label for="purchase-price" class="sr-only">Purchase Price</label>
-      <input type="number" id="purchase-price" placeholder="Purchase Price (€)" step="0.01" required aria-required="true">
-      <button type="submit" aria-label="Add or update holding">Add/Update</button>
-    </form>
+            <div class="flex gap-3 mt-4 flex-wrap">
+                <button id="decryptBtn"
+                        class="flex-1 min-w-[150px] bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-md transition duration-300 ease-in-out shadow-md">
+                    Decrypt Wallet
+                </button>
+                <button id="createEmptyBtn" type="button"
+                        class="flex-1 min-w-[150px] bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-md transition duration-300 ease-in-out shadow-md">
+                    Create New Wallet
+                </button>
+                <button id="importBtn" type="button"
+                        class="flex-1 min-w-[150px] bg-yellow-600 hover:bg-yellow-700 text-white font-semibold py-2 px-4 rounded-md transition duration-300 ease-in-out shadow-md">
+                    Import Wallet (JSON)
+                </button>
+                <input type="file" id="importFileInput" accept=".json" class="hidden">
+                <button id="clearBtn" type="button"
+                        class="flex-1 min-w-[150px] bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-2 px-4 rounded-md transition duration-300 ease-in-out shadow-md">
+                    Clear
+                </button>
+            </div>
+            <div id="authMsg" class="mt-3 text-sm text-center"></div>
+        </section>
 
-    <!-- Contenedor para tabla responsiva -->
-    <div class="table-wrapper">
-      <table id="portfolio-table">
-        <thead>
-          <tr>
-            <th>Ticker</th>
-            <th>Quantity</th>
-            <th>Purchase Price (€)</th>
-            <th>Current Price (€)</th>
-            <th>Current Value (€)</th>
-            <th>Return (%)</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <!-- Filas inyectadas por JavaScript -->
-        </tbody>
-      </table>
+        <section id="portfolioSection" class="hidden">
+            <h2 class="text-2xl font-semibold mb-4 text-gray-900">Portfolio Editor</h2>
+            <div class="overflow-x-auto">
+                <table class="min-w-full bg-white border border-gray-200 rounded-lg">
+                    <thead>
+                        <tr class="bg-gray-50 border-b border-gray-200">
+                            <th class="py-2 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Ticker</th>
+                            <th class="py-2 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Quantity</th>
+                            <th class="py-2 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Purchase Price</th>
+                            <th class="py-2 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Notes</th>
+                            <th class="py-2 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-16"></th>
+                        </tr>
+                    </thead>
+                    <tbody id="portfolioTableBody" class="divide-y divide-gray-200">
+                        <!-- Rows will be injected here by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+            <button id="addRowBtn" type="button"
+                    class="mt-4 bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-md transition duration-300 ease-in-out shadow-md">
+                Add Asset
+            </button>
+
+            <div class="flex gap-3 mt-6 flex-wrap">
+                <button id="encryptBtn"
+                        class="flex-1 min-w-[180px] bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-md transition duration-300 ease-in-out shadow-md">
+                    Encrypt & Generate New Password
+                </button>
+                 <button id="exportBtn" type="button"
+                        class="flex-1 min-w-[180px] bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-4 rounded-md transition duration-300 ease-in-out shadow-md">
+                    Export Wallet (JSON)
+                </button>
+                <button id="hideBtn" type="button"
+                        class="flex-1 min-w-[180px] bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-2 px-4 rounded-md transition duration-300 ease-in-out shadow-md">
+                    Hide Clear Data
+                </button>
+            </div>
+
+            <div class="mt-6">
+                <label for="newEncText" class="block text-sm font-medium text-gray-700 mb-1">New Generated Variable Password</label>
+                <div class="relative">
+                    <textarea id="newEncText" readonly placeholder="The new encrypted string will appear here..."
+                              class="w-full px-4 pr-12 py-2 border border-gray-300 rounded-md bg-gray-50 text-base font-mono min-h-[5rem] resize-y cursor-pointer"></textarea>
+                    <button id="copyBtn" title="Copy to clipboard"
+                            class="absolute top-2 right-2 bg-gray-200 hover:bg-gray-300 p-2 rounded-md transition duration-200 ease-in-out text-gray-600 hover:text-gray-800">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M8 3a1 1 0 011-1h2a1 1 0 110 2H9a1 1 0 01-1-1z" />
+                            <path d="M6 3a2 2 0 00-2 2v11a2 2 0 002 2h8a2 2 0 002-2V5a2 2 0 00-2-2 3 3 0 013 3v11a3 3 0 01-3 3H6a3 3 0 01-3-3V5a3 3 0 013-3h2.5a.5.5 0 000-1H6a4 4 0 00-4 4v11a4 4 0 004 4h8a4 4 0 004-4V5a4 4 0 00-4-4h-2.5a.5.5 0 000 1H14a3 3 0 013 3v11a3 3 0 01-3 3H6a3 3 0 01-3-3V5a3 3 0 013-3z" />
+                        </svg>
+                    </button>
+                </div>
+                <div id="encMsg" class="mt-3 text-sm text-center"></div>
+            </div>
+        </section>
     </div>
-  </section>
 
-  <!-- ================== TRANSACTION HISTORY ================== -->
-  <section id="history-section">
-    <h2>Transaction History</h2>
-    <div class="table-wrapper">
-      <table id="history-table">
-        <thead>
-          <tr>
-            <th>Date</th>
-            <th>Ticker</th>
-            <th>Quantity</th>
-            <th>Purchase Price (€)</th>
-          </tr>
-        </thead>
-        <tbody>
-          <!-- Filas inyectadas por JavaScript -->
-        </tbody>
-      </table>
-    </div>
-  </section>
+    <script>
+        // ---------- Conversion Utilities ----------
+        const enc = new TextEncoder();
+        const dec = new TextDecoder();
 
-  <script src="app.js"></script>
+        /** Converts a string to Uint8Array. */
+        function strToBytes(str) { return enc.encode(str); }
+        /** Converts a Uint8Array to a string. */
+        function bytesToStr(buf) { return dec.decode(buf); }
+        /** Converts a Uint8Array to a Base64 string. */
+        function bytesToBase64(bytes) { return btoa(String.fromCharCode(...new Uint8Array(bytes))); }
+        /** Converts a Base64 string to a Uint8Array. */
+        function base64ToBytes(b64) { return Uint8Array.from(atob(b64), c => c.charCodeAt(0)); }
+
+        // ---------- Cryptographic Parameters ----------
+        // Fixed salt embedded in the application. For increased security, a unique salt per encryption
+        // stored alongside the ciphertext (but not encrypted) is recommended in a real-world scenario.
+        const SALT = strToBytes('wallet_static_salt_v1');
+        // Number of PBKDF2 iterations. Higher values increase security but also processing time.
+        const PBKDF2_ITER = 100000; // Recommended >= 100,000 for good security
+
+        // ---------- Key Derivation ----------
+        /**
+         * Derives an AES-GCM key from a password using PBKDF2.
+         * @param {string} password - The user's fixed password.
+         * @returns {Promise<CryptoKey>} The derived cryptographic key.
+         */
+        async function deriveKey(password) {
+            const baseKey = await crypto.subtle.importKey(
+                'raw',
+                strToBytes(password),
+                'PBKDF2',
+                false,
+                ['deriveKey']
+            );
+            return crypto.subtle.deriveKey(
+                { name: 'PBKDF2', hash: 'SHA-256', salt: SALT, iterations: PBKDF2_ITER },
+                baseKey,
+                { name: 'AES-GCM', length: 256 }, // AES-256 GCM
+                false,
+                ['encrypt', 'decrypt']
+            );
+        }
+
+        // ---------- Encryption ----------
+        /**
+         * Encrypts a JSON string using AES-GCM and returns a Base64 encoded string.
+         * @param {string} password - The password to derive the encryption key from.
+         * @param {string} jsonStr - The JSON string to encrypt.
+         * @returns {Promise<string>} The Base64 encoded IV + ciphertext.
+         */
+        async function encryptJson(password, jsonStr) {
+            const key = await deriveKey(password);
+            const iv = crypto.getRandomValues(new Uint8Array(12)); // 96-bit IV for AES-GCM
+            const ciphertext = await crypto.subtle.encrypt(
+                { name: 'AES-GCM', iv },
+                key,
+                strToBytes(jsonStr)
+            );
+            // Concatenate IV and ciphertext for storage/transmission
+            const combined = new Uint8Array(iv.byteLength + ciphertext.byteLength);
+            combined.set(iv, 0);
+            combined.set(new Uint8Array(ciphertext), iv.byteLength);
+            return bytesToBase64(combined);
+        }
+
+        // ---------- Decryption ----------
+        /**
+         * Decrypts a Base64 encoded string (IV + ciphertext) using AES-GCM.
+         * @param {string} password - The password to derive the decryption key from.
+         * @param {string} b64 - The Base64 encoded IV + ciphertext string.
+         * @returns {Promise<string>} The decrypted JSON string.
+         * @throws {Error} If the encrypted data is too short or decryption fails (e.g., incorrect password).
+         */
+        async function decryptJson(password, b64) {
+            const combined = base64ToBytes(b64.trim());
+            // IV is 12 bytes. Minimum combined length should be IV length + some ciphertext.
+            if (combined.length < 13) { // 12 bytes IV + at least 1 byte of data
+                throw new Error('Encrypted data too short or invalid format.');
+            }
+            const iv = combined.slice(0, 12);
+            const data = combined.slice(12);
+            const key = await deriveKey(password);
+            const plainBuf = await crypto.subtle.decrypt(
+                { name: 'AES-GCM', iv },
+                key,
+                data
+            );
+            return bytesToStr(plainBuf);
+        }
+
+        // ---------- UI Handling ----------
+        const fixedPwdEl = document.getElementById('fixedPwd');
+        const encTextEl = document.getElementById('encText');
+        const decryptBtn = document.getElementById('decryptBtn');
+        const createEmptyBtn = document.getElementById('createEmptyBtn');
+        const importBtn = document.getElementById('importBtn'); // New import button
+        const importFileInput = document.getElementById('importFileInput'); // Hidden file input
+        const clearBtn = document.getElementById('clearBtn');
+        const authMsg = document.getElementById('authMsg');
+        const portfolioSection = document.getElementById('portfolioSection');
+        const portfolioTableBody = document.getElementById('portfolioTableBody');
+        const addRowBtn = document.getElementById('addRowBtn');
+        const encryptBtn = document.getElementById('encryptBtn');
+        const exportBtn = document.getElementById('exportBtn'); // New export button
+        const hideBtn = document.getElementById('hideBtn');
+        const newEncText = document.getElementById('newEncText');
+        const encMsg = document.getElementById('encMsg');
+        const copyBtn = document.getElementById('copyBtn');
+
+
+        let currentData = null; // Decrypted portfolio data
+
+        /** Displays a message in the authentication section. */
+        function showAuthMsg(text, isSuccess = false) {
+            authMsg.textContent = text;
+            authMsg.className = `mt-3 text-sm text-center ${isSuccess ? 'text-green-600' : 'text-red-600'}`;
+        }
+
+        /** Displays a message in the encryption section. */
+        function showEncMsg(text, isSuccess = true) {
+            encMsg.textContent = text;
+            encMsg.className = `mt-3 text-sm text-center ${isSuccess ? 'text-green-600' : 'text-red-600'}`;
+        }
+
+        /** Adds a new row to the portfolio table. */
+        function addRow(asset = { ticker: '', quantity: '', purchase_price: '', notes: '' }) {
+            const tr = document.createElement('tr');
+            tr.className = 'hover:bg-gray-50'; // Tailwind class for hover effect
+            tr.innerHTML = `
+                <td class="py-2 px-4">
+                    <input value="${asset.ticker}" placeholder="e.g. BTC"
+                           class="w-full bg-transparent border-none focus:outline-none focus:ring-0 text-base py-1">
+                </td>
+                <td class="py-2 px-4">
+                    <input type="number" step="any" value="${asset.quantity}" placeholder="e.g. 0.5"
+                           class="w-full bg-transparent border-none focus:outline-none focus:ring-0 text-base py-1">
+                </td>
+                <td class="py-2 px-4">
+                    <input type="number" step="any" value="${asset.purchase_price}" placeholder="e.g. 35000.00"
+                           class="w-full bg-transparent border-none focus:outline-none focus:ring-0 text-base py-1">
+                </td>
+                <td class="py-2 px-4">
+                    <input value="${asset.notes}" placeholder="e.g. Long-term hold"
+                           class="w-full bg-transparent border-none focus:outline-none focus:ring-0 text-base py-1">
+                </td>
+                <td class="py-2 px-4 text-center">
+                    <button type="button" class="delBtn text-red-500 hover:text-red-700 transition duration-150 ease-in-out" title="Delete asset">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 011-1h4a1 1 0 110 2H8a1 1 0 01-1-1z" clip-rule="evenodd" />
+                        </svg>
+                    </button>
+                </td>
+            `;
+            portfolioTableBody.appendChild(tr);
+        }
+
+        /** Loads the portfolio data into the table. */
+        function loadTable() {
+            portfolioTableBody.innerHTML = '';
+            // Ensure currentData.cartera is an array before iterating
+            (currentData.portfolio || []).forEach(addRow); // Changed to 'portfolio' property
+        }
+
+        /** Extracts data from the table rows and returns it as a portfolio object. */
+        function tableToData() {
+            const rows = [...portfolioTableBody.querySelectorAll('tr')];
+            const portfolio = rows.map(r => {
+                const cells = r.querySelectorAll('input');
+                const ticker = cells[0].value.trim();
+                const quantity = parseFloat(cells[1].value);
+                const purchase_price = parseFloat(cells[2].value);
+                const notes = cells[3].value.trim();
+
+                return {
+                    ticker: ticker,
+                    quantity: isNaN(quantity) ? 0 : quantity, // Validation: if not a number, 0
+                    purchase_price: isNaN(purchase_price) ? 0 : purchase_price, // Validation: if not a number, 0
+                    notes: notes
+                };
+            }).filter(a => a.ticker); // Filter out rows with empty ticker
+            return { portfolio }; // Changed to 'portfolio' property
+        }
+
+        // ---------- Event Listeners ----------
+
+        // Decrypt button click event
+        decryptBtn.addEventListener('click', async () => {
+            showAuthMsg('Decrypting...', true);
+            decryptBtn.disabled = true;
+            createEmptyBtn.disabled = true;
+            importBtn.disabled = true;
+            clearBtn.disabled = true;
+
+            const fixedPwd = fixedPwdEl.value.trim();
+            const encText = encTextEl.value.trim();
+
+            if (!fixedPwd) {
+                showAuthMsg('Please enter the fixed password.');
+                // Re-enable buttons if there's an error
+                decryptBtn.disabled = false;
+                createEmptyBtn.disabled = false;
+                importBtn.disabled = false;
+                clearBtn.disabled = false;
+                return;
+            }
+            if (!encText) {
+                 showAuthMsg('Please paste the encrypted string.');
+                // Re-enable buttons if there's an error
+                decryptBtn.disabled = false;
+                createEmptyBtn.disabled = false;
+                importBtn.disabled = false;
+                clearBtn.disabled = false;
+                return;
+            }
+
+
+            try {
+                const jsonStr = await decryptJson(fixedPwd, encText);
+                currentData = JSON.parse(jsonStr);
+                // Ensure the loaded data has a 'portfolio' array, if not, convert 'cartera'
+                if (currentData && currentData.cartera && !currentData.portfolio) {
+                    currentData.portfolio = currentData.cartera;
+                    delete currentData.cartera; // Remove old property
+                }
+                loadTable();
+                portfolioSection.classList.remove('hidden');
+                showAuthMsg('Wallet decrypted successfully.', true);
+                newEncText.value = '';
+                encMsg.textContent = '';
+            } catch (e) {
+                console.error("Decryption error:", e);
+                showAuthMsg('Incorrect password or corrupted/invalid data.');
+            } finally {
+                decryptBtn.disabled = false;
+                createEmptyBtn.disabled = false;
+                importBtn.disabled = false;
+                clearBtn.disabled = false;
+            }
+        });
+
+        // Create Empty Portfolio button click event
+        createEmptyBtn.addEventListener('click', () => {
+            showAuthMsg('');
+            const fixedPwd = fixedPwdEl.value.trim();
+
+            if (!fixedPwd) {
+                showAuthMsg('Please enter a fixed password to create a new wallet.', false);
+                return;
+            }
+
+            currentData = { portfolio: [] }; // Initialize with an empty portfolio
+            loadTable(); // Load the empty table
+            portfolioSection.classList.remove('hidden'); // Show the portfolio editor
+            showAuthMsg('New empty wallet created. Add assets and encrypt to get your variable string.', true);
+            encTextEl.value = '';
+            newEncText.value = '';
+            encMsg.textContent = '';
+        });
+
+        // Import Wallet (JSON) button click event
+        importBtn.addEventListener('click', () => {
+            importFileInput.click(); // Trigger click on the hidden file input
+        });
+
+        // Change event on the file input for importing
+        importFileInput.addEventListener('change', (event) => {
+            const file = event.target.files[0];
+            if (!file) {
+                showAuthMsg('No file selected for import.', false);
+                return;
+            }
+
+            if (file.type !== 'application/json') {
+                showAuthMsg('Please select a valid JSON file.', false);
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                try {
+                    const importedData = JSON.parse(e.target.result);
+                    // Validate basic structure (e.g., must have a 'portfolio' array)
+                    // Also handle older 'cartera' format for backwards compatibility
+                    if (importedData && (Array.isArray(importedData.portfolio) || Array.isArray(importedData.cartera))) {
+                        currentData = importedData;
+                        if (currentData.cartera && !currentData.portfolio) {
+                            currentData.portfolio = currentData.cartera;
+                            delete currentData.cartera; // Remove old property
+                        }
+                        loadTable();
+                        portfolioSection.classList.remove('hidden');
+                        showAuthMsg('Wallet imported successfully from JSON.', true);
+                        encTextEl.value = ''; // Clear fields related to previous encryption
+                        newEncText.value = '';
+                        encMsg.textContent = '';
+                    } else {
+                        showAuthMsg('The JSON file does not appear to be a valid wallet format.', false);
+                    }
+                } catch (jsonError) {
+                    console.error("Error parsing JSON:", jsonError);
+                    showAuthMsg('Error reading the JSON file. Please ensure the format is correct.', false);
+                }
+            };
+            reader.onerror = () => {
+                showAuthMsg('Error reading file. Please try again.', false);
+            };
+            reader.readAsText(file);
+        });
+
+
+        // Clear button click event
+        clearBtn.addEventListener('click', () => {
+            fixedPwdEl.value = '';
+            encTextEl.value = '';
+            authMsg.textContent = '';
+            encMsg.textContent = '';
+            newEncText.value = '';
+            portfolioSection.classList.add('hidden');
+            portfolioTableBody.innerHTML = '';
+            currentData = null;
+            showAuthMsg('Fields cleared and clear data hidden.', true);
+        });
+
+        // Add row button click event
+        addRowBtn.addEventListener('click', () => addRow());
+
+        // Delegate click event for delete buttons (for dynamically added rows)
+        portfolioTableBody.addEventListener('click', e => {
+            if (e.target.closest('.delBtn')) {
+                e.target.closest('tr').remove();
+            }
+        });
+
+        // Encrypt button click event
+        encryptBtn.addEventListener('click', async () => {
+            showEncMsg('Encrypting...', true);
+            encryptBtn.disabled = true;
+            exportBtn.disabled = true;
+            hideBtn.disabled = true;
+
+            const fixedPwd = fixedPwdEl.value.trim();
+            if (!fixedPwd) {
+                showEncMsg('Please enter the fixed password to encrypt.', false);
+                encryptBtn.disabled = false;
+                exportBtn.disabled = false;
+                hideBtn.disabled = false;
+                return;
+            }
+
+            try {
+                currentData = tableToData(); // Get current data from table (with number validation)
+                const newB64 = await encryptJson(fixedPwd, JSON.stringify(currentData));
+                newEncText.value = newB64;
+                showEncMsg('Wallet encrypted successfully. Copy the new encrypted string.');
+            } catch (e) {
+                console.error("Encryption error:", e);
+                showEncMsg('Error encrypting data. Check console for details.', false);
+            } finally {
+                encryptBtn.disabled = false;
+                exportBtn.disabled = false;
+                hideBtn.disabled = false;
+            }
+        });
+
+        // Export Wallet (JSON) button click event
+        exportBtn.addEventListener('click', () => {
+            if (!currentData || !currentData.portfolio || currentData.portfolio.length === 0) { // Check 'portfolio' property
+                showEncMsg('No data in the wallet to export.', false);
+                return;
+            }
+
+            try {
+                const jsonStr = JSON.stringify(currentData, null, 2); // Readable format with indentation
+                const blob = new Blob([jsonStr], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                // Generate dynamic filename with date
+                const date = new Date().toISOString().slice(0,10); // YYYY-MM-DD
+                a.download = `financial_wallet_${date}.json`;
+                document.body.appendChild(a); // Required for Firefox
+                a.click();
+                document.body.removeChild(a); // Clean up
+                URL.revokeObjectURL(url); // Release object URL
+                showEncMsg('Wallet exported to JSON successfully.', true);
+            } catch (e) {
+                console.error("Error exporting JSON:", e);
+                showEncMsg('Error exporting wallet to JSON.', false);
+            }
+        });
+
+
+        // Hide data button click event
+        hideBtn.addEventListener('click', () => {
+            portfolioSection.classList.add('hidden');
+            portfolioTableBody.innerHTML = '';
+            currentData = null;
+            newEncText.value = '';
+            encMsg.textContent = '';
+            showAuthMsg('Clear data hidden.', true);
+        });
+
+        // Copy to clipboard button click event
+        copyBtn.addEventListener('click', () => {
+            if (newEncText.value) {
+                newEncText.select();
+                newEncText.setSelectionRange(0, 99999);
+                try {
+                    document.execCommand('copy');
+                    showEncMsg('Encrypted string copied to clipboard.', true);
+                } catch (err) {
+                    console.error('Failed to copy text: ', err);
+                    showEncMsg('Error copying to clipboard. Please copy manually.', false);
+                }
+            } else {
+                showEncMsg('No encrypted string to copy.', false);
+            }
+        });
+    </script>
 </body>
 </html>
