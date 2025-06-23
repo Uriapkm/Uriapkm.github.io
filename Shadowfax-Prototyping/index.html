@@ -123,11 +123,11 @@
             <!-- Removed the logo section -->
             <div class="hidden md:flex space-x-8 items-center">
                 <a href="#about-us" class="nav-link text-gray-700">Quiénes Somos</a>
-                <a href="#ai-design-advisor" class="nav-link text-gray-700 font-semibold text-[#3D5A80]">Asesor de Diseño ✨</a>
                 <a href="#services" class="nav-link text-gray-700">Servicios y Proceso</a>
                 <a href="#why-us" class="nav-link text-gray-700">Propuesta de Valor</a>
                 <a href="#prices" class="nav-link text-gray-700">Precios</a>
                 <a href="#portfolio" class="nav-link text-gray-700">Proyectos</a>
+                  <a href="#ai-design-advisor" class="nav-link text-gray-700 font-semibold text-[#3D5A80]">Asesor de Diseño ✨</a>
                 <a href="#contact" class="nav-link text-gray-700">Contactar</a>
                 <a href="#contact" class="cta-button bg-[#3D5A80] text-white py-2 px-4 rounded-lg shadow-md hover:bg-[#314766]">Solicitar Cotización</a>
             </div>
@@ -179,44 +179,6 @@
             </div>
         </section>
 
-        <section id="ai-design-advisor" class="py-20 bg-[#E0E7FF]">
-            <div class="container mx-auto px-6 max-w-5xl text-center">
-                <h2 class="text-3xl md:text-4xl font-bold text-[#1C1C1C] mb-6">✨ Asesor de Diseño: Transforma tus Ideas en Proyectos</h2>
-                <p class="text-lg text-gray-700 mb-8">¿Necesitas una pieza especial, un utillaje o una solución a medida? Describe tu necesidad o un problema que quieras resolver, y nuestro asistente de IA te ofrecerá una idea de proyecto y sugerencia de diseño CAD/impresión 3D funcional. Es tu primer paso para dar vida a la innovación.</p>
-                <div class="bg-white p-8 rounded-xl shadow-2xl">
-                    <div class="mb-6">
-                        <label for="design_input" class="block text-gray-700 font-medium mb-2 text-left">Describe tu necesidad o problema:</label>
-                        <textarea id="design_input" rows="4" class="w-full p-3 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#3D5A80]" placeholder="Ej: Necesito organizar los cables de mi laboratorio de forma segura y accesible, o quiero un soporte para un nuevo sensor."></textarea>
-                    </div>
-                    
-                    <!-- Añadir sección de carga de archivos -->
-                    <div class="mb-6">
-                        <label class="block text-gray-700 font-medium mb-2 text-left">Añade imágenes o archivos de referencia (opcional):</label>
-                        <div class="flex items-center justify-center w-full">
-                            <label for="design_file_upload" class="w-full flex flex-col items-center px-4 py-6 bg-[#FDFBF6] text-gray-500 rounded-lg border-2 border-dashed border-gray-300 cursor-pointer hover:bg-gray-50">
-                                <svg class="w-8 h-8 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
-                                </svg>
-                                <span class="text-sm">Arrastra archivos aquí o haz clic para seleccionar</span>
-                                <input id="design_file_upload" type="file" class="hidden" accept="image/*,.pdf,.stl,.obj" multiple>
-                            </label>
-                        </div>
-                        <div id="file_list" class="mt-2 space-y-1"></div>
-                    </div>
-
-                    <div class="text-center mb-6">
-                        <button id="suggest_design_button" class="cta-button bg-[#3D5A80] text-white py-3 px-8 rounded-full text-lg font-semibold shadow-md hover:bg-[#314766]">
-                            ✨ Obtener Idea de Diseño
-                        </button>
-                        <div id="loading_indicator_design" class="hidden mt-4 text-gray-600">Generando ideas...</div>
-                    </div>
-                    <div id="design_suggestions" class="bg-[#FDFBF6] p-6 rounded-xl shadow-inner min-h-[150px] text-gray-700 overflow-y-auto text-left">
-                        <p class="text-gray-500 italic">Aquí verás una idea y sugerencia de diseño.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
         <section id="why-us" class="py-20 bg-[#FDFBF6]">
             <div class="container mx-auto px-6 max-w-6xl">
                 <div class="text-center mb-12">
@@ -249,7 +211,7 @@
                         <div class="flex items-center justify-center h-16 w-16 rounded-full bg-[#E0E7FF] mx-auto mb-4">
                            <span class="text-3xl">💶</span>
                         </div>
-                        <h3 class="text-xl font-semibold mb-2">Coste Variable 100%</h3>
+                        <h3 class="text-xl font-semibold mb-2">Sin cuotas fijas</h3>
                         <p class="text-gray-600">Se paga solo cuando se necesita; cero cuotas ni contratos permanentes, eliminando la necesidad de inversión en equipos propios.</p>
                     </div>
                     <div class="text-center p-6 bg-white rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300">
@@ -452,7 +414,12 @@
         <div class="portfolio-overlay absolute inset-0 bg-black bg-opacity-60 flex items-center justify-center p-4 opacity-0 transition-opacity duration-500">
             <div class="text-center text-white">
                 <h3 class="text-xl font-bold">Adaptador de Ángulo Variable</h3>
-                <p class="mt-2">Dispositivo impreso para estudiar el deslizamiento de gotas en superficies inclinadas.</p>
+                <p class="mt-2">
+  Dispositivo impreso para estudiar el deslizamiento de gotas en superficies inclinadas.<br>
+  Diseñado en 4 horas.<br>
+  Impreso en 8 horas 30 minutos.
+</p>
+
             </div>
         </div>
     </div>
@@ -461,7 +428,12 @@
         <div class="portfolio-overlay absolute inset-0 bg-black bg-opacity-60 flex items-center justify-center p-4 opacity-0 transition-opacity duration-500">
             <div class="text-center text-white">
                 <h3 class="text-xl font-bold">Experimento Redox</h3>
-                <p class="mt-2">Soporte para botellas en batería redox.</p>
+                <p class="mt-2">
+  Soporte para botellas en batería redox.<br>
+  Diseñado en 25 minutos.<br>
+  Impreso en 4 horas 30 minutos.
+</p>
+
             </div>
         </div>
     </div>
@@ -470,11 +442,54 @@
         <div class="portfolio-overlay absolute inset-0 bg-black bg-opacity-60 flex items-center justify-center p-4 opacity-0 transition-opacity duration-500">
             <div class="text-center text-white">
                 <h3 class="text-xl font-bold">Accesorio para Instron</h3>
-                <p class="mt-2">Pieza funcional para compresión mecánica en equipos de ensayo.</p>
+             <p class="mt-2">
+  Pieza funcional para compresión mecánica en equipos de ensayo.<br>
+  Diseñado en 45 minutos.<br>
+  Impreso en 6 horas.
+</p>
+
             </div>
         </div>
     </div>
 </div>
+        </section>
+
+<section id="ai-design-advisor" class="py-20 bg-[#E0E7FF]">
+            <div class="container mx-auto px-6 max-w-5xl text-center">
+                <h2 class="text-3xl md:text-4xl font-bold text-[#1C1C1C] mb-6">✨ Asesor de Diseño: Transforma tus Ideas en Proyectos</h2>
+                <p class="text-lg text-gray-700 mb-8">¿Necesitas una pieza especial, un utillaje o una solución a medida? Describe tu necesidad o un problema que quieras resolver, y nuestro asistente de IA te ofrecerá una idea de proyecto y sugerencia de diseño CAD/impresión 3D funcional. Es tu primer paso para dar vida a la innovación.</p>
+                <div class="bg-white p-8 rounded-xl shadow-2xl">
+                    <div class="mb-6">
+                        <label for="design_input" class="block text-gray-700 font-medium mb-2 text-left">Describe tu necesidad o problema:</label>
+                        <textarea id="design_input" rows="4" class="w-full p-3 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#3D5A80]" placeholder="Ej: Necesito organizar los cables de mi laboratorio de forma segura y accesible, o quiero un soporte para un nuevo sensor."></textarea>
+                    </div>
+                    
+                    <!-- Añadir sección de carga de archivos -->
+                    <div class="mb-6">
+                        <label class="block text-gray-700 font-medium mb-2 text-left">Añade imágenes o archivos de referencia (opcional):</label>
+                        <div class="flex items-center justify-center w-full">
+                            <label for="design_file_upload" class="w-full flex flex-col items-center px-4 py-6 bg-[#FDFBF6] text-gray-500 rounded-lg border-2 border-dashed border-gray-300 cursor-pointer hover:bg-gray-50">
+                                <svg class="w-8 h-8 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                                </svg>
+                                <span class="text-sm">Arrastra archivos aquí o haz clic para seleccionar</span>
+                                <input id="design_file_upload" type="file" class="hidden" accept="image/*,.pdf,.stl,.obj" multiple>
+                            </label>
+                        </div>
+                        <div id="file_list" class="mt-2 space-y-1"></div>
+                    </div>
+
+                    <div class="text-center mb-6">
+                        <button id="suggest_design_button" class="cta-button bg-[#3D5A80] text-white py-3 px-8 rounded-full text-lg font-semibold shadow-md hover:bg-[#314766]">
+                            ✨ Obtener Idea de Diseño
+                        </button>
+                        <div id="loading_indicator_design" class="hidden mt-4 text-gray-600">Generando ideas...</div>
+                    </div>
+                    <div id="design_suggestions" class="bg-[#FDFBF6] p-6 rounded-xl shadow-inner min-h-[150px] text-gray-700 overflow-y-auto text-left">
+                        <p class="text-gray-500 italic">Aquí verás una idea y sugerencia de diseño.</p>
+                    </div>
+                </div>
+            </div>
         </section>
 
         <section id="contact" class="py-20 bg-white">
