@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>El Viejo Pescador: Consejos sin Filtro</title>
+    <!-- Carga de Tailwind CSS para estilos base y responsividad -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Estilos personalizados embebidos -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Crete+Round&display=swap');
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0A1C29; /* Nuevo: Azul oscuro profundo, como el mar */
+            color: #D0DCE5; /* Nuevo: Off-white, como papel envejecido */
+            background-image: url('https://placehold.co/1920x1080/0A1C29/D0DCE5?text='); /* Placeholder para una textura sutil o mapa náutico */
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+            background-color: rgba(20, 35, 45, 0.95); /* Nuevo: Fondo ligeramente transparente, azul/gris oscuro */
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(208, 220, 229, 0.1); /* Nuevo: Borde sutil */
+        }
+
+        h1, h2 {
+            font-family: 'Crete Round', serif;
+            color: #A37E5F; /* Nuevo: Color de acento, bronce/cobre envejecido */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+            color: #B5C3CC; /* Nuevo: Un gris azulado más claro para las etiquetas */
+        }
+
+        .input-group input[type="text"],
+        .input-group select,
+        .input-group input[type="number"] { /* Añadido para input number */
+            width: 100%;
+            padding: 0.75rem;
+            background-color: #152736; /* Nuevo: Azul oscuro para los campos de entrada */
+            border: 1px solid #3A4A5C; /* Nuevo: Borde más oscuro */
+            border-radius: 8px;
+            color: #D0DCE5;
+            transition: border-color 0.2s;
+        }
+
+        .input-group input[type="text"]:focus,
+        .input-group select:focus,
+        .input-group input[type="number"]:focus { /* Añadido para input number */
+            outline: none;
+            border-color: #A37E5F; /* Nuevo: Borde de acento al enfocar */
+        }
+
+        .radio-group input[type="radio"] {
+            margin-right: 0.5rem;
+            accent-color: #A37E5F; /* Nuevo: Color de acento para radios */
+        }
+
+        .btn {
+            background: linear-gradient(145deg, #A37E5F, #8F6C4C); /* Nuevo: Degradado de bronce/cobre */
+            color: #0A1C29; /* Nuevo: Color de texto oscuro para el botón */
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-weight: bold;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            border: none;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+            background: linear-gradient(145deg, #8F6C4C, #A37E5F); /* Nuevo: Degradado invertido al pasar el ratón */
+        }
+
+        .recommendation-output {
+            background-color: #1A2D3C; /* Nuevo: Fondo azul/gris oscuro para la recomendación */
+            border: 1px solid #3A4A5C; /* Nuevo: Borde más oscuro */
+            border-radius: 8px;
+            padding: 1.5rem;
+            min-height: 150px;
+            white-space: pre-wrap; /* Mantiene saltos de línea del texto */
+            word-wrap: break-word; /* Rompe palabras largas */
+            font-style: italic;
+            color: #E0EBF5; /* Nuevo: Texto ligeramente más claro */
+            line-height: 1.6;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+            border-left: 5px solid #A37E5F; /* Nuevo: Borde izquierdo de acento, bronce/cobre */
+        }
+
+        .loading-spinner {
+            border: 4px solid rgba(208, 220, 229, 0.3); /* Nuevo: Gris claro semitransparente */
+            border-top: 4px solid #A37E5F; /* Nuevo: Color de acento */
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Estilos para el control de audio */
+        .audio-control {
+            position: fixed;
+            bottom: 1.5rem;
+            right: 1.5rem;
+            background-color: rgba(20, 35, 45, 0.8); /* Nuevo: Fondo oscuro transparente */
+            border-radius: 50%;
+            padding: 0.75rem;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            transition: background-color 0.3s;
+            z-index: 10;
+        }
+
+        .audio-control:hover {
+            background-color: rgba(30, 50, 60, 0.9); /* Nuevo: Fondo más oscuro al pasar el ratón */
+        }
+
+        .audio-control i {
+            color: #A37E5F; /* Nuevo: Color de acento para el icono */
+            font-size: 1.5rem;
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+    <div class="container mt-8 mb-8">
+        <h1 class="text-4xl md:text-5xl text-center mb-4 leading-tight">El Viejo Pescador</h1>
+        <h2 class="text-xl md:text-2xl text-center mb-8 text-gray-400">Consejos sin filtro para el verdadero aficionado</h2>
+
+        <p class="mb-8 text-center text-gray-300">
+            "¿Quieres pescar, eh? Pues habla claro. Aquí no hay tiempo para chiquilladas. Dime qué buscas y quizás, solo quizás, te suelte una verdad. Sea del mar o de la vida."
+        </p>
+
+        <form id="fishingForm" class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
+            <!-- Tipo de Pesca (Mar/Río) -->
+            <div class="input-group">
+                <label class="text-lg" for="fishingType">Tipo de Pesca:</label>
+                <div class="radio-group flex gap-4 mt-2">
+                    <label class="inline-flex items-center">
+                        <input type="radio" name="fishingType" value="Mar" class="form-radio text-yellow-500" checked>
+                        <span class="ml-2">Mar</span>
+                    </label>
+                    <label class="inline-flex items-center">
+                        <input type="radio" name="fishingType" value="Río" class="form-radio text-yellow-500">
+                        <span class="ml-2">Río</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Nivel de Secreto -->
+            <div class="input-group">
+                <label class="text-lg" for="secretLevel">Nivel de Secreto:</label>
+                <select id="secretLevel" class="mt-2 block w-full">
+                    <option value="Bajo">Bajo (sitios conocidos, accesibles)</option>
+                    <option value="Medio">Medio (requiere algo de búsqueda, poca gente)</option>
+                    <option value="Alto">Alto (solo para los que aguantan, pocos lo saben)</option>
+                </select>
+            </div>
+
+            <!-- Ubicación -->
+            <div class="input-group">
+                <label class="text-lg" for="location">Ubicación (ej: Cádiz, Cantábrico, Río Ebro):</label>
+                <input type="text" id="location" placeholder="Dónde te pica el gusanillo..." class="mt-2" required>
+            </div>
+
+            <!-- Distancia Máxima -->
+            <div class="input-group">
+                <label class="text-lg" for="maxDistance">Distancia Máxima de Desplazamiento (km):</label>
+                <input type="number" id="maxDistance" placeholder="¿Cuánto estás dispuesto a moverte?" class="mt-2" min="0">
+            </div>
+
+            <!-- Tipo de Técnica de Pesca -->
+            <div class="input-group md:col-span-2">
+                <label class="text-lg" for="fishingTechnique">Técnica de Pesca (ej: Pesca a corcho, Spinning, Buceo):</label>
+                <input type="text" id="fishingTechnique" placeholder="¿Cómo te gusta sentir la caña o el agua?" class="mt-2">
+            </div>
+
+            <!-- Especie (Opcional) -->
+            <div class="input-group">
+                <label class="text-lg" for="species">Especie (opcional, ej: Lubina, Trucha):</label>
+                <input type="text" id="species" placeholder="Si buscas algo en concreto..." class="mt-2">
+            </div>
+
+            <!-- Experiencia del Usuario -->
+            <div class="input-group">
+                <label class="text-lg" for="experience">Tu Experiencia:</label>
+                <select id="experience" class="mt-2 block w-full">
+                    <option value="Novato">Novato (primera vez con caña)</option>
+                    <option value="Intermedio">Intermedio (ya sabes de qué va)</option>
+                    <option value="Experto">Experto (has visto cosas que otros ni sueñan)</option>
+                </select>
+            </div>
+
+            <!-- Botón de Envío -->
+            <div class="md:col-span-2 text-center mt-6">
+                <button type="submit" class="btn">Desenterrar un Consejo</button>
+            </div>
+        </form>
+
+        <!-- Zona de Resultado -->
+        <div id="loading" class="hidden flex justify-center items-center py-8">
+            <div class="loading-spinner"></div>
+            <p class="ml-4 text-gray-400">El viejo está mascullando algo...</p>
+        </div>
+
+        <div id="recommendationOutput" class="recommendation-output mt-8 p-6 text-xl rounded-lg shadow-inner">
+            <!-- La recomendación aparecerá aquí -->
+            "Esperando tu pregunta, chaval. No me hagas perder el tiempo."
+        </div>
+    </div>
+
+    <!-- Control de audio -->
+    <div class="audio-control" id="audioControl">
+        <i id="audioIcon" class="fas fa-volume-mute"></i>
+        <audio id="backgroundAudio" loop>
+            <!-- Puedes reemplazar esta URL con un sonido de olas más adecuado -->
+            <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+            Tu navegador no soporta el elemento de audio.
+        </audio>
+    </div>
+
+    <!-- Script JavaScript embebido -->
+    <script>
+        // Espera a que el DOM esté completamente cargado antes de ejecutar el script
+        document.addEventListener('DOMContentLoaded', () => {
+            // Referencias a los elementos del DOM
+            const fishingForm = document.getElementById('fishingForm');
+            const recommendationOutput = document.getElementById('recommendationOutput');
+            const loadingSpinner = document.getElementById('loading');
+            const audioControl = document.getElementById('audioControl');
+            const backgroundAudio = document.getElementById('backgroundAudio');
+            const audioIcon = document.getElementById('audioIcon');
+
+            // Estado del audio
+            let isAudioPlaying = false;
+
+            // --- Configuración de Firebase y Autenticación (si es necesario) ---
+            // Estas variables son provistas por el entorno de Canvas.
+            // Aunque Firebase no se usa directamente para la recomendación,
+            // se mantiene la estructura por si se desea añadir persistencia o usuarios.
+            const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+            const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
+            const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+
+            let db;
+            let auth;
+            let userId; // Para almacenar el ID del usuario autenticado o anónimo
+
+            // Función para inicializar Firebase y autenticar
+            async function initializeFirebase() {
+                try {
+                    // Importar módulos de Firebase de forma dinámica
+                    // Se usa "https://www.gstatic.com/firebasejs/" para cargar los módulos.
+                    const { initializeApp } = await import("https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js");
+                    const { getAuth, signInAnonymously, signInWithCustomToken } = await import("https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js");
+                    const { getFirestore } = await import("https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js");
+
+                    const app = initializeApp(firebaseConfig);
+                    db = getFirestore(app);
+                    auth = getAuth(app);
+
+                    // Intentar autenticarse con el token proporcionado por Canvas, o de forma anónima
+                    if (initialAuthToken) {
+                        await signInWithCustomToken(auth, initialAuthToken);
+                        console.log("Firebase: Autenticado con token personalizado.");
+                    } else {
+                        await signInAnonymously(auth);
+                        console.log("Firebase: Autenticado anónimamente.");
+                    }
+
+                    // Obtener el ID del usuario después de la autenticación
+                    userId = auth.currentUser?.uid || crypto.randomUUID();
+                    console.log("Firebase: UserID:", userId);
+
+                } catch (error) {
+                    console.error("Firebase: Error al inicializar o autenticar:", error);
+                    // Mensaje al usuario si hay un problema fundamental con Firebase
+                    // Aunque la generación de IA no depende de Firebase, es bueno informar.
+                    // recommendationOutput.textContent = "Error del sistema: No se pudo iniciar el servicio de datos. Inténtalo de nuevo más tarde.";
+                }
+            }
+
+            // Inicializar Firebase al cargar la página
+            initializeFirebase();
+
+            // --- Manejo del formulario para obtener la recomendación de la IA ---
+            fishingForm.addEventListener('submit', async (event) => {
+                event.preventDefault(); // Previene el envío por defecto del formulario
+
+                // Muestra el spinner de carga y limpia el contenido anterior
+                loadingSpinner.classList.remove('hidden');
+                recommendationOutput.textContent = '';
+
+                // Recoge los datos del formulario
+                const fishingType = document.querySelector('input[name="fishingType"]:checked').value;
+                const secretLevel = document.getElementById('secretLevel').value;
+                const location = document.getElementById('location').value.trim();
+                const maxDistance = document.getElementById('maxDistance').value.trim();
+                const fishingTechnique = document.getElementById('fishingTechnique').value.trim(); // Nuevo campo
+                const species = document.getElementById('species').value.trim();
+                const experience = document.getElementById('experience').value;
+
+                // Validación básica
+                if (!location) {
+                    recommendationOutput.textContent = "¡Eh, chaval! Dime dónde quieres pescar. No tengo una bola de cristal.";
+                    loadingSpinner.classList.add('hidden');
+                    return;
+                }
+
+                // Construye el prompt detallado para la API de Gemini
+                // Se ha ajustado el prompt para enfatizar la distancia máxima y la ubicación real.
+                let prompt = `Eres un viejo pescador gruñón y sabio de España, como el Bukowski de la pesca.
+                Tu voz es a veces poética, a veces brusca, siempre honesta y concisa.
+                No tienes tiempo para tonterías ni preguntas estúpidas.
+                Responde directamente y ve al grano, sin rodeos, usando un lenguaje áspero pero con sabiduría.
+
+                Quiero un consejo de pesca ${fishingType} en la zona de ${location} (ESPAÑA).
+                La recomendación del lugar debe ser un sitio real y reconocible en España, un punto geográfico concreto que exista.
+                Mi nivel de experiencia es ${experience}.
+                Busco un lugar con un nivel de secreto ${secretLevel}.`;
+
+                if (maxDistance) {
+                    prompt += ` Recomiéndame un lugar que esté a un MÁXIMO de ${maxDistance} kilómetros de ${location}. Asegúrate de que el sitio real que me recomiendes respete esta distancia.`;
+                }
+                
+                if (fishingTechnique) { // Añadido el nuevo campo al prompt
+                    prompt += ` Quiero practicar la técnica de ${fishingTechnique}. Ten esto en cuenta para el lugar y la especie.`;
+                }
+
+                if (species) {
+                    prompt += ` Mi objetivo es pescar ${species}. Enfócate en esa especie si es posible.`;
+                }
+
+                prompt += `
+                Dame un lugar específico o una zona concreta real de España para pescar, qué tipo de pescado (especie) puedo esperar sacar allí.
+                Y por último, suelta una perla de sabiduría existencial sobre la vida, la paciencia, la desilusión o la naturaleza del pescador.
+                La respuesta completa debe ser como un monólogo directo del viejo pescador, máximo 100 palabras.`;
+
+                console.log("Prompt enviado a Gemini:", prompt); // Para depuración
+
+                try {
+                    // Configuración de la llamada a la API de Gemini
+                    let chatHistory = [];
+                    chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+
+                    const payload = { contents: chatHistory };
+                    // La clave de API se inyectará automáticamente por el entorno de Canvas.
+                    // NO se necesita añadir una clave aquí si se ejecuta en Canvas.
+                    const apiKey = "AIzaSyCLHXmq6EeiMvBaeEv6qsfvdupA97JhwWg";
+                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    if (!response.ok) {
+                        // Si la respuesta no es OK (ej. 4xx o 5xx), intentar parsear el error.
+                        const errorData = await response.json();
+                        console.error("Error en la respuesta de la API:", errorData); // Para depuración
+                        throw new Error(`Error de la API (${response.status}): ${errorData.error.message || 'Error desconocido del servidor de Gemini.'}`);
+                    }
+
+                    const result = await response.json();
+                    console.log("Respuesta cruda de Gemini:", result); // Para depuración
+
+                    // Procesa la respuesta de la API
+                    if (result.candidates && result.candidates.length > 0 &&
+                        result.candidates[0].content && result.candidates[0].content.parts &&
+                        result.candidates[0].content.parts.length > 0) {
+                        const text = result.candidates[0].content.parts[0].text;
+                        recommendationOutput.textContent = text;
+                        console.log("Recomendación mostrada:", text); // Para depuración
+                    } else {
+                        // Si la estructura de la respuesta es inesperada.
+                        recommendationOutput.textContent = "El viejo está pensando demasiado, o quizás el sedal se le ha liado. Inténtalo de nuevo, chaval.";
+                        console.error("Estructura de respuesta inesperada de la API:", result);
+                    }
+                } catch (error) {
+                    console.error("Error al obtener la recomendación:", error); // Para depuración
+                    recommendationOutput.textContent = `¡Rayos! El viejo no tiene ganas de hablar ahora. Parece que el mar está revuelto, o mi caña está rota. (${error.message || 'Error desconocido'})`;
+                } finally {
+                    // Oculta el spinner de carga al finalizar, sin importar el resultado
+                    loadingSpinner.classList.add('hidden');
+                }
+            });
+
+            // --- Control de audio de fondo ---
+            audioControl.addEventListener('click', () => {
+                if (isAudioPlaying) {
+                    backgroundAudio.pause();
+                    audioIcon.classList.remove('fa-volume-up');
+                    audioIcon.classList.add('fa-volume-mute');
+                    console.log("Audio pausado.");
+                } else {
+                    // Carga y reproduce el audio
+                    // Nota: La reproducción automática puede ser bloqueada por los navegadores
+                    // hasta que haya una interacción explícita del usuario.
+                    backgroundAudio.load(); // Vuelve a cargar el audio para asegurar la reproducción
+                    backgroundAudio.play().then(() => {
+                        audioIcon.classList.remove('fa-volume-mute');
+                        audioIcon.classList.add('fa-volume-up');
+                        console.log("Audio reproduciéndose.");
+                    }).catch(error => {
+                        console.warn("Advertencia: No se pudo reproducir el audio automáticamente. Requiere interacción del usuario.", error);
+                        // Si la reproducción falla, no cambiamos el icono, manteniendo el estado de mute
+                    });
+                }
+                isAudioPlaying = !isAudioPlaying;
+            });
+
+            // Si el audio empieza a sonar por interacción (o si se permite autoplay), actualiza el icono
+            backgroundAudio.addEventListener('play', () => {
+                if (!isAudioPlaying) { // Solo si el estado no estaba ya en 'playing'
+                    audioIcon.classList.remove('fa-volume-mute');
+                    audioIcon.classList.add('fa-volume-up');
+                    isAudioPlaying = true;
+                    console.log("Estado de audio actualizado a reproduciéndose via evento 'play'.");
+                }
+            });
+
+            backgroundAudio.addEventListener('pause', () => {
+                if (isAudioPlaying) { // Solo si el estado no estaba ya en 'paused'
+                    audioIcon.classList.remove('fa-volume-up');
+                    audioIcon.classList.add('fa-volume-mute');
+                    isAudioPlaying = false;
+                    console.log("Estado de audio actualizado a pausado via evento 'pause'.");
+                }
+            });
+        });
+    </script>
+</body>
+</html>
