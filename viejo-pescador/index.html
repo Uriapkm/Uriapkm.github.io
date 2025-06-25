@@ -13,11 +13,12 @@
 
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #0A1C29; /* Nuevo: Azul oscuro profundo, como el mar */
-            color: #D0DCE5; /* Nuevo: Off-white, como papel envejecido */
+            background-image: url('https://img.freepik.com/fotos-premium/anciano-pelo-gris-barco-pesquero-clasifica-redes-pescar-viejo-pescador-senor-bahia-pesca-peces-industria-pesquera_331695-10483.jpg');
             background-size: cover;
             background-repeat: no-repeat;
             background-attachment: fixed;
+            background-position: center center;
+            color: #D0DCE5; /* Nuevo: Off-white, como papel envejecido */
         }
 
         .container {
@@ -316,9 +317,12 @@
                 Busco un lugar con un nivel de secreto ${secretLevel}.`;
 
                 if (maxDistance) {
-                    prompt += `  Recorre mentalmente todas las zonas dentro de un radio de ${maxDistance} km desde ${location}.
-   Elige **un único lugar real y concreto** que cumpla el nivel de secreto requerido y sea óptimo para pescar lo pedido. No te veas sesgado por la localizacion que se ha dado y busca la mejor dentro del radio, no una que este directamente relacionada con la localizacion a no ser que esta sea la mejor. siempre respetando el radio de busqueda que se ha establecido, es muy importante.
-   Si no encuentras ninguno, responde con exactitud: **“Ningún lugar cumple esas condiciones.”**`;
+                    prompt += `Recorre mentalmente **todas las zonas reales** que estén dentro de un radio de ${maxDistance} km desde ${location}.  
+No te quedes con el primer sitio que te venga a la cabeza. **Compara varias opciones** y elige solo aquella que cumpla mejor con el nivel de secreto y el objetivo de pesca.  
+**No te dejes arrastrar por el nombre del lugar dado**: que ${location} sea el punto de referencia no significa que sea la mejor zona. Solo recomiéndala si, tras comparar, realmente lo es.  
+Es **muy importante** que el sitio sugerido esté DENTRO del radio indicado.  
+Si no encuentras ninguna zona adecuada, responde con exactitud: **“Ningún lugar cumple esas condiciones.”**
+”**`;
                 } else {
                     prompt += ` No hay restricciones de distancia, pero elige un lugar que sea accesible y relevante para la pesca.`;
                 }
