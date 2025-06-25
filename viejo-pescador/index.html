@@ -115,34 +115,13 @@
             100% { transform: rotate(360deg); }
         }
 
-        /* Estilos para el control de audio */
-        .audio-control {
-            position: fixed;
-            bottom: 1.5rem;
-            right: 1.5rem;
-            background-color: rgba(20, 35, 45, 0.8); /* Nuevo: Fondo oscuro transparente */
-            border-radius: 50%;
-            padding: 0.75rem;
-            cursor: pointer;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-            transition: background-color 0.3s;
-            z-index: 10;
-        }
 
-        .audio-control:hover {
-            background-color: rgba(30, 50, 60, 0.9); /* Nuevo: Fondo más oscuro al pasar el ratón */
-        }
-
-        .audio-control i {
-            color: #A37E5F; /* Nuevo: Color de acento para el icono */
-            font-size: 1.5rem;
-        }
     </style>
 </head>
 <body class="p-4 md:p-8">
     <div class="container mt-8 mb-8">
         <h1 class="text-4xl md:text-5xl text-center mb-4 leading-tight">El Viejo Pescador</h1>
-        <h2 class="text-xl md:text-2xl text-center mb-8 text-gray-400">Consejos sin filtro para el verdadero aficionado</h2>
+        <h2 class="text-xl md:text-2xl text-center mb-8 text-gray-400">Deja que este viejo lobo te recomiende donde pescar</h2>
 
         <p class="mb-8 text-center text-gray-300">
             "¿Quieres pescar, eh? Pues habla claro. Aquí no hay tiempo para chiquilladas. Dime qué buscas y quizás, solo quizás, te suelte una verdad. Sea del mar o de la vida."
@@ -168,9 +147,9 @@
             <div class="input-group">
                 <label class="text-lg" for="secretLevel">Nivel de Secreto:</label>
                 <select id="secretLevel" class="mt-2 block w-full">
-                    <option value="Bajo">Bajo (sitios conocidos, accesibles)</option>
-                    <option value="Medio">Medio (requiere algo de búsqueda, poca gente)</option>
-                    <option value="Alto">Alto (solo para los que aguantan, pocos lo saben)</option>
+                    <option value="Bajo, sitio conocido y accesible para pescar">Bajo (sitios conocidos, accesibles)</option>
+                    <option value="Medio, sitio menos conocido pero que se pueda ir andando, en una breve caminata y algo apartado">Medio (requiere algo de búsqueda, poca gente)</option>
+                    <option value="Alto, para poder llegar aqui habra que escalar o pasar nadando o en barca y es altamente inaccesible">Alto (solo para los que aguantan, pocos lo saben)</option>
                 </select>
             </div>
 
@@ -331,13 +310,17 @@
                 No tienes tiempo para tonterías ni preguntas estúpidas.
                 Responde directamente y ve al grano, sin rodeos, usando un lenguaje áspero pero con sabiduría.
 
-                Quiero un consejo de pesca ${fishingType} en la zona de ${location} (ESPAÑA).
+                Quiero un consejo de un spot de pesca para ${fishingType} en la zona de ${location} (ESPAÑA).
                 La recomendación del lugar debe ser un sitio real y reconocible en España, un punto geográfico concreto que exista.
                 Mi nivel de experiencia es ${experience}.
                 Busco un lugar con un nivel de secreto ${secretLevel}.`;
 
                 if (maxDistance) {
-                    prompt += ` Recomiéndame un lugar que esté a un MÁXIMO de ${maxDistance} kilómetros de ${location}. Asegúrate de que el sitio real que me recomiendes respete esta distancia.`;
+                    prompt += `  Recorre mentalmente todas las zonas dentro de un radio de ${maxDistance} km desde ${location}.
+   Elige **un único lugar real y concreto** que cumpla el nivel de secreto requerido y sea óptimo para pescar lo pedido. No te veas sesgado por la localizacion que se ha dado y busca la mejor dentro del radio, no una que este directamente relacionada con la localizacion a no ser que esta sea la mejor. siempre respetando el radio de busqueda que se ha establecido, es muy importante.
+   Si no encuentras ninguno, responde con exactitud: **“Ningún lugar cumple esas condiciones.”**`;
+                } else {
+                    prompt += ` No hay restricciones de distancia, pero elige un lugar que sea accesible y relevante para la pesca.`;
                 }
                 
                 if (fishingTechnique) { // Añadido el nuevo campo al prompt
@@ -349,9 +332,11 @@
                 }
 
                 prompt += `
-                Dame un lugar específico o una zona concreta real de España para pescar, qué tipo de pescado (especie) puedo esperar sacar allí.
-                Y por último, suelta una perla de sabiduría existencial sobre la vida, la paciencia, la desilusión o la naturaleza del pescador.
-                La respuesta completa debe ser como un monólogo directo del viejo pescador, máximo 100 palabras.`;
+               Describe con precisión **un único lugar real** de España donde se pueda pescar según lo solicitado.  
+Indica qué especie es la más probable de capturar allí, teniendo en cuenta la temporada.  
+La respuesta debe estar escrita como si el viejo pescador hablara en voz alta, sin florituras, sin cortesía.  
+Y al final, deja caer una frase áspera —una verdad sucia y simple— sobre la espera, el fracaso o la vida al borde del agua.  
+Todo debe caber en un **monólogo seco y vivido**, entre **80 y 100 palabras**, debes responder como si te el que pregunta te hubiera molestado y ser borde con el, no es nadie para molestar a un viejo lobo de mar como tu (puedes usar palabras malsonantes como bukowski).`;
 
                 console.log("Prompt enviado a Gemini:", prompt); // Para depuración
 
