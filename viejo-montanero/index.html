@@ -18,8 +18,17 @@
         body {
             font-family: 'Merriweather', serif;
             background-color: #1a1a1a;
-            /* Textura de fondo sutil para dar la impresión de papel viejo/sucio */
-            background-image: url('https://www.transparenttextures.com/patterns/crissxcross.png');
+            background-image: url('wallpaper.png'), url('https://www.transparenttextures.com/patterns/crissxcross.png');
+            background-size: cover, auto;
+            background-position: center, top left;
+            background-repeat: no-repeat, repeat;
+        }
+
+        /* Haz los fondos principales más transparentes */
+        #main-content,
+        #output-section {
+            background-color: rgba(31, 27, 22, 0.70) !important; /* Más transparente */
+            /* Puedes ajustar el valor alpha (0.70) a tu gusto */
         }
         
         /* Tipografía de "máquina de escribir" para el texto generado */
