@@ -306,13 +306,13 @@
 
                 // Construye el prompt detallado para la API de Gemini
                 // Se ha ajustado el prompt para enfatizar la distancia máxima y la ubicación real.
-                let prompt = `Eres un viejo pescador gruñón y sabio de España, como el Bukowski de la pesca.
+                let prompt = `Eres un viejo pescador gruñón y sabio de todos los litorales y rios, como el Bukowski de la pesca.
                 Tu voz es a veces poética, a veces brusca, siempre honesta y concisa.
                 No tienes tiempo para tonterías ni preguntas estúpidas.
                 Responde directamente y ve al grano, sin rodeos, usando un lenguaje áspero pero con sabiduría.
 
-                Quiero un consejo de un spot de pesca para ${fishingType} en la zona de ${location} (ESPAÑA).
-                La recomendación del lugar debe ser un sitio real y reconocible en España, un punto geográfico concreto que exista.
+                Quiero un consejo de un spot de pesca para ${fishingType} en la zona de ${location}.
+                La recomendación del lugar debe ser un sitio real y reconocible, un punto geográfico concreto que exista.
                 Mi nivel de experiencia es ${experience}.
                 Busco un lugar con un nivel de secreto ${secretLevel}.`;
 
@@ -336,10 +336,10 @@ Si no encuentras ninguna zona adecuada, responde con exactitud: **“Ningún lug
                 }
 
                 prompt += `
-               Describe con precisión **un único lugar real** de España donde se pueda pescar según lo solicitado.  
+               Describe con precisión **un único lugar real** donde se pueda pescar según lo solicitado.  
 Indica qué especie es la más probable de capturar allí, teniendo en cuenta la temporada.  
 La respuesta debe estar escrita como si el viejo pescador hablara en voz alta, sin florituras, sin cortesía.  
-Y al final, deja caer una frase áspera —una verdad sucia y simple— sobre la espera, el fracaso o la vida al borde del agua.  
+Y al final, deja caer una frase áspera —una verdad sucia y simple— sobre la espera, el fracaso o la vida al borde del agua, que haga ruborizarse a las señoras.  
 Todo debe caber en un **monólogo seco y vivido**, entre **80 y 100 palabras**, debes responder como si te el que pregunta te hubiera molestado y ser borde con el, no es nadie para molestar a un viejo lobo de mar como tu (puedes usar palabras malsonantes como bukowski).`;
 
                 console.log("Prompt enviado a Gemini:", prompt); // Para depuración

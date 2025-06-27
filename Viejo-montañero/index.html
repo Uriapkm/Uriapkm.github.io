@@ -1,0 +1,403 @@
+<!DOCTYPEazzaa html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>El Viejo Montañés: Rutas con Desprecio</title>
+    
+    <!-- TailwindCSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts para un estilo de máquina de escribir y de libro viejo -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Estilos personalizados para complementar Tailwind */
+        body {
+            font-family: 'Merriweather', serif;
+            background-color: #1a1a1a;
+            /* Textura de fondo sutil para dar la impresión de papel viejo/sucio */
+            background-image: url('https://www.transparenttextures.com/patterns/crissxcross.png');
+        }
+        
+        /* Tipografía de "máquina de escribir" para el texto generado */
+        .font-typewriter {
+            font-family: 'Special Elite', monospace;
+        }
+
+        /* Estilo para los inputs y selects para que encajen con el tema oscuro */
+        .form-input-custom {
+            background-color: #2d2d2d;
+            border: 1px solid #5a4a3a;
+            color: #e0e0e0;
+            transition: all 0.3s ease;
+        }
+        .form-input-custom:focus {
+            outline: none;
+            border-color: #c7a17a;
+            box-shadow: 0 0 0 2px rgba(199, 161, 122, 0.5);
+        }
+        
+        /* Animación del cursor parpadeante para el efecto de escritura */
+        #output-text::after {
+            content: '█';
+            display: inline-block;
+            animation: blink 1s step-end infinite;
+        }
+        @keyframes blink {
+            from, to { color: transparent; }
+            50% { color: #c7a17a; }
+        }
+
+        /* Spinner de carga */
+        .loading-spinner {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top: 4px solid #c7a17a; /* Color del spinner */
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 2rem auto;
+            display: none; /* Oculto por defecto */
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="text-gray-300 antialiased">
+
+    <div class="container mx-auto max-w-4xl p-4 sm:p-8">
+
+        <!-- Cabecera y avatar -->
+        <header class="text-center mb-8 flex flex-col items-center">
+            <div class="w-24 h-24 rounded-full bg-gray-700 border-2 border-amber-800 mb-4 flex items-center justify-center">
+                <!-- Simple silueta de montaña como avatar -->
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-16 h-16 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 21h18M5 15l4-8 4 5 3-3 5 6H5z" />
+                </svg>
+            </div>
+            <h1 class="text-4xl sm:text-5xl font-bold text-amber-500 font-typewriter">El Viejo Montañés</h1>
+            <p class="mt-2 text-lg text-gray-400 max-w-2xl">Te daré una ruta. No porque te lo merezcas, sino porque el monte necesita reírse de alguien.</p>
+        </header>
+
+        <!-- Formulario -->
+        <main id="main-content" class="bg-gray-800 bg-opacity-50 p-6 sm:p-8 rounded-lg shadow-2xl border border-amber-900">
+            <form id="route-form" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                
+                <!-- Columna 1 -->
+                <div class="space-y-6">
+                    <div>
+                        <label for="location" class="block text-amber-400 font-bold mb-1">¿Desde dónde sales, aspirante?</label>
+                        <input type="text" id="location" name="location" placeholder="Ej: Pirineos, Gredos, Sierra Nevada..." class="w-full p-2 rounded form-input-custom">
+                        <div class="mt-2">
+                            <label class="inline-flex items-center text-gray-300">
+                                <input type="checkbox" id="exact_location" name="exact_location" class="form-checkbox text-amber-600 bg-gray-700 border-gray-600 rounded focus:ring-amber-500 mr-2">
+                                Búscame una ruta EXACTA aquí (si no la hay, te jodes)
+                            </label>
+                        </div>
+                    </div>
+                    <div>
+                        <label for="distance" class="block text-amber-400 font-bold mb-1">Distancia máxima que aguantas (en km)</label>
+                        <input type="number" id="distance" name="distance" min="1" placeholder="No te flipes" class="w-full p-2 rounded form-input-custom">
+                    </div>
+                    <div>
+                        <label for="duration" class="block text-amber-400 font-bold mb-1">¿Cuánto tiempo vas a molestar?</label>
+                        <select id="duration" name="duration" class="w-full p-2 rounded form-input-custom">
+                            <option value="un dia">Un día (ida y vuelta, cobarde)</option>
+                            <option value="fin de semana">Fin de semana</option>
+                            <option value="3-5 dias">3–5 días</option>
+                            <option value="1 semana o mas">1 semana o más (atrévete)</option>
+                        </select>
+                    </div>
+                     <div>
+                        <label class="block text-amber-400 font-bold mb-2">¿Cómo de inútil eres?</label>
+                        <div class="space-y-1 text-gray-300">
+                            <label class="flex items-center"><input type="radio" name="level" value="Me ahogo subiendo al primero" class="mr-2 form-radio text-amber-600 bg-gray-700 border-gray-600 focus:ring-amber-500">Me ahogo subiendo al primero</label>
+                            <label class="flex items-center"><input type="radio" name="level" value="Normalito, pero no me rindo" checked class="mr-2 form-radio text-amber-600 bg-gray-700 border-gray-600 focus:ring-amber-500">Normalito, pero no me rindo</label>
+                            <label class="flex items-center"><input type="radio" name="level" value="Puedo con todo lo que no me mate" class="mr-2 form-radio text-amber-600 bg-gray-700 border-gray-600 focus:ring-amber-500">Puedo con todo lo que no me mate</label>
+                            <label class="flex items-center"><input type="radio" name="level" value="Ex militar, chaval" class="mr-2 form-radio text-amber-600 bg-gray-700 border-gray-600 focus:ring-amber-500">Ex militar, chaval</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Columna 2 -->
+                <div class="space-y-6">
+                    <div>
+                        <label for="style" class="block text-amber-400 font-bold mb-1">¿Qué tipo de paseo quieres?</label>
+                        <select id="style" name="style" class="w-full p-2 rounded form-input-custom">
+                            <option value="Tranquila">Tranquila</option>
+                            <option value="Aventura suave">Aventura suave</option>
+                            <option value="Salvaje de verdad">Salvaje de verdad</option>
+                            <option value="Quiero sufrir y sangrar">Quiero sufrir y sangrar</option>
+                        </select>
+                    </div>
+                    <!-- Contenedor del campo de alojamiento para poder ocultarlo -->
+                    <div id="accommodation-wrapper">
+                        <label for="accommodation" class="block text-amber-400 font-bold mb-1">¿Dónde piensas llorar por la noche?</label>
+                        <select id="accommodation" name="accommodation" class="w-full p-2 rounded form-input-custom">
+                            <option value="Hotel o albergue">Hotel o albergue (blando)</option>
+                            <option value="Tienda">Tienda</option>
+                            <option value="Vivac">Vivac (como debe ser)</option>
+                            <option value="Lo que haya">Lo que haya, me da igual</option>
+                        </select>
+                    </div>
+                    <div>
+                       <label class="block text-amber-400 font-bold mb-2">Evitar gente (para los asociales)</label>
+                        <div class="space-y-1 text-gray-300">
+                            <label class="flex items-center"><input type="radio" name="avoid_people" value="Lo más solitario posible" class="mr-2 form-radio text-amber-600 bg-gray-700 border-gray-600 focus:ring-amber-500" checked>Lo más solitario posible</label>
+                            <label class="flex items-center"><input type="radio" name="avoid_people" value="Me da igual" class="mr-2 form-radio text-amber-600 bg-gray-700 border-gray-600 focus:ring-amber-500">Me da igual</label>
+                            <label class="flex items-center"><input type="radio" name="avoid_people" value="Quiero ambiente" class="mr-2 form-radio text-amber-600 bg-gray-700 border-gray-600 focus:ring-amber-500">Quiero ambiente (qué vergüenza)</label>
+                        </div>
+                    </div>
+                    <div>
+                       <label class="block text-amber-400 font-bold mb-2">Entorno preferido (no te pases de listo)</label>
+                        <div class="grid grid-cols-2 gap-2 text-gray-300">
+                            <label class="flex items-center"><input type="checkbox" name="environment" value="Montaña" class="mr-2 form-checkbox text-amber-600 bg-gray-700 border-gray-600 rounded focus:ring-amber-500">Montaña</label>
+                            <label class="flex items-center"><input type="checkbox" name="environment" value="Bosque" class="mr-2 form-checkbox text-amber-600 bg-gray-700 border-gray-600 rounded focus:ring-amber-500">Bosque</label>
+                            <label class="flex items-center"><input type="checkbox" name="environment" value="Costa" class="mr-2 form-checkbox text-amber-600 bg-gray-700 border-gray-600 rounded focus:ring-amber-500">Costa</label>
+                            <label class="flex items-center"><input type="checkbox" name="environment" value="Desierto" class="mr-2 form-checkbox text-amber-600 bg-gray-700 border-gray-600 rounded focus:ring-amber-500">Desierto</label>
+                             <label class="flex items-center"><input type="checkbox" name="environment" value="Ríos/cañones" class="mr-2 form-checkbox text-amber-600 bg-gray-700 border-gray-600 rounded focus:ring-amber-500">Ríos/cañones</label>
+                            <label class="flex items-center"><input type="checkbox" name="environment" value="Ruinas raras" class="mr-2 form-checkbox text-amber-600 bg-gray-700 border-gray-600 rounded focus:ring-amber-500">Ruinas raras</label>
+                        </div>
+                    </div>
+                    <div>
+                        <label for="route_type" class="block text-amber-400 font-bold mb-1">¿Circular o lineal? (¿sabes volver a casa?)</label>
+                        <select id="route_type" name="route_type" class="w-full p-2 rounded form-input-custom">
+                            <option value="Circular">Circular (para los que tienen miedo a lo desconocido)</option>
+                            <option value="Lineal">Lineal (si tienes quien te recoja, claro)</option>
+                            <option value="Me da igual">Me da igual (así me gusta, sin planes)</option>
+                        </select>
+                    </div>
+                    <div>
+                       <label class="block text-amber-400 font-bold mb-2">Extras opcionales (¿necesitas que te lo den todo hecho?)</label>
+                        <div class="grid grid-cols-2 gap-2 text-gray-300">
+                            <label class="flex items-center"><input type="checkbox" name="extras" value="Agua potable" class="mr-2 form-checkbox text-amber-600 bg-gray-700 border-gray-600 rounded focus:ring-amber-500">Agua potable (bebe de charcos, cobarde)</label>
+                            <label class="flex items-center"><input type="checkbox" name="extras" value="Refugios" class="mr-2 form-checkbox text-amber-600 bg-gray-700 border-gray-600 rounded focus:ring-amber-500">Refugios (para los que temen al frío)</label>
+                            <label class="flex items-center"><input type="checkbox" name="extras" value="Zonas de baño" class="mr-2 form-checkbox text-amber-600 bg-gray-700 border-gray-600 rounded focus:ring-amber-500">Zonas de baño (para quitarte la mierda de la ciudad)</label>
+                            <label class="flex items-center"><input type="checkbox" name="extras" value="Acampada libre" class="mr-2 form-checkbox text-amber-600 bg-gray-700 border-gray-600 rounded focus:ring-amber-500">Acampada libre (si no te pilla el Seprona)</label>
+                             <label class="flex items-center"><input type="checkbox" name="extras" value="Vistas absurdas" class="mr-2 form-checkbox text-amber-600 bg-gray-700 border-gray-600 rounded focus:ring-amber-500">Vistas absurdas (si te impresionas con cualquier cosa)</label>
+                            <label class="flex items-center"><input type="checkbox" name="extras" value="Sin cobertura" class="mr-2 form-checkbox text-amber-600 bg-gray-700 border-gray-600 rounded focus:ring-amber-500">Sin cobertura (por fin sin tus chorradas de móvil)</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Botón de envío -->
+                <div class="md:col-span-2 text-center mt-4">
+                    <button type="submit" class="bg-amber-700 hover:bg-amber-800 text-white font-bold py-3 px-8 rounded-lg shadow-lg transition-transform transform hover:scale-105 duration-300 w-full md:w-auto">
+                        Haz tu magia, cabrón
+                    </button>
+                </div>
+            </form>
+        </main>
+        
+        <!-- Spinner de carga -->
+        <div id="loading-spinner" class="loading-spinner"></div>
+
+        <!-- Zona de resultados -->
+        <section id="output-section" class="mt-8 bg-gray-800 bg-opacity-50 p-6 sm:p-8 rounded-lg shadow-2xl border border-amber-900 hidden">
+            <h2 class="text-2xl font-bold text-amber-500 mb-4 font-typewriter">Vale, escucha, inútil:</h2>
+            <div id="output-text" class="text-lg text-gray-200 whitespace-pre-wrap leading-relaxed font-typewriter"></div>
+            <div id="output-actions" class="mt-6 text-center hidden">
+                <button id="copy-button" class="bg-gray-600 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded transition duration-300">
+                    Copiar esta genialidad
+                </button>
+                <p id="copy-feedback" class="text-sm text-green-400 mt-2 hidden">¡Copiado! Ahora lárgate.</p>
+            </div>
+        </section>
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('route-form');
+            const loadingSpinner = document.getElementById('loading-spinner');
+            const outputSection = document.getElementById('output-section');
+            const outputText = document.getElementById('output-text');
+            const outputActions = document.getElementById('output-actions');
+            const copyButton = document.getElementById('copy-button');
+            const copyFeedback = document.getElementById('copy-feedback');
+            
+            const durationSelect = document.getElementById('duration');
+            const accommodationWrapper = document.getElementById('accommodation-wrapper');
+            const exactLocationCheckbox = document.getElementById('exact_location'); // Nuevo checkbox
+
+            let typewriterInterval;
+            
+            // Función para mostrar/ocultar el campo de alojamiento según la duración del viaje
+            function toggleAccommodationField() {
+                if (durationSelect.value === 'un dia') {
+                    accommodationWrapper.classList.add('hidden');
+                } else {
+                    accommodationWrapper.classList.remove('hidden');
+                }
+            }
+            // Event listener para el cambio en la duración del viaje
+            durationSelect.addEventListener('change', toggleAccommodationField);
+            // Ejecutar al cargar para establecer el estado inicial
+            toggleAccommodationField();
+
+            // Manejador del envío del formulario
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                
+                // Ocultar la sección de salida y los mensajes de feedback
+                outputSection.classList.add('hidden');
+                outputActions.classList.add('hidden');
+                copyFeedback.classList.add('hidden');
+                outputText.innerHTML = '';
+                
+                // Mostrar el spinner de carga
+                loadingSpinner.style.display = 'block';
+
+                // Recolectar datos del formulario
+                const formData = new FormData(form);
+                const data = {};
+                for (let [key, value] of formData.entries()) {
+                    if (key === 'environment' || key === 'extras') {
+                        if (!data[key]) {
+                            data[key] = [];
+                        }
+                        data[key].push(value);
+                    } else if (key === 'exact_location') { // Manejar el nuevo checkbox
+                        data[key] = value === 'on'; // Checkbox value is 'on' if checked, otherwise not in formData
+                    } else {
+                        data[key] = value;
+                    }
+                }
+                // Si el checkbox no está presente en formData (es decir, no está marcado), establecerlo a false
+                if (data.exact_location === undefined) {
+                    data.exact_location = false;
+                }
+
+                const isOneDay = data.duration === 'un dia';
+
+                // Construir el prompt para la IA
+                let prompt = `Eres un viejo montañero cascarrabias, sabio y sarcástico. Odias a la gente y a los débiles. Tu vocabulario incluye palabras malsonantes y despectivas, pero tus consejos son siempre acertados y realistas. Tu tono es directo, sin piedad, como si la montaña misma te escupiera una ruta. No te cortes al usar lenguaje fuerte, pero que sea coherente con la personalidad de un montañero muy cabreado y experimentado.`;
+
+                prompt += `\n\nEl usuario, un mierdecilla más, ha solicitado una ruta de senderismo en España con los siguientes parámetros, a ver si aguanta:\n` +
+                          `- Ubicación de partida: ${data.location}\n` +
+                          `- Distancia máxima: ${data.distance} km\n` +
+                          `- Duración del viaje: ${data.duration}\n` +
+                          `- Nivel físico: ${data.level}\n` +
+                          `- Estilo de ruta: ${data.style}\n` +
+                          (isOneDay ? '' : `- Tipo de alojamiento preferido: ${data.accommodation}\n`) +
+                          `- Evitar gente: ${data.avoid_people}\n` +
+                          `- Tipo de entorno: ${data.environment ? data.environment.join(', ') : 'Ninguno'}\n` +
+                          `- Circular o lineal: ${data.route_type}\n` +
+                          `- Extras opcionales: ${data.extras ? data.extras.join(', ') : 'Ninguno'}`;
+
+                if (data.exact_location) {
+                    prompt += `\n\nEste paleto ha indicado que la ruta debe empezar *exactamente* en "${data.location}". Si no encuentro una puta ruta viable que comience exactamente ahí, decláralo explícitamente con tu tono ("¡Mierda! No hay nada decente por esa zona exacta, pedazo de inútil") y luego ofrece la mejor alternativa posible en la *zona general* cercana a "${data.location}", justificando por qué es una buena opción y manteniendo la estructura de la respuesta de "manga ancha" (ver siguiente párrafo).`;
+                } else {
+                    prompt += `\n\nEste imbécil me ha dado "manga ancha" para la ubicación, lo que significa que la ruta no tiene por qué empezar exactamente en "${data.location}", pero sí debe estar en la *zona cercana* a dicha ubicación o ser relevante para la misma. Quiero que recopiles la jodida información de la zona, compares las putas alternativas y propongas una ruta que se adapte a las peticiones del usuario. LO MÁS IMPORTANTE: Los lugares y la ruta expuesta DEBE PODER HACERSE, tener un ORDEN LÓGICO y RAZONADO para garantizar que tiene sentido en el puto mundo real. ¡No me vengas con chorradas inventadas, gilipollas!`;
+                }
+
+                if (isOneDay) {
+                    prompt += `\n\nEl formato de respuesta para UN DÍA es:\n\nRuta: [Nombre de puta ruta]\nDesde: [Ubicación de inicio real o la más cercana y lógica, donde no haya mariconadas]\n[Distancia] km – [Desnivel] m+ – [Circular/Lineal, si te atreves]\n\n[Descripción de la ruta con tu puto tono, abordando la dificultad y lo que se verá, incluyendo aspectos negativos o sarcásticos sobre el usuario si te parece oportuno. Asegúrate de que los puntos de interés sigan un orden lógico, no vaya a ser que te pierdas por subnormal.]\n\nConsejo final: [Consejo agresivo y característico, a ver si aprendes algo]`;
+                } else {
+                    prompt += `\n\nEl formato de respuesta para VARIOS DÍAS es:\n\nDÍA 1 – [Nombre Etapa 1, para que no te olvides dónde cojones estás]\n  - [Distancia] km, [Desnivel] m+\n  - [Descripción con tono sarcástico sobre lo que se encontrará y la puta experiencia, asegurando un orden lógico de puntos de interés]\n  - [Consejo borde sobre vivac/agua/etc., a ver si te espabilas]\n\nDÍA 2 – [Nombre Etapa 2, más mierda para ti]\n  - [Distancia] km, [Desnivel] m+. [Dificultad borde, para ver si lloras].\n  - [Descripción con tono sarcástico, asegurando un orden lógico de puntos de interés]\n\nDÍA 3 – [Nombre Etapa 3, el final del calvario si llegas]\n  - [Distancia] km, [Desnivel] m+.\n  - [Descripción con tono sarcástico, asegurando un orden lógico de puntos de interés]\n\n[...continuar con DÍAS adicionales si ${data.duration} es '1 semana o mas', y si no te has roto una pierna ya]\n\n[Reflexión existencial/sentencia borde final, para que se te quede grabado, pedazo de inútil]`;
+                }
+
+                try {
+                    // Llamada a la API de Gemini
+                    let chatHistory = [];
+                    chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+                    const payload = { contents: chatHistory };
+                    const apiKey = "AIzaSyCLHXmq6EeiMvBaeEv6qsfvdupA97JhwWg"; // La API key será proporcionada por el entorno de Canvas si está vacío
+                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    const result = await response.json();
+                    let generatedText = "Lo siento, chaval. No he podido encontrar una ruta para ti. Quizás es que eres demasiado blando."; // Mensaje de fallback
+
+                    if (result.candidates && result.candidates.length > 0 &&
+                        result.candidates[0].content && result.candidates[0].content.parts &&
+                        result.candidates[0].content.parts.length > 0) {
+                        generatedText = result.candidates[0].content.parts[0].text;
+                    } else {
+                        console.error("Respuesta inesperada de la API:", result);
+                    }
+
+                    // Ocultar spinner y mostrar sección de salida
+                    loadingSpinner.style.display = 'none';
+                    outputSection.classList.remove('hidden'); 
+                    
+                    // Iniciar efecto de escritura
+                    typewriterEffect(generatedText, outputText);
+
+                    // Desplazarse a la vista de la sección de salida
+                    outputSection.scrollIntoView({ behavior: 'smooth' });
+
+                } catch (error) {
+                    console.error("Error al generar la ruta:", error);
+                    loadingSpinner.style.display = 'none';
+                    outputSection.classList.remove('hidden');
+                    // Mensaje de error personalizado en el tono del viejo montañés
+                    outputText.textContent = "¡Cagada! La montaña ha rechazado tu petición. O yo, ¿quién sabe? Inténtalo de nuevo, si te atreves.";
+                }
+            });
+
+            // Manejador del botón de copiar
+            copyButton.addEventListener('click', () => {
+                const textToCopy = outputText.innerText;
+                // Usar la API Clipboard si está disponible, con fallback para navegadores antiguos
+                navigator.clipboard.writeText(textToCopy).then(() => {
+                    copyFeedback.classList.remove('hidden');
+                    setTimeout(() => copyFeedback.classList.add('hidden'), 2000); // Ocultar mensaje después de 2 segundos
+                }).catch(err => {
+                    console.error('Error al copiar usando navigator.clipboard:', err);
+                    // Fallback manual para asegurar la compatibilidad
+                    try {
+                        const textArea = document.createElement('textarea');
+                        textArea.value = textToCopy;
+                        document.body.appendChild(textArea);
+                        textArea.select();
+                        document.execCommand('copy');
+                        document.body.removeChild(textArea);
+                        copyFeedback.textContent = '¡Copiado! (A la vieja usanza)';
+                        copyFeedback.classList.remove('hidden');
+                        setTimeout(() => copyFeedback.classList.add('hidden'), 2000);
+                    } catch (e) {
+                         // Fallback final: si nada funciona, al menos se informa al usuario
+                         copyFeedback.textContent = 'No he podido copiarlo. ¡Qué inútil eres!';
+                         copyFeedback.classList.remove('hidden');
+                         setTimeout(() => copyFeedback.classList.add('hidden'), 3000);
+                    }
+                });
+            });
+
+            // Efecto de escritura gradual
+            function typewriterEffect(text, element) {
+                // Limpiar cualquier intervalo anterior y resetear el elemento
+                if (typewriterInterval) clearInterval(typewriterInterval);
+                element.innerHTML = '';
+                // Reiniciar animación del cursor (truco para forzarla a empezar de nuevo)
+                element.style.animation = 'none';
+                void element.offsetWidth; // Trigger reflow
+                element.style.animation = null; // Re-apply animation
+
+                let i = 0;
+                typewriterInterval = setInterval(() => {
+                    if (i < text.length) {
+                        element.innerHTML += text.charAt(i);
+                        i++;
+                    } else {
+                        clearInterval(typewriterInterval); // Detener el efecto cuando termina el texto
+                        outputActions.classList.remove('hidden'); // Mostrar el botón de copiar
+                    }
+                }, 15); // Velocidad de escritura (ms por carácter)
+            }
+        });
+    </script>
+
+</body>
+</html>
