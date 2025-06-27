@@ -20,8 +20,18 @@
             background-color: #1a1a1a;
             background-image: url('wallpaper.png'), url('https://www.transparenttextures.com/patterns/crissxcross.png');
             background-size: cover, auto;
-            background-position: center, top left;
+            background-position: 20% center, top left; /* Más centrado, pero con sesgo a la izquierda */
             background-repeat: no-repeat, repeat;
+            background-attachment: fixed, scroll;
+        }
+
+        /* En móviles, fondo estático y misma posición */
+        @media (max-width: 768px) {
+            body {
+                background-attachment: local, scroll;
+                background-position: 40% center, top left;
+                background-size: cover, auto;
+            }
         }
 
         /* Haz los fondos principales más transparentes */
