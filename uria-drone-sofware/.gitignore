@@ -1,0 +1,50 @@
+# Entornos virtuales de Python
+venv/
+.venv/
+env/
+.env/
+
+# Archivos de caché y bytecode de Python
+__pycache__/
+*.pyc
+*.pyd
+*.pyo
+
+# Archivos de paquetes y distribución
+*.egg-info/
+.eggs/
+dist/
+build/
+
+# Archivos de registro y temporales
+*.log
+*.tmp
+*.bak
+*~
+
+# Archivos específicos de sistemas operativos
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Archivos específicos de editores/IDE
+.idea/  # PyCharm/IntelliJ
+.vscode/  # VS Code (comenta esta línea si quieres compartir configuraciones)
+
+# Archivos generados por FreeCAD
+*.FCStd
+*.fcstd
+*.FCStd.bak
+
+# Archivos STL generados
+output/*.stl
+URIA_Drone_*.stl  # Por si generas STL fuera de output/
+
+# Archivos de sincronización de OneDrive
+*.OneDrive
+*.sync
+
+# Archivos de pruebas o demos
+*.mp4  # Videos de demos
+*.jpg  # Imágenes de pruebas
+docs/  # Si guardas documentación generada
