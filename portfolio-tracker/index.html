@@ -3,539 +3,384 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Local Encrypted Wallet</title>
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Asier Uria - Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
-        /* Custom font for better aesthetics */
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-        body {
-            font-family: 'Inter', sans-serif;
-        }
-        /* Hide number input arrows for better appearance */
-        input[type="number"]::-webkit-outer-spin-button,
-        input[type="number"]::-webkit-inner-spin-button {
-            -webkit-appearance: none;
+        * {
             margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        input[type="number"] {
-            -moz-appearance: textfield;
+
+        :root {
+            --primary-color: #2563eb;
+            --text-color: #1f2937;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --shadow: rgba(17, 12, 46, 0.15) 0px 48px 100px 0px;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        main {
+            padding-top: 100px;
+        }
+
+        section {
+            padding: 60px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        #home {
+            text-align: center;
+            padding: 120px 20px;
+        }
+
+        #home h1 {
+            font-size: 3.5em;
+            margin-bottom: 20px;
+            background: linear-gradient(to right, var(--primary-color), #4f46e5);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 800;
+        }
+
+        #home p {
+            font-size: 1.4em;
+            color: #64748b;
+        }
+
+        .about-content {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+            background: var(--card-bg);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+        }
+
+        .about-content img {
+            border-radius: 20px;
+            width: 200px;
+            height: 200px;
+            object-fit: cover;
+            box-shadow: var(--shadow);
+        }
+
+        .projects-carousel {
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+        }
+
+        .projects-track {
+            display: flex;
+            gap: 20px;
+            overflow-x: scroll;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none; /* IE and Edge */
+        }
+
+        .projects-track::-webkit-scrollbar {
+            display: none; /* Chrome, Safari and Opera */
+        }
+
+        .project {
+            flex: 0 0 100%;
+            scroll-snap-align: start;
+            min-width: calc(100% - 40px); /* Full width minus gap */
+            background-color: var(--card-bg);
+            padding: 3rem;
+            border-radius: 24px;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease;
+        }
+
+        .project:hover {
+            transform: translateY(-5px);
+        }
+
+        .project img {
+            width: 100%;
+            height: 450px;
+            object-fit: contain;
+            border-radius: 16px;
+            background-color: #f1f5f9;
+            margin-bottom: 2rem;
+            transition: transform 0.3s ease;
+        }
+
+        .project img:hover {
+            transform: scale(1.02);
+        }
+
+        .project h3 {
+            font-size: 2rem;
+            color: var(--text-color);
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .project p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #64748b;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .carousel-btn {
+            position: fixed;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.5rem;
+            opacity: 0.9;
+            z-index: 100;
+            transition: all 0.3s ease;
+        }
+
+        .carousel-btn:hover {
+            opacity: 1;
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .carousel-btn.prev {
+            left: 20px;
+        }
+
+        .carousel-btn.next {
+            right: 20px;
+        }
+
+        #contact {
+            text-align: center;
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 60px;
+            box-shadow: var(--shadow);
+        }
+
+        #contact h2 {
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            color: var(--text-color);
+        }
+
+        #contact p {
+            margin-bottom: 20px;
+            font-size: 1.2em;
+            color: #64748b;
+        }
+
+        #contact a {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        #contact a:hover {
+            color: #4f46e5;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px;
+            background-color: var(--card-bg);
+            margin-top: 60px;
+            color: #64748b;
+        }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+        }
+
+        .back-to-top:hover {
+            transform: translateY(-5px);
+        }
+
+        @media (max-width: 768px) {
+            #home h1 {
+                font-size: 2.5em;
+            }
+
+            .about-content {
+                flex-direction: column;
+                padding: 20px;
+            }
+
+            .project {
+                padding: 1.5rem;
+            }
+
+            .carousel-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
+            }
         }
     </style>
 </head>
-<body class="bg-gray-100 text-gray-800 flex items-center justify-center min-h-screen p-4">
-    <div class="bg-white p-8 rounded-lg shadow-xl w-full max-w-2xl">
-        <h1 class="text-3xl font-bold mb-6 text-center text-gray-900">Encrypted Financial Wallet (100% Local)</h1>
-
-        <section id="authSection" class="mb-8">
-            <div class="mb-4">
-                <label for="fixedPwd" class="block text-sm font-medium text-gray-700 mb-1">Fixed Password</label>
-                <input id="fixedPwd" type="password" autocomplete="off" placeholder="Enter your fixed password..."
-                       class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 text-base font-mono">
-            </div>
-
-            <div class="mb-4">
-                <label for="encText" class="block text-sm font-medium text-gray-700 mb-1">Variable Password (Base64 Encrypted String)</label>
-                <textarea id="encText" placeholder="Paste your encrypted string here..."
-                          class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 text-base font-mono min-h-[6rem] resize-y"></textarea>
-            </div>
-
-            <div class="flex gap-3 mt-4 flex-wrap">
-                <button id="decryptBtn"
-                        class="flex-1 min-w-[150px] bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-md transition duration-300 ease-in-out shadow-md">
-                    Decrypt Wallet
-                </button>
-                <button id="createEmptyBtn" type="button"
-                        class="flex-1 min-w-[150px] bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-md transition duration-300 ease-in-out shadow-md">
-                    Create New Wallet
-                </button>
-                <button id="importBtn" type="button"
-                        class="flex-1 min-w-[150px] bg-yellow-600 hover:bg-yellow-700 text-white font-semibold py-2 px-4 rounded-md transition duration-300 ease-in-out shadow-md">
-                    Import Wallet (JSON)
-                </button>
-                <input type="file" id="importFileInput" accept=".json" class="hidden">
-                <button id="clearBtn" type="button"
-                        class="flex-1 min-w-[150px] bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-2 px-4 rounded-md transition duration-300 ease-in-out shadow-md">
-                    Clear
-                </button>
-            </div>
-            <div id="authMsg" class="mt-3 text-sm text-center"></div>
+<body>
+    <main>
+        <section id="home">
+            <h1>Welcome to my Portfolio</h1>
+            <p>Showcasing my skills and projects.</p>
         </section>
 
-        <section id="portfolioSection" class="hidden">
-            <h2 class="text-2xl font-semibold mb-4 text-gray-900">Portfolio Editor</h2>
-            <div class="overflow-x-auto">
-                <table class="min-w-full bg-white border border-gray-200 rounded-lg">
-                    <thead>
-                        <tr class="bg-gray-50 border-b border-gray-200">
-                            <th class="py-2 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Ticker</th>
-                            <th class="py-2 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Quantity</th>
-                            <th class="py-2 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Purchase Price</th>
-                            <th class="py-2 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Notes</th>
-                            <th class="py-2 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-16"></th>
-                        </tr>
-                    </thead>
-                    <tbody id="portfolioTableBody" class="divide-y divide-gray-200">
-                        <!-- Rows will be injected here by JavaScript -->
-                    </tbody>
-                </table>
+        <section id="about">
+            <h2>About me</h2>
+            <div class="about-content">
+                <img src="./images/logo.png" alt="Your Name">
+                <p>Lab technician focused on functional prototyping and test rig design, with experience in battery R&D and AI-assisted tool development. I built this website myself using HTML.— it’s a bit scrappy, coded today just for this application… but hey, it works (and so do I).</p>
             </div>
-            <button id="addRowBtn" type="button"
-                    class="mt-4 bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-md transition duration-300 ease-in-out shadow-md">
-                Add Asset
-            </button>
+        </section>
 
-            <div class="flex gap-3 mt-6 flex-wrap">
-                <button id="encryptBtn"
-                        class="flex-1 min-w-[180px] bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-md transition duration-300 ease-in-out shadow-md">
-                    Encrypt & Generate New Password
-                </button>
-                 <button id="exportBtn" type="button"
-                        class="flex-1 min-w-[180px] bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-4 rounded-md transition duration-300 ease-in-out shadow-md">
-                    Export Wallet (JSON)
-                </button>
-                <button id="hideBtn" type="button"
-                        class="flex-1 min-w-[180px] bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-2 px-4 rounded-md transition duration-300 ease-in-out shadow-md">
-                    Hide Clear Data
-                </button>
-            </div>
+        <section id="projects">
+            <h2>Projects</h2>
+            <div class="projects-carousel">
+                <div class="projects-track">
+                    <div class="project">
+                        <img src="./images/laura.PNG" alt="Variable Angle Adapter">
+                        <h3>Variable Angle Adapter</h3>
+                        <p>Variable angle adapter designed for precise analysis of droplet sliding on different surfaces. 
+                           Enables exact tilt angle control for wettability studies.—achieving the same functionality as commercial systems while saving over €8,000 in equipment costs.</p>
+                    </div>
 
-            <div class="mt-6">
-                <label for="newEncText" class="block text-sm font-medium text-gray-700 mb-1">New Generated Variable Password</label>
-                <div class="relative">
-                    <textarea id="newEncText" readonly placeholder="The new encrypted string will appear here..."
-                              class="w-full px-4 pr-12 py-2 border border-gray-300 rounded-md bg-gray-50 text-base font-mono min-h-[5rem] resize-y cursor-pointer"></textarea>
-                    <button id="copyBtn" title="Copy to clipboard"
-                            class="absolute top-2 right-2 bg-gray-200 hover:bg-gray-300 p-2 rounded-md transition duration-200 ease-in-out text-gray-600 hover:text-gray-800">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                            <path d="M8 3a1 1 0 011-1h2a1 1 0 110 2H9a1 1 0 01-1-1z" />
-                            <path d="M6 3a2 2 0 00-2 2v11a2 2 0 002 2h8a2 2 0 002-2V5a2 2 0 00-2-2 3 3 0 013 3v11a3 3 0 01-3 3H6a3 3 0 01-3-3V5a3 3 0 013-3h2.5a.5.5 0 000-1H6a4 4 0 00-4 4v11a4 4 0 004 4h8a4 4 0 004-4V5a4 4 0 00-4-4h-2.5a.5.5 0 000 1H14a3 3 0 013 3v11a3 3 0 01-3 3H6a3 3 0 01-3-3V5a3 3 0 013-3z" />
-                        </svg>
-                    </button>
+                     <div class="project">
+                        <img src="./images/instron.png" alt="Instron Custom Design">
+                        <h3>Instron Custom Design</h3>
+                        <p>Custom accessory for Instron equipment for compression experiments. 
+                           Designed and manufactured specialized components to enhance testing capabilities 
+                           and improve experimental accuracy.</p>
+                    </div>
+
+                    <div class="project">
+                        <img src="./images/uria-drone.png" alt="URIA Drone Frame Generator">
+                        <h3>URIA Drone Frame Generator</h3>
+                        <p>Developed 'URIA', a parametric drone frame generator for field deployment. The project combines Python, 
+                           OpenSCAD and FreeCAD to create custom designs according to specific mission requirements.</p>
+                    </div>
+
+                    <div class="project">
+                        <img src="./images/shadowfax.png" alt="Shadowfax Prototyping">
+                        <h3>Shadowfax Prototyping</h3>
+                        <p>Founded Shadowfax Prototyping, a 3D printing and design service supporting R&D teams in the Álava Technology Park. This experience sharpened my ability to quickly understand experimental needs, deliver custom mechanical solutions, and operate under real lab constraints—skills directly aligned with the role at Vaisala.</p>
+                    </div>
+
+                    <div class="project">
+                        <img src="./images/retro-console.jpg" alt="Portable Retro Consoles">
+                        <h3>Retro Console Conversions</h3>
+                        <p>Project focused on transforming retro consoles into fully functional, battery-powered portable devices. Notable work includes converting a PlayStation 2 into a handheld system, preserving original features while redesigning hardware layout, power management, and display integration—demonstrating problem-solving, precision fabrication, and system-level thinking.</p>
+                    </div>
+                    
+                    <div class="project">
+                        <img src="./images/soporte botellas redox.PNG" alt="Redox Flow Setup">
+                        <h3>Redox Flow Bottle Support</h3>
+                        <p>Custom-designed holder for electrolyte bottles used in redox flow battery experiments. Ensures stability, spill prevention, and easy access during testing, improving lab safety and workflow.</p>
+                    </div>
+                    
+                    <div class="project">
+                        <img src="./images/soporte celda redox.jpg" alt="Redox Cell Support">
+                        <h3>Redox Cell Support</h3>
+                        <p>Designed and built specialized supports for redox flow battery cells, ensuring stable vertical positioning and easy access to electrical and fluid connections during experimental procedures—improving safety, repeatability, and workflow efficiency.</p>
+                    </div>
+                    
+                    <div class="project">
+                        <img src="./images/custom-guitar.jpg" alt="Custom Electric Guitars">
+                        <h3>Custom Electric Guitars</h3>
+                        <p>Built electric guitars from scratch in a home workshop, applying precision fabrication, material selection, and hands-on assembly—skills directly transferable to prototyping and custom mechanical builds in an R&D environment.</p>
+                    </div>
+
+                   
                 </div>
-                <div id="encMsg" class="mt-3 text-sm text-center"></div>
             </div>
+            <button class="carousel-btn prev">←</button>
+            <button class="carousel-btn next">→</button>
         </section>
-    </div>
+
+        <section id="contact">
+            <h2>Contact</h2>
+            <p>Email: asieruria1@gmail.com</p>
+            <p>LinkedIn: <a href="https://www.linkedin.com/in/asier-uria-553895288/" target="_blank">linkedin.com/in/asier-uria-553895288</a></p>
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2025 Asier Uria</p>
+    </footer>
+
+    <button class="back-to-top">↑</button>
 
     <script>
-        // ---------- Conversion Utilities ----------
-        const enc = new TextEncoder();
-        const dec = new TextDecoder();
+        document.addEventListener('DOMContentLoaded', () => {
+            const track = document.querySelector('.projects-track');
+            const prevBtn = document.querySelector('.carousel-btn.prev');
+            const nextBtn = document.querySelector('.carousel-btn.next');
+            const projectsSection = document.querySelector('#projects');
 
-        /** Converts a string to Uint8Array. */
-        function strToBytes(str) { return enc.encode(str); }
-        /** Converts a Uint8Array to a string. */
-        function bytesToStr(buf) { return dec.decode(buf); }
-        /** Converts a Uint8Array to a Base64 string. */
-        function bytesToBase64(bytes) { return btoa(String.fromCharCode(...new Uint8Array(bytes))); }
-        /** Converts a Base64 string to a Uint8Array. */
-        function base64ToBytes(b64) { return Uint8Array.from(atob(b64), c => c.charCodeAt(0)); }
-
-        // ---------- Cryptographic Parameters ----------
-        // Fixed salt embedded in the application. For increased security, a unique salt per encryption
-        // stored alongside the ciphertext (but not encrypted) is recommended in a real-world scenario.
-        const SALT = strToBytes('wallet_static_salt_v1');
-        // Number of PBKDF2 iterations. Higher values increase security but also processing time.
-        const PBKDF2_ITER = 100000; // Recommended >= 100,000 for good security
-
-        // ---------- Key Derivation ----------
-        /**
-         * Derives an AES-GCM key from a password using PBKDF2.
-         * @param {string} password - The user's fixed password.
-         * @returns {Promise<CryptoKey>} The derived cryptographic key.
-         */
-        async function deriveKey(password) {
-            const baseKey = await crypto.subtle.importKey(
-                'raw',
-                strToBytes(password),
-                'PBKDF2',
-                false,
-                ['deriveKey']
-            );
-            return crypto.subtle.deriveKey(
-                { name: 'PBKDF2', hash: 'SHA-256', salt: SALT, iterations: PBKDF2_ITER },
-                baseKey,
-                { name: 'AES-GCM', length: 256 }, // AES-256 GCM
-                false,
-                ['encrypt', 'decrypt']
-            );
-        }
-
-        // ---------- Encryption ----------
-        /**
-         * Encrypts a JSON string using AES-GCM and returns a Base64 encoded string.
-         * @param {string} password - The password to derive the encryption key from.
-         * @param {string} jsonStr - The JSON string to encrypt.
-         * @returns {Promise<string>} The Base64 encoded IV + ciphertext.
-         */
-        async function encryptJson(password, jsonStr) {
-            const key = await deriveKey(password);
-            const iv = crypto.getRandomValues(new Uint8Array(12)); // 96-bit IV for AES-GCM
-            const ciphertext = await crypto.subtle.encrypt(
-                { name: 'AES-GCM', iv },
-                key,
-                strToBytes(jsonStr)
-            );
-            // Concatenate IV and ciphertext for storage/transmission
-            const combined = new Uint8Array(iv.byteLength + ciphertext.byteLength);
-            combined.set(iv, 0);
-            combined.set(new Uint8Array(ciphertext), iv.byteLength);
-            return bytesToBase64(combined);
-        }
-
-        // ---------- Decryption ----------
-        /**
-         * Decrypts a Base64 encoded string (IV + ciphertext) using AES-GCM.
-         * @param {string} password - The password to derive the decryption key from.
-         * @param {string} b64 - The Base64 encoded IV + ciphertext string.
-         * @returns {Promise<string>} The decrypted JSON string.
-         * @throws {Error} If the encrypted data is too short or decryption fails (e.g., incorrect password).
-         */
-        async function decryptJson(password, b64) {
-            const combined = base64ToBytes(b64.trim());
-            // IV is 12 bytes. Minimum combined length should be IV length + some ciphertext.
-            if (combined.length < 13) { // 12 bytes IV + at least 1 byte of data
-                throw new Error('Encrypted data too short or invalid format.');
-            }
-            const iv = combined.slice(0, 12);
-            const data = combined.slice(12);
-            const key = await deriveKey(password);
-            const plainBuf = await crypto.subtle.decrypt(
-                { name: 'AES-GCM', iv },
-                key,
-                data
-            );
-            return bytesToStr(plainBuf);
-        }
-
-        // ---------- UI Handling ----------
-        const fixedPwdEl = document.getElementById('fixedPwd');
-        const encTextEl = document.getElementById('encText');
-        const decryptBtn = document.getElementById('decryptBtn');
-        const createEmptyBtn = document.getElementById('createEmptyBtn');
-        const importBtn = document.getElementById('importBtn'); // New import button
-        const importFileInput = document.getElementById('importFileInput'); // Hidden file input
-        const clearBtn = document.getElementById('clearBtn');
-        const authMsg = document.getElementById('authMsg');
-        const portfolioSection = document.getElementById('portfolioSection');
-        const portfolioTableBody = document.getElementById('portfolioTableBody');
-        const addRowBtn = document.getElementById('addRowBtn');
-        const encryptBtn = document.getElementById('encryptBtn');
-        const exportBtn = document.getElementById('exportBtn'); // New export button
-        const hideBtn = document.getElementById('hideBtn');
-        const newEncText = document.getElementById('newEncText');
-        const encMsg = document.getElementById('encMsg');
-        const copyBtn = document.getElementById('copyBtn');
-
-
-        let currentData = null; // Decrypted portfolio data
-
-        /** Displays a message in the authentication section. */
-        function showAuthMsg(text, isSuccess = false) {
-            authMsg.textContent = text;
-            authMsg.className = `mt-3 text-sm text-center ${isSuccess ? 'text-green-600' : 'text-red-600'}`;
-        }
-
-        /** Displays a message in the encryption section. */
-        function showEncMsg(text, isSuccess = true) {
-            encMsg.textContent = text;
-            encMsg.className = `mt-3 text-sm text-center ${isSuccess ? 'text-green-600' : 'text-red-600'}`;
-        }
-
-        /** Adds a new row to the portfolio table. */
-        function addRow(asset = { ticker: '', quantity: '', purchase_price: '', notes: '' }) {
-            const tr = document.createElement('tr');
-            tr.className = 'hover:bg-gray-50'; // Tailwind class for hover effect
-            tr.innerHTML = `
-                <td class="py-2 px-4">
-                    <input value="${asset.ticker}" placeholder="e.g. BTC"
-                           class="w-full bg-transparent border-none focus:outline-none focus:ring-0 text-base py-1">
-                </td>
-                <td class="py-2 px-4">
-                    <input type="number" step="any" value="${asset.quantity}" placeholder="e.g. 0.5"
-                           class="w-full bg-transparent border-none focus:outline-none focus:ring-0 text-base py-1">
-                </td>
-                <td class="py-2 px-4">
-                    <input type="number" step="any" value="${asset.purchase_price}" placeholder="e.g. 35000.00"
-                           class="w-full bg-transparent border-none focus:outline-none focus:ring-0 text-base py-1">
-                </td>
-                <td class="py-2 px-4">
-                    <input value="${asset.notes}" placeholder="e.g. Long-term hold"
-                           class="w-full bg-transparent border-none focus:outline-none focus:ring-0 text-base py-1">
-                </td>
-                <td class="py-2 px-4 text-center">
-                    <button type="button" class="delBtn text-red-500 hover:text-red-700 transition duration-150 ease-in-out" title="Delete asset">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 011-1h4a1 1 0 110 2H8a1 1 0 01-1-1z" clip-rule="evenodd" />
-                        </svg>
-                    </button>
-                </td>
-            `;
-            portfolioTableBody.appendChild(tr);
-        }
-
-        /** Loads the portfolio data into the table. */
-        function loadTable() {
-            portfolioTableBody.innerHTML = '';
-            // Ensure currentData.cartera is an array before iterating
-            (currentData.portfolio || []).forEach(addRow); // Changed to 'portfolio' property
-        }
-
-        /** Extracts data from the table rows and returns it as a portfolio object. */
-        function tableToData() {
-            const rows = [...portfolioTableBody.querySelectorAll('tr')];
-            const portfolio = rows.map(r => {
-                const cells = r.querySelectorAll('input');
-                const ticker = cells[0].value.trim();
-                const quantity = parseFloat(cells[1].value);
-                const purchase_price = parseFloat(cells[2].value);
-                const notes = cells[3].value.trim();
-
-                return {
-                    ticker: ticker,
-                    quantity: isNaN(quantity) ? 0 : quantity, // Validation: if not a number, 0
-                    purchase_price: isNaN(purchase_price) ? 0 : purchase_price, // Validation: if not a number, 0
-                    notes: notes
-                };
-            }).filter(a => a.ticker); // Filter out rows with empty ticker
-            return { portfolio }; // Changed to 'portfolio' property
-        }
-
-        // ---------- Event Listeners ----------
-
-        // Decrypt button click event
-        decryptBtn.addEventListener('click', async () => {
-            showAuthMsg('Decrypting...', true);
-            decryptBtn.disabled = true;
-            createEmptyBtn.disabled = true;
-            importBtn.disabled = true;
-            clearBtn.disabled = true;
-
-            const fixedPwd = fixedPwdEl.value.trim();
-            const encText = encTextEl.value.trim();
-
-            if (!fixedPwd) {
-                showAuthMsg('Please enter the fixed password.');
-                // Re-enable buttons if there's an error
-                decryptBtn.disabled = false;
-                createEmptyBtn.disabled = false;
-                importBtn.disabled = false;
-                clearBtn.disabled = false;
-                return;
-            }
-            if (!encText) {
-                 showAuthMsg('Please paste the encrypted string.');
-                // Re-enable buttons if there's an error
-                decryptBtn.disabled = false;
-                createEmptyBtn.disabled = false;
-                importBtn.disabled = false;
-                clearBtn.disabled = false;
-                return;
+            function scrollToProjects() {
+                const projectsTop = projectsSection.offsetTop;
+                window.scrollTo({
+                    top: projectsTop,
+                    behavior: 'smooth'
+                });
             }
 
+            nextBtn.addEventListener('click', () => {
+                track.scrollBy({
+                    left: track.offsetWidth,
+                    behavior: 'smooth'
+                });
+                scrollToProjects();
+            });
 
-            try {
-                const jsonStr = await decryptJson(fixedPwd, encText);
-                currentData = JSON.parse(jsonStr);
-                // Ensure the loaded data has a 'portfolio' array, if not, convert 'cartera'
-                if (currentData && currentData.cartera && !currentData.portfolio) {
-                    currentData.portfolio = currentData.cartera;
-                    delete currentData.cartera; // Remove old property
+            prevBtn.addEventListener('click', () => {
+                track.scrollBy({
+                    left: -track.offsetWidth,
+                    behavior: 'smooth'
+                });
+                scrollToProjects();
+            });
+
+            const backToTopButton = document.querySelector('.back-to-top');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 100) {
+                    backToTopButton.style.display = 'block';
+                } else {
+                    backToTopButton.style.display = 'none';
                 }
-                loadTable();
-                portfolioSection.classList.remove('hidden');
-                showAuthMsg('Wallet decrypted successfully.', true);
-                newEncText.value = '';
-                encMsg.textContent = '';
-            } catch (e) {
-                console.error("Decryption error:", e);
-                showAuthMsg('Incorrect password or corrupted/invalid data.');
-            } finally {
-                decryptBtn.disabled = false;
-                createEmptyBtn.disabled = false;
-                importBtn.disabled = false;
-                clearBtn.disabled = false;
-            }
-        });
+            });
 
-        // Create Empty Portfolio button click event
-        createEmptyBtn.addEventListener('click', () => {
-            showAuthMsg('');
-            const fixedPwd = fixedPwdEl.value.trim();
-
-            if (!fixedPwd) {
-                showAuthMsg('Please enter a fixed password to create a new wallet.', false);
-                return;
-            }
-
-            currentData = { portfolio: [] }; // Initialize with an empty portfolio
-            loadTable(); // Load the empty table
-            portfolioSection.classList.remove('hidden'); // Show the portfolio editor
-            showAuthMsg('New empty wallet created. Add assets and encrypt to get your variable string.', true);
-            encTextEl.value = '';
-            newEncText.value = '';
-            encMsg.textContent = '';
-        });
-
-        // Import Wallet (JSON) button click event
-        importBtn.addEventListener('click', () => {
-            importFileInput.click(); // Trigger click on the hidden file input
-        });
-
-        // Change event on the file input for importing
-        importFileInput.addEventListener('change', (event) => {
-            const file = event.target.files[0];
-            if (!file) {
-                showAuthMsg('No file selected for import.', false);
-                return;
-            }
-
-            if (file.type !== 'application/json') {
-                showAuthMsg('Please select a valid JSON file.', false);
-                return;
-            }
-
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                try {
-                    const importedData = JSON.parse(e.target.result);
-                    // Validate basic structure (e.g., must have a 'portfolio' array)
-                    // Also handle older 'cartera' format for backwards compatibility
-                    if (importedData && (Array.isArray(importedData.portfolio) || Array.isArray(importedData.cartera))) {
-                        currentData = importedData;
-                        if (currentData.cartera && !currentData.portfolio) {
-                            currentData.portfolio = currentData.cartera;
-                            delete currentData.cartera; // Remove old property
-                        }
-                        loadTable();
-                        portfolioSection.classList.remove('hidden');
-                        showAuthMsg('Wallet imported successfully from JSON.', true);
-                        encTextEl.value = ''; // Clear fields related to previous encryption
-                        newEncText.value = '';
-                        encMsg.textContent = '';
-                    } else {
-                        showAuthMsg('The JSON file does not appear to be a valid wallet format.', false);
-                    }
-                } catch (jsonError) {
-                    console.error("Error parsing JSON:", jsonError);
-                    showAuthMsg('Error reading the JSON file. Please ensure the format is correct.', false);
-                }
-            };
-            reader.onerror = () => {
-                showAuthMsg('Error reading file. Please try again.', false);
-            };
-            reader.readAsText(file);
-        });
-
-
-        // Clear button click event
-        clearBtn.addEventListener('click', () => {
-            fixedPwdEl.value = '';
-            encTextEl.value = '';
-            authMsg.textContent = '';
-            encMsg.textContent = '';
-            newEncText.value = '';
-            portfolioSection.classList.add('hidden');
-            portfolioTableBody.innerHTML = '';
-            currentData = null;
-            showAuthMsg('Fields cleared and clear data hidden.', true);
-        });
-
-        // Add row button click event
-        addRowBtn.addEventListener('click', () => addRow());
-
-        // Delegate click event for delete buttons (for dynamically added rows)
-        portfolioTableBody.addEventListener('click', e => {
-            if (e.target.closest('.delBtn')) {
-                e.target.closest('tr').remove();
-            }
-        });
-
-        // Encrypt button click event
-        encryptBtn.addEventListener('click', async () => {
-            showEncMsg('Encrypting...', true);
-            encryptBtn.disabled = true;
-            exportBtn.disabled = true;
-            hideBtn.disabled = true;
-
-            const fixedPwd = fixedPwdEl.value.trim();
-            if (!fixedPwd) {
-                showEncMsg('Please enter the fixed password to encrypt.', false);
-                encryptBtn.disabled = false;
-                exportBtn.disabled = false;
-                hideBtn.disabled = false;
-                return;
-            }
-
-            try {
-                currentData = tableToData(); // Get current data from table (with number validation)
-                const newB64 = await encryptJson(fixedPwd, JSON.stringify(currentData));
-                newEncText.value = newB64;
-                showEncMsg('Wallet encrypted successfully. Copy the new encrypted string.');
-            } catch (e) {
-                console.error("Encryption error:", e);
-                showEncMsg('Error encrypting data. Check console for details.', false);
-            } finally {
-                encryptBtn.disabled = false;
-                exportBtn.disabled = false;
-                hideBtn.disabled = false;
-            }
-        });
-
-        // Export Wallet (JSON) button click event
-        exportBtn.addEventListener('click', () => {
-            if (!currentData || !currentData.portfolio || currentData.portfolio.length === 0) { // Check 'portfolio' property
-                showEncMsg('No data in the wallet to export.', false);
-                return;
-            }
-
-            try {
-                const jsonStr = JSON.stringify(currentData, null, 2); // Readable format with indentation
-                const blob = new Blob([jsonStr], { type: 'application/json' });
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                // Generate dynamic filename with date
-                const date = new Date().toISOString().slice(0,10); // YYYY-MM-DD
-                a.download = `financial_wallet_${date}.json`;
-                document.body.appendChild(a); // Required for Firefox
-                a.click();
-                document.body.removeChild(a); // Clean up
-                URL.revokeObjectURL(url); // Release object URL
-                showEncMsg('Wallet exported to JSON successfully.', true);
-            } catch (e) {
-                console.error("Error exporting JSON:", e);
-                showEncMsg('Error exporting wallet to JSON.', false);
-            }
-        });
-
-
-        // Hide data button click event
-        hideBtn.addEventListener('click', () => {
-            portfolioSection.classList.add('hidden');
-            portfolioTableBody.innerHTML = '';
-            currentData = null;
-            newEncText.value = '';
-            encMsg.textContent = '';
-            showAuthMsg('Clear data hidden.', true);
-        });
-
-        // Copy to clipboard button click event
-        copyBtn.addEventListener('click', () => {
-            if (newEncText.value) {
-                newEncText.select();
-                newEncText.setSelectionRange(0, 99999);
-                try {
-                    document.execCommand('copy');
-                    showEncMsg('Encrypted string copied to clipboard.', true);
-                } catch (err) {
-                    console.error('Failed to copy text: ', err);
-                    showEncMsg('Error copying to clipboard. Please copy manually.', false);
-                }
-            } else {
-                showEncMsg('No encrypted string to copy.', false);
-            }
+            backToTopButton.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
         });
     </script>
 </body>
