@@ -3,150 +3,385 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Uriapkm - 3D Design & Rapid Prototyping Portfolio</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Asier Uria - Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #2563eb;
+            --text-color: #1f2937;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --shadow: rgba(17, 12, 46, 0.15) 0px 48px 100px 0px;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        main {
+            padding-top: 100px;
+        }
+
+        section {
+            padding: 60px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        #home {
+            text-align: center;
+            padding: 120px 20px;
+        }
+
+        #home h1 {
+            font-size: 3.5em;
+            margin-bottom: 20px;
+            background: linear-gradient(to right, var(--primary-color), #4f46e5);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 800;
+        }
+
+        #home p {
+            font-size: 1.4em;
+            color: #64748b;
+        }
+
+        .about-content {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+            background: var(--card-bg);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+        }
+
+        .about-content img {
+            border-radius: 20px;
+            width: 200px;
+            height: 200px;
+            object-fit: cover;
+            box-shadow: var(--shadow);
+        }
+
+        .projects-carousel {
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+        }
+
+        .projects-track {
+            display: flex;
+            gap: 20px;
+            overflow-x: scroll;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none; /* IE and Edge */
+        }
+
+        .projects-track::-webkit-scrollbar {
+            display: none; /* Chrome, Safari and Opera */
+        }
+
+        .project {
+            flex: 0 0 100%;
+            scroll-snap-align: start;
+            min-width: calc(100% - 40px); /* Full width minus gap */
+            background-color: var(--card-bg);
+            padding: 3rem;
+            border-radius: 24px;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease;
+        }
+
+        .project:hover {
+            transform: translateY(-5px);
+        }
+
+        .project img {
+            width: 100%;
+            height: 450px;
+            object-fit: contain;
+            border-radius: 16px;
+            background-color: #f1f5f9;
+            margin-bottom: 2rem;
+            transition: transform 0.3s ease;
+        }
+
+        .project img:hover {
+            transform: scale(1.02);
+        }
+
+        .project h3 {
+            font-size: 2rem;
+            color: var(--text-color);
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .project p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #64748b;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .carousel-btn {
+            position: fixed;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.5rem;
+            opacity: 0.9;
+            z-index: 100;
+            transition: all 0.3s ease;
+        }
+
+        .carousel-btn:hover {
+            opacity: 1;
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .carousel-btn.prev {
+            left: 20px;
+        }
+
+        .carousel-btn.next {
+            right: 20px;
+        }
+
+        #contact {
+            text-align: center;
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 60px;
+            box-shadow: var(--shadow);
+        }
+
+        #contact h2 {
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            color: var(--text-color);
+        }
+
+        #contact p {
+            margin-bottom: 20px;
+            font-size: 1.2em;
+            color: #64748b;
+        }
+
+        #contact a {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        #contact a:hover {
+            color: #4f46e5;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px;
+            background-color: var(--card-bg);
+            margin-top: 60px;
+            color: #64748b;
+        }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+        }
+
+        .back-to-top:hover {
+            transform: translateY(-5px);
+        }
+
+        @media (max-width: 768px) {
+            #home h1 {
+                font-size: 2.5em;
+            }
+
+            .about-content {
+                flex-direction: column;
+                padding: 20px;
+            }
+
+            .project {
+                padding: 1.5rem;
+            }
+
+            .carousel-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
+            }
+        }
+    </style>
 </head>
 <body>
+    <main>
+        <section id="home">
+            <h1>Welcome to my Portfolio</h1>
+            <p>Showcasing my skills and projects.</p>
+        </section>
 
-    <header class="hero">
-        <div class="header-top">
-            <img src="logo.png" alt="Uriapkm Logo" class="logo">
-            <div class="header-titles">
-                <h1>Uriapkm</h1>
-                <p class="subtitle">3D Design & Rapid Prototyping in R&D environmets</p>
+        <section id="about">
+            <h2>About me</h2>
+            <div class="about-content">
+                <img src="./images/logo.png" alt="Your Name">
+                <p>Lab technician focused on functional prototyping and test rig design, with experience in battery R&D and AI-assisted tool development. I built this website myself using HTML.— it’s a bit scrappy, coded today just for this application… but hey, it works (and so do I).</p>
             </div>
-        </div>
-        <nav class="main-nav">
-            </nav>
-    </header>
+        </section>
 
-    <section class="intro">
-        <h2>My Approach to Design Engineering</h2>
-        <p>Explore my creations where innovation meets functionality. From concept to final prototype, every project is an engineering challenge solved with precision and creativity.</p>
-    </section>
+        <section id="projects">
+            <h2>Projects</h2>
+            <div class="projects-carousel">
+                <div class="projects-track">
+                    <div class="project">
+                        <img src="./images/laura.PNG" alt="Variable Angle Adapter">
+                        <h3>Variable Angle Adapter</h3>
+                        <p>Variable angle adapter designed for precise analysis of droplet sliding on different surfaces. 
+                           Enables exact tilt angle control for wettability studies.—achieving the same functionality as commercial systems while saving over €8,000 in equipment costs.</p>
+                    </div>
 
-    <section id="proyectos" class="portafolio">
-        <h2>My Featured Projects</h2>
-        <div class="gallery">
+                     <div class="project">
+                        <img src="./images/instron.png" alt="Instron Custom Design">
+                        <h3>Instron Custom Design</h3>
+                        <p>Custom accessory for Instron equipment for compression experiments. 
+                           Designed and manufactured specialized components to enhance testing capabilities 
+                           and improve experimental accuracy.</p>
+                    </div>
 
-            <div class="project-item">
-                <img class="thumbnail-image" src="images/laura.PNG" alt="Robotic Arm Prototype"
-                     data-full-src="images/brazo-robotico-miniatura.jpg"
-                     data-video-src="videos/brazo-robotico-video.mp4">
-                <div class="project-info">
-                    <h3>Variable Angle Adapter for Droplet Sliding Analysis</h3>
-                    <p>An adapter allowing precise tilting of a surface to observe and analyze droplet sliding, integrating with a camera for rheological property studies.</p>
+                    <div class="project">
+                        <img src="./images/uria-drone.png" alt="URIA Drone Frame Generator">
+                        <h3>URIA Drone Frame Generator</h3>
+                        <p>Developed 'URIA', a parametric drone frame generator for field deployment. The project combines Python, 
+                           OpenSCAD and FreeCAD to create custom designs according to specific mission requirements.</p>
+                    </div>
+
+                    <div class="project">
+                        <img src="./images/shadowfax.png" alt="Shadowfax Prototyping">
+                        <h3>Shadowfax Prototyping</h3>
+                        <p>Founded Shadowfax Prototyping, a 3D printing and design service supporting R&D teams in the Álava Technology Park. This experience sharpened my ability to quickly understand experimental needs, deliver custom mechanical solutions, and operate under real lab constraints—skills directly aligned with the role at Vaisala.</p>
+                    </div>
+
+                    <div class="project">
+                        <img src="./images/retro-console.jpg" alt="Portable Retro Consoles">
+                        <h3>Retro Console Conversions</h3>
+                        <p>Project focused on transforming retro consoles into fully functional, battery-powered portable devices. Notable work includes converting a PlayStation 2 into a handheld system, preserving original features while redesigning hardware layout, power management, and display integration—demonstrating problem-solving, precision fabrication, and system-level thinking.</p>
+                    </div>
+                    
+                    <div class="project">
+                        <img src="./images/soporte botellas redox.PNG" alt="Redox Flow Setup">
+                        <h3>Redox Flow Bottle Support</h3>
+                        <p>Custom-designed holder for electrolyte bottles used in redox flow battery experiments. Ensures stability, spill prevention, and easy access during testing, improving lab safety and workflow.</p>
+                    </div>
+                    
+                    <div class="project">
+                        <img src="./images/soporte celda redox.jpg" alt="Redox Cell Support">
+                        <h3>Redox Cell Support</h3>
+                        <p>Designed and built specialized supports for redox flow battery cells, ensuring stable vertical positioning and easy access to electrical and fluid connections during experimental procedures—improving safety, repeatability, and workflow efficiency.</p>
+                    </div>
+                    
+                    <div class="project">
+                        <img src="./images/custom-guitar.jpg" alt="Custom Electric Guitars">
+                        <h3>Custom Electric Guitars</h3>
+                        <p>Built electric guitars from scratch in a home workshop, applying precision fabrication, material selection, and hands-on assembly—skills directly transferable to prototyping and custom mechanical builds in an R&D environment.</p>
+                    </div>
+
+                   
                 </div>
             </div>
+            <button class="carousel-btn prev">←</button>
+            <button class="carousel-btn next">→</button>
+        </section>
 
-            <div class="project-item">
-                <img class="thumbnail-image" src="images/soporte botellas redox.PNG" alt="Redox Flow experiment setup"
-                     data-full-src="images/soporte botellas redox.PNG"
-                     data-video-src="videos/dron-inspeccion-video.mp4">
-                <div class="project-info">
-                    <h3>Redox Flow experiment setup</h3>
-                    <p>Custom bottle support for a redox flow battery experiment.</p>
-                </div>
-            </div>
+        <section id="contact">
+            <h2>Contact</h2>
+            <p>Email: asieruria1@gmail.com</p>
+            <p>LinkedIn: <a href="https://www.linkedin.com/in/asier-uria-553895288/" target="_blank">linkedin.com/in/asier-uria-553895288</a></p>
+        </section>
+    </main>
 
-            <div class="project-item">
-                <img class="thumbnail-image" src="images/instron.PNG" alt="Custom Industrial Machinery"
-                     data-full-src="images/instron.PNG"
-                     data-video-src="videos/ejemplo-maquinaria-video.mp4">
-                <div class="project-info">
-                    <h3>Instron custom design</h3>
-                    <p>Instron equipment custom attachment for compression experiments.</p>
-                </div>
-            </div>
-
-            <div class="project-item">
-                <img class="thumbnail-image" src="images/fengjing cell.PNG" alt="Large-Format 3D Printer Prototype"
-                     data-full-src="images/ejemplo-impresora-miniatura.jpg"
-                     data-video-src="videos/ejemplo-impresora-video.mp4">
-                <div class="project-info">
-                    <h3>Novel Lead-Acid Technology Battery Design</h3>
-                    <p>Modular 3D print design for novel battery Technology.</p>
-                </div>
-            </div>
-
-             <div class="project-item">
-                <img class="thumbnail-image" src="images/lab6.PNG" alt="Large-Format 3D Printer Prototype"
-                     data-full-src="images/ejemplo-impresora-miniatura.jpg"
-                     data-video-src="videos/ejemplo-impresora-video.mp4">
-                <div class="project-info">
-                    <h3>Redox Laboratory Design</h3>
-                    <p>Custom Laboratory Design for Redox Flow Battery Technologies.  </p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <div id="lightbox" class="lightbox-overlay">
-        <span class="close-button">&times;</span>
-        <div class="lightbox-content">
-            <img class="lightbox-image" src="" alt="">
-            <video class="lightbox-video" src="" controls loop muted style="display: none;"></video>
-        </div>
-    </div>
-
-    <section id="sobre-mi" class="contacto">
-        <h2>About Me</h2>
-        <p>I’m Asier Uria, a technical specialist born in 2000 with nearly 10 years of hands-on experience in <strong>3D printing and CAD design</strong>. I focus on <strong>rapid prototyping</strong> of functional parts for testing and development, combining precision engineering with creative problem-solving. I’m proficient in <strong>Fusion 360</strong> and fully capable of maintaining, calibrating, and optimizing FDM printers.</p>
-        <p>I'm also passionate about <strong>programming, basic electronics, and woodworking</strong>, which complement my technical design approach. I’m looking for opportunities where I can contribute to product development and innovation through agile prototyping and practical engineering.</p>
-        <p>You can download my resume <a href="ruta/a/tu-cv.pdf" target="_blank">here</a>.</p>
-    </section>
-
-    <section id="contacto" class="contacto">
-        <h2>Contact</h2>
-        <form>
-            <label for="name">Name:</label>
-            <input type="text" id="name" name="name" required>
-
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required>
-
-            <label for="message">Message:</label>
-            <textarea id="message" name="message" required></textarea>
-
-            <button type="submit" class="btn">Send Message</button>
-        </form>
-        <div class="form-messages"></div>
-        <p style="margin-top: 20px;">You can also contact me through:</p>
-        <p><a href="mailto:asieruria1@gmail.com">asieruria1@gmail.com</a></p>
-        <p><a href="https://www.linkedin.com/in/asier-uria-553895288/" target="_blank">LinkedIn</a></p>
-        <p><a href="<!-- Nuevo botón de donación debajo de "Download My Website (ZIP)" -->
-<div class="donation-button">
-    <a href="https://ko-fi.com/uriapkm" target="_blank" class="btn-donation">☕ Support Me on Ko-fi</a>
-</div>
-    </section>
-
-    <footer class="footer">
-        <p>&copy; 2025 Uriapkm. All rights reserved.</p>
-        <p>Designed and developed by Uriapkm.</p>
+    <footer>
+        <p>© 2025 Asier Uria</p>
     </footer>
- <style>
-    /* Estilo para el botón de donación */
-    .donation-button {
-        text-align: center;
-        margin-top: 10px;
-    }
 
-    .btn-donation {
-        display: inline-block;
-        background-color: #FF5E5B;
-        color: white;
-        padding: 10px 20px;
-        font-size: 16px;
-        font-weight: bold;
-        text-decoration: none;
-        border-radius: 5px;
-        transition: background-color 0.3s ease;
-    }
+    <button class="back-to-top">↑</button>
 
-    .btn-donation:hover {
-        background-color: #E04848;
-    }
-    </style>
-    <script src="js/script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const track = document.querySelector('.projects-track');
+            const prevBtn = document.querySelector('.carousel-btn.prev');
+            const nextBtn = document.querySelector('.carousel-btn.next');
+            const projectsSection = document.querySelector('#projects');
+
+            function scrollToProjects() {
+                const projectsTop = projectsSection.offsetTop;
+                window.scrollTo({
+                    top: projectsTop,
+                    behavior: 'smooth'
+                });
+            }
+
+            nextBtn.addEventListener('click', () => {
+                track.scrollBy({
+                    left: track.offsetWidth,
+                    behavior: 'smooth'
+                });
+                scrollToProjects();
+            });
+
+            prevBtn.addEventListener('click', () => {
+                track.scrollBy({
+                    left: -track.offsetWidth,
+                    behavior: 'smooth'
+                });
+                scrollToProjects();
+            });
+
+            const backToTopButton = document.querySelector('.back-to-top');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 100) {
+                    backToTopButton.style.display = 'block';
+                } else {
+                    backToTopButton.style.display = 'none';
+                }
+            });
+
+            backToTopButton.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        });
+    </script>
 </body>
 </html>
