@@ -427,12 +427,12 @@
                 <!-- Find this section and replace the grid of portfolio items -->
 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
     <div class="portfolio-item relative overflow-hidden rounded-lg shadow-lg group">
-        <img src="https://uriapkm.github.io/Shadowfax-Prototyping/images/image1.PNG" alt="Adaptador de Ángulo Variable para Deslizamiento de Gotas" class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110">
+        <img src="https://uriapkm.github.io/Shadowfax-Prototyping/images/image1.PNG" alt="Plataforma de inclinación para goniómetro" class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110">
         <div class="portfolio-overlay absolute inset-0 bg-black bg-opacity-60 flex items-center justify-center p-4 opacity-0 transition-opacity duration-500">
             <div class="text-center text-white">
-                <h3 class="text-xl font-bold">Adaptador de Ángulo Variable</h3>
+                <h3 class="text-xl font-bold">Plataforma de Inclinación para Goniómetro</h3>
                 <p class="mt-2">
-  Dispositivo impreso para estudiar el deslizamiento de gotas en superficies inclinadas.<br>
+  Adaptador impreso en 3D diseñado para un goniómetro, que permite inclinar la superficie de la muestra de forma precisa.   <br>
   Diseñado en 4 horas.<br>
   Impreso en 8 horas 30 minutos.
 </p>
@@ -654,7 +654,7 @@
             const marketChart = new Chart(ctx, {
                 type: 'bar',
                 data: {
-                    labels: ['2022', '2024', '2026', '2028', '2030 (Proyección)'],
+                    labels: ['2022', '2024', '2026', '2028 (Proyección)', '2030 (Proyección)'],
                     datasets: [{
                         label: 'Mercado Global de Prototipado Rápido (en miles de millones de $)',
                         data: [20.3, 34.0, 47.7, 61.4, 75.1],
@@ -662,14 +662,14 @@
                             'rgba(152, 193, 217, 0.6)',
                             'rgba(152, 193, 217, 0.7)',
                             'rgba(152, 193, 217, 0.8)',
-                            'rgba(152, 193, 217, 0.9)',
+                            'rgba(61, 90, 128, 0.9)',
                             'rgba(61, 90, 128, 0.95)'
                         ],
                         borderColor: [
                             'rgba(152, 193, 217, 1)',
                             'rgba(152, 193, 217, 1)',
                             'rgba(152, 193, 217, 1)',
-                            'rgba(152, 193, 217, 1)',
+                            'rgba(61, 90, 128, 1)',
                             'rgba(61, 90, 128, 1)'
                         ],
                         borderWidth: 1
@@ -839,17 +839,21 @@
                     });
                 }
 
-                const prompt = `Eres un asesor de diseño experto en prototipado rápido y fabricación aditiva. 
-                Tu objetivo es ayudar a los usuarios a refinar sus ideas de proyectos o proponer UNA SOLA solución 
-                de diseño CAD e impresión 3D funcional. Considera las capacidades de Shadowfax Prototyping 
-                (impresión FDM, resina, post-procesado como pintura, montaje, electrónica básica, soldadura, 
-                volumen máx 220x220x250mm). Proporciona una única idea práctica y posible aplicación.
+                const prompt = `Eres un asistente de inspiración inicial para proyectos de impresión 3D.
+IMPORTANTE: 
+1. Esto es SOLO UNA HERRAMIENTA DE INSPIRACIÓN INICIAL
+2. Para una solución real y viable, el cliente debe contactar con Asier
+3. Tus sugerencias son conceptuales y requieren validación profesional
 
-                Basado en la siguiente necesidad o problema, ofrece una única idea de diseño de prototipo, 
-                explicando brevemente qué se podría diseñar y para qué serviría:
-                
-                Necesidad/Problema: ${userInput}
-                ${fileContexts}`;
+Basado en esta necesidad/problema:
+${userInput}
+${fileContexts}
+
+Por favor sugiere UNA idea inicial muy básica, siguiendo este formato:
+
+1. Concepto inicial: (1-2 líneas describiendo una idea general)
+2. Consideraciones: (menciona 2-3 aspectos técnicos a tener en cuenta)
+3. Siguiente paso: "Para desarrollar esta idea y obtener una solución real y viable, contacta con Asier en la sección de contacto. Él podrá evaluar la viabilidad técnica y proponer la mejor solución para tu caso específico."`;
 
                 let chatHistory = [];
                 chatHistory.push({ role: "user", parts: [{ text: prompt }] });
