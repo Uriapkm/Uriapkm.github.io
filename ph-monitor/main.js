@@ -89,8 +89,12 @@ class PHMonitor {
         });
 
         // Data export
-        document.getElementById('exportCSVBtn').addEventListener('click', () => {
-            this.exportCSV();
+        // Se cambiaron los listeners para que usen el formato correcto
+        document.getElementById('exportCSVBtn').addEventListener('click', (e) => {
+            this.exportData(e.target.dataset.format);
+        });
+        document.getElementById('exportExcelBtn').addEventListener('click', (e) => {
+            this.exportData(e.target.dataset.format);
         });
 
         document.getElementById('clearDataBtn').addEventListener('click', () => {
@@ -581,52 +585,120 @@ class PHMonitor {
         document.getElementById('totalMeasurements').textContent = this.phData.length;
     }
 
-    exportCSV() {
+    async exportData(format) {
         if (this.phData.length === 0) {
             this.showNotification('No data to export', 'warning');
             return;
         }
         
         const now = new Date();
-        const filename = `ph_measurements_${now.toISOString().split('T')[0]}.csv`;
+        const filenamePrefix = `ph_measurements_${now.toISOString().split('T')[0]}`;
         
-        let csvContent = 'pH Measurement Data\n';
-        csvContent += `Date: ${now.toLocaleDateString()}\n\n`;
-        
-        // Statistics
+        // Obtener estadísticas
         const avg = this.phData.reduce((a, b) => a + b, 0) / this.phData.length;
         const min = Math.min(...this.phData);
         const max = Math.max(...this.phData);
         const range = max - min;
         const duration = Math.max(...this.timeData);
-        
-        csvContent += 'Statistics\n';
-        csvContent += `Number of Measurements,${this.phData.length}\n`;
-        csvContent += `Average pH,${avg.toFixed(2)}\n`;
-        csvContent += `Minimum pH,${min.toFixed(2)}\n`;
-        csvContent += `Maximum pH,${max.toFixed(2)}\n`;
-        csvContent += `pH Range,${range.toFixed(2)}\n`;
-        csvContent += `Total Duration (s),${duration.toFixed(1)}\n\n`;
-        
-        // Data
-        csvContent += 'Measurements\n';
-        csvContent += 'Time (seconds),pH Value\n';
-        
+
+        const dataSheetData = [
+            ["pH Measurement Data"],
+            [`Date: ${now.toLocaleDateString()}`],
+            [],
+            ["Statistics"],
+            ["Number of Measurements", this.phData.length],
+            ["Average pH", avg.toFixed(2)],
+            ["Minimum pH", min.toFixed(2)],
+            ["Maximum pH", max.toFixed(2)],
+            ["pH Range", range.toFixed(2)],
+            ["Total Duration (s)", duration.toFixed(1)],
+            [],
+            ["Measurements"],
+            ["Time (seconds)", "pH Value"]
+        ];
+
         for (let i = 0; i < this.phData.length; i++) {
-            csvContent += `${this.timeData[i].toFixed(1)},${this.phData[i].toFixed(2)}\n`;
+            dataSheetData.push([this.timeData[i].toFixed(1), this.phData[i].toFixed(2)]);
+        }
+
+        if (format === 'csv') {
+            const csvContent = dataSheetData.map(e => e.join(',')).join('\n');
+
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${filenamePrefix}.csv`;
+            a.click();
+            window.URL.revokeObjectURL(url);
+            
+            this.showNotification(`Data exported to ${filenamePrefix}.csv`, 'success');
+
+        } else if (format === 'xlsx') {
+            // 1. Crear el Workbook
+            const workbook = XLSX.utils.book_new();
+            
+            // 2. Crear la hoja de datos
+            const dataSheet = XLSX.utils.aoa_to_sheet(dataSheetData);
+            XLSX.utils.book_append_sheet(workbook, dataSheet, "Measurements");
+
+            // 3. Crear la hoja del gráfico (como imagen)
+            try {
+                // Exportar el gráfico Plotly como PNG (o base64)
+                const chartDiv = document.getElementById('phChart');
+                const ppi = 96; // Standard PPI for good quality image
+
+                // Utilizar Plotly.toImage para obtener la dataURL de la imagen
+                const chartImageBase64 = await Plotly.toImage(chartDiv, {
+                    format: 'png',
+                    width: chartDiv.clientWidth * 1.5, // Aumentar tamaño para mejor calidad en Excel
+                    height: chartDiv.clientHeight * 1.5,
+                    scale: 1.5
+                });
+                
+                // Convertir DataURL a ArrayBuffer (necesario para la biblioteca XLSX para imágenes)
+                const base64Data = chartImageBase64.replace(/^data:image\/png;base64,/, "");
+                const byteCharacters = atob(base64Data);
+                const byteNumbers = new Array(byteCharacters.length);
+                for (let i = 0; i < byteCharacters.length; i++) {
+                    byteNumbers[i] = byteCharacters.charCodeAt(i);
+                }
+                const byteArray = new Uint8Array(byteNumbers);
+                
+                // Hoja para la imagen del gráfico
+                const chartSheet = XLSX.utils.json_to_sheet([]);
+                
+                // Agregar la imagen a la hoja de trabajo (como dibujo)
+                // Es un enfoque simple: crea una hoja con la imagen
+                if (!chartSheet['!images']) chartSheet['!images'] = [];
+
+                chartSheet['!images'].push({
+                    name: 'pHChart',
+                    data: byteArray,
+                    s: { // Start cell (top-left)
+                        col: 0,
+                        row: 0
+                    },
+                    e: { // End cell (bottom-right)
+                        col: 10,
+                        row: 30
+                    }
+                });
+                
+                // Agregar la hoja del gráfico al workbook
+                XLSX.utils.book_append_sheet(workbook, chartSheet, "pH Graph");
+                
+                // 4. Escribir y descargar el archivo XLSX
+                XLSX.writeFile(workbook, `${filenamePrefix}.xlsx`, { type: 'base64' });
+
+                this.showNotification(`Data and Chart exported to ${filenamePrefix}.xlsx`, 'success');
+            } catch (error) {
+                console.error('Error exporting to XLSX with chart:', error);
+                this.showNotification('Error exporting to Excel. Chart image failed to process.', 'error');
+            }
         }
         
-        // Download
-        const blob = new Blob([csvContent], { type: 'text/csv' });
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = filename;
-        a.click();
-        window.URL.revokeObjectURL(url);
-        
         document.getElementById('lastExport').textContent = now.toLocaleTimeString();
-        this.showNotification(`Data exported to ${filename}`, 'success');
     }
 
     clearData() {
@@ -882,6 +954,7 @@ float EEPROM_readFloat(int addr) {
         
         // Data export
         document.getElementById('exportCSVBtn').disabled = !hasData;
+        document.getElementById('exportExcelBtn').disabled = !hasData; // Habilitar Excel
         document.getElementById('clearDataBtn').disabled = !hasData;
         
         // Logging status

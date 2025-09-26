@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>pH Monitor</title>
     <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <script src="main.js" defer></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
@@ -141,9 +142,8 @@
             cursor: not-allowed;
         }
 
-        /* Added style for the new footer button/link */
         .footer-button {
-            display: inline-block; /* Make it behave like a button */
+            display: inline-block;
             padding: 10px 20px;
             border-radius: 4px;
             background: var(--primary-color);
@@ -151,11 +151,11 @@
             text-decoration: none;
             font-weight: bold;
             transition: background 0.2s;
-            margin-top: 10px; /* Space it below the text */
+            margin-top: 10px;
         }
 
         .footer-button:hover {
-            background: #3a7bd5; /* Slightly darker primary color on hover */
+            background: #3a7bd5;
         }
         
         .current-reading {
@@ -279,23 +279,14 @@
                 <p>Measurements: <span id="measurementCount">0</span></p>
             </div>
 
-            <div class="card">
-                <h2>Statistics</h2>
-                <div class="form-group">
-                    <p>Average pH: <span id="avgPH">--</span></p>
-                    <p>Minimum pH: <span id="minPH">--</span></p>
-                    <p>Maximum pH: <span id="maxPH">--</span></p>
-                    <p>pH Range: <span id="phRange">--</span></p>
-                    <p>Duration: <span id="duration">0.0s</span></p>
-                </div>
-            </div>
+           
 
             <div class="card">
                 <h2>pH vs Time Graph</h2>
                 <div id="phChart"></div>
             </div>
         </div>
-
+        
         <div id="calibration" class="tab-content">
             <div class="card">
                 <h2>Calibration Points</h2>
@@ -355,12 +346,24 @@
                     </tbody>
                 </table>
             </div>
+            
+            <div class="card">
+                <h2>Statistics</h2>
+                <div class="form-group">
+                    <p>Average pH: <span id="avgPH">--</span></p>
+                    <p>Minimum pH: <span id="minPH">--</span></p>
+                    <p>Maximum pH: <span id="maxPH">--</span></p>
+                    <p>pH Range: <span id="phRange">--</span></p>
+                    <p>Duration: <span id="duration">0.0s</span></p>
+                </div>
+            </div>
 
             <div class="card">
                 <h2>Export Data</h2>
-                <p>Export your measurement data in CSV format for analysis in spreadsheet applications.</p>
+                <p>Export your measurement data in various formats for analysis.</p>
                 <div class="form-group">
-                    <button id="exportCSVBtn" disabled>Export as CSV</button>
+                    <button id="exportCSVBtn" data-format="csv" disabled>Export as CSV</button>
+                    <button id="exportExcelBtn" data-format="xlsx" disabled>Export as Excel</button>
                     <button id="clearDataBtn" disabled>Clear All Data</button>
                 </div>
                 <p>Total measurements: <span id="totalMeasurements">0</span></p>
