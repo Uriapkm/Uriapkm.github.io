@@ -651,28 +651,178 @@ class PHMonitor {
     }
 
     copyArduinoCode() {
-        const code = `void setup() {
-  Serial.begin(9600);
+        const code = `#include <EEPROM.h>
+
+const int pHPin = A0;           // pH meter Analog output to Arduino Analog Input 0
+const int samplingInterval = 1000; // Sample every second (in milliseconds)
+
+// EEPROM addresses for storing calibration data
+const int EEPROM_pH4_ADDR = 0;  // 4 bytes for pH 4 voltage
+const int EEPROM_pH7_ADDR = 4;  // 4 bytes for pH 7 voltage
+
+// Calibration values (Defaults for DIYMore PH-4502C are close to 3.0V for pH 4 and 2.6V for pH 7)
+float pH4Voltage = 3.018;  // Default voltage for pH 4 solution
+float pH7Voltage = 2.636;  // Default voltage for pH 7 solution
+
+// State variables for serial communication
+String inputString = "";
+bool stringComplete = false;
+
+void setup() {
+    Serial.begin(9600);
+    inputString.reserve(20);
+    loadCalibrationData();
+    Serial.println("pH Meter Ready");
 }
 
 void loop() {
-  if (Serial.available() > 0) {
-    String command = Serial.readStringUntil('\\n');
-    if (command == "READ") {
-      int sum = 0;
-      for(int i=0; i<10; i++) {
-        sum += analogRead(A0);
-        delay(10);
-      }
-      int sensorValue = sum / 10;
-      float voltage = sensorValue * (5.0 / 1023.0);
-      float phValue = 7.0 + (2.556 - voltage) / 0.185;
-      Serial.print("PH:");
-      Serial.println(phValue, 2);
+    // Check for incoming serial commands
+    if (stringComplete) {
+        processCommand(inputString);
+        inputString = "";
+        stringComplete = false;
     }
-  }
-  delay(100);
-}}`;
+    
+    // Regular pH reading output
+    float pHValue = readpH();
+    // Output format optimized for web parsing (PH:X.XX)
+    Serial.print("PH:");
+    Serial.println(pHValue, 2); 
+    delay(samplingInterval);
+}
+
+// Standard Arduino serial buffer handler
+void serialEvent() {
+    while (Serial.available()) {
+        char inChar = (char)Serial.read();
+        if (inChar == '\n') {
+            stringComplete = true;
+        } else {
+            inputString += inChar;
+        }
+    }
+}
+
+// Function to read the sensor and apply calibration
+float readpH() {
+    // Take multiple readings (10 samples) for stability
+    float voltage = 0;
+    for(int i = 0; i < 10; i++) {
+        // Convert 0-1023 analog reading to 0.0-5.0V
+        voltage += analogRead(pHPin) * (5.0 / 1024.0);
+        delay(10);
+    }
+    voltage = voltage / 10;
+    
+    // Calculate the two-point linear calibration: pH = Slope * Voltage + Intercept
+    // Slope = (pH2 - pH1) / (V2 - V1)
+    float slope = (7.0 - 4.0) / (pH7Voltage - pH4Voltage);
+    // Intercept = pH2 - (Slope * V2)
+    float intercept = 7.0 - (slope * pH7Voltage);
+    
+    return slope * voltage + intercept;
+}
+
+// Function to handle commands from the serial port (sent by the web app)
+void processCommand(String command) {
+    command.trim();
+    command.toUpperCase();
+    
+    // Command: CAL,4.0 or CAL,7.0
+    if (command.startsWith("CAL")) {
+        int commaIndex = command.indexOf(',');
+        if (commaIndex != -1) {
+            // Extract the target pH value from the command string
+            String phValueStr = command.substring(commaIndex + 1);
+            float targetPH = phValueStr.toFloat();
+            startCalibration(targetPH);
+        }
+    }
+    // Command: RESET (Resets calibration to default values)
+    else if (command == "RESET") {
+        resetCalibration();
+        Serial.println("Calibration reset to defaults");
+    }
+    // Command: READ (Used for manual debug/testing)
+    else if (command == "READ") {
+        float ph = readpH();
+        Serial.print("Current pH: ");
+        Serial.println(ph, 2);
+    }
+}
+
+// Calibration execution function
+void startCalibration(float targetPH) {
+    if (targetPH != 4.0 && targetPH != 7.0) {
+        Serial.println("Error: Calibration only supported for pH 4.0 and 7.0");
+        return;
+    }
+    
+    Serial.print("Starting calibration for pH ");
+    Serial.println(targetPH, 1); // Print with 1 decimal place
+    Serial.println("Place probe in solution and wait for reading to stabilize...");
+    
+    delay(4000);  // Wait for stability
+    
+    // Take average of 20 readings (4 seconds total)
+    float voltage = 0;
+    for(int i = 0; i < 20; i++) {
+        voltage += analogRead(pHPin) * (5.0 / 1024.0);
+        delay(200);
+    }
+    voltage = voltage / 20;
+    
+    // Store the measured voltage and save to EEPROM
+    if (targetPH == 4.0) {
+        pH4Voltage = voltage;
+        EEPROM_writeFloat(EEPROM_pH4_ADDR, voltage);
+    } else {
+        pH7Voltage = voltage;
+        EEPROM_writeFloat(EEPROM_pH7_ADDR, voltage);
+    }
+    
+    Serial.println("Calibration complete!");
+    Serial.print("New V for pH ");
+    Serial.print(targetPH, 1);
+    Serial.print(": ");
+    Serial.println(voltage, 3);
+}
+
+// Loads calibration voltages from EEPROM
+void loadCalibrationData() {
+    float pH4 = EEPROM_readFloat(EEPROM_pH4_ADDR);
+    float pH7 = EEPROM_readFloat(EEPROM_pH7_ADDR);
+    
+    // Only use EEPROM values if they are within a reasonable 0-5V range
+    if (pH4 > 0.5 && pH4 < 4.5) pH4Voltage = pH4;
+    if (pH7 > 0.5 && pH7 < 4.5) pH7Voltage = pH7;
+    
+    Serial.print("Loaded pH 4V: "); Serial.println(pH4Voltage, 3);
+    Serial.print("Loaded pH 7V: "); Serial.println(pH7Voltage, 3);
+}
+
+// Resets calibration to the original hardcoded defaults
+void resetCalibration() {
+    pH4Voltage = 3.018;  // Default values
+    pH7Voltage = 2.636;
+    EEPROM_writeFloat(EEPROM_pH4_ADDR, pH4Voltage);
+    EEPROM_writeFloat(EEPROM_pH7_ADDR, pH7Voltage);
+}
+
+// Helper functions to read/write float data to EEPROM (4 bytes)
+void EEPROM_writeFloat(int addr, float val) {
+    byte* p = (byte*)&val;
+    for(int i = 0; i < 4; i++)
+        EEPROM.write(addr + i, p[i]);
+}
+
+float EEPROM_readFloat(int addr) {
+    float val;
+    byte* p = (byte*)&val;
+    for(int i = 0; i < 4; i++)
+        p[i] = EEPROM.read(addr + i);
+    return val;
+}`;
         
         navigator.clipboard.writeText(code).then(() => {
             this.showNotification('Arduino code copied to clipboard', 'success');
