@@ -262,7 +262,7 @@ class PHMonitor {
     async disconnect() {
         try {
             this.isConnected = false;
-            this.isLogging = false;
+            this.stopLogging(); // Detener el log si está activo
             
             if (this.reader) {
                 await this.reader.cancel();
@@ -283,11 +283,6 @@ class PHMonitor {
             
             this.updateStatus('disconnected', 'Disconnected');
             this.updateUI();
-            
-            if (this.logInterval) {
-                clearInterval(this.logInterval);
-                this.logInterval = null;
-            }
             
             this.showNotification('Disconnected from pH meter', 'warning');
             
@@ -338,23 +333,26 @@ class PHMonitor {
     }
 
     processPHReading(rawPH) {
+        // 1. Aplicar calibración
         const calibratedPH = this.slope * rawPH + this.offset;
-        const currentTime = Date.now();
         
-        if (!this.startTime) {
-            this.startTime = currentTime;
-        }
-        
-        const elapsedTime = (currentTime - this.startTime) / 1000;
-        
-        // Update current reading display
+        // 2. Actualizar la lectura actual en la UI
         document.getElementById('currentPH').textContent = calibratedPH.toFixed(2);
         document.getElementById('rawPH').textContent = rawPH.toFixed(2);
         document.getElementById('currentRaw').textContent = rawPH.toFixed(2);
         document.getElementById('readingStatus').textContent = `Last reading: pH ${calibratedPH.toFixed(2)}`;
         
-        // Store data if logging
+        // 3. Almacenar datos y calcular el tiempo SOLO si el logging está activo
         if (this.isLogging) {
+            const currentTime = Date.now();
+            
+            // this.startTime se reinicia en startLogging()
+            if (!this.startTime) {
+                this.startTime = currentTime;
+            }
+            
+            const elapsedTime = (currentTime - this.startTime) / 1000;
+            
             this.phData.push(calibratedPH);
             this.timeData.push(elapsedTime);
             this.displayData.push(calibratedPH);
@@ -380,41 +378,101 @@ class PHMonitor {
     }
 
     startLogging() {
-        const interval = parseFloat(document.getElementById('intervalInput').value);
-        if (interval <= 0) {
-            this.showNotification('Interval must be greater than 0', 'error');
-            return;
-        }
-        
-        this.logInterval = interval;
-        this.isLogging = true;
-        
-        // Clear previous data
-        this.phData = [];
-        this.timeData = [];
-        this.displayData = [];
-        this.displayTime = [];
-        this.startTime = Date.now();
-        
-        this.logInterval = setInterval(async () => {
-            if (this.isConnected) {
-                await this.sendCommand('READ\n');
-            }
-        }, interval * 1000);
-        
-        this.updateUI();
-        this.showNotification(`Started logging with ${interval}s interval`, 'success');
+    const interval = parseFloat(document.getElementById('intervalInput').value);
+    if (interval <= 0 || isNaN(interval)) {
+        this.showNotification('Interval must be a positive number of seconds.', 'error');
+        return;
     }
 
-    stopLogging() {
-        this.isLogging = false;
-        if (this.logInterval) {
-            clearInterval(this.logInterval);
-            this.logInterval = null;
-        }
-        this.updateUI();
-        this.showNotification('Stopped logging', 'warning');
+    // 1. Clear any previous interval to avoid multiple executions
+    if (this.logInterval) {
+        clearInterval(this.logInterval);
+        this.logInterval = null;
     }
+
+    this.isLogging = true;
+
+    // 2. Reset data and time
+    this.phData = [];
+    this.timeData = [];
+    this.displayData = [];
+    this.displayTime = [];
+    this.startTime = Date.now(); // Reset base time
+
+    // 3. Function to send READ command and handle data
+    const sendReadCommand = async () => {
+        if (this.isConnected && this.isLogging) {
+            await this.sendCommand('READ\n');
+        } else {
+            // Stop logging if disconnected or logging stopped
+            this.stopLogging();
+        }
+    };
+
+    // 4. Send first command immediately
+    sendReadCommand();
+
+    // 5. Set up interval to send READ commands and align data
+    this.logInterval = setInterval(() => {
+        sendReadCommand();
+        // Optionally, you can add logic here to interpolate or align data if needed
+    }, interval * 1000);
+
+    this.updateUI();
+    this.showNotification(`Started logging with ${interval}s interval`, 'success');
+}
+
+processPHReading(rawPH) {
+    // 1. Apply calibration
+    const calibratedPH = this.slope * rawPH + this.offset;
+
+    // 2. Update current reading in the UI
+    document.getElementById('currentPH').textContent = calibratedPH.toFixed(2);
+    document.getElementById('rawPH').textContent = rawPH.toFixed(2);
+    document.getElementById('currentRaw').textContent = rawPH.toFixed(2);
+    document.getElementById('readingStatus').textContent = `Last reading: pH ${calibratedPH.toFixed(2)}`;
+
+    // 3. Store data and align with the specified interval if logging is active
+    if (this.isLogging) {
+        const currentTime = Date.now();
+        const interval = parseFloat(document.getElementById('intervalInput').value) * 1000; // Convert to milliseconds
+        const elapsedTime = (currentTime - this.startTime) / 1000; // Time in seconds
+
+        // Align data to the nearest interval
+        const alignedTime = Math.round(elapsedTime / (interval / 1000)) * (interval / 1000);
+
+        // Only add data if it aligns with the interval
+        if (!this.timeData.length || Math.abs(alignedTime - this.timeData[this.timeData.length - 1]) >= (interval / 1000)) {
+            this.phData.push(calibratedPH);
+            this.timeData.push(alignedTime);
+            this.displayData.push(calibratedPH);
+            this.displayTime.push(alignedTime);
+
+            // Keep only last 100 points for display
+            if (this.displayData.length > 100) {
+                this.displayData.shift();
+                this.displayTime.shift();
+            }
+
+            this.updateChart();
+            this.updateDataTable();
+            this.updateStatistics();
+        }
+    }
+}
+
+    stopLogging() {
+    this.isLogging = false;
+    
+    // Limpiar el intervalo para detener las llamadas a READ
+    if (this.logInterval) {
+        clearInterval(this.logInterval);
+        this.logInterval = null;
+    }
+    
+    this.updateUI();
+    this.showNotification('Stopped logging', 'warning');
+}
 
     addCalibrationPoint() {
         const measuredPH = parseFloat(document.getElementById('measuredPH').value);
@@ -586,118 +644,140 @@ class PHMonitor {
     }
 
     async exportData(format) {
-        if (this.phData.length === 0) {
-            this.showNotification('No data to export', 'warning');
-            return;
-        }
-        
-        const now = new Date();
-        const filenamePrefix = `ph_measurements_${now.toISOString().split('T')[0]}`;
-        
-        // Obtener estadísticas
-        const avg = this.phData.reduce((a, b) => a + b, 0) / this.phData.length;
-        const min = Math.min(...this.phData);
-        const max = Math.max(...this.phData);
-        const range = max - min;
-        const duration = Math.max(...this.timeData);
+    if (this.phData.length === 0) {
+        this.showNotification('No data to export', 'warning');
+        return;
+    }
 
-        const dataSheetData = [
-            ["pH Measurement Data"],
-            [`Date: ${now.toLocaleDateString()}`],
-            [],
-            ["Statistics"],
-            ["Number of Measurements", this.phData.length],
-            ["Average pH", avg.toFixed(2)],
-            ["Minimum pH", min.toFixed(2)],
-            ["Maximum pH", max.toFixed(2)],
-            ["pH Range", range.toFixed(2)],
-            ["Total Duration (s)", duration.toFixed(1)],
-            [],
-            ["Measurements"],
-            ["Time (seconds)", "pH Value"]
-        ];
+    const now = new Date();
+    const filenamePrefix = `ph_measurements_${now.toISOString().split('T')[0].replace(/-/g, '')}`;
 
-        for (let i = 0; i < this.phData.length; i++) {
-            dataSheetData.push([this.timeData[i].toFixed(1), this.phData[i].toFixed(2)]);
-        }
+    // Prepare data for export
+    const avg = this.phData.reduce((a, b) => a + b, 0) / this.phData.length;
+    const min = Math.min(...this.phData);
+    const max = Math.max(...this.phData);
+    const range = max - min;
+    const duration = Math.max(...this.timeData);
 
-        if (format === 'csv') {
-            const csvContent = dataSheetData.map(e => e.join(',')).join('\n');
+    const dataSheetData = [
+        ["pH Measurement Data"],
+        [`Date: ${now.toLocaleDateString()}`],
+        [],
+        ["Statistics"],
+        ["Number of Measurements", this.phData.length],
+        ["Average pH", avg.toFixed(2)],
+        ["Minimum pH", min.toFixed(2)],
+        ["Maximum pH", max.toFixed(2)],
+        ["pH Range", range.toFixed(2)],
+        ["Total Duration (s)", duration.toFixed(1)],
+        [],
+        ["Measurements"],
+        ["Time (seconds)", "pH Value"]
+    ];
 
-            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-            const url = window.URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `${filenamePrefix}.csv`;
-            a.click();
-            window.URL.revokeObjectURL(url);
-            
-            this.showNotification(`Data exported to ${filenamePrefix}.csv`, 'success');
+    for (let i = 0; i < this.phData.length; i++) {
+        dataSheetData.push([this.timeData[i].toFixed(1), this.phData[i].toFixed(2)]);
+    }
 
-        } else if (format === 'xlsx') {
-            // 1. Crear el Workbook
+    if (format === 'csv') {
+        const csvContent = dataSheetData.map(e => e.join(',')).join('\n');
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `${filenamePrefix}.csv`;
+        a.click();
+        window.URL.revokeObjectURL(url);
+        this.showNotification(`Data exported to ${filenamePrefix}.csv`, 'success');
+    } else if (format === 'xlsx') {
+        try {
+            // Create workbook and worksheet
             const workbook = XLSX.utils.book_new();
-            
-            // 2. Crear la hoja de datos
             const dataSheet = XLSX.utils.aoa_to_sheet(dataSheetData);
             XLSX.utils.book_append_sheet(workbook, dataSheet, "Measurements");
 
-            // 3. Crear la hoja del gráfico (como imagen)
-            try {
-                // Exportar el gráfico Plotly como PNG (o base64)
-                const chartDiv = document.getElementById('phChart');
-                const ppi = 96; // Standard PPI for good quality image
+            // Define the range of data for the chart (starting from row 13, columns A and B)
+            const dataStartRow = 13; // Row where "Time (seconds)", "pH Value" headers start
+            const dataEndRow = dataStartRow + this.phData.length; // Adjust for header row
+            const dataRange = `A${dataStartRow}:B${dataEndRow}`;
 
-                // Utilizar Plotly.toImage para obtener la dataURL de la imagen
-                const chartImageBase64 = await Plotly.toImage(chartDiv, {
-                    format: 'png',
-                    width: chartDiv.clientWidth * 1.5, // Aumentar tamaño para mejor calidad en Excel
-                    height: chartDiv.clientHeight * 1.5,
-                    scale: 1.5
-                });
-                
-                // Convertir DataURL a ArrayBuffer (necesario para la biblioteca XLSX para imágenes)
-                const base64Data = chartImageBase64.replace(/^data:image\/png;base64,/, "");
-                const byteCharacters = atob(base64Data);
-                const byteNumbers = new Array(byteCharacters.length);
-                for (let i = 0; i < byteCharacters.length; i++) {
-                    byteNumbers[i] = byteCharacters.charCodeAt(i);
+            // VBA macro to create a chart
+            const vbaCode = `
+Sub AutoOpen()
+    ' This macro runs when the workbook is opened
+    Dim ws As Worksheet
+    Dim chart As Chart
+    Dim dataRange As Range
+    Dim chartShape As Shape
+
+    ' Set the worksheet
+    Set ws = ThisWorkbook.Sheets("Measurements")
+    
+    ' Define the data range for the chart
+    Set dataRange = ws.Range("${dataRange}")
+
+    ' Delete any existing charts
+    For Each chartShape In ws.Shapes
+        chartShape.Delete
+    Next chartShape
+
+    ' Create a new chart
+    Set chartShape = ws.Shapes.AddChart2(251, xlXYScatterLines) ' 251 is for Scatter with Lines
+    Set chart = chartShape.Chart
+
+    ' Set chart properties
+    With chart
+        .SetSourceData Source:=dataRange
+        .ChartTitle.Text = "pH vs Time"
+        .Axes(xlCategory).HasTitle = True
+        .Axes(xlCategory).AxisTitle.Text = "Time (seconds)"
+        .Axes(xlValue).HasTitle = True
+        .Axes(xlValue).AxisTitle.Text = "pH Value"
+        .Axes(xlValue).MinimumScale = 0
+        .Axes(xlValue).MaximumScale = 14
+        .HasLegend = False
+        .ChartArea.Left = 300 ' Position chart to the right of data
+        .ChartArea.Top = 20
+        .ChartArea.Width = 400
+        .ChartArea.Height = 300
+    End With
+End Sub
+            `.trim();
+
+            // Convert VBA code to binary (required for SheetJS to embed VBA)
+            const vbaBlob = new Blob([vbaCode], { type: 'text/plain' });
+            const reader = new FileReader();
+            reader.readAsArrayBuffer(vbaBlob);
+
+            reader.onload = () => {
+                try {
+                    // Add VBA project to workbook
+                    workbook.VBAParts = [{ name: 'ThisWorkbook', code: vbaCode }];
+
+                    // Write and download the Excel file
+                    const fileName = `${filenamePrefix}.xlsm`; // Use .xlsm for macro-enabled workbook
+                    XLSX.writeFile(workbook, fileName, { bookVBA: true });
+
+                    this.showNotification(`Data exported to ${fileName} with chart`, 'success');
+                } catch (error) {
+                    console.error('Error exporting to XLSX with VBA:', error);
+                    this.showNotification('Error exporting to Excel with chart. Please check console for details.', 'error');
                 }
-                const byteArray = new Uint8Array(byteNumbers);
-                
-                // Hoja para la imagen del gráfico
-                const chartSheet = XLSX.utils.json_to_sheet([]);
-                
-                // Agregar la imagen a la hoja de trabajo (como dibujo)
-                // Es un enfoque simple: crea una hoja con la imagen
-                if (!chartSheet['!images']) chartSheet['!images'] = [];
+            };
 
-                chartSheet['!images'].push({
-                    name: 'pHChart',
-                    data: byteArray,
-                    s: { // Start cell (top-left)
-                        col: 0,
-                        row: 0
-                    },
-                    e: { // End cell (bottom-right)
-                        col: 10,
-                        row: 30
-                    }
-                });
-                
-                // Agregar la hoja del gráfico al workbook
-                XLSX.utils.book_append_sheet(workbook, chartSheet, "pH Graph");
-                
-                // 4. Escribir y descargar el archivo XLSX
-                XLSX.writeFile(workbook, `${filenamePrefix}.xlsx`, { type: 'base64' });
+            reader.onerror = () => {
+                console.error('Error reading VBA code:', reader.error);
+                this.showNotification('Error preparing VBA macro for Excel.', 'error');
+            };
 
-                this.showNotification(`Data and Chart exported to ${filenamePrefix}.xlsx`, 'success');
-            } catch (error) {
-                console.error('Error exporting to XLSX with chart:', error);
-                this.showNotification('Error exporting to Excel. Chart image failed to process.', 'error');
-            }
+            // Update last export time
+            document.getElementById('lastExport').textContent = now.toLocaleTimeString();
+        } catch (error) {
+            console.error('Error exporting to XLSX:', error);
+            this.showNotification('Error exporting to Excel. Please check console for details.', 'error');
         }
-        
+    }
+
         document.getElementById('lastExport').textContent = now.toLocaleTimeString();
     }
 
@@ -894,7 +974,8 @@ float EEPROM_readFloat(int addr) {
     for(int i = 0; i < 4; i++)
         p[i] = EEPROM.read(addr + i);
     return val;
-}`;
+}
+`;
         
         navigator.clipboard.writeText(code).then(() => {
             this.showNotification('Arduino code copied to clipboard', 'success');
@@ -954,7 +1035,7 @@ float EEPROM_readFloat(int addr) {
         
         // Data export
         document.getElementById('exportCSVBtn').disabled = !hasData;
-        document.getElementById('exportExcelBtn').disabled = !hasData; // Habilitar Excel
+        document.getElementById('exportExcelBtn').disabled = !hasData; 
         document.getElementById('clearDataBtn').disabled = !hasData;
         
         // Logging status
