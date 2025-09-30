@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fengjing Projects</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 40px 20px;
+            background-color: #f0f8ff; /* Light blue background, simple and fresh */
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px; /* Consistent simple width */
+            text-align: center;
+        }
+
+        h1 {
+            color: #2e8b57; /* Sea Green, distinct from the previous one */
+            margin-bottom: 30px;
+        }
+
+        .project-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .project-button {
+            display: block;
+            padding: 15px 25px;
+            background-color: #3cb371; /* Medium Sea Green */
+            color: white;
+            text-decoration: none;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-weight: bold;
+            transition: background-color 0.3s ease, transform 0.1s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .project-button:hover {
+            background-color: #2e8b57; /* Darker green on hover */
+            transform: translateY(-2px);
+        }
+
+        .project-button:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Fengjing Web Projects</h1>
+        <p>Select the project you wish to access:</p>
+        
+        <div class="project-list">
+            <a href="https://uriapkm.github.io/fengjing-project-A/" class="project-button">Fengjing Data Visualization Portal</a>
+            
+            <a href="https://uriapkm.github.io/fengjing-project-B/" class="project-button">Regional Energy Report Dashboard</a>
+
+            <a href="https://uriapkm.github.io/fengjing-project-C/" class="project-button">Simulation Results Viewer (V1)</a>
+
+            <a href="#" class="project-button">New Fengjing Project (URL Pending)</a>
+
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>LCOS Calculator</title>
+<style>
+  body{font-family:Arial,Helvetica,sans-serif;margin:0;padding:2rem;background:#f7f7f7}
+  h1{color:#005a9c}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem}
+  label{display:flex;flex-direction:column;font-size:.9rem}
+  input{padding:.4rem;font-size:1rem;width:100%;box-sizing:border-box}
+  #result{margin-top:1.5rem;font-size:1.4rem;font-weight:bold;color:#0b6a0b}
+  footer{margin-top:2rem;font-size:.75rem;color:#555}
+</style>
+</head>
+<body>
+
+<h1>Levelised Cost of Storage (LCOS) Calculator</h1>
+
+<div class="grid">
+  <label>Round-Trip Efficiency ηRTE (%)
+    <input id="etaRTE" type="number" min="0" max="100" step="any" value="70"></label>
+
+  <label>Discharge Efficiency ηdisch (%)
+    <input id="etaDisch" type="number" min="0" max="100" step="any" value="71"></label>
+
+  <label>Full Cycles per year
+    <input id="cycles" type="number" min="0" step="any" value="360"></label>
+
+  <label>Project Lifetime (years)
+    <input id="life" type="number" min="0" step="any" value="25"></label>
+
+  <label>Electricity Price €/kWh
+    <input id="ePrice" type="number" min="0" step="any" value="0.0813"></label>
+
+  <label>O&M Factor λ (%)
+    <input id="lambda" type="number" min="0" max="100" step="any" value="1"></label>
+
+  <label>Discount Rate r (%)
+    <input id="r" type="number" min="0" max="100" step="any" value="7"></label>
+
+  <label>Storage Battery SB €/kWh
+    <input id="SB" type="number" min="0" step="any" value="246.58"></label>
+
+  <label>Balance of Plant BoP €/kWh
+    <input id="BoP" type="number" min="0" step="any" value="39.46"></label>
+
+  <label>System Integration SI €/kWh
+    <input id="SI" type="number" min="0" step="any" value="37.21"></label>
+
+  <label>Project Development PD €/kWh
+    <input id="PD" type="number" min="0" step="any" value="49.78"></label>
+
+  <label>EPC €/kWh
+    <input id="EPC" type="number" min="0" step="any" value="47.89"></label>
+
+  <label>Contingency CC €/kWh
+    <input id="CC" type="number" min="0" step="any" value="0.29"></label>
+
+  <label>PCS €/kWh
+    <input id="PCS" type="number" min="0" step="any" value="9.61"></label>
+
+  <label>Grid Integration GI €/kWh
+    <input id="GI" type="number" min="0" step="any" value="5.11"></label>
+
+  <label>Electrolyte €/kWh
+    <input id="Electrolyte" type="number" min="0" step="any" value="188.16"></label>
+</div>
+
+<div id="result">LCOS = …</div>
+
+<footer>
+  Formula source: LCOS calculation.pdf<br>
+  All computations happen locally in your browser—no data is sent anywhere.
+</footer>
+
+<script>
+/* ---------- helpers ---------- */
+const $ = id => document.getElementById(id);
+const val = id => parseFloat($(id).value)||0;
+
+function pv(rate, n, pmt){   // present value of annuity
+  if(rate===0) return pmt*n;
+  return pmt*(1-Math.pow(1+rate,-n))/rate;
+}
+
+/* ---------- core ---------- */
+function compute(){
+  // read inputs
+  const etaRTE   = val('etaRTE')/100;
+  const etaDisch = val('etaDisch')/100;
+  const cycles   = val('cycles');
+  const life     = val('life');
+  const ePrice   = val('ePrice');
+  const lambda   = val('lambda')/100;
+  const r        = val('r')/100;
+
+  const SB   = val('SB');
+  const BoP  = val('BoP');
+  const SI   = val('SI');
+  const PD   = val('PD');
+  const EPC  = val('EPC');
+  const CC   = val('CC');
+  const PCS  = val('PCS');
+  const GI   = val('GI');
+  const Elec = val('Electrolyte');
+
+  // CCNPV (ajustado según PDF: bloque principal dividido entre ηdisch)
+  const CCNPV = (SB+BoP+SI+PD+EPC)/etaDisch + CC + PCS + GI;
+
+  // O&MPV
+  const annualOandM = lambda*(SB+BoP+PCS+CC+SI)/etaDisch;
+  const OandMPV = pv(r, life, annualOandM);
+
+  // Vresidual
+  const Vresidual = 0.70 * Elec;
+
+  // Eloss
+  const Eloss = ePrice*(1/etaRTE - 1);
+
+  // denominator: annuity of discharge energy (suponiendo 1 kWh nominal)
+  const annualDischargeEnergy = cycles; 
+  const denom = pv(r, life, annualDischargeEnergy);
+
+  // LCOS
+  const numerator = CCNPV + OandMPV - Vresidual/Math.pow(1+r,life);
+  const LCOS = (numerator/denom) + Eloss;
+
+  $('result').textContent = `LCOS = ${LCOS.toFixed(4)} €/kWh`;
+}
+
+/* ---------- auto-recalc ---------- */
+document.querySelectorAll('input').forEach(el=>el.addEventListener('input',compute));
+compute(); // initial
+</script>
+
+</body>
+</html>

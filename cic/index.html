@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proyectos - CIC energiGUNE</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 40px 20px;
+            background-color: #f4f4f4;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px; /* Limita el ancho para que sea simple y legible */
+            text-align: center;
+        }
+
+        h1 {
+            color: #004d99; /* Un azul que podría ir bien con una entidad tecnológica */
+            margin-bottom: 30px;
+        }
+
+        .project-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px; /* Espacio entre los botones */
+        }
+
+        .project-button {
+            display: block; /* Para que ocupen todo el ancho disponible */
+            padding: 15px 25px;
+            background-color: #007bff; /* Color primario del botón */
+            color: white;
+            text-decoration: none; /* Quita el subrayado del enlace */
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-weight: bold;
+            transition: background-color 0.3s ease, transform 0.1s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .project-button:hover {
+            background-color: #0056b3; /* Color más oscuro al pasar el ratón */
+            transform: translateY(-2px);
+        }
+
+        .project-button:active {
+            transform: translateY(0); /* Efecto de "presionado" */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Proyectos Web CIC energiGUNE</h1>
+        <p>Selecciona el proyecto al que deseas acceder:</p>
+        
+        <div class="project-list">
+            <a href="https://uriapkm.github.io/ph-monitor/" class="project-button">Ph live-monitor</a>
+
+            <a href="https://uriapkm.github.io/fengjing/" class="project-button">Fengjing Folder</a>
+
+            <a href="#" class="project-button">Nuevo Proyecto (Pendiente URL)</a>
+
+        </div>
+    </div>
+</body>
+</html>

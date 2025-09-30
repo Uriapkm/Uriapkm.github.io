@@ -345,63 +345,126 @@ class GameMap {
 }
 
 /* ------------------------------------------------------------------
-   6.  Combat
+   6.  Combat - FIXED VERSION
 ------------------------------------------------------------------ */
 class CombatSystem {
-    constructor(pl,en){ this.player=pl; this.enemy=en; }
+    constructor(pl, en){ 
+        this.player = pl; 
+        this.enemy = en; 
+    }
+    
     player_attack(idx){
         try{
-            if(!this.player.attacks.length) return [0,"No attacks!",false];
-            if(idx<0||idx>=this.player.attacks.length) return [0,"Invalid attack!",false];
-            const [name,base,acc]=this.player.attacks[idx];
-            const rep=this.player.attack_repeat[idx];
-            const adj=Math.max(0.1,acc-rep*0.08);
-            if(Math.random()>adj) return [0,`You missed with ${name}!`,false];
+            if(!this.player.attacks.length) return [0, "No attacks!", false];
+            if(idx < 0 || idx >= this.player.attacks.length) return [0, "Invalid attack!", false];
+            
+            const [name, base, acc] = this.player.attacks[idx];
+            const rep = this.player.attack_repeat[idx];
+            const adj = Math.max(0.1, acc - rep * 0.08);
+            
+            if(Math.random() > adj) return [0, `You missed with ${name}!`, false];
+            
             this.player.attack_repeat[idx]++;
-            let dmg=base+Math.floor(this.player.attack/3);
-            dmg=Math.max(1,dmg-Math.floor(this.enemy.defense/3));
-            dmg=Math.max(1,Math.floor(dmg*(Math.random()*0.2+0.9)));
-            this.enemy.hp=Math.max(0,this.enemy.hp-dmg);
-            const dead=!this.enemy.is_alive();
-            let msg=`You used ${name} for ${dmg} damage.`;
-            if(name==="Poison Dart"&&Math.random()<0.2){ this.enemy.status_effects.push(["poison",3,5]); msg+=` ${this.enemy.name} is poisoned!`; }
-            if(name==="Fireball"&&Math.random()<0.5){ this.enemy.status_effects.push(["burn",3,7]); msg+=` ${this.enemy.name} is burning!`; }
-            if(dead) msg+=` ${this.enemy.name} defeated!`;
-            return [dmg,msg,dead];
-        }catch(e){ console.error(e); return [0,"Attack error",false]; }
+            let dmg = base + Math.floor(this.player.attack / 3);
+            dmg = Math.max(1, dmg - Math.floor(this.enemy.defense / 3));
+            dmg = Math.max(1, Math.floor(dmg * (Math.random() * 0.2 + 0.9)));
+            
+            const oldHp = this.enemy.hp;
+            this.enemy.hp = Math.max(0, this.enemy.hp - dmg);
+            const actualDmg = oldHp - this.enemy.hp;
+            
+            const dead = !this.enemy.is_alive();
+            let msg = `You used ${name} for ${actualDmg} damage.`;
+            
+            if(name === "Poison Dart" && Math.random() < 0.2){ 
+                this.enemy.status_effects.push(["poison", 3, 5]); 
+                msg += ` ${this.enemy.name} is poisoned!`; 
+            }
+            if(name === "Fireball" && Math.random() < 0.5){ 
+                this.enemy.status_effects.push(["burn", 3, 7]); 
+                msg += ` ${this.enemy.name} is burning!`; 
+            }
+            if(dead) msg += ` ${this.enemy.name} defeated!`;
+            
+            return [actualDmg, msg, dead];
+        } catch(e){ 
+            console.error("Player attack error:", e); 
+            return [0, "Attack error", false]; 
+        }
     }
+    
     enemy_attack(){
         try{
-            const [name,base,acc]=this.enemy.attacks[Math.floor(Math.random()*this.enemy.attacks.length)];
-            if(Math.random()>acc) return [0,`${this.enemy.name} missed with ${name}.`];
-            let dmg=base+Math.floor(this.enemy.level/3);
-            dmg=Math.max(1,dmg-Math.floor(this.player.defense/3));
-            dmg=Math.max(1,Math.floor(dmg*(Math.random()*0.2+0.9)));
-            this.player.hp=Math.max(0,this.player.hp-dmg);
-            let msg=`${this.enemy.name} used ${name} for ${dmg} damage.`;
-            if(name==="Poison Sting"&&Math.random()<0.3){ this.player.status_effects.push(["poison",3,5]); msg+=" You are poisoned!"; }
-            if((name==="Fire Breath"||name==="Inferno Blast")&&Math.random()<0.5){ this.player.status_effects.push(["burn",3,7]); msg+=" You are burning!"; }
-            return [dmg,msg];
-        }catch(e){ console.error(e); return [0,"Enemy attack error"]; }
+            if(!this.enemy.attacks.length) return [0, `${this.enemy.name} has no attacks!`];
+            
+            const attack = this.enemy.attacks[Math.floor(Math.random() * this.enemy.attacks.length)];
+            const [name, base, acc] = attack;
+            
+            if(Math.random() > acc) return [0, `${this.enemy.name} missed with ${name}.`];
+            
+            let dmg = base + Math.floor(this.enemy.attack / 3);
+            dmg = Math.max(1, dmg - Math.floor(this.player.defense / 3));
+            dmg = Math.max(1, Math.floor(dmg * (Math.random() * 0.2 + 0.9)));
+            
+            const oldHp = this.player.hp;
+            this.player.hp = Math.max(0, this.player.hp - dmg);
+            const actualDmg = oldHp - this.player.hp;
+            
+            let msg = `${this.enemy.name} used ${name} for ${actualDmg} damage.`;
+            
+            if(name === "Poison Sting" && Math.random() < 0.3){ 
+                this.player.status_effects.push(["poison", 3, 5]); 
+                msg += " You are poisoned!"; 
+            }
+            if((name === "Fire Breath" || name === "Inferno Blast") && Math.random() < 0.5){ 
+                this.player.status_effects.push(["burn", 3, 7]); 
+                msg += " You are burning!"; 
+            }
+            if(name === "Regenerate" && base === 0) {
+                const heal = Math.floor(this.enemy.max_hp * 0.1);
+                this.enemy.hp = Math.min(this.enemy.max_hp, this.enemy.hp + heal);
+                msg = `${this.enemy.name} regenerates ${heal} HP!`;
+            }
+            
+            return [actualDmg, msg];
+        } catch(e){ 
+            console.error("Enemy attack error:", e); 
+            return [0, "Enemy attack error"]; 
+        }
     }
+    
     attempt_flee(){
-        const ok=Math.random()<CONFIG.FLEE_CHANCE;
-        return [ok, ok ? "You fled!" : "Failed to flee!"];
+        const ok = Math.random() < CONFIG.FLEE_CHANCE;
+        return [ok, ok ? "You fled successfully!" : "Failed to flee!"];
     }
 }
 
 /* ------------------------------------------------------------------
-   7.  Game logic
+   7.  Game logic - UPDATED COMBAT METHODS
 ------------------------------------------------------------------ */
 class GameLogic {
-    constructor(gm,pl,en,it){
-        this.game_map=gm; this.player=pl; this.entities=en; this.items=it;
-        this.entity_map={}; this.item_map={}; this.game_state='playing';
-        this.current_enemy=null; this.fov_radius=7; this.current_level=1; this.altar_triggered=false;
-        this.update_entity_position(pl,pl.x,pl.y,pl.x,pl.y);
+    constructor(gm, pl, en, it){
+        this.game_map = gm; 
+        this.player = pl; 
+        this.entities = en; 
+        this.items = it;
+        this.entity_map = {}; 
+        this.item_map = {}; 
+        this.game_state = 'playing';
+        this.current_enemy = null; 
+        this.fov_radius = 7; 
+        this.current_level = 1; 
+        this.altar_triggered = false;
+        this.update_entity_position(pl, pl.x, pl.y, pl.x, pl.y);
     }
-    update_entity_position(en,ox,oy,nx,ny){ delete this.entity_map[`${ox},${oy}`]; this.entity_map[`${nx},${ny}`]=en; }
-    update_item_position(it,ox,oy,nx,ny){ delete this.item_map[`${ox},${oy}`]; this.item_map[`${nx},${ny}`]=it; }
+    update_entity_position(en, ox, oy, nx, ny){ 
+        delete this.entity_map[`${ox},${oy}`]; 
+        this.entity_map[`${nx},${ny}`] = en; 
+    }
+    update_item_position(it, ox, oy, nx, ny){ 
+        delete this.item_map[`${ox},${oy}`]; 
+        this.item_map[`${nx},${ny}`] = it; 
+    }
     is_occupied(x,y){
         if(this.game_map.is_blocked(x,y)) return true;
         if(x===this.player.x&&y===this.player.y) return true;
@@ -410,8 +473,8 @@ class GameLogic {
     get_entity_at(x,y){ return this.entity_map[`${x},${y}`]||null; }
     get_item_at(x,y){ return this.item_map[`${x},${y}`]||null; }
     add_message(msg){
-        this.messageLog.push(msg);
-        if(this.messageLog.length>6) this.messageLog.shift();
+        gameState.messageLog.push(msg);
+        if(gameState.messageLog.length>6) gameState.messageLog.shift();
         updateMessageLog();
     }
     move_player(dx,dy){
@@ -490,35 +553,63 @@ class GameLogic {
         updateCombatActions(); updateUI(); return true;
     }
     start_combat(en){
-        this.game_state='combat'; this.current_enemy=en;
+        console.log("Starting combat with:", en.name);
+        this.game_state = 'combat'; 
+        this.current_enemy = en;
+        gameState.gameState = 'combat'; // Update global state
+        
         this.add_message(`Combat vs ${en.name}!`);
-        for(const m of en.apply_status_effects()) this.add_message(m);
+        const statusMsgs = en.apply_status_effects();
+        for(const m of statusMsgs) this.add_message(m);
+        
         showCombatPanel();
     }
     end_combat(playerWon){
-        this.player.attack_repeat=[0,0,0,0];
+        console.log("Ending combat, player won:", playerWon);
+        this.player.attack_repeat = [0, 0, 0, 0];
+        
         if(playerWon){
-            let exp=5*this.current_enemy.level;
+            let exp = 5 * this.current_enemy.level;
             if(this.current_enemy.is_elite){
-                exp*=2;
-                if(Math.random()<0.5){ this.player.inventory.rare_potions++; this.add_message("Elite dropped a Rare Potion!"); }
+                exp *= 2;
+                if(Math.random() < 0.5){ 
+                    this.player.inventory.rare_potions++; 
+                    this.add_message("Elite dropped a Rare Potion!"); 
+                }
             }
-            if(this.current_enemy.is_boss){ exp*=3; gameState.gameState='victory'; showVictoryPanel(); }
+            if(this.current_enemy.is_boss){ 
+                exp *= 3; 
+                gameState.gameState = 'victory'; 
+                showVictoryPanel(); 
+            }
 
-            const i=this.entities.indexOf(this.current_enemy);
-            if(i>-1){ this.entities.splice(i,1); gameState.scene.remove(this.current_enemy.mesh); }
+            // Remove enemy from game
+            const i = this.entities.indexOf(this.current_enemy);
+            if(i > -1){ 
+                this.entities.splice(i, 1); 
+                gameState.scene.remove(this.current_enemy.mesh); 
+            }
             delete this.entity_map[`${this.current_enemy.x},${this.current_enemy.y}`];
 
-            const [hu,au,du,na]=this.player.add_exp(exp);
-            let msg=`Gained ${exp} EXP!`;
-            if(hu||au||du) msg+=` (HP+${hu} ATK+${au} DEF+${du})`;
+            // Give EXP
+            const [hu, au, du, na] = this.player.add_exp(exp);
+            let msg = `Gained ${exp} EXP!`;
+            if(hu || au || du) msg += ` (HP+${hu} ATK+${au} DEF+${du})`;
             this.add_message(msg);
-            if(na){ if(this._handle_new_attack(na)) this.add_message(`Learned ${na[0]}!`); }
-        }else{
+            
+            if(na){ 
+                if(this._handle_new_attack(na)) this.add_message(`Learned ${na[0]}!`); 
+            }
+        } else {
             this.add_message("You were defeated...");
-            gameState.gameState='gameOver'; showGameOverPanel();
+            gameState.gameState = 'gameOver'; 
+            showGameOverPanel();
         }
-        this.game_state='playing'; this.current_enemy=null; hideCombatPanel(); updateUI();
+        
+        this.game_state = 'playing'; 
+        this.current_enemy = null; 
+        hideCombatPanel(); 
+        updateUI();
         this.move_entities(); // spread monsters
     }
     explore_area(cx,cy){
@@ -536,6 +627,8 @@ class GameLogic {
         }
     }
     populate_map(ne,ni){
+        this.rooms = this.game_map.rooms; // Store rooms reference
+        
         // ENEMIES
         for(let i=0;i<ne;i++){
             const room=this.rooms[Math.floor(Math.random()*this.rooms.length)];
@@ -548,6 +641,7 @@ class GameLogic {
             const elite=Math.random()<0.2&&!this.current_enemy?.is_boss;
             const type=CONFIG.ENEMY_SYMBOLS[Math.floor(Math.random()*CONFIG.ENEMY_SYMBOLS.length)];
             const en=new Enemy(x,y,type,`Lv${lvl} ${this.getEnemyName(type)}`,lvl,elite);
+            en.createMesh(gameState.scene); // ADDED: Create enemy mesh
             this.entities.push(en); this.entity_map[`${x},${y}`]=en;
         }
         // BOSS
@@ -557,6 +651,7 @@ class GameLogic {
             const y=Math.floor(Math.random()*(room.y2-room.y1-2))+room.y1+1;
             if(!(`${x},${y}` in this.entity_map)){
                 const boss=new Enemy(x,y,CONFIG.BOSS_SYMBOL,"Archdragon",this.player.level+5,false,true);
+                boss.createMesh(gameState.scene); // ADDED: Create boss mesh
                 this.entities.push(boss); this.entity_map[`${x},${y}`]=boss;
             }
             this.game_map.exits=[]; // no exit on boss floor
@@ -662,7 +757,7 @@ function updateUI(){
 }
 function updateMessageLog(){
     const ml=document.getElementById('messageLog'); ml.innerHTML='';
-    gameState.gameLogic.messageLog.forEach(m=>{
+    gameState.messageLog.forEach(m=>{
         const d=document.createElement('div'); d.className='message'; d.textContent=m; ml.appendChild(d);
     });
     ml.scrollTop=ml.scrollHeight;
@@ -680,7 +775,16 @@ function updateCombatActions(){
         }else cell.style.display='none';
     }
 }
-function showCombatPanel(){ document.getElementById('combatPanel').classList.remove('hidden'); updateCombatActions(); }
+function showCombatPanel(){ 
+    const enemy = gameState.gameLogic.current_enemy;
+    console.log("Showing combat panel for:", enemy.name);
+    
+    document.getElementById('enemyName').textContent = enemy.name;
+    document.getElementById('enemyHP').textContent = `HP: ${enemy.hp}/${enemy.max_hp}`;
+    document.getElementById('playerCombatHP').textContent = `HP: ${gameState.player.hp}/${gameState.player.max_hp}`;
+    document.getElementById('combatPanel').classList.remove('hidden'); 
+    updateCombatActions(); 
+}
 function hideCombatPanel(){ document.getElementById('combatPanel').classList.add('hidden'); }
 function showGameOverPanel(){ document.getElementById('gameOverPanel').classList.remove('hidden'); }
 function showVictoryPanel(){ document.getElementById('victoryPanel').classList.remove('hidden'); }
@@ -690,6 +794,8 @@ function showVictoryPanel(){ document.getElementById('victoryPanel').classList.r
 ------------------------------------------------------------------ */
 function initGame(){
     gameState.player=new Player(0,0);
+    gameState.player.createMesh(gameState.scene); // ADDED: Create player mesh
+    
     gameState.gameMap=new GameMap(CONFIG.MAP_WIDTH,CONFIG.MAP_HEIGHT);
     gameState.gameMap.make_map(CONFIG.MAX_ROOMS,CONFIG.ROOM_MIN_SIZE,CONFIG.ROOM_MAX_SIZE,CONFIG.MAP_WIDTH,CONFIG.MAP_HEIGHT,gameState.player);
     gameState.entities=[gameState.player]; gameState.items=[];
@@ -722,72 +828,125 @@ function nextLevel(){
     gameState.gameLogic.populate_map(ne,ni);
     gameState.gameLogic.explore_area(gameState.player.x,gameState.player.y);
     // camera
-    gameState.camera.position.set(gameState.player.x+10,20,gameState.player.y+10);
+    gameState.camera.position.set(gameState.player.x+5,15,gameState.player.y+5);
     gameState.camera.lookAt(gameState.player.x,0,gameState.player.y);
     updateUI();
     gameState.gameLogic.add_message(`You descended to Level ${gameState.currentLevel}.`);
 }
 
 /* ------------------------------------------------------------------
-   11.  Input
+   11.  Input - FIXED COMBAT HANDLING
 ------------------------------------------------------------------ */
 function handleKey(ev){
-    if(gameState.currentScreen==='frontPage'){
-        if(ev.code==='Space'){
+    if(gameState.currentScreen === 'frontPage'){
+        if(ev.code === 'Space'){
             document.getElementById('frontPage').classList.add('hidden');
             document.getElementById('gameScreen').classList.remove('hidden');
-            gameState.currentScreen='gameScreen';
+            gameState.currentScreen = 'gameScreen';
             initThreeJS(); initGame();
         }
         return;
     }
-    if(gameState.gameState==='gameOver'||gameState.gameState==='victory'){
-        if(ev.key==='r'||ev.key==='R') location.reload();
-        if(ev.key==='q'||ev.key==='Q') gameState.gameLogic.add_message("Press R to restart or close the tab.");
+    
+    if(gameState.gameState === 'gameOver' || gameState.gameState === 'victory'){
+        if(ev.key === 'r' || ev.key === 'R') location.reload();
+        if(ev.key === 'q' || ev.key === 'Q') gameState.gameLogic.add_message("Press R to restart or close the tab.");
         return;
     }
-    if(gameState.gameState==='combat'){
-        if(ev.key>='1'&&ev.key<='7'){
-            const act=parseInt(ev.key);
-            if(act>=1&&act<=4){
-                const cs=new CombatSystem(gameState.player,gameState.gameLogic.current_enemy);
-                const [dmg,msg,dead]=cs.player_attack(act-1);
+    
+    if(gameState.gameState === 'combat'){
+        console.log("Combat key pressed:", ev.key);
+        
+        if(ev.key >= '1' && ev.key <= '7'){
+            const act = parseInt(ev.key);
+            
+            if(act >= 1 && act <= 4){
+                // Player attack
+                const cs = new CombatSystem(gameState.player, gameState.gameLogic.current_enemy);
+                const [dmg, msg, dead] = cs.player_attack(act - 1);
                 gameState.gameLogic.add_message(msg);
-                if(!dead&&gameState.gameLogic.current_enemy.is_alive()){
-                    const [edmg,emsg]=cs.enemy_attack();
+                
+                if(!dead && gameState.gameLogic.current_enemy.is_alive()){
+                    // Enemy counter-attack
+                    const [edmg, emsg] = cs.enemy_attack();
                     gameState.gameLogic.add_message(emsg);
-                    // status ticks
-                    for(const m of gameState.player.apply_status_effects()) gameState.gameLogic.add_message(m);
-                    for(const m of gameState.gameLogic.current_enemy.apply_status_effects()) gameState.gameLogic.add_message(m);
-                }else if(dead) gameState.gameLogic.end_combat(true);
-                document.getElementById('enemyHP').textContent=`HP: ${gameState.gameLogic.current_enemy.hp}/${gameState.gameLogic.current_enemy.max_hp}`;
-                document.getElementById('playerCombatHP').textContent=`HP: ${gameState.player.hp}/${gameState.player.max_hp}`;
+                    
+                    // Status effects
+                    const playerStatusMsgs = gameState.player.apply_status_effects();
+                    for(const m of playerStatusMsgs) gameState.gameLogic.add_message(m);
+                    
+                    const enemyStatusMsgs = gameState.gameLogic.current_enemy.apply_status_effects();
+                    for(const m of enemyStatusMsgs) gameState.gameLogic.add_message(m);
+                    
+                    // Check if player died from enemy attack
+                    if(!gameState.player.is_alive()){
+                        gameState.gameLogic.end_combat(false);
+                        return;
+                    }
+                } else if(dead) {
+                    gameState.gameLogic.end_combat(true);
+                    return;
+                }
+                
+                // Update combat UI
+                document.getElementById('enemyHP').textContent = `HP: ${gameState.gameLogic.current_enemy.hp}/${gameState.gameLogic.current_enemy.max_hp}`;
+                document.getElementById('playerCombatHP').textContent = `HP: ${gameState.player.hp}/${gameState.player.max_hp}`;
                 updateCombatActions();
-            }else if(act===5){
+                
+            } else if(act === 5){
+                // Use potion
                 if(gameState.gameLogic.use_potion()){
-                    const cs=new CombatSystem(gameState.player,gameState.gameLogic.current_enemy);
-                    const [edmg,emsg]=cs.enemy_attack(); gameState.gameLogic.add_message(emsg);
-                    document.getElementById('playerCombatHP').textContent=`HP: ${gameState.player.hp}/${gameState.player.max_hp}`;
+                    const cs = new CombatSystem(gameState.player, gameState.gameLogic.current_enemy);
+                    const [edmg, emsg] = cs.enemy_attack(); 
+                    gameState.gameLogic.add_message(emsg);
+                    document.getElementById('playerCombatHP').textContent = `HP: ${gameState.player.hp}/${gameState.player.max_hp}`;
+                    
+                    // Check if player died
+                    if(!gameState.player.is_alive()){
+                        gameState.gameLogic.end_combat(false);
+                    }
                 }
-            }else if(act===6){
+                
+            } else if(act === 6){
+                // Use rare potion
                 if(gameState.gameLogic.use_rare_potion()){
-                    const cs=new CombatSystem(gameState.player,gameState.gameLogic.current_enemy);
-                    const [edmg,emsg]=cs.enemy_attack(); gameState.gameLogic.add_message(emsg);
-                    document.getElementById('playerCombatHP').textContent=`HP: ${gameState.player.hp}/${gameState.player.max_hp}`;
+                    const cs = new CombatSystem(gameState.player, gameState.gameLogic.current_enemy);
+                    const [edmg, emsg] = cs.enemy_attack(); 
+                    gameState.gameLogic.add_message(emsg);
+                    document.getElementById('playerCombatHP').textContent = `HP: ${gameState.player.hp}/${gameState.player.max_hp}`;
+                    
+                    // Check if player died
+                    if(!gameState.player.is_alive()){
+                        gameState.gameLogic.end_combat(false);
+                    }
                 }
-            }else if(act===7){
-                const cs=new CombatSystem(gameState.player,gameState.gameLogic.current_enemy);
-                const [ok,msg]=cs.attempt_flee(); gameState.gameLogic.add_message(msg);
-                if(ok){ gameState.gameState='playing'; hideCombatPanel(); }
-                else{
-                    const [edmg,emsg]=cs.enemy_attack(); gameState.gameLogic.add_message(emsg);
-                    document.getElementById('playerCombatHP').textContent=`HP: ${gameState.player.hp}/${gameState.player.max_hp}`;
+                
+            } else if(act === 7){
+                // Attempt to flee
+                const cs = new CombatSystem(gameState.player, gameState.gameLogic.current_enemy);
+                const [ok, msg] = cs.attempt_flee(); 
+                gameState.gameLogic.add_message(msg);
+                
+                if(ok){ 
+                    gameState.gameState = 'playing'; 
+                    gameState.gameLogic.game_state = 'playing';
+                    hideCombatPanel(); 
+                } else {
+                    const [edmg, emsg] = cs.enemy_attack(); 
+                    gameState.gameLogic.add_message(emsg);
+                    document.getElementById('playerCombatHP').textContent = `HP: ${gameState.player.hp}/${gameState.player.max_hp}`;
+                    
+                    // Check if player died
+                    if(!gameState.player.is_alive()){
+                        gameState.gameLogic.end_combat(false);
+                    }
                 }
             }
         }
         return;
     }
-    if(gameState.gameState==='playing'){
+    
+    if(gameState.gameState === 'playing'){
         let dx=0,dy=0;
         if(ev.key==='ArrowUp'||ev.key==='w'||ev.key==='W') dy=-1;
         else if(ev.key==='ArrowDown'||ev.key==='s'||ev.key==='S') dy=1;
@@ -797,7 +956,7 @@ function handleKey(ev){
         else if(ev.key==='r'||ev.key==='R'){ location.reload(); return; }
         if(dx!==0||dy!==0){
             gameState.gameLogic.move_player(dx,dy);
-            gameState.camera.position.set(gameState.player.x+10,20,gameState.player.y+10);
+            gameState.camera.position.set(gameState.player.x+5,15,gameState.player.y+5);
             gameState.camera.lookAt(gameState.player.x,0,gameState.player.y);
             updateUI();
         }
