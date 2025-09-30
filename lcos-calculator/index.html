@@ -2,91 +2,172 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>LCOS Calculator</title>
+<title>LCOS Calculator (Retro Excel Style)</title>
 <style>
-  body{font-family:Arial,Helvetica,sans-serif;margin:0;padding:2rem;background:#f7f7f7}
-  h1{color:#005a9c}
-  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem}
-  label{display:flex;flex-direction:column;font-size:.9rem}
-  input{padding:.4rem;font-size:1rem;width:100%;box-sizing:border-box}
-  #result{margin-top:1.5rem;font-size:1.4rem;font-weight:bold;color:#0b6a0b}
-  footer{margin-top:2rem;font-size:.75rem;color:#555}
+  body {
+    font-family: "Courier New", monospace;
+    margin: 0;
+    padding: 2rem;
+    background: #eaeaea;
+  }
+  h1 {
+    text-align: center;
+    background: #004c80;
+    color: #fff;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    border: 2px solid #003354;
+  }
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    background: #fff;
+    border: 2px solid #444;
+    font-size: 0.9rem;
+  }
+  th, td {
+    border: 1px solid #999;
+    padding: 6px 8px;
+    text-align: left;
+  }
+  th { background: #c0c0c0; }
+  tr:nth-child(even) td { background: #f7f7f7; }
+  input {
+    width: 100%;
+    border: none;
+    background: transparent;
+    font-family: inherit;
+    font-size: inherit;
+    text-align: right;
+    padding: 2px;
+  }
+  input:focus {
+    outline: 1px dashed #333;
+    background: #ffffe0;
+  }
+  #result {
+    margin-top: 1rem;
+    padding: 0.5rem;
+    border: 2px solid #333;
+    background: #fdfdfd;
+    font-weight: bold;
+    font-size: 1.1rem;
+    text-align: center;
+  }
+  #chart {
+    margin-top: 2rem;
+    border: 2px solid #333;
+    background: #fff;
+    padding: 0.5rem;
+  }
+  #formulas {
+    margin-top: 2rem;
+    padding: 1rem;
+    background: #fff;
+    border: 2px solid #333;
+  }
+  footer {
+    margin-top: 1.5rem;
+    font-size: 0.8rem;
+    color: #333;
+    text-align: center;
+  }
 </style>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<!-- MathJax for formulas -->
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
 
 <h1>Levelised Cost of Storage (LCOS) Calculator</h1>
 
-<div class="grid">
-  <label>Round-Trip Efficiency ηRTE (%)
-    <input id="etaRTE" type="number" min="0" max="100" step="any" value="70"></label>
-
-  <label>Discharge Efficiency ηdisch (%)
-    <input id="etaDisch" type="number" min="0" max="100" step="any" value="71"></label>
-
-  <label>Full Cycles per year
-    <input id="cycles" type="number" min="0" step="any" value="360"></label>
-
-  <label>Project Lifetime (years)
-    <input id="life" type="number" min="0" step="any" value="25"></label>
-
-  <label>Electricity Price €/kWh
-    <input id="ePrice" type="number" min="0" step="any" value="0.0813"></label>
-
-  <label>O&M Factor λ (%)
-    <input id="lambda" type="number" min="0" max="100" step="any" value="1"></label>
-
-  <label>Discount Rate r (%)
-    <input id="r" type="number" min="0" max="100" step="any" value="7"></label>
-
-  <label>Storage Battery SB €/kWh
-    <input id="SB" type="number" min="0" step="any" value="246.58"></label>
-
-  <label>Balance of Plant BoP €/kWh
-    <input id="BoP" type="number" min="0" step="any" value="39.46"></label>
-
-  <label>System Integration SI €/kWh
-    <input id="SI" type="number" min="0" step="any" value="37.21"></label>
-
-  <label>Project Development PD €/kWh
-    <input id="PD" type="number" min="0" step="any" value="49.78"></label>
-
-  <label>EPC €/kWh
-    <input id="EPC" type="number" min="0" step="any" value="47.89"></label>
-
-  <label>Contingency CC €/kWh
-    <input id="CC" type="number" min="0" step="any" value="0.29"></label>
-
-  <label>PCS €/kWh
-    <input id="PCS" type="number" min="0" step="any" value="9.61"></label>
-
-  <label>Grid Integration GI €/kWh
-    <input id="GI" type="number" min="0" step="any" value="5.11"></label>
-
-  <label>Electrolyte €/kWh
-    <input id="Electrolyte" type="number" min="0" step="any" value="188.16"></label>
-</div>
+<table>
+  <tr><th>Parameter</th><th>Value</th></tr>
+  <tr><td>Round-Trip Efficiency ηRTE (%)</td><td><input id="etaRTE" type="number" value="70"></td></tr>
+  <tr><td>Discharge Efficiency ηdisch (%)</td><td><input id="etaDisch" type="number" value="71"></td></tr>
+  <tr><td>Full Cycles per year</td><td><input id="cycles" type="number" value="360"></td></tr>
+  <tr><td>Project Lifetime (years)</td><td><input id="life" type="number" value="25"></td></tr>
+  <tr><td>Electricity Price (€/kWh)</td><td><input id="ePrice" type="number" value="0.0813"></td></tr>
+  <tr><td>O&amp;M Factor λ (%)</td><td><input id="lambda" type="number" value="1"></td></tr>
+  <tr><td>Discount Rate r (%)</td><td><input id="r" type="number" value="7"></td></tr>
+  <tr><td>Storage Battery SB (€/kWh)</td><td><input id="SB" type="number" value="246.58"></td></tr>
+  <tr><td>Balance of Plant BoP (€/kWh)</td><td><input id="BoP" type="number" value="39.46"></td></tr>
+  <tr><td>System Integration SI (€/kWh)</td><td><input id="SI" type="number" value="37.21"></td></tr>
+  <tr><td>Project Development PD (€/kWh)</td><td><input id="PD" type="number" value="49.78"></td></tr>
+  <tr><td>EPC (€/kWh)</td><td><input id="EPC" type="number" value="47.89"></td></tr>
+  <tr><td>Contingency CC (€/kWh)</td><td><input id="CC" type="number" value="0.29"></td></tr>
+  <tr><td>PCS (€/kWh)</td><td><input id="PCS" type="number" value="9.61"></td></tr>
+  <tr><td>Grid Integration GI (€/kWh)</td><td><input id="GI" type="number" value="5.11"></td></tr>
+  <tr><td>Electrolyte (€/kWh)</td><td><input id="Electrolyte" type="number" value="188.16"></td></tr>
+</table>
 
 <div id="result">LCOS = …</div>
 
+<canvas id="chart" width="900" height="300"></canvas>
+
+<div id="formulas">
+  <h2>Formulas</h2>
+
+  <p><strong>Levelised Cost of Storage (LCOS)</strong></p>
+  <p>
+  \[
+  LCOS \;=\; 
+  \frac{CCNPV \;+\; O\&MPV \;-\; \dfrac{V_{residual}}{(1+r)^{life}}}
+       {\displaystyle \sum_{n=1}^{life} \frac{cycles}{(1+r)^n}}
+  \;+\; E_{loss}
+  \]
+  </p>
+
+  <hr style="margin:1em 0;">
+
+  <p><strong>Capital Cost (Net Present Value)</strong></p>
+  <p>
+  \[
+  CCNPV \;=\; 
+  \frac{SB \;+\; BoP \;+\; SI \;+\; PD \;+\; EPC}{\eta_{disch}}
+  \;+\; CC \;+\; PCS \;+\; GI
+  \]
+  </p>
+
+  <p><strong>Operation &amp; Maintenance (NPV)</strong></p>
+  <p>
+  \[
+  O\&MPV \;=\; 
+  \sum_{n=1}^{life} 
+  \frac{ \lambda \,\big(SB+BoP+PCS+CC+SI\big) }
+       { \eta_{disch} \,(1+r)^n }
+  \]
+  </p>
+
+  <p><strong>Residual Value</strong></p>
+  <p>
+  \[
+  V_{residual} \;=\; 0.70 \times Electrolyte
+  \]
+  </p>
+
+  <p><strong>Energy Loss Penalty</strong></p>
+  <p>
+  \[
+  E_{loss} \;=\; E_{price}\,\left(\frac{1}{\eta_{RTE}} - 1\right)
+  \]
+  </p>
+</div>
+
+
 <footer>
-  Formula source: LCOS calculation.pdf<br>
-  All computations happen locally in your browser—no data is sent anywhere.
+  Retro style inspired by Excel 95 · Formula source: LCOS calculation.pdf
 </footer>
 
 <script>
-/* ---------- helpers ---------- */
 const $ = id => document.getElementById(id);
 const val = id => parseFloat($(id).value)||0;
+function pv(rate,n,pmt){ if(rate===0) return pmt*n; return pmt*(1-Math.pow(1+rate,-n))/rate; }
 
-function pv(rate, n, pmt){   // present value of annuity
-  if(rate===0) return pmt*n;
-  return pmt*(1-Math.pow(1+rate,-n))/rate;
-}
-
-/* ---------- core ---------- */
+let chart;
 function compute(){
-  // read inputs
   const etaRTE   = val('etaRTE')/100;
   const etaDisch = val('etaDisch')/100;
   const cycles   = val('cycles');
@@ -95,43 +176,56 @@ function compute(){
   const lambda   = val('lambda')/100;
   const r        = val('r')/100;
 
-  const SB   = val('SB');
-  const BoP  = val('BoP');
-  const SI   = val('SI');
-  const PD   = val('PD');
-  const EPC  = val('EPC');
-  const CC   = val('CC');
-  const PCS  = val('PCS');
-  const GI   = val('GI');
-  const Elec = val('Electrolyte');
+  const SB=val('SB'),BoP=val('BoP'),SI=val('SI'),PD=val('PD'),EPC=val('EPC'),
+        CC=val('CC'),PCS=val('PCS'),GI=val('GI'),Elec=val('Electrolyte');
 
-  // CCNPV (ajustado según PDF: bloque principal dividido entre ηdisch)
   const CCNPV = (SB+BoP+SI+PD+EPC)/etaDisch + CC + PCS + GI;
-
-  // O&MPV
   const annualOandM = lambda*(SB+BoP+PCS+CC+SI)/etaDisch;
   const OandMPV = pv(r, life, annualOandM);
-
-  // Vresidual
   const Vresidual = 0.70 * Elec;
-
-  // Eloss
   const Eloss = ePrice*(1/etaRTE - 1);
-
-  // denominator: annuity of discharge energy (suponiendo 1 kWh nominal)
-  const annualDischargeEnergy = cycles; 
-  const denom = pv(r, life, annualDischargeEnergy);
-
-  // LCOS
+  const denom = pv(r, life, cycles);
   const numerator = CCNPV + OandMPV - Vresidual/Math.pow(1+r,life);
   const LCOS = (numerator/denom) + Eloss;
 
   $('result').textContent = `LCOS = ${LCOS.toFixed(4)} €/kWh`;
-}
 
-/* ---------- auto-recalc ---------- */
+  const labels=[],omSeries=[],energySeries=[],lcosSeries=[];
+  let cumEnergy=0,cumCost=0;
+  for(let year=1; year<=life; year++){
+    const disc = Math.pow(1+r,year);
+    const discountedOM = annualOandM/disc;
+    cumEnergy += cycles/disc;
+    cumCost += discountedOM;
+    labels.push(year);
+    omSeries.push(discountedOM);
+    energySeries.push(cumEnergy);
+    lcosSeries.push((CCNPV+cumCost - Vresidual/disc)/cumEnergy + Eloss);
+  }
+
+  if(chart) chart.destroy();
+  chart = new Chart($('chart').getContext('2d'), {
+    type:'line',
+    data:{
+      labels,
+      datasets:[
+        {label:'O&M discounted €/kWh', data:omSeries, borderColor:'blue', yAxisID:'y1'},
+        {label:'Cumulated Energy (kWh)', data:energySeries, borderColor:'green', yAxisID:'y2'},
+        {label:'LCOS over time (€/kWh)', data:lcosSeries, borderColor:'red', yAxisID:'y1'}
+      ]
+    },
+    options:{
+      responsive:false,
+      interaction:{mode:'index'},
+      scales:{
+        y1:{type:'linear',position:'left',title:{display:true,text:'€/kWh'}},
+        y2:{type:'linear',position:'right',title:{display:true,text:'kWh'},grid:{drawOnChartArea:false}}
+      }
+    }
+  });
+}
 document.querySelectorAll('input').forEach(el=>el.addEventListener('input',compute));
-compute(); // initial
+compute();
 </script>
 
 </body>
