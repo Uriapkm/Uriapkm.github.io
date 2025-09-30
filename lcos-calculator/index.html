@@ -30,8 +30,12 @@
     padding: 6px 8px;
     text-align: left;
   }
-  th { background: #c0c0c0; }
-  tr:nth-child(even) td { background: #f7f7f7; }
+  th {
+    background: #c0c0c0;
+  }
+  tr:nth-child(even) td {
+    background: #f7f7f7;
+  }
   input {
     width: 100%;
     border: none;
@@ -64,7 +68,11 @@
     margin-top: 2rem;
     padding: 1rem;
     background: #fff;
-    border: 2px solid #333;
+    border: 2px solid #444;
+  }
+  #formulas h2 {
+    text-align: center;
+    margin-top: 0;
   }
   footer {
     margin-top: 1.5rem;
@@ -74,7 +82,100 @@
   }
 </style>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<!-- MathJax for formulas -->
+<script>
+const $ = id => document.getElementById(id);
+const val = id => parseFloat($(id).value)||0;
+
+let chart;
+
+function compute(){
+  const etaRTE   = val('etaRTE')/100;
+  const etaDisch = val('etaDisch')/100;
+  const cycles   = val('cycles');
+  const life     = val('life');
+  const ePrice   = val('ePrice');
+  const lambda   = val('lambda')/100;
+  const r        = val('r')/100;
+
+  const SB   = val('SB');
+  const BoP  = val('BoP');
+  const SI   = val('SI');
+  const PD   = val('PD');
+  const EPC  = val('EPC');
+  const CC   = val('CC');
+  const PCS  = val('PCS');
+  const GI   = val('GI');
+  const Elec = val('Electrolyte');
+
+  // CCNPV
+  const CCNPV = (SB+BoP+SI+PD+EPC)/etaDisch + CC + PCS + GI;
+
+  // O&M PV with n=0..life-1
+  const annualOandM = lambda*(SB+BoP+PCS+CC+SI)/etaDisch;
+  let OandMPV = 0;
+  for (let n=0; n<life; n++) {
+    OandMPV += annualOandM / Math.pow(1+r, n);
+  }
+
+  // Residual Value
+  const Vresidual = 0.70 * Elec;
+
+  // Energy Loss
+  const Eloss = ePrice*(1/etaRTE - 1);
+
+  // Denominator: discounted discharge energy n=0..life-1
+  let denom = 0;
+  for (let n=0; n<life; n++) {
+    denom += cycles / Math.pow(1+r, n);
+  }
+
+  // LCOS
+  const numerator = CCNPV + OandMPV - Vresidual/Math.pow(1+r,life);
+  const LCOS = (numerator/denom) + Eloss;
+
+  $('result').textContent = `LCOS = ${LCOS.toFixed(4)} €/kWh`;
+
+  // Chart data
+  const labels = [], omSeries = [], energySeries = [], lcosSeries=[];
+  let cumEnergy=0, cumCost=CCNPV;
+  for(let year=0; year<life; year++){
+    const discFactor = Math.pow(1+r,year);
+    const discountedOM = annualOandM/discFactor;
+    cumEnergy += cycles/discFactor;
+    cumCost += discountedOM;
+    labels.push(year);
+    omSeries.push(discountedOM);
+    energySeries.push(cumEnergy);
+    lcosSeries.push((cumCost - Vresidual/Math.pow(1+r,life))/cumEnergy + Eloss);
+  }
+
+  if(chart) chart.destroy();
+  chart = new Chart($('chart').getContext('2d'), {
+    type:'line',
+    data:{
+      labels,
+      datasets:[
+        {label:'O&M discounted €/kWh', data:omSeries, borderColor:'blue', yAxisID:'y1'},
+        {label:'Cumulated Energy (kWh)', data:energySeries, borderColor:'green', yAxisID:'y2'},
+        {label:'LCOS over time (€/kWh)', data:lcosSeries, borderColor:'red', yAxisID:'y1'}
+      ]
+    },
+    options:{
+      responsive:false,
+      interaction:{mode:'index'},
+      scales:{
+        y1:{type:'linear',position:'left',title:{display:true,text:'€/kWh'}},
+        y2:{type:'linear',position:'right',title:{display:true,text:'kWh'},grid:{drawOnChartArea:false}}
+      }
+    }
+  });
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  document.querySelectorAll('input').forEach(el=>el.addEventListener('input',compute));
+  compute();
+});
+</script>
 <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
 <script id="MathJax-script" async
   src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -113,9 +214,9 @@
   <p><strong>Levelised Cost of Storage (LCOS)</strong></p>
   <p>
   \[
-  LCOS \;=\; 
-  \frac{CCNPV \;+\; O\&MPV \;-\; \dfrac{V_{residual}}{(1+r)^{life}}}
-       {\displaystyle \sum_{n=1}^{life} \frac{cycles}{(1+r)^n}}
+  LCOS \;=\;
+  \frac{CCNPV + O\&M_{PV} - \dfrac{V_{residual}}{(1+r)^{life}}}
+  {\displaystyle \sum_{n=0}^{\,life-1} \frac{cycles}{(1+r)^n}}
   \;+\; E_{loss}
   \]
   </p>
@@ -125,19 +226,17 @@
   <p><strong>Capital Cost (Net Present Value)</strong></p>
   <p>
   \[
-  CCNPV \;=\; 
-  \frac{SB \;+\; BoP \;+\; SI \;+\; PD \;+\; EPC}{\eta_{disch}}
-  \;+\; CC \;+\; PCS \;+\; GI
+  CCNPV \;=\;
+  \frac{SB + BoP + SI + PD + EPC}{\eta_{disch}} + CC + PCS + GI
   \]
   </p>
 
   <p><strong>Operation &amp; Maintenance (NPV)</strong></p>
   <p>
   \[
-  O\&MPV \;=\; 
-  \sum_{n=1}^{life} 
-  \frac{ \lambda \,\big(SB+BoP+PCS+CC+SI\big) }
-       { \eta_{disch} \,(1+r)^n }
+  O\&M_{PV} \;=\;
+  \sum_{n=0}^{\,life-1}
+  \frac{\lambda \cdot (SB + BoP + PCS + CC + SI)}{\eta_{disch}\,(1+r)^n}
   \]
   </p>
 
@@ -156,77 +255,10 @@
   </p>
 </div>
 
-
 <footer>
-  Retro style inspired by Excel 95 · Formula source: LCOS calculation.pdf
+  Retro style inspired by Excel 95<br>
+  Formula source: LCOS calculation.pdf
 </footer>
-
-<script>
-const $ = id => document.getElementById(id);
-const val = id => parseFloat($(id).value)||0;
-function pv(rate,n,pmt){ if(rate===0) return pmt*n; return pmt*(1-Math.pow(1+rate,-n))/rate; }
-
-let chart;
-function compute(){
-  const etaRTE   = val('etaRTE')/100;
-  const etaDisch = val('etaDisch')/100;
-  const cycles   = val('cycles');
-  const life     = val('life');
-  const ePrice   = val('ePrice');
-  const lambda   = val('lambda')/100;
-  const r        = val('r')/100;
-
-  const SB=val('SB'),BoP=val('BoP'),SI=val('SI'),PD=val('PD'),EPC=val('EPC'),
-        CC=val('CC'),PCS=val('PCS'),GI=val('GI'),Elec=val('Electrolyte');
-
-  const CCNPV = (SB+BoP+SI+PD+EPC)/etaDisch + CC + PCS + GI;
-  const annualOandM = lambda*(SB+BoP+PCS+CC+SI)/etaDisch;
-  const OandMPV = pv(r, life, annualOandM);
-  const Vresidual = 0.70 * Elec;
-  const Eloss = ePrice*(1/etaRTE - 1);
-  const denom = pv(r, life, cycles);
-  const numerator = CCNPV + OandMPV - Vresidual/Math.pow(1+r,life);
-  const LCOS = (numerator/denom) + Eloss;
-
-  $('result').textContent = `LCOS = ${LCOS.toFixed(4)} €/kWh`;
-
-  const labels=[],omSeries=[],energySeries=[],lcosSeries=[];
-  let cumEnergy=0,cumCost=0;
-  for(let year=1; year<=life; year++){
-    const disc = Math.pow(1+r,year);
-    const discountedOM = annualOandM/disc;
-    cumEnergy += cycles/disc;
-    cumCost += discountedOM;
-    labels.push(year);
-    omSeries.push(discountedOM);
-    energySeries.push(cumEnergy);
-    lcosSeries.push((CCNPV+cumCost - Vresidual/disc)/cumEnergy + Eloss);
-  }
-
-  if(chart) chart.destroy();
-  chart = new Chart($('chart').getContext('2d'), {
-    type:'line',
-    data:{
-      labels,
-      datasets:[
-        {label:'O&M discounted €/kWh', data:omSeries, borderColor:'blue', yAxisID:'y1'},
-        {label:'Cumulated Energy (kWh)', data:energySeries, borderColor:'green', yAxisID:'y2'},
-        {label:'LCOS over time (€/kWh)', data:lcosSeries, borderColor:'red', yAxisID:'y1'}
-      ]
-    },
-    options:{
-      responsive:false,
-      interaction:{mode:'index'},
-      scales:{
-        y1:{type:'linear',position:'left',title:{display:true,text:'€/kWh'}},
-        y2:{type:'linear',position:'right',title:{display:true,text:'kWh'},grid:{drawOnChartArea:false}}
-      }
-    }
-  });
-}
-document.querySelectorAll('input').forEach(el=>el.addEventListener('input',compute));
-compute();
-</script>
 
 </body>
 </html>
