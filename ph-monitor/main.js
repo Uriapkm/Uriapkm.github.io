@@ -789,8 +789,7 @@ class PHMonitor {
     }
 
     copyArduinoCode() {
-        const code = `
-#include <EEPROM.h>
+        const code = `#include <EEPROM.h>
 
 const int pHPin = A0;           // pH meter Analog output to Arduino Analog Input 0
 const float samplingInterval = 1000; // Sample every second
@@ -807,6 +806,15 @@ float pH7Voltage = 2.636;  // Default voltage for pH 7 solution
 bool calibrationMode = false;
 String inputString = "";
 bool stringComplete = false;
+
+// Function declarations
+void loadCalibrationData();
+void processCommand(String command);
+float readpH();
+void startCalibration(float targetPH);
+void resetCalibration();
+void EEPROM_writeFloat(int addr, float val);
+float EEPROM_readFloat(int addr);
 
 void setup() {
     Serial.begin(9600);
@@ -834,7 +842,7 @@ void loop() {
 void serialEvent() {
     while (Serial.available()) {
         char inChar = (char)Serial.read();
-        if (inChar == '\n') {
+        if (inChar == '\n') {  // CORRECT: Proper newline character
             stringComplete = true;
         } else {
             inputString += inChar;
@@ -877,6 +885,9 @@ void processCommand(String command) {
     else if (command == "RESET") {
         resetCalibration();
         Serial.println("Calibration reset to defaults");
+    }
+    else {
+        Serial.println("Unknown command. Use: CAL,4.0 / CAL,7.0 / READ / RESET");
     }
 }
 
@@ -922,6 +933,12 @@ void loadCalibrationData() {
     // Only use EEPROM values if they seem valid
     if (pH4 > 0 && pH4 < 5) pH4Voltage = pH4;
     if (pH7 > 0 && pH7 < 5) pH7Voltage = pH7;
+    
+    Serial.print("Loaded calibration - pH4: ");
+    Serial.print(pH4Voltage, 3);
+    Serial.print("V, pH7: ");
+    Serial.print(pH7Voltage, 3);
+    Serial.println("V");
 }
 
 void resetCalibration() {
@@ -929,6 +946,7 @@ void resetCalibration() {
     pH7Voltage = 2.636;
     EEPROM_writeFloat(EEPROM_pH4_ADDR, pH4Voltage);
     EEPROM_writeFloat(EEPROM_pH7_ADDR, pH7Voltage);
+    Serial.println("Calibration reset to factory defaults");
 }
 
 void EEPROM_writeFloat(int addr, float val) {
