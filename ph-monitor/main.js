@@ -89,7 +89,6 @@ class PHMonitor {
         });
 
         // Data export
-        // Se cambiaron los listeners para que usen el formato correcto
         document.getElementById('exportCSVBtn').addEventListener('click', (e) => {
             this.exportData(e.target.dataset.format);
         });
@@ -262,7 +261,7 @@ class PHMonitor {
     async disconnect() {
         try {
             this.isConnected = false;
-            this.stopLogging(); // Detener el log si está activo
+            this.stopLogging(); // Stop logging if active
             
             if (this.reader) {
                 await this.reader.cancel();
@@ -333,20 +332,21 @@ class PHMonitor {
     }
 
     processPHReading(rawPH) {
-        // 1. Aplicar calibración
+        // 1. Apply calibration
         const calibratedPH = this.slope * rawPH + this.offset;
         
-        // 2. Actualizar la lectura actual en la UI
+        // 2. Update current reading in the UI
         document.getElementById('currentPH').textContent = calibratedPH.toFixed(2);
         document.getElementById('rawPH').textContent = rawPH.toFixed(2);
+        document.getElementById('calibratedPH').textContent = calibratedPH.toFixed(2);
         document.getElementById('currentRaw').textContent = rawPH.toFixed(2);
         document.getElementById('readingStatus').textContent = `Last reading: pH ${calibratedPH.toFixed(2)}`;
         
-        // 3. Almacenar datos y calcular el tiempo SOLO si el logging está activo
+        // 3. Store data and calculate time ONLY if logging is active
         if (this.isLogging) {
             const currentTime = Date.now();
             
-            // this.startTime se reinicia en startLogging()
+            // this.startTime is reset in startLogging()
             if (!this.startTime) {
                 this.startTime = currentTime;
             }
@@ -367,6 +367,7 @@ class PHMonitor {
             this.updateChart();
             this.updateDataTable();
             this.updateStatistics();
+            this.updateExportUI();
         }
     }
 
@@ -378,101 +379,66 @@ class PHMonitor {
     }
 
     startLogging() {
-    const interval = parseFloat(document.getElementById('intervalInput').value);
-    if (interval <= 0 || isNaN(interval)) {
-        this.showNotification('Interval must be a positive number of seconds.', 'error');
-        return;
-    }
-
-    // 1. Clear any previous interval to avoid multiple executions
-    if (this.logInterval) {
-        clearInterval(this.logInterval);
-        this.logInterval = null;
-    }
-
-    this.isLogging = true;
-
-    // 2. Reset data and time
-    this.phData = [];
-    this.timeData = [];
-    this.displayData = [];
-    this.displayTime = [];
-    this.startTime = Date.now(); // Reset base time
-
-    // 3. Function to send READ command and handle data
-    const sendReadCommand = async () => {
-        if (this.isConnected && this.isLogging) {
-            await this.sendCommand('READ\n');
-        } else {
-            // Stop logging if disconnected or logging stopped
-            this.stopLogging();
+        const interval = parseFloat(document.getElementById('intervalInput').value);
+        if (interval <= 0 || isNaN(interval)) {
+            this.showNotification('Interval must be a positive number of seconds.', 'error');
+            return;
         }
-    };
 
-    // 4. Send first command immediately
-    sendReadCommand();
+        // 1. Clear any previous interval to avoid multiple executions
+        if (this.logInterval) {
+            clearInterval(this.logInterval);
+            this.logInterval = null;
+        }
 
-    // 5. Set up interval to send READ commands and align data
-    this.logInterval = setInterval(() => {
-        sendReadCommand();
-        // Optionally, you can add logic here to interpolate or align data if needed
-    }, interval * 1000);
+        this.isLogging = true;
 
-    this.updateUI();
-    this.showNotification(`Started logging with ${interval}s interval`, 'success');
-}
+        // 2. Reset data and time
+        this.phData = [];
+        this.timeData = [];
+        this.displayData = [];
+        this.displayTime = [];
+        this.startTime = Date.now(); // Reset base time
 
-processPHReading(rawPH) {
-    // 1. Apply calibration
-    const calibratedPH = this.slope * rawPH + this.offset;
-
-    // 2. Update current reading in the UI
-    document.getElementById('currentPH').textContent = calibratedPH.toFixed(2);
-    document.getElementById('rawPH').textContent = rawPH.toFixed(2);
-    document.getElementById('currentRaw').textContent = rawPH.toFixed(2);
-    document.getElementById('readingStatus').textContent = `Last reading: pH ${calibratedPH.toFixed(2)}`;
-
-    // 3. Store data and align with the specified interval if logging is active
-    if (this.isLogging) {
-        const currentTime = Date.now();
-        const interval = parseFloat(document.getElementById('intervalInput').value) * 1000; // Convert to milliseconds
-        const elapsedTime = (currentTime - this.startTime) / 1000; // Time in seconds
-
-        // Align data to the nearest interval
-        const alignedTime = Math.round(elapsedTime / (interval / 1000)) * (interval / 1000);
-
-        // Only add data if it aligns with the interval
-        if (!this.timeData.length || Math.abs(alignedTime - this.timeData[this.timeData.length - 1]) >= (interval / 1000)) {
-            this.phData.push(calibratedPH);
-            this.timeData.push(alignedTime);
-            this.displayData.push(calibratedPH);
-            this.displayTime.push(alignedTime);
-
-            // Keep only last 100 points for display
-            if (this.displayData.length > 100) {
-                this.displayData.shift();
-                this.displayTime.shift();
+        // 3. Function to send READ command and handle data
+        const sendReadCommand = async () => {
+            if (this.isConnected && this.isLogging) {
+                await this.sendCommand('READ\n');
+            } else {
+                // Stop logging if disconnected or logging stopped
+                this.stopLogging();
             }
+        };
 
-            this.updateChart();
-            this.updateDataTable();
-            this.updateStatistics();
-        }
+        // 4. Send first command immediately
+        sendReadCommand();
+
+        // 5. Set up interval to send READ commands and align data
+        this.logInterval = setInterval(() => {
+            sendReadCommand();
+        }, interval * 1000);
+
+        this.updateUI();
+        this.showNotification(`Started logging with ${interval}s interval`, 'success');
+        
+        // Add notification about live export capability
+        setTimeout(() => {
+            this.showNotification('You can export data at any time, even while logging is active!', 'info');
+        }, 2000);
     }
-}
 
     stopLogging() {
-    this.isLogging = false;
-    
-    // Limpiar el intervalo para detener las llamadas a READ
-    if (this.logInterval) {
-        clearInterval(this.logInterval);
-        this.logInterval = null;
+        this.isLogging = false;
+        
+        // Clear the interval to stop READ calls
+        if (this.logInterval) {
+            clearInterval(this.logInterval);
+            this.logInterval = null;
+        }
+        
+        this.updateUI();
+        this.showNotification('Stopped logging', 'warning');
     }
-    
-    this.updateUI();
-    this.showNotification('Stopped logging', 'warning');
-}
 
     addCalibrationPoint() {
         const measuredPH = parseFloat(document.getElementById('measuredPH').value);
@@ -542,7 +508,7 @@ processPHReading(rawPH) {
         const tbody = document.getElementById('calibrationTableBody');
         
         if (this.calibrationPoints.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="3" class="text-center text-gray-500 dark:text-gray-400">No calibration points added</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="3" style="text-align: center; padding: 20px; color: #6b7280;">No calibration points added</td></tr>';
             return;
         }
         
@@ -551,7 +517,7 @@ processPHReading(rawPH) {
                 <td>${point.measured.toFixed(2)}</td>
                 <td>${point.actual.toFixed(2)}</td>
                 <td>
-                    <button onclick="phMonitor.removeCalibrationPoint(${index})" class="text-red-500 hover:text-red-700">
+                    <button onclick="phMonitor.removeCalibrationPoint(${index})" style="background: var(--error-color); color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer;">
                         <i class="fas fa-trash"></i>
                     </button>
                 </td>
@@ -597,7 +563,7 @@ processPHReading(rawPH) {
         const tbody = document.getElementById('dataTableBody');
         
         if (this.phData.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="2" class="text-center text-gray-500 dark:text-gray-400">No data recorded</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="3" style="text-align: center; padding: 20px; color: #6b7280;">No data recorded</td></tr>';
             return;
         }
         
@@ -605,9 +571,11 @@ processPHReading(rawPH) {
         const startIndex = Math.max(0, this.phData.length - 20);
         const html = this.phData.slice(startIndex).map((ph, index) => {
             const actualIndex = startIndex + index;
+            const rawValue = (ph - this.offset) / this.slope; // Calculate raw value from calibrated
             return `
                 <tr>
                     <td>${this.timeData[actualIndex].toFixed(1)}</td>
+                    <td>${rawValue.toFixed(2)}</td>
                     <td>${ph.toFixed(2)}</td>
                 </tr>
             `;
@@ -630,7 +598,7 @@ processPHReading(rawPH) {
         const min = Math.min(...this.phData);
         const max = Math.max(...this.phData);
         const range = max - min;
-        const duration = Math.max(...this.timeData);
+        const duration = this.timeData.length > 0 ? Math.max(...this.timeData) : 0;
         
         document.getElementById('avgPH').textContent = avg.toFixed(2);
         document.getElementById('minPH').textContent = min.toFixed(2);
@@ -641,144 +609,161 @@ processPHReading(rawPH) {
         // Update measurement count
         document.getElementById('measurementCount').textContent = this.phData.length;
         document.getElementById('totalMeasurements').textContent = this.phData.length;
+        document.getElementById('exportTotalMeasurements').textContent = this.phData.length;
     }
 
-    async exportData(format) {
-    if (this.phData.length === 0) {
-        this.showNotification('No data to export', 'warning');
-        return;
-    }
-
-    const now = new Date();
-    const filenamePrefix = `ph_measurements_${now.toISOString().split('T')[0].replace(/-/g, '')}`;
-
-    // Prepare data for export
-    const avg = this.phData.reduce((a, b) => a + b, 0) / this.phData.length;
-    const min = Math.min(...this.phData);
-    const max = Math.max(...this.phData);
-    const range = max - min;
-    const duration = Math.max(...this.timeData);
-
-    const dataSheetData = [
-        ["pH Measurement Data"],
-        [`Date: ${now.toLocaleDateString()}`],
-        [],
-        ["Statistics"],
-        ["Number of Measurements", this.phData.length],
-        ["Average pH", avg.toFixed(2)],
-        ["Minimum pH", min.toFixed(2)],
-        ["Maximum pH", max.toFixed(2)],
-        ["pH Range", range.toFixed(2)],
-        ["Total Duration (s)", duration.toFixed(1)],
-        [],
-        ["Measurements"],
-        ["Time (seconds)", "pH Value"]
-    ];
-
-    for (let i = 0; i < this.phData.length; i++) {
-        dataSheetData.push([this.timeData[i].toFixed(1), this.phData[i].toFixed(2)]);
-    }
-
-    if (format === 'csv') {
-        const csvContent = dataSheetData.map(e => e.join(',')).join('\n');
-        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = `${filenamePrefix}.csv`;
-        a.click();
-        window.URL.revokeObjectURL(url);
-        this.showNotification(`Data exported to ${filenamePrefix}.csv`, 'success');
-    } else if (format === 'xlsx') {
-        try {
-            // Create workbook and worksheet
-            const workbook = XLSX.utils.book_new();
-            const dataSheet = XLSX.utils.aoa_to_sheet(dataSheetData);
-            XLSX.utils.book_append_sheet(workbook, dataSheet, "Measurements");
-
-            // Define the range of data for the chart (starting from row 13, columns A and B)
-            const dataStartRow = 13; // Row where "Time (seconds)", "pH Value" headers start
-            const dataEndRow = dataStartRow + this.phData.length; // Adjust for header row
-            const dataRange = `A${dataStartRow}:B${dataEndRow}`;
-
-            // VBA macro to create a chart
-            const vbaCode = `
-Sub AutoOpen()
-    ' This macro runs when the workbook is opened
-    Dim ws As Worksheet
-    Dim chart As Chart
-    Dim dataRange As Range
-    Dim chartShape As Shape
-
-    ' Set the worksheet
-    Set ws = ThisWorkbook.Sheets("Measurements")
-    
-    ' Define the data range for the chart
-    Set dataRange = ws.Range("${dataRange}")
-
-    ' Delete any existing charts
-    For Each chartShape In ws.Shapes
-        chartShape.Delete
-    Next chartShape
-
-    ' Create a new chart
-    Set chartShape = ws.Shapes.AddChart2(251, xlXYScatterLines) ' 251 is for Scatter with Lines
-    Set chart = chartShape.Chart
-
-    ' Set chart properties
-    With chart
-        .SetSourceData Source:=dataRange
-        .ChartTitle.Text = "pH vs Time"
-        .Axes(xlCategory).HasTitle = True
-        .Axes(xlCategory).AxisTitle.Text = "Time (seconds)"
-        .Axes(xlValue).HasTitle = True
-        .Axes(xlValue).AxisTitle.Text = "pH Value"
-        .Axes(xlValue).MinimumScale = 0
-        .Axes(xlValue).MaximumScale = 14
-        .HasLegend = False
-        .ChartArea.Left = 300 ' Position chart to the right of data
-        .ChartArea.Top = 20
-        .ChartArea.Width = 400
-        .ChartArea.Height = 300
-    End With
-End Sub
-            `.trim();
-
-            // Convert VBA code to binary (required for SheetJS to embed VBA)
-            const vbaBlob = new Blob([vbaCode], { type: 'text/plain' });
-            const reader = new FileReader();
-            reader.readAsArrayBuffer(vbaBlob);
-
-            reader.onload = () => {
-                try {
-                    // Add VBA project to workbook
-                    workbook.VBAParts = [{ name: 'ThisWorkbook', code: vbaCode }];
-
-                    // Write and download the Excel file
-                    const fileName = `${filenamePrefix}.xlsm`; // Use .xlsm for macro-enabled workbook
-                    XLSX.writeFile(workbook, fileName, { bookVBA: true });
-
-                    this.showNotification(`Data exported to ${fileName} with chart`, 'success');
-                } catch (error) {
-                    console.error('Error exporting to XLSX with VBA:', error);
-                    this.showNotification('Error exporting to Excel with chart. Please check console for details.', 'error');
-                }
-            };
-
-            reader.onerror = () => {
-                console.error('Error reading VBA code:', reader.error);
-                this.showNotification('Error preparing VBA macro for Excel.', 'error');
-            };
-
-            // Update last export time
-            document.getElementById('lastExport').textContent = now.toLocaleTimeString();
-        } catch (error) {
-            console.error('Error exporting to XLSX:', error);
-            this.showNotification('Error exporting to Excel. Please check console for details.', 'error');
+    updateExportUI() {
+        const hasData = this.phData.length > 0;
+        const isLogging = this.isLogging;
+        
+        document.getElementById('exportCSVBtn').disabled = !hasData;
+        document.getElementById('exportExcelBtn').disabled = !hasData;
+        
+        // Update export button text to indicate live data capability
+        if (isLogging && hasData) {
+            document.getElementById('exportCSVBtn').innerHTML = '<i class="fas fa-file-csv"></i> Export Live CSV';
+            document.getElementById('exportExcelBtn').innerHTML = '<i class="fas fa-file-excel"></i> Export Live Excel';
+        } else {
+            document.getElementById('exportCSVBtn').innerHTML = '<i class="fas fa-file-csv"></i> CSV';
+            document.getElementById('exportExcelBtn').innerHTML = '<i class="fas fa-file-excel"></i> Excel';
         }
     }
 
+    async exportData(format) {
+        // Allow export even if logging is active - use current data state
+        const currentData = [...this.phData];
+        const currentTime = [...this.timeData];
+        
+        if (currentData.length === 0) {
+            this.showNotification('No data to export', 'warning');
+            return;
+        }
+
+        const now = new Date();
+        const filenamePrefix = `ph_measurements_${now.toISOString().split('T')[0].replace(/-/g, '')}_${now.getHours()}${now.getMinutes()}${now.getSeconds()}`;
+
+        // Prepare data for export using current snapshot
+        const avg = currentData.reduce((a, b) => a + b, 0) / currentData.length;
+        const min = Math.min(...currentData);
+        const max = Math.max(...currentData);
+        const range = max - min;
+        const duration = currentTime.length > 0 ? Math.max(...currentTime) : 0;
+
+        if (format === 'csv') {
+            const dataSheetData = [
+                ["pH Measurement Data"],
+                [`Date: ${now.toLocaleDateString()}`],
+                [`Time: ${now.toLocaleTimeString()}`],
+                [`Export Status: ${this.isLogging ? 'LIVE DATA - Logging Active' : 'Completed Dataset'}`],
+                [],
+                ["Statistics"],
+                ["Number of Measurements", currentData.length],
+                ["Average pH", avg.toFixed(2)],
+                ["Minimum pH", min.toFixed(2)],
+                ["Maximum pH", max.toFixed(2)],
+                ["pH Range", range.toFixed(2)],
+                ["Total Duration (s)", duration.toFixed(1)],
+                ["Logging Status", this.isLogging ? "Active" : "Stopped"],
+                ["Calibration Slope", this.slope.toFixed(3)],
+                ["Calibration Offset", this.offset.toFixed(3)],
+                [],
+                ["Measurements"],
+                ["Time (seconds)", "Raw pH", "Calibrated pH"]
+            ];
+
+            for (let i = 0; i < currentData.length; i++) {
+                const rawValue = (currentData[i] - this.offset) / this.slope;
+                dataSheetData.push([
+                    currentTime[i].toFixed(1), 
+                    rawValue.toFixed(2),
+                    currentData[i].toFixed(2)
+                ]);
+            }
+
+            const csvContent = dataSheetData.map(e => e.join(',')).join('\n');
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${filenamePrefix}.csv`;
+            a.click();
+            window.URL.revokeObjectURL(url);
+            
+            const statusMsg = this.isLogging 
+                ? `Live data exported to ${filenamePrefix}.csv (${currentData.length} points)`
+                : `Data exported to ${filenamePrefix}.csv`;
+            this.showNotification(statusMsg, 'success');
+        } else if (format === 'xlsx') {
+            try {
+                // Create workbook using SheetJS
+                const wb = XLSX.utils.book_new();
+
+                // Create main data sheet
+                const dataSheetData = [
+                    ["pH Measurement Data"],
+                    [`Date: ${now.toLocaleDateString()}`],
+                    [`Time: ${now.toLocaleTimeString()}`],
+                    [`Export Status: ${this.isLogging ? 'LIVE DATA - Logging Active' : 'Completed Dataset'}`],
+                    [],
+                    ["Statistics"],
+                    ["Number of Measurements", currentData.length],
+                    ["Average pH", avg.toFixed(2)],
+                    ["Minimum pH", min.toFixed(2)],
+                    ["Maximum pH", max.toFixed(2)],
+                    ["pH Range", range.toFixed(2)],
+                    ["Total Duration (s)", duration.toFixed(1)],
+                    ["Logging Status", this.isLogging ? "Active" : "Stopped"],
+                    ["Calibration Slope", this.slope.toFixed(3)],
+                    ["Calibration Offset", this.offset.toFixed(3)],
+                    [],
+                    ["Measurements"],
+                    ["Time (seconds)", "Raw pH", "Calibrated pH"]
+                ];
+
+                // Add measurement data
+                for (let i = 0; i < currentData.length; i++) {
+                    const rawValue = (currentData[i] - this.offset) / this.slope;
+                    dataSheetData.push([
+                        currentTime[i].toFixed(1), 
+                        rawValue.toFixed(2),
+                        currentData[i].toFixed(2)
+                    ]);
+                }
+
+                const dataSheet = XLSX.utils.aoa_to_sheet(dataSheetData);
+                XLSX.utils.book_append_sheet(wb, dataSheet, "pH Measurements");
+
+                // Create chart data sheet with clean data for easy charting
+                const chartData = [["Time (s)", "Calibrated pH"]];
+                for (let i = 0; i < currentData.length; i++) {
+                    chartData.push([currentTime[i], currentData[i]]);
+                }
+
+                const chartSheet = XLSX.utils.aoa_to_sheet(chartData);
+                XLSX.utils.book_append_sheet(wb, chartSheet, "Chart Data");
+
+                // Generate and download Excel file
+                const fileName = `${filenamePrefix}.xlsx`;
+                XLSX.writeFile(wb, fileName);
+                
+                const statusMsg = this.isLogging 
+                    ? `Live data exported to ${fileName} (${currentData.length} points)`
+                    : `Data exported to ${fileName}`;
+                this.showNotification(statusMsg, 'success');
+                
+            } catch (error) {
+                console.error('Error exporting to Excel:', error);
+                this.showNotification('Error exporting to Excel. Please try again.', 'error');
+            }
+        }
+
+        // Update last export time
         document.getElementById('lastExport').textContent = now.toLocaleTimeString();
+        
+        // Add export annotation if logging is active
+        if (this.isLogging) {
+            this.showNotification(`Export completed while logging continues...`, 'info');
+        }
     }
 
     clearData() {
@@ -797,26 +782,29 @@ End Sub
             this.updateChart();
             this.updateDataTable();
             this.updateStatistics();
+            this.updateExportUI();
             
             this.showNotification('All data cleared', 'warning');
         }
     }
 
     copyArduinoCode() {
-        const code = `#include <EEPROM.h>
+        const code = `
+#include <EEPROM.h>
 
-const int pHPin = A0;           // pH meter Analog output to Arduino Analog Input 0
-const int samplingInterval = 1000; // Sample every second (in milliseconds)
+const int pHPin = A0;           // pH meter Analog output to Arduino Analog Input 0
+const float samplingInterval = 1000; // Sample every second
 
 // EEPROM addresses for storing calibration data
-const int EEPROM_pH4_ADDR = 0;  // 4 bytes for pH 4 voltage
-const int EEPROM_pH7_ADDR = 4;  // 4 bytes for pH 7 voltage
+const int EEPROM_pH4_ADDR = 0;  // 4 bytes for pH 4 voltage
+const int EEPROM_pH7_ADDR = 4;  // 4 bytes for pH 7 voltage
 
-// Calibration values (Defaults for DIYMore PH-4502C are close to 3.0V for pH 4 and 2.6V for pH 7)
-float pH4Voltage = 3.018;  // Default voltage for pH 4 solution
-float pH7Voltage = 2.636;  // Default voltage for pH 7 solution
+// Calibration values
+float pH4Voltage = 3.018;  // Default voltage for pH 4 solution
+float pH7Voltage = 2.636;  // Default voltage for pH 7 solution
 
-// State variables for serial communication
+// State variables
+bool calibrationMode = false;
 String inputString = "";
 bool stringComplete = false;
 
@@ -828,22 +816,21 @@ void setup() {
 }
 
 void loop() {
-    // Check for incoming serial commands
     if (stringComplete) {
         processCommand(inputString);
         inputString = "";
         stringComplete = false;
     }
     
-    // Regular pH reading output
-    float pHValue = readpH();
-    // Output format optimized for web parsing (PH:X.XX)
-    Serial.print("PH:");
-    Serial.println(pHValue, 2); 
-    delay(samplingInterval);
+    // Regular pH reading if not in calibration mode
+    if (!calibrationMode) {
+        float pHValue = readpH();
+        Serial.print("PH:");
+        Serial.println(pHValue, 2);
+        delay(samplingInterval);
+    }
 }
 
-// Standard Arduino serial buffer handler
 void serialEvent() {
     while (Serial.available()) {
         char inChar = (char)Serial.read();
@@ -855,55 +842,44 @@ void serialEvent() {
     }
 }
 
-// Function to read the sensor and apply calibration
 float readpH() {
-    // Take multiple readings (10 samples) for stability
+    // Take multiple readings for stability
     float voltage = 0;
     for(int i = 0; i < 10; i++) {
-        // Convert 0-1023 analog reading to 0.0-5.0V
         voltage += analogRead(pHPin) * (5.0 / 1024.0);
         delay(10);
     }
     voltage = voltage / 10;
     
-    // Calculate the two-point linear calibration: pH = Slope * Voltage + Intercept
-    // Slope = (pH2 - pH1) / (V2 - V1)
+    // Convert voltage to pH using two-point calibration
     float slope = (7.0 - 4.0) / (pH7Voltage - pH4Voltage);
-    // Intercept = pH2 - (Slope * V2)
     float intercept = 7.0 - (slope * pH7Voltage);
     
     return slope * voltage + intercept;
 }
 
-// Function to handle commands from the serial port (sent by the web app)
 void processCommand(String command) {
     command.trim();
     command.toUpperCase();
     
-    // Command: CAL,4.0 or CAL,7.0
     if (command.startsWith("CAL")) {
         int commaIndex = command.indexOf(',');
         if (commaIndex != -1) {
-            // Extract the target pH value from the command string
-            String phValueStr = command.substring(commaIndex + 1);
-            float targetPH = phValueStr.toFloat();
-            startCalibration(targetPH);
+            String phValue = command.substring(commaIndex + 1);
+            startCalibration(phValue.toFloat());
         }
     }
-    // Command: RESET (Resets calibration to default values)
-    else if (command == "RESET") {
-        resetCalibration();
-        Serial.println("Calibration reset to defaults");
-    }
-    // Command: READ (Used for manual debug/testing)
     else if (command == "READ") {
         float ph = readpH();
         Serial.print("Current pH: ");
         Serial.println(ph, 2);
     }
+    else if (command == "RESET") {
+        resetCalibration();
+        Serial.println("Calibration reset to defaults");
+    }
 }
 
-// Calibration execution function
 void startCalibration(float targetPH) {
     if (targetPH != 4.0 && targetPH != 7.0) {
         Serial.println("Error: Calibration only supported for pH 4.0 and 7.0");
@@ -911,12 +887,12 @@ void startCalibration(float targetPH) {
     }
     
     Serial.print("Starting calibration for pH ");
-    Serial.println(targetPH, 1); // Print with 1 decimal place
+    Serial.println(targetPH);
     Serial.println("Place probe in solution and wait for reading to stabilize...");
     
-    delay(4000);  // Wait for stability
+    delay(2000);  // Give user time to place probe
     
-    // Take average of 20 readings (4 seconds total)
+    // Take average of multiple readings
     float voltage = 0;
     for(int i = 0; i < 20; i++) {
         voltage += analogRead(pHPin) * (5.0 / 1024.0);
@@ -924,7 +900,6 @@ void startCalibration(float targetPH) {
     }
     voltage = voltage / 20;
     
-    // Store the measured voltage and save to EEPROM
     if (targetPH == 4.0) {
         pH4Voltage = voltage;
         EEPROM_writeFloat(EEPROM_pH4_ADDR, voltage);
@@ -934,34 +909,28 @@ void startCalibration(float targetPH) {
     }
     
     Serial.println("Calibration complete!");
-    Serial.print("New V for pH ");
-    Serial.print(targetPH, 1);
+    Serial.print("Voltage at pH ");
+    Serial.print(targetPH);
     Serial.print(": ");
     Serial.println(voltage, 3);
 }
 
-// Loads calibration voltages from EEPROM
 void loadCalibrationData() {
     float pH4 = EEPROM_readFloat(EEPROM_pH4_ADDR);
     float pH7 = EEPROM_readFloat(EEPROM_pH7_ADDR);
     
-    // Only use EEPROM values if they are within a reasonable 0-5V range
-    if (pH4 > 0.5 && pH4 < 4.5) pH4Voltage = pH4;
-    if (pH7 > 0.5 && pH7 < 4.5) pH7Voltage = pH7;
-    
-    Serial.print("Loaded pH 4V: "); Serial.println(pH4Voltage, 3);
-    Serial.print("Loaded pH 7V: "); Serial.println(pH7Voltage, 3);
+    // Only use EEPROM values if they seem valid
+    if (pH4 > 0 && pH4 < 5) pH4Voltage = pH4;
+    if (pH7 > 0 && pH7 < 5) pH7Voltage = pH7;
 }
 
-// Resets calibration to the original hardcoded defaults
 void resetCalibration() {
-    pH4Voltage = 3.018;  // Default values
+    pH4Voltage = 3.018;  // Default values
     pH7Voltage = 2.636;
     EEPROM_writeFloat(EEPROM_pH4_ADDR, pH4Voltage);
     EEPROM_writeFloat(EEPROM_pH7_ADDR, pH7Voltage);
 }
 
-// Helper functions to read/write float data to EEPROM (4 bytes)
 void EEPROM_writeFloat(int addr, float val) {
     byte* p = (byte*)&val;
     for(int i = 0; i < 4; i++)
@@ -1040,6 +1009,13 @@ float EEPROM_readFloat(int addr) {
         
         // Logging status
         document.getElementById('loggingStatus').textContent = isLogging ? 'Running' : 'Stopped';
+        
+        // Update export UI
+        this.updateExportUI();
+        
+        // Update data points count
+        document.getElementById('dataPointsCount').textContent = this.phData.length;
+        document.getElementById('exportTotalMeasurements').textContent = this.phData.length;
     }
 
     toggleTheme() {
@@ -1067,14 +1043,31 @@ float EEPROM_readFloat(int addr) {
         const container = document.getElementById('notificationContainer');
         const notification = document.createElement('div');
         notification.className = `notification ${type}`;
-        notification.textContent = message;
+        notification.innerHTML = `
+            <i class="fas fa-${this.getNotificationIcon(type)}"></i>
+            <span>${message}</span>
+        `;
         
         container.appendChild(notification);
         
         // Remove after 5 seconds
         setTimeout(() => {
-            notification.remove();
+            if (notification.parentNode) {
+                notification.style.opacity = '0';
+                notification.style.transform = 'translateX(100%)';
+                setTimeout(() => notification.remove(), 300);
+            }
         }, 5000);
+    }
+
+    getNotificationIcon(type) {
+        const icons = {
+            'success': 'check-circle',
+            'error': 'exclamation-circle',
+            'warning': 'exclamation-triangle',
+            'info': 'info-circle'
+        };
+        return icons[type] || 'info-circle';
     }
 }
 

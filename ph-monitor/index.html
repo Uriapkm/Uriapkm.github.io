@@ -5,9 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>pH Monitor</title>
     <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
     <script src="main.js" defer></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
         :root {
@@ -19,6 +18,7 @@
             --success-color: #22c55e;
             --error-color: #ef4444;
             --warning-color: #f59e0b;
+            --info-color: #3b82f6;
         }
 
         [data-theme="dark"] {
@@ -29,12 +29,13 @@
         }
 
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Arial, sans-serif;
             margin: 0;
             padding: 0;
             background: var(--bg-color);
             color: var(--text-color);
             transition: all 0.3s;
+            line-height: 1.6;
         }
 
         .container {
@@ -48,11 +49,16 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
         }
 
         h1 {
             margin: 0;
             font-size: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
         .status-container {
@@ -65,32 +71,52 @@
             width: 12px;
             height: 12px;
             border-radius: 50%;
+            transition: all 0.3s;
         }
 
         .status-disconnected { background: var(--error-color); }
-        .status-connecting { background: var(--warning-color); }
+        .status-connecting { background: var(--warning-color); animation: pulse 1.5s infinite; }
         .status-connected { background: var(--success-color); }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
 
         .tabs {
             display: flex;
             border-bottom: 2px solid var(--border-color);
             margin-bottom: 20px;
+            flex-wrap: wrap;
         }
 
         .tab-button {
-            padding: 10px 20px;
+            padding: 12px 20px;
             cursor: pointer;
             border-bottom: 2px solid transparent;
             transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .tab-button:hover {
+            background: var(--card-bg);
         }
 
         .tab-button.active {
             border-bottom-color: var(--primary-color);
             font-weight: bold;
+            color: var(--primary-color);
         }
 
         .tab-content {
             display: none;
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .tab-content.active {
@@ -100,111 +126,301 @@
         .card {
             background: var(--card-bg);
             border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 20px;
+            border-radius: 12px;
+            padding: 24px;
             margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
 
         .card h2 {
             margin-top: 0;
             font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
         .form-group {
-            margin-bottom: 15px;
+            margin-bottom: 20px;
         }
 
         .form-group label {
             display: block;
-            margin-bottom: 5px;
+            margin-bottom: 8px;
+            font-weight: 500;
         }
 
         select, input[type="number"], input[type="text"] {
             width: 100%;
-            padding: 8px;
+            padding: 10px 12px;
             border: 1px solid var(--border-color);
-            border-radius: 4px;
+            border-radius: 6px;
             background: var(--bg-color);
             color: var(--text-color);
+            font-size: 14px;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        select:focus, input[type="number"]:focus, input[type="text"]:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
         }
 
         button {
-            padding: 8px 16px;
+            padding: 10px 20px;
             border: none;
-            border-radius: 4px;
+            border-radius: 6px;
             cursor: pointer;
             background: var(--primary-color);
             color: white;
             margin-right: 10px;
+            margin-bottom: 5px;
+            font-weight: 500;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        button:hover {
+            background: #3a7bd5;
+            transform: translateY(-1px);
         }
 
         button:disabled {
             background: #9ca3af;
             cursor: not-allowed;
+            transform: none;
+        }
+
+        button.danger {
+            background: var(--error-color);
+        }
+
+        button.danger:hover {
+            background: #dc2626;
+        }
+
+        button.success {
+            background: var(--success-color);
+        }
+
+        button.success:hover {
+            background: #16a34a;
+        }
+
+        .button-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 15px;
         }
 
         .footer-button {
-            display: inline-block;
-            padding: 10px 20px;
-            border-radius: 4px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            border-radius: 6px;
             background: var(--primary-color);
             color: white;
             text-decoration: none;
             font-weight: bold;
-            transition: background 0.2s;
+            transition: background 0.2s, transform 0.2s;
             margin-top: 10px;
         }
 
         .footer-button:hover {
             background: #3a7bd5;
+            transform: translateY(-1px);
         }
         
         .current-reading {
-            font-size: 2.5rem;
+            font-size: 3rem;
             font-weight: bold;
-            margin: 10px 0;
+            margin: 15px 0;
+            text-align: center;
+            color: var(--primary-color);
+        }
+
+        .reading-container {
+            text-align: center;
+            padding: 20px;
         }
 
         .notification {
-            padding: 10px;
-            border-radius: 4px;
+            padding: 12px 16px;
+            border-radius: 6px;
             margin-bottom: 10px;
             font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
         }
 
         .notification.success { background: var(--success-color); color: white; }
         .notification.error { background: var(--error-color); color: white; }
         .notification.warning { background: var(--warning-color); color: white; }
-        .notification.info { background: var(--primary-color); color: white; }
+        .notification.info { background: var(--info-color); color: white; }
 
         table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 10px;
+            font-size: 14px;
         }
 
         th, td {
             border: 1px solid var(--border-color);
-            padding: 8px;
+            padding: 10px;
             text-align: left;
         }
 
         th {
             background: var(--card-bg);
+            font-weight: 600;
+        }
+
+        tr:nth-child(even) {
+            background: rgba(0,0,0,0.02);
+        }
+
+        [data-theme="dark"] tr:nth-child(even) {
+            background: rgba(255,255,255,0.05);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 15px;
+            background: var(--bg-color);
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin: 5px 0;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-color);
+            opacity: 0.8;
         }
 
         footer {
             text-align: center;
-            padding: 20px 0;
+            padding: 30px 0;
             border-top: 1px solid var(--border-color);
-            margin-top: 20px;
+            margin-top: 40px;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            header {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .tabs {
+                flex-direction: column;
+            }
+            
+            .tab-button {
+                text-align: center;
+            }
+            
+            .current-reading {
+                font-size: 2.5rem;
+            }
+            
+            .button-group {
+                flex-direction: column;
+            }
+            
+            button {
+                width: 100%;
+                margin-right: 0;
+            }
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--card-bg);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-color);
+        }
+
+        .help-text {
+            font-size: 0.85rem;
+            color: var(--text-color);
+            opacity: 0.7;
+            margin-top: 5px;
+        }
+
+        .calibration-points {
+            max-height: 300px;
+            overflow-y: auto;
+            margin-top: 15px;
+        }
+
+        .export-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+            margin: 15px 0;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>pH Monitor</h1>
+            <h1><i class="fas fa-vial"></i> pH Monitor</h1>
             <div class="status-container">
                 <div id="statusIndicator" class="status-indicator status-disconnected"></div>
                 <span id="statusText">Disconnected</span>
@@ -213,207 +429,292 @@
         </header>
 
         <div class="tabs">
-            <div class="tab-button active" data-tab="connection">Connection</div>
-            <div class="tab-button" data-tab="monitor">Monitor</div>
-            <div class="tab-button" data-tab="calibration">Calibration</div>
-            <div class="tab-button" data-tab="data">Data</div>
-            <div class="tab-button" data-tab="background">Background</div>
+            <div class="tab-button active" data-tab="connection"><i class="fas fa-plug"></i> Connection</div>
+            <div class="tab-button" data-tab="monitor"><i class="fas fa-chart-line"></i> Monitor</div>
+            <div class="tab-button" data-tab="calibration"><i class="fas fa-sliders-h"></i> Calibration</div>
+            <div class="tab-button" data-tab="data"><i class="fas fa-database"></i> Data</div>
+            <div class="tab-button" data-tab="background"><i class="fas fa-info-circle"></i> Background</div>
         </div>
 
         <div id="connection" class="tab-content active">
             <div class="card">
-                <h2>Connection Status</h2>
+                <h2><i class="fas fa-link"></i> Connection Status</h2>
                 <div class="form-group">
                     <label for="portSelect">Serial Port</label>
                     <select id="portSelect">
                         <option value="">Select a port...</option>
                     </select>
+                    <div class="help-text">If no ports appear, click Refresh or Connect to request access</div>
                 </div>
-                <div class="form-group">
-                    <button id="connectBtn">Connect</button>
-                    <button id="disconnectBtn" disabled>Disconnect</button>
-                    <button id="refreshPortsBtn">Refresh</button>
+                <div class="button-group">
+                    <button id="connectBtn"><i class="fas fa-plug"></i> Connect</button>
+                    <button id="disconnectBtn" disabled><i class="fas fa-times"></i> Disconnect</button>
+                    <button id="refreshPortsBtn"><i class="fas fa-sync-alt"></i> Refresh Ports</button>
                 </div>
             </div>
 
             <div class="card">
-                <h2>Arduino Code</h2>
+                <h2><i class="fas fa-microchip"></i> Arduino Setup</h2>
                 <p>Download and upload the Arduino code to your device to interface with the pH sensor.</p>
-                <p><a href="phmonitor.ino" download>Download phmonitor.ino</a></p>
-                <button id="copyCodeBtn">Copy Code</button>
-                <h3>Instructions for Uploading to Arduino</h3>
+                
+                    <button id="copyCodeBtn"><i class="fas fa-copy"></i> Copy Code to Clipboard</button>
+                </div>
+
+                <h3><i class="fas fa-list-ol"></i> Upload Instructions</h3>
                 <ol>
-                    <li>Download and install the <a href="https://www.arduino.cc/en/software" target="_blank">Arduino IDE</a>.</li>
-                    <li>Connect your Arduino board to your computer via USB.</li>
-                    <li>Download the <a href="phmonitor.ino" download>phmonitor.ino</a> file by clicking the link above.</li>
-                    <li>Open the downloaded <code>phmonitor.ino</code> file in the Arduino IDE.</li>
-                    <li>In the Arduino IDE, select your board type (e.g., Arduino Uno) from <strong>Tools > Board</strong>.</li>
-                    <li>Select the correct port from <strong>Tools > Port</strong> (the port your Arduino is connected to).</li>
-                    <li>Click the <strong>Upload</strong> button (right arrow) in the Arduino IDE to upload the code to your board.</li>
-                    <li>Once uploaded, the Arduino will start sending pH data to this web application via the serial port.</li>
+                    <li>Download and install the <a href="https://www.arduino.cc/en/software" target="_blank">Arduino IDE</a></li>
+                    <li>Connect your Arduino board to your computer via USB</li>
+                    <li>Open the downloaded file in the Arduino IDE</li>
+                    <li>Select your board type from <strong>Tools > Board</strong> (e.g., Arduino Uno)</li>
+                    <li>Select the correct port from <strong>Tools > Port</strong></li>
+                    <li>Click the <strong>Upload</strong> button (right arrow) to upload the code</li>
+                    <li>Once uploaded, the Arduino will start sending pH data via serial port</li>
                 </ol>
-                <p><strong>Note:</strong> Ensure your pH sensor is connected to pin A0 on the Arduino, and use a 5V reference voltage.</p>
+                
+                <div class="notification info">
+                    <i class="fas fa-info-circle"></i>
+                    <strong>Note:</strong> Ensure your pH sensor is connected to pin A0 on the Arduino with 5V reference voltage.
+                </div>
             </div>
         </div>
 
         <div id="monitor" class="tab-content">
             <div class="card">
-                <h2>Current Reading</h2>
-                <div class="current-reading">
-                    <span id="currentPH">--</span> pH
+                <div class="reading-container">
+                    <h2><i class="fas fa-eye"></i> Current Reading</h2>
+                    <div class="current-reading">
+                        <span id="currentPH">--</span> pH
+                    </div>
+                    <p id="readingStatus">Waiting for data...</p>
+                    <p>Raw Sensor Value: <span id="rawPH">--</span></p>
+                    <p>Calibrated Value: <span id="calibratedPH">--</span></p>
                 </div>
-                <p id="readingStatus">Waiting for data...</p>
-                <p>Raw pH Value: <span id="rawPH">--</span></p>
             </div>
 
             <div class="card">
-                <h2>Data Logging</h2>
+                <h2><i class="fas fa-record-vinyl"></i> Data Logging</h2>
                 <div class="form-group">
-                    <label for="intervalInput">Interval (seconds)</label>
-                    <input type="number" id="intervalInput" value="1.0" step="0.1" min="0.1">
+                    <label for="intervalInput">Sampling Interval (seconds)</label>
+                    <input type="number" id="intervalInput" value="1.0" step="0.1" min="0.1" max="60">
+                    <div class="help-text">Time between measurements. Lower values = more frequent readings</div>
                 </div>
-                <div class="form-group">
-                    <button id="startLoggingBtn">Start</button>
-                    <button id="stopLoggingBtn" disabled>Stop</button>
+                <div class="button-group">
+                    <button id="startLoggingBtn" class="success"><i class="fas fa-play"></i> Start Logging</button>
+                    <button id="stopLoggingBtn" disabled class="danger"><i class="fas fa-stop"></i> Stop Logging</button>
                 </div>
-                <p>Status: <span id="loggingStatus">Stopped</span></p>
-                <p>Measurements: <span id="measurementCount">0</span></p>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-label">Status</div>
+                        <div class="stat-value" id="loggingStatus">Stopped</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-label">Measurements</div>
+                        <div class="stat-value" id="measurementCount">0</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-label">Data Points</div>
+                        <div class="stat-value" id="dataPointsCount">0</div>
+                    </div>
+                </div>
             </div>
 
             <div class="card">
-                <h2>pH vs Time Graph</h2>
-                <div id="phChart"></div>
+                <h2><i class="fas fa-chart-line"></i> Real-time pH vs Time Graph</h2>
+                <div id="phChart" style="height: 400px;"></div>
             </div>
         </div>
         
         <div id="calibration" class="tab-content">
             <div class="card">
-                <h2>Calibration Points</h2>
+                <h2><i class="fas fa-ruler"></i> Calibration Points</h2>
+                <p>Add calibration points by entering the measured pH value and the actual known pH value of the solution.</p>
+                
                 <div class="form-group">
                     <label for="measuredPH">Measured pH Value</label>
-                    <input type="number" id="measuredPH" step="0.01">
+                    <input type="number" id="measuredPH" step="0.01" placeholder="Enter measured pH">
                 </div>
                 <div class="form-group">
                     <label for="actualPH">Actual pH Value</label>
-                    <input type="number" id="actualPH" step="0.01">
+                    <input type="number" id="actualPH" step="0.01" placeholder="Enter known pH">
                 </div>
-                <div class="form-group">
-                    <button id="addCalPointBtn">Add Point</button>
-                    <button id="resetCalBtn" disabled>Reset</button>
-                </div>
-            </div>
-
-            <div class="card">
-                <h2>Calibration Status</h2>
-                <div class="form-group">
-                    <p>Calibration Points: <span id="calPointsCount">0</span></p>
-                    <p>Slope: <span id="calSlope">1.00</span></p>
-                    <p>Offset: <span id="calOffset">0.00</span></p>
-                    <p>Current Raw Reading: <span id="currentRaw">--</span></p>
+                <div class="button-group">
+                    <button id="addCalPointBtn" class="success"><i class="fas fa-plus"></i> Add Calibration Point</button>
+                    <button id="resetCalBtn" disabled class="danger"><i class="fas fa-undo"></i> Reset Calibration</button>
                 </div>
             </div>
 
             <div class="card">
-                <h2>Calibration Points</h2>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Raw pH</th>
-                            <th>Actual pH</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody id="calibrationTableBody">
-                        <tr><td colspan="3" class="text-center text-gray-500 dark:text-gray-400">No data recorded</td></tr>
-                    </tbody>
-                </table>
+                <h2><i class="fas fa-chart-bar"></i> Calibration Status</h2>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-label">Calibration Points</div>
+                        <div class="stat-value" id="calPointsCount">0</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-label">Slope</div>
+                        <div class="stat-value" id="calSlope">1.00</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-label">Offset</div>
+                        <div class="stat-value" id="calOffset">0.00</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-label">Current Raw</div>
+                        <div class="stat-value" id="currentRaw">--</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2><i class="fas fa-table"></i> Calibration Points</h2>
+                <div class="calibration-points">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Raw pH</th>
+                                <th>Actual pH</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="calibrationTableBody">
+                            <tr><td colspan="3" style="text-align: center; padding: 20px; color: #6b7280;">No calibration points added</td></tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
 
         <div id="data" class="tab-content">
             <div class="card">
-                <h2>Measurement Data</h2>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Time (s)</th>
-                            <th>pH Value</th>
-                        </tr>
-                    </thead>
-                    <tbody id="dataTableBody">
-                        <tr><td colspan="2" class="text-center text-gray-500 dark:text-gray-400">No data recorded</td></tr>
-                    </tbody>
-                </table>
+                <h2><i class="fas fa-table"></i> Measurement Data</h2>
+                <div style="max-height: 400px; overflow-y: auto;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Time (s)</th>
+                                <th>Raw pH</th>
+                                <th>Calibrated pH</th>
+                            </tr>
+                        </thead>
+                        <tbody id="dataTableBody">
+                            <tr><td colspan="3" style="text-align: center; padding: 20px; color: #6b7280;">No data recorded</td></tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
             
             <div class="card">
-                <h2>Statistics</h2>
-                <div class="form-group">
-                    <p>Average pH: <span id="avgPH">--</span></p>
-                    <p>Minimum pH: <span id="minPH">--</span></p>
-                    <p>Maximum pH: <span id="maxPH">--</span></p>
-                    <p>pH Range: <span id="phRange">--</span></p>
-                    <p>Duration: <span id="duration">0.0s</span></p>
+                <h2><i class="fas fa-chart-bar"></i> Statistics</h2>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-label">Average pH</div>
+                        <div class="stat-value" id="avgPH">--</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-label">Minimum pH</div>
+                        <div class="stat-value" id="minPH">--</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-label">Maximum pH</div>
+                        <div class="stat-value" id="maxPH">--</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-label">pH Range</div>
+                        <div class="stat-value" id="phRange">--</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-label">Duration</div>
+                        <div class="stat-value" id="duration">0.0s</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-label">Data Points</div>
+                        <div class="stat-value" id="totalMeasurements">0</div>
+                    </div>
                 </div>
             </div>
 
             <div class="card">
-                <h2>Export Data</h2>
-                <p>Export your measurement data in various formats for analysis.</p>
-                <div class="form-group">
-                    <button id="exportCSVBtn" data-format="csv" disabled>Export as CSV</button>
-                    <button id="exportExcelBtn" data-format="xlsx" disabled>Export as Excel</button>
-                    <button id="clearDataBtn" disabled>Clear All Data</button>
+                <h2><i class="fas fa-download"></i> Export Data</h2>
+                <p>Export your measurement data in various formats for analysis and reporting.</p>
+                
+                <div class="export-options">
+                    <button id="exportCSVBtn" data-format="csv" disabled><i class="fas fa-file-csv"></i> CSV</button>
+                    <button id="exportExcelBtn" data-format="xlsx" disabled><i class="fas fa-file-excel"></i> Excel</button>
+                    <button id="clearDataBtn" disabled class="danger"><i class="fas fa-trash"></i> Clear Data</button>
                 </div>
-                <p>Total measurements: <span id="totalMeasurements">0</span></p>
-                <p>Last export: <span id="lastExport">Never</span></p>
+
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-label">Total Measurements</div>
+                        <div class="stat-value" id="exportTotalMeasurements">0</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-label">Last Export</div>
+                        <div class="stat-value" id="lastExport">Never</div>
+                    </div>
+                </div>
             </div>
         </div>
 
         <div id="background" class="tab-content">
             <div class="card">
-                <h2>Why This App Exists: The pH Probe That Drove Me Crazy</h2>
+                <h2><i class="fas fa-flask"></i> Why This App Exists: The pH Probe That Drove Me Crazy</h2>
 
+                <div class="notification info">
+                    <i class="fas fa-lightbulb"></i>
+                    <strong>TL;DR:</strong> The old pH monitoring method was needlessly complex. I built this browser-based app so everyone could use the sensor without IT support.
+                </div>
+
+                <h3><i class="fas fa-exclamation-triangle"></i> The Problem: Too Complicated to Share</h3>
                 <p>
-                    We have an <strong>Arduino</strong> pH monitoring system here at <strong>CIC Energigune</strong>, which was originally brought over by a <strong>girl who spent a few months researching at MIT</strong>. It's used for tracking the pH in our <strong>redox flow batteries</strong>, and the hardware is fine. The method for <strong>actually using it</strong>? <strong>It was a technical nightmare.</strong>
+                    We have an <strong>Arduino pH monitoring system</strong> at <strong>CIC Energigune</strong>, originally brought from <strong>MIT</strong>. While the hardware works fine for tracking pH in our <strong>redox flow batteries</strong>, the software workflow was a <strong>technical nightmare</strong>.
+                </p>
+                <p>
+                    The original process involved manual code changes, command-line scripts, and constantly crashing serial ports. It was so convoluted that I knew my lab mates would never use it, making me the de facto IT support for simple pH measurements.
                 </p>
 
-                <h3>The Problem: Too Complicated to Share</h3>
-                <p>
-                    When I was first shown how to get a reading and calibrate the probe, I immediately knew this was broken. The process was so <strong>ridiculously convoluted</strong>—involving manual software changes, running command-line scripts, and dealing with constantly crashing serial ports—that I honestly stopped paying attention halfway through.
-                </p>
-                <p>
-                    It wasn't that <em>I</em> couldn't do it, but I knew my lab mates wouldn't touch it. I was facing a future where I'd be the <strong>only person</strong> capable of running a simple pH measurement. I decided I wasn't going to be stuck being the lab's dedicated IT support.
-                </p>
+                <h3><i class="fas fa-history"></i> The Old Way vs. The New Way</h3>
 
-                <h3>The Old Way vs. The New Way</h3>
+                <div class="notification warning">
+                    <i class="fas fa-times-circle"></i>
+                    <strong>The Old Way:</strong> Editing Arduino code, recompiling, re-flashing firmware, fighting with PowerShell scripts just to open COM ports.
+                </div>
 
-                <p>
-                    <strong>The Old Way:</strong> Every time we needed a precise calibration, it required <strong>editing the Arduino code itself</strong>, recompiling, and <strong>re-flashing the firmware</strong> onto the board. Plus, connecting to the computer meant fighting with <strong>PowerShell scripts</strong> just to open and close the COM port. It was pure chaos.
-                </p>
-                
-                <p>
-                    <strong>The New Way (This App):</strong> I built this <strong>zero-install web page</strong> using the <strong>Web Serial API</strong> because it eliminates 99% of that pain. You flash the Arduino <em>once</em>, and after that, <strong>all calibration and data logging are handled right here in the browser</strong> with a couple of clicks. No more command line, no more re-flashing. Just chemistry.
-                </p>
+                <div class="notification success">
+                    <i class="fas fa-check-circle"></i>
+                    <strong>The New Way (This App):</strong> Flash the Arduino once, then handle all calibration and data logging in the browser with simple clicks. No command line, no re-flashing.
+                </div>
+
+                <h3><i class="fas fa-rocket"></i> Key Features</h3>
+                <ul>
+                    <li><strong>Zero-install</strong> - Runs entirely in your browser</li>
+                    <li><strong>Real-time monitoring</strong> - Live pH readings with beautiful charts</li>
+                    <li><strong>Simple calibration</strong> - No code editing required</li>
+                    <li><strong>Data export</strong> - CSV and Excel formats with statistics</li>
+                    <li><strong>Cross-platform</strong> - Works on Windows, Mac, Linux</li>
+                    <li><strong>Dark mode</strong> - Easy on the eyes during long experiments</li>
+                </ul>
 
                 <hr>
                 
-                <h4>TL;DR:</h4>
-                <p>
-                The old pH monitoring method was <strong>needlessly complex, required coding skills, and forced re-flashes for calibration</strong>. I built this simple, <strong>browser-based app</strong> so everyone could use the sensor without calling me every five minutes.
-                </p>
-
+                <p><strong>Mission accomplished:</strong> Now anyone in the lab can measure pH without calling for help every five minutes!</p>
             </div>
         </div>
 
         <div id="notificationContainer"></div>
 
-        <footer>
-            <p>I will read all the suggestions and comments: asieruria1@gmail.com</p>
-            <p>Support this project:</p>
-            <a href="https://www.buymeacoffee.com/asieruria1j" target="_blank" class="footer-button">
-                <i class="fas fa-coffee"></i> Fuel the Project's Development!
-            </a>
+                <footer>
+
+                        </div>
+            <p>Made with <i class="fas fa-heart" style="color: #ef4444;"></i> for scientists who just want to do science</p><br>
+            <p>Send any suggestions or feedback to <a href="mailto:asieruria1@gmail.com">asieruria1@gmail.com</a></p>
+            <p><small>pH Monitor v2.0 - Open source tool for pH measurement and data logging</small></p>
+            
+                    <div class="footer-links"></div>
+                <a href="https://www.buymeacoffee.com/asieruria1j" target="_blank" class="footer-button">
+                    <i class="fas fa-coffee"></i> Support Development
+                </a>
+        
         </footer>
     </div>
 </body>
