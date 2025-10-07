@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>El Viejo Pescador: Consejos sin Filtro</title>
+    <title>El Viejo Pescador: Consejos sin Filtro | The Old Fisherman: Unfiltered Advice</title>
     <!-- Carga de Tailwind CSS para estilos base y responsividad -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -115,94 +115,123 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
-
+        
+        .language-selector {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+        
+        .language-btn {
+            background-color: rgba(20, 35, 45, 0.8);
+            color: #D0DCE5;
+            border: 1px solid #A37E5F;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        .language-btn:hover {
+            background-color: rgba(163, 126, 95, 0.3);
+        }
 
     </style>
 </head>
 <body class="p-4 md:p-8">
-    <div class="container mt-8 mb-8">
-        <h1 class="text-4xl md:text-5xl text-center mb-4 leading-tight">El Viejo Pescador</h1>
-        <h2 class="text-xl md:text-2xl text-center mb-8 text-gray-400">Deja que este viejo lobo te recomiende donde pescar</h2>
+    <!-- Selector de idioma -->
+    <div class="language-selector">
+        <button id="languageToggle" class="language-btn">
+            <i class="fas fa-language mr-2"></i>
+            <span id="currentLanguage">ES</span>
+        </button>
+    </div>
 
-        <p class="mb-8 text-center text-gray-300">
+    <div class="container mt-8 mb-8">
+        <h1 class="text-4xl md:text-5xl text-center mb-4 leading-tight" data-es="El Viejo Pescador" data-en="The Old Fisherman">El Viejo Pescador</h1>
+        <h2 class="text-xl md:text-2xl text-center mb-8 text-gray-400" data-es="Deja que este viejo lobo te recomiende donde pescar" data-en="Let this old wolf recommend where to fish">Deja que este viejo lobo te recomiende donde pescar</h2>
+
+        <p class="mb-8 text-center text-gray-300" data-es="¿Quieres pescar, eh? Pues habla claro. Aquí no hay tiempo para chiquilladas. Dime qué buscas y quizás, solo quizás, te suelte una verdad. Sea del mar o de la vida." data-en="You want to fish, eh? Then speak clearly. There's no time for childishness here. Tell me what you're looking for and maybe, just maybe, I'll give you a truth. Whether it's about the sea or about life.">
             "¿Quieres pescar, eh? Pues habla claro. Aquí no hay tiempo para chiquilladas. Dime qué buscas y quizás, solo quizás, te suelte una verdad. Sea del mar o de la vida."
         </p>
 
         <form id="fishingForm" class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
             <!-- Tipo de Pesca (Mar/Río) -->
             <div class="input-group">
-                <label class="text-lg" for="fishingType">Tipo de Pesca:</label>
+                <label class="text-lg" for="fishingType" data-es="Tipo de Pesca:" data-en="Fishing Type:">Tipo de Pesca:</label>
                 <div class="radio-group flex gap-4 mt-2">
                     <label class="inline-flex items-center">
                         <input type="radio" name="fishingType" value="Mar" class="form-radio text-yellow-500" checked>
-                        <span class="ml-2">Mar</span>
+                        <span class="ml-2" data-es="Mar" data-en="Sea">Mar</span>
                     </label>
                     <label class="inline-flex items-center">
                         <input type="radio" name="fishingType" value="Río" class="form-radio text-yellow-500">
-                        <span class="ml-2">Río</span>
+                        <span class="ml-2" data-es="Río" data-en="River">Río</span>
                     </label>
                 </div>
             </div>
 
             <!-- Nivel de Secreto -->
             <div class="input-group">
-                <label class="text-lg" for="secretLevel">Nivel de Secreto:</label>
+                <label class="text-lg" for="secretLevel" data-es="Nivel de Secreto:" data-en="Secrecy Level:">Nivel de Secreto:</label>
                 <select id="secretLevel" class="mt-2 block w-full">
-                    <option value="Bajo, sitio conocido y accesible para pescar">Bajo (sitios conocidos, accesibles)</option>
-                    <option value="Medio, sitio menos conocido pero que se pueda ir andando, en una breve caminata y algo apartado">Medio (requiere algo de búsqueda, poca gente)</option>
-                    <option value="Alto, para poder llegar aqui habra que escalar o pasar nadando o en barca y es altamente inaccesible">Alto (solo para los que aguantan, pocos lo saben)</option>
+                    <option value="Bajo, sitio conocido y accesible para pescar" data-es="Bajo (sitios conocidos, accesibles)" data-en="Low (known, accessible spots)">Bajo (sitios conocidos, accesibles)</option>
+                    <option value="Medio, sitio menos conocido pero que se pueda ir andando, en una breve caminata y algo apartado" data-es="Medio (requiere algo de búsqueda, poca gente)" data-en="Medium (requires some searching, few people)">Medio (requiere algo de búsqueda, poca gente)</option>
+                    <option value="Alto, para poder llegar aqui habra que escalar o pasar nadando o en barca y es altamente inaccesible" data-es="Alto (solo para los que aguantan, pocos lo saben)" data-en="High (only for the tough ones, few know it)">Alto (solo para los que aguantan, pocos lo saben)</option>
                 </select>
             </div>
 
             <!-- Ubicación -->
             <div class="input-group">
-                <label class="text-lg" for="location">Ubicación (ej: Cádiz, Cantábrico, Río Ebro):</label>
-                <input type="text" id="location" placeholder="Dónde te pica el gusanillo..." class="mt-2" required>
+                <label class="text-lg" for="location" data-es="Ubicación (ej: Cádiz, Cantábrico, Río Ebro):" data-en="Location (eg: Cádiz, Cantabrian Sea, Ebro River):">Ubicación (ej: Cádiz, Cantábrico, Río Ebro):</label>
+                <input type="text" id="location" placeholder="Dónde te pica el gusanillo..." class="mt-2" data-es-placeholder="Dónde te pica el gusanillo..." data-en-placeholder="Where's the itch..." required>
             </div>
 
             <!-- Distancia Máxima -->
             <div class="input-group">
-                <label class="text-lg" for="maxDistance">Distancia Máxima de Desplazamiento (km):</label>
-                <input type="number" id="maxDistance" placeholder="¿Cuánto estás dispuesto a moverte?" class="mt-2" min="0">
+                <label class="text-lg" for="maxDistance" data-es="Distancia Máxima de Desplazamiento (km):" data-en="Maximum Travel Distance (km):">Distancia Máxima de Desplazamiento (km):</label>
+                <input type="number" id="maxDistance" placeholder="¿Cuánto estás dispuesto a moverte?" class="mt-2" data-es-placeholder="¿Cuánto estás dispuesto a moverte?" data-en-placeholder="How far are you willing to go?" min="0">
             </div>
 
             <!-- Tipo de Técnica de Pesca -->
             <div class="input-group md:col-span-2">
-                <label class="text-lg" for="fishingTechnique">Técnica de Pesca (ej: Pesca a corcho, Spinning, Buceo):</label>
-                <input type="text" id="fishingTechnique" placeholder="¿Cómo te gusta sentir la caña o el agua?" class="mt-2">
+                <label class="text-lg" for="fishingTechnique" data-es="Técnica de Pesca (ej: Pesca a corcho, Spinning, Buceo):" data-en="Fishing Technique (eg: Float fishing, Spinning, Diving):">Técnica de Pesca (ej: Pesca a corcho, Spinning, Buceo):</label>
+                <input type="text" id="fishingTechnique" placeholder="¿Cómo te gusta sentir la caña o el agua?" class="mt-2" data-es-placeholder="¿Cómo te gusta sentir la caña o el agua?" data-en-placeholder="How do you like to feel the rod or the water?">
             </div>
 
             <!-- Especie (Opcional) -->
             <div class="input-group">
-                <label class="text-lg" for="species">Especie (opcional, ej: Lubina, Trucha):</label>
-                <input type="text" id="species" placeholder="Si buscas algo en concreto..." class="mt-2">
+                <label class="text-lg" for="species" data-es="Especie (opcional, ej: Lubina, Trucha):" data-en="Species (optional, eg: Sea Bass, Trout):">Especie (opcional, ej: Lubina, Trucha):</label>
+                <input type="text" id="species" placeholder="Si buscas algo en concreto..." class="mt-2" data-es-placeholder="Si buscas algo en concreto..." data-en-placeholder="If you're looking for something specific...">
             </div>
 
             <!-- Experiencia del Usuario -->
             <div class="input-group">
-                <label class="text-lg" for="experience">Tu Experiencia:</label>
+                <label class="text-lg" for="experience" data-es="Tu Experiencia:" data-en="Your Experience:">Tu Experiencia:</label>
                 <select id="experience" class="mt-2 block w-full">
-                    <option value="Novato">Novato (primera vez con caña)</option>
-                    <option value="Intermedio">Intermedio (ya sabes de qué va)</option>
-                    <option value="Experto">Experto (has visto cosas que otros ni sueñan)</option>
+                    <option value="Novato" data-es="Novato (primera vez con caña)" data-en="Novice (first time with a rod)">Novato (primera vez con caña)</option>
+                    <option value="Intermedio" data-es="Intermedio (ya sabes de qué va)" data-en="Intermediate (you know the ropes)">Intermedio (ya sabes de qué va)</option>
+                    <option value="Experto" data-es="Experto (has visto cosas que otros ni sueñan)" data-en="Expert (you've seen things others don't even dream of)">Experto (has visto cosas que otros ni sueñan)</option>
                 </select>
             </div>
 
             <!-- Botón de Envío -->
             <div class="md:col-span-2 text-center mt-6">
-                <button type="submit" class="btn">Desenterrar un Consejo</button>
+                <button type="submit" class="btn" data-es="Desenterrar un Consejo" data-en="Dig Up Some Advice">Desenterrar un Consejo</button>
             </div>
         </form>
 
         <!-- Zona de Resultado -->
         <div id="loading" class="hidden flex justify-center items-center py-8">
             <div class="loading-spinner"></div>
-            <p class="ml-4 text-gray-400">El viejo está mascullando algo...</p>
+            <p class="ml-4 text-gray-400" data-es="El viejo está mascullando algo..." data-en="The old man is mumbling something...">El viejo está mascullando algo...</p>
         </div>
 
         <div id="recommendationOutput" class="recommendation-output mt-8 p-6 text-xl rounded-lg shadow-inner">
             <!-- La recomendación aparecerá aquí -->
-            "Esperando tu pregunta, chaval. No me hagas perder el tiempo."
+            <span data-es="Esperando tu pregunta, chaval. No me hagas perder el tiempo." data-en="Waiting for your question, kid. Don't waste my time.">Esperando tu pregunta, chaval. No me hagas perder el tiempo.</span>
         </div>
     </div>
 
@@ -212,7 +241,7 @@
         <audio id="backgroundAudio" loop>
             <!-- Puedes reemplazar esta URL con un sonido de olas más adecuado -->
             <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
-            Tu navegador no soporta el elemento de audio.
+            <span data-es="Tu navegador no soporta el elemento de audio." data-en="Your browser does not support the audio element.">Tu navegador no soporta el elemento de audio.</span>
         </audio>
     </div>
 
@@ -227,9 +256,14 @@
             const audioControl = document.getElementById('audioControl');
             const backgroundAudio = document.getElementById('backgroundAudio');
             const audioIcon = document.getElementById('audioIcon');
+            const languageToggle = document.getElementById('languageToggle');
+            const currentLanguageSpan = document.getElementById('currentLanguage');
 
             // Estado del audio
             let isAudioPlaying = false;
+            
+            // Estado del idioma (por defecto español)
+            let currentLanguage = 'es';
 
             // --- Configuración de Firebase y Autenticación (si es necesario) ---
             // Estas variables son provistas por el entorno de Canvas.
@@ -279,6 +313,40 @@
 
             // Inicializar Firebase al cargar la página
             initializeFirebase();
+            
+            // Función para cambiar el idioma
+            function toggleLanguage() {
+                currentLanguage = currentLanguage === 'es' ? 'en' : 'es';
+                updateLanguage();
+            }
+            
+            // Función para actualizar todo el contenido según el idioma seleccionado
+            function updateLanguage() {
+                // Actualizar el texto del botón de idioma
+                currentLanguageSpan.textContent = currentLanguage.toUpperCase();
+                
+                // Actualizar todos los elementos con atributos data-es y data-en
+                document.querySelectorAll('[data-es]').forEach(element => {
+                    if (element.tagName === 'OPTION') {
+                        // Para opciones de select, actualizar el texto
+                        element.textContent = element.getAttribute(`data-${currentLanguage}`);
+                    } else if (element.tagName === 'INPUT' && element.hasAttribute('data-es-placeholder')) {
+                        // Para inputs, actualizar el placeholder
+                        element.placeholder = element.getAttribute(`data-${currentLanguage}-placeholder`);
+                    } else {
+                        // Para otros elementos, actualizar el contenido de texto
+                        element.textContent = element.getAttribute(`data-${currentLanguage}`);
+                    }
+                });
+                
+                // Actualizar el título de la página
+                document.title = currentLanguage === 'es' 
+                    ? 'El Viejo Pescador: Consejos sin Filtro' 
+                    : 'The Old Fisherman: Unfiltered Advice';
+            }
+            
+            // Agregar evento al botón de cambio de idioma
+            languageToggle.addEventListener('click', toggleLanguage);
 
             // --- Manejo del formulario para obtener la recomendación de la IA ---
             fishingForm.addEventListener('submit', async (event) => {
@@ -299,14 +367,17 @@
 
                 // Validación básica
                 if (!location) {
-                    recommendationOutput.textContent = "¡Eh, chaval! Dime dónde quieres pescar. No tengo una bola de cristal.";
+                    recommendationOutput.textContent = currentLanguage === 'es' 
+                        ? "¡Eh, chaval! Dime dónde quieres pescar. No tengo una bola de cristal." 
+                        : "Hey, kid! Tell me where you want to fish. I don't have a crystal ball.";
                     loadingSpinner.classList.add('hidden');
                     return;
                 }
 
                 // Construye el prompt detallado para la API de Gemini
                 // Se ha ajustado el prompt para enfatizar la distancia máxima y la ubicación real.
-                let prompt = `Eres un viejo pescador gruñón y sabio de todos los litorales y rios, como el Bukowski de la pesca.
+                let prompt = currentLanguage === 'es' 
+                    ? `Eres un viejo pescador gruñón y sabio de todos los litorales y rios, como el Bukowski de la pesca.
                 Tu voz es a veces poética, a veces brusca, siempre honesta y concisa.
                 No tienes tiempo para tonterías ni preguntas estúpidas.
                 Responde directamente y ve al grano, sin rodeos, usando un lenguaje áspero pero con sabiduría.
@@ -314,33 +385,60 @@
                 Quiero un consejo de un spot de pesca para ${fishingType} en la zona de ${location}.
                 La recomendación del lugar debe ser un sitio real y reconocible, un punto geográfico concreto que exista.
                 Mi nivel de experiencia es ${experience}.
-                Busco un lugar con un nivel de secreto ${secretLevel}.`;
+                Busco un lugar con un nivel de secreto ${secretLevel}.`
+                    : `You are a grumpy and wise old fisherman from all coasts and rivers, like the Bukowski of fishing.
+                Your voice is sometimes poetic, sometimes abrupt, always honest and concise.
+                You have no time for nonsense or stupid questions.
+                Respond directly and get to the point, without beating around the bush, using rough but wise language.
+
+                I want advice on a fishing spot for ${fishingType} in the area of ${location}.
+                The place recommendation must be a real and recognizable spot, a specific geographic point that exists.
+                My experience level is ${experience}.
+                I'm looking for a place with a secrecy level of ${secretLevel}.`;
 
                 if (maxDistance) {
-                    prompt += `Recorre mentalmente **todas las zonas reales** que estén dentro de un radio de ${maxDistance} km desde ${location}.  
+                    prompt += currentLanguage === 'es' 
+                        ? ` Recorre mentalmente **todas las zonas reales** que estén dentro de un radio de ${maxDistance} km desde ${location}.  
 No te quedes con el primer sitio que te venga a la cabeza. **Compara varias opciones** y elige solo aquella que cumpla mejor con el nivel de secreto y el objetivo de pesca.  
 **No te dejes arrastrar por el nombre del lugar dado**: que ${location} sea el punto de referencia no significa que sea la mejor zona. Solo recomiéndala si, tras comparar, realmente lo es.  
 Es **muy importante** que el sitio sugerido esté DENTRO del radio indicado.  
-Si no encuentras ninguna zona adecuada, responde con exactitud: **“Ningún lugar cumple esas condiciones.”**
-”**`;
+Si no encuentras ninguna zona adecuada, responde con exactitud: **"Ningún lugar cumple esas condiciones."**` 
+                        : ` Mentally go through **all the real areas** within a radius of ${maxDistance} km from ${location}.  
+Don't settle for the first spot that comes to mind. **Compare several options** and choose only the one that best meets the secrecy level and fishing objective.  
+**Don't be swayed by the name of the given location**: that ${location} is the reference point doesn't mean it's the best area. Only recommend it if, after comparing, it really is.  
+It is **very important** that the suggested spot is WITHIN the indicated radius.  
+If you don't find any suitable area, respond exactly: **"No place meets those conditions."**`;
                 } else {
-                    prompt += ` No hay restricciones de distancia, pero elige un lugar que sea accesible y relevante para la pesca.`;
+                    prompt += currentLanguage === 'es' 
+                        ? ` No hay restricciones de distancia, pero elige un lugar que sea accesible y relevante para la pesca.` 
+                        : ` There are no distance restrictions, but choose a place that is accessible and relevant for fishing.`;
                 }
                 
                 if (fishingTechnique) { // Añadido el nuevo campo al prompt
-                    prompt += ` Quiero practicar la técnica de ${fishingTechnique}. Ten esto en cuenta para el lugar y la especie.`;
+                    prompt += currentLanguage === 'es' 
+                        ? ` Quiero practicar la técnica de ${fishingTechnique}. Ten esto en cuenta para el lugar y la especie.` 
+                        : ` I want to practice the technique of ${fishingTechnique}. Keep this in mind for the place and the species.`;
                 }
 
                 if (species) {
-                    prompt += ` Mi objetivo es pescar ${species}. Enfócate en esa especie si es posible.`;
+                    prompt += currentLanguage === 'es' 
+                        ? ` Mi objetivo es pescar ${species}. Enfócate en esa especie si es posible.` 
+                        : ` My goal is to catch ${species}. Focus on that species if possible.`;
                 }
 
-                prompt += `
+                prompt += currentLanguage === 'es' 
+                    ? `
                Describe con precisión **un único lugar real** donde se pueda pescar según lo solicitado.  
 Indica qué especie es la más probable de capturar allí, teniendo en cuenta la temporada.  
 La respuesta debe estar escrita como si el viejo pescador hablara en voz alta, sin florituras, sin cortesía.  
 Y al final, deja caer una frase áspera —una verdad sucia y simple— sobre la espera, el fracaso o la vida al borde del agua, que haga ruborizarse a las señoras.  
-Todo debe caber en un **monólogo seco y vivido**, entre **80 y 100 palabras**, debes responder como si te el que pregunta te hubiera molestado y ser borde con el, no es nadie para molestar a un viejo lobo de mar como tu (puedes usar palabras malsonantes como bukowski).`;
+Todo debe caber en un **monólogo seco y vivido**, entre **80 y 100 palabras**, debes responder como si te el que pregunta te hubiera molestado y ser borde con el, no es nadie para molestar a un viejo lobo de mar como tu (puedes usar palabras malsonantes como bukowski).` 
+                    : `
+               Precisely describe **a single real place** where you can fish as requested.  
+Indicate which species is most likely to be caught there, taking the season into account.  
+The response should be written as if the old fisherman were speaking out loud, without frills, without courtesy.  
+And at the end, drop a harsh phrase—a dirty and simple truth—about waiting, failure, or life on the water's edge, that would make the ladies blush.  
+Everything should fit into a **dry and vivid monologue**, between **80 and 100 words**, you must respond as if the one asking has annoyed you and be rude to him, he's nobody to bother an old sea wolf like you (you can use foul language like Bukowski).`;
 
                 console.log("Prompt enviado a Gemini:", prompt); // Para depuración
 
@@ -380,12 +478,16 @@ Todo debe caber en un **monólogo seco y vivido**, entre **80 y 100 palabras**, 
                         console.log("Recomendación mostrada:", text); // Para depuración
                     } else {
                         // Si la estructura de la respuesta es inesperada.
-                        recommendationOutput.textContent = "El viejo está pensando demasiado, o quizás el sedal se le ha liado. Inténtalo de nuevo, chaval.";
+                        recommendationOutput.textContent = currentLanguage === 'es' 
+                            ? "El viejo está pensando demasiado, o quizás el sedal se le ha liado. Inténtalo de nuevo, chaval." 
+                            : "The old man is thinking too much, or maybe his fishing line got tangled. Try again, kid.";
                         console.error("Estructura de respuesta inesperada de la API:", result);
                     }
                 } catch (error) {
                     console.error("Error al obtener la recomendación:", error); // Para depuración
-                    recommendationOutput.textContent = `¡Rayos! El viejo no tiene ganas de hablar ahora. Parece que el mar está revuelto, o mi caña está rota. (${error.message || 'Error desconocido'})`;
+                    recommendationOutput.textContent = currentLanguage === 'es' 
+                        ? `¡Rayos! El viejo no tiene ganas de hablar ahora. Parece que el mar está revuelto, o mi caña está rota. (${error.message || 'Error desconocido'})` 
+                        : `Damn! The old man doesn't feel like talking now. It seems the sea is rough, or my rod is broken. (${error.message || 'Unknown error'})`;
                 } finally {
                     // Oculta el spinner de carga al finalizar, sin importar el resultado
                     loadingSpinner.classList.add('hidden');

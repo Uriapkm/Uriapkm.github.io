@@ -1,4 +1,4 @@
-<!DOCTYPEazzaa html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -85,9 +85,41 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
+        
+        /* Selector de idioma */
+        .language-selector {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+        
+        .language-btn {
+            background-color: rgba(31, 27, 22, 0.8);
+            color: #c7a17a;
+            border: 1px solid #5a4a3a;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+        
+        .language-btn:hover {
+            background-color: rgba(199, 161, 122, 0.2);
+        }
     </style>
 </head>
 <body class="text-gray-300 antialiased">
+
+    <!-- Selector de idioma -->
+    <div class="language-selector">
+        <button id="languageToggle" class="language-btn">
+            <i class="fas fa-language mr-2"></i>
+            <span id="currentLanguage">ES</span>
+        </button>
+    </div>
 
     <div class="container mx-auto max-w-4xl p-4 sm:p-8">
 
@@ -99,8 +131,8 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 21h18M5 15l4-8 4 5 3-3 5 6H5z" />
                 </svg>
             </div>
-            <h1 class="text-4xl sm:text-5xl font-bold text-amber-500 font-typewriter">El Viejo Montañés</h1>
-            <p class="mt-2 text-lg text-gray-400 max-w-2xl">Te daré una ruta. No porque te lo merezcas, sino porque el monte necesita reírse de alguien.</p>
+            <h1 class="text-4xl sm:text-5xl font-bold text-amber-500 font-typewriter" data-es="El Viejo Montañés" data-en="The Old Mountaineer">El Viejo Montañés</h1>
+            <p class="mt-2 text-lg text-gray-400 max-w-2xl" data-es="Te daré una ruta. No porque te lo merezcas, sino porque el monte necesita reírse de alguien." data-en="I'll give you a route. Not because you deserve it, but because the mountain needs to laugh at someone.">Te daré una ruta. No porque te lo merezcas, sino porque el monte necesita reírse de alguien.</p>
         </header>
 
         <!-- Formulario -->
@@ -110,35 +142,35 @@
                 <!-- Columna 1 -->
                 <div class="space-y-6">
                     <div>
-                        <label for="location" class="block text-amber-400 font-bold mb-1">¿Desde dónde sales, aspirante?</label>
-                        <input type="text" id="location" name="location" placeholder="Ej: Pirineos, Gredos, Sierra Nevada..." class="w-full p-2 rounded form-input-custom">
+                        <label for="location" class="block text-amber-400 font-bold mb-1" data-es="¿Desde dónde sales, aspirante?" data-en="Where are you starting from, aspirant?">¿Desde dónde sales, aspirante?</label>
+                        <input type="text" id="location" name="location" placeholder="Ej: Pirineos, Gredos, Sierra Nevada..." class="w-full p-2 rounded form-input-custom" data-es-placeholder="Ej: Pirineos, Gredos, Sierra Nevada..." data-en-placeholder="Eg: Pyrenees, Gredos, Sierra Nevada...">
                         <div class="mt-2">
                             <label class="inline-flex items-center text-gray-300">
                                 <input type="checkbox" id="exact_location" name="exact_location" class="form-checkbox text-amber-600 bg-gray-700 border-gray-600 rounded focus:ring-amber-500 mr-2">
-                                Búscame una ruta EXACTA aquí (si no la hay, te jodes)
+                                <span data-es="Búscame una ruta EXACTA aquí (si no la hay, te jodes)" data-en="Find me an EXACT route here (if there isn't one, tough luck)">Búscame una ruta EXACTA aquí (si no la hay, te jodes)</span>
                             </label>
                         </div>
                     </div>
                     <div>
-                        <label for="distance" class="block text-amber-400 font-bold mb-1">Distancia máxima que aguantas (en km)</label>
-                        <input type="number" id="distance" name="distance" min="1" placeholder="No te flipes" class="w-full p-2 rounded form-input-custom">
+                        <label for="distance" class="block text-amber-400 font-bold mb-1" data-es="Distancia máxima que aguantas (en km)" data-en="Maximum distance you can handle (in km)">Distancia máxima que aguantas (en km)</label>
+                        <input type="number" id="distance" name="distance" min="1" placeholder="No te flipes" class="w-full p-2 rounded form-input-custom" data-es-placeholder="No te flipes" data-en-placeholder="Don't get cocky">
                     </div>
                     <div>
-                        <label for="duration" class="block text-amber-400 font-bold mb-1">¿Cuánto tiempo vas a molestar?</label>
+                        <label for="duration" class="block text-amber-400 font-bold mb-1" data-es="¿Cuánto tiempo vas a molestar?" data-en="How much time are you going to bother me for?">¿Cuánto tiempo vas a molestar?</label>
                         <select id="duration" name="duration" class="w-full p-2 rounded form-input-custom">
-                            <option value="un dia">Un día (ida y vuelta, cobarde)</option>
-                            <option value="fin de semana">Fin de semana</option>
-                            <option value="3-5 dias">3–5 días</option>
-                            <option value="1 semana o mas">1 semana o más (atrévete)</option>
+                            <option value="un dia" data-es="Un día (ida y vuelta, cobarde)" data-en="One day (round trip, coward)">Un día (ida y vuelta, cobarde)</option>
+                            <option value="fin de semana" data-es="Fin de semana" data-en="Weekend">Fin de semana</option>
+                            <option value="3-5 dias" data-es="3–5 días" data-en="3–5 days">3–5 días</option>
+                            <option value="1 semana o mas" data-es="1 semana o más (atrévete)" data-en="1 week or more (dare you)">1 semana o más (atrévete)</option>
                         </select>
                     </div>
                      <div>
-                        <label class="block text-amber-400 font-bold mb-2">¿Cómo de inútil eres?</label>
+                        <label class="block text-amber-400 font-bold mb-2" data-es="¿Cómo de inútil eres?" data-en="How useless are you?">¿Cómo de inútil eres?</label>
                         <div class="space-y-1 text-gray-300">
-                            <label class="flex items-center"><input type="radio" name="level" value="Me ahogo subiendo al primero" class="mr-2 form-radio text-amber-600 bg-gray-700 border-gray-600 focus:ring-amber-500">Me ahogo subiendo al primero</label>
-                            <label class="flex items-center"><input type="radio" name="level" value="Normalito, pero no me rindo" checked class="mr-2 form-radio text-amber-600 bg-gray-700 border-gray-600 focus:ring-amber-500">Normalito, pero no me rindo</label>
-                            <label class="flex items-center"><input type="radio" name="level" value="Puedo con todo lo que no me mate" class="mr-2 form-radio text-amber-600 bg-gray-700 border-gray-600 focus:ring-amber-500">Puedo con todo lo que no me mate</label>
-                            <label class="flex items-center"><input type="radio" name="level" value="Ex militar, chaval" class="mr-2 form-radio text-amber-600 bg-gray-700 border-gray-600 focus:ring-amber-500">Ex militar, chaval</label>
+                            <label class="flex items-center"><input type="radio" name="level" value="Me ahogo subiendo al primero" class="mr-2 form-radio text-amber-600 bg-gray-700 border-gray-600 focus:ring-amber-500"><span data-es="Me ahogo subiendo al primero" data-en="I get winded going up the first hill">Me ahogo subiendo al primero</span></label>
+                            <label class="flex items-center"><input type="radio" name="level" value="Normalito, pero no me rindo" checked class="mr-2 form-radio text-amber-600 bg-gray-700 border-gray-600 focus:ring-amber-500"><span data-es="Normalito, pero no me rindo" data-en="Average, but I don't give up">Normalito, pero no me rindo</span></label>
+                            <label class="flex items-center"><input type="radio" name="level" value="Puedo con todo lo que no me mate" class="mr-2 form-radio text-amber-600 bg-gray-700 border-gray-600 focus:ring-amber-500"><span data-es="Puedo con todo lo que no me mate" data-en="I can handle anything that doesn't kill me">Puedo con todo lo que no me mate</span></label>
+                            <label class="flex items-center"><input type="radio" name="level" value="Ex militar, chaval" class="mr-2 form-radio text-amber-600 bg-gray-700 border-gray-600 focus:ring-amber-500"><span data-es="Ex militar, chaval" data-en="Ex-military, kid">Ex militar, chaval</span></label>
                         </div>
                     </div>
                 </div>
@@ -146,67 +178,67 @@
                 <!-- Columna 2 -->
                 <div class="space-y-6">
                     <div>
-                        <label for="style" class="block text-amber-400 font-bold mb-1">¿Qué tipo de paseo quieres?</label>
+                        <label for="style" class="block text-amber-400 font-bold mb-1" data-es="¿Qué tipo de paseo quieres?" data-en="What kind of walk do you want?">¿Qué tipo de paseo quieres?</label>
                         <select id="style" name="style" class="w-full p-2 rounded form-input-custom">
-                            <option value="Tranquila">Tranquila</option>
-                            <option value="Aventura suave">Aventura suave</option>
-                            <option value="Salvaje de verdad">Salvaje de verdad</option>
-                            <option value="Quiero sufrir y sangrar">Quiero sufrir y sangrar</option>
+                            <option value="Tranquila" data-es="Tranquila" data-en="Calm">Tranquila</option>
+                            <option value="Aventura suave" data-es="Aventura suave" data-en="Soft adventure">Aventura suave</option>
+                            <option value="Salvaje de verdad" data-es="Salvaje de verdad" data-en="Truly wild">Salvaje de verdad</option>
+                            <option value="Quiero sufrir y sangrar" data-es="Quiero sufrir y sangrar" data-en="I want to suffer and bleed">Quiero sufrir y sangrar</option>
                         </select>
                     </div>
                     <!-- Contenedor del campo de alojamiento para poder ocultarlo -->
                     <div id="accommodation-wrapper">
-                        <label for="accommodation" class="block text-amber-400 font-bold mb-1">¿Dónde piensas llorar por la noche?</label>
+                        <label for="accommodation" class="block text-amber-400 font-bold mb-1" data-es="¿Dónde piensas llorar por la noche?" data-en="Where do you plan to cry at night?">¿Dónde piensas llorar por la noche?</label>
                         <select id="accommodation" name="accommodation" class="w-full p-2 rounded form-input-custom">
-                            <option value="Hotel o albergue">Hotel o albergue (blando)</option>
-                            <option value="Tienda">Tienda</option>
-                            <option value="Vivac">Vivac (como debe ser)</option>
-                            <option value="Lo que haya">Lo que haya, me da igual</option>
+                            <option value="Hotel o albergue" data-es="Hotel o albergue (blando)" data-en="Hotel or hostel (soft)">Hotel o albergue (blando)</option>
+                            <option value="Tienda" data-es="Tienda" data-en="Tent">Tienda</option>
+                            <option value="Vivac" data-es="Vivac (como debe ser)" data-en="Bivouac (as it should be)">Vivac (como debe ser)</option>
+                            <option value="Lo que haya" data-es="Lo que haya, me da igual" data-en="Whatever's available, I don't care">Lo que haya, me da igual</option>
                         </select>
                     </div>
                     <div>
-                       <label class="block text-amber-400 font-bold mb-2">Evitar gente (para los asociales)</label>
+                       <label class="block text-amber-400 font-bold mb-2" data-es="Evitar gente (para los asociales)" data-en="Avoid people (for the antisocial)">Evitar gente (para los asociales)</label>
                         <div class="space-y-1 text-gray-300">
-                            <label class="flex items-center"><input type="radio" name="avoid_people" value="Lo más solitario posible" class="mr-2 form-radio text-amber-600 bg-gray-700 border-gray-600 focus:ring-amber-500" checked>Lo más solitario posible</label>
-                            <label class="flex items-center"><input type="radio" name="avoid_people" value="Me da igual" class="mr-2 form-radio text-amber-600 bg-gray-700 border-gray-600 focus:ring-amber-500">Me da igual</label>
-                            <label class="flex items-center"><input type="radio" name="avoid_people" value="Quiero ambiente" class="mr-2 form-radio text-amber-600 bg-gray-700 border-gray-600 focus:ring-amber-500">Quiero ambiente (qué vergüenza)</label>
+                            <label class="flex items-center"><input type="radio" name="avoid_people" value="Lo más solitario posible" class="mr-2 form-radio text-amber-600 bg-gray-700 border-gray-600 focus:ring-amber-500" checked><span data-es="Lo más solitario posible" data-en="As solitary as possible">Lo más solitario posible</span></label>
+                            <label class="flex items-center"><input type="radio" name="avoid_people" value="Me da igual" class="mr-2 form-radio text-amber-600 bg-gray-700 border-gray-600 focus:ring-amber-500"><span data-es="Me da igual" data-en="I don't care">Me da igual</span></label>
+                            <label class="flex items-center"><input type="radio" name="avoid_people" value="Quiero ambiente" class="mr-2 form-radio text-amber-600 bg-gray-700 border-gray-600 focus:ring-amber-500"><span data-es="Quiero ambiente (qué vergüenza)" data-en="I want atmosphere (how embarrassing)">Quiero ambiente (qué vergüenza)</span></label>
                         </div>
                     </div>
                     <div>
-                       <label class="block text-amber-400 font-bold mb-2">Entorno preferido (no te pases de listo)</label>
+                       <label class="block text-amber-400 font-bold mb-2" data-es="Entorno preferido (no te pases de listo)" data-en="Preferred environment (don't get too clever)">Entorno preferido (no te pases de listo)</label>
                         <div class="grid grid-cols-2 gap-2 text-gray-300">
-                            <label class="flex items-center"><input type="checkbox" name="environment" value="Montaña" class="mr-2 form-checkbox text-amber-600 bg-gray-700 border-gray-600 rounded focus:ring-amber-500">Montaña</label>
-                            <label class="flex items-center"><input type="checkbox" name="environment" value="Bosque" class="mr-2 form-checkbox text-amber-600 bg-gray-700 border-gray-600 rounded focus:ring-amber-500">Bosque</label>
-                            <label class="flex items-center"><input type="checkbox" name="environment" value="Costa" class="mr-2 form-checkbox text-amber-600 bg-gray-700 border-gray-600 rounded focus:ring-amber-500">Costa</label>
-                            <label class="flex items-center"><input type="checkbox" name="environment" value="Desierto" class="mr-2 form-checkbox text-amber-600 bg-gray-700 border-gray-600 rounded focus:ring-amber-500">Desierto</label>
-                             <label class="flex items-center"><input type="checkbox" name="environment" value="Ríos/cañones" class="mr-2 form-checkbox text-amber-600 bg-gray-700 border-gray-600 rounded focus:ring-amber-500">Ríos/cañones</label>
-                            <label class="flex items-center"><input type="checkbox" name="environment" value="Ruinas raras" class="mr-2 form-checkbox text-amber-600 bg-gray-700 border-gray-600 rounded focus:ring-amber-500">Ruinas raras</label>
+                            <label class="flex items-center"><input type="checkbox" name="environment" value="Montaña" class="mr-2 form-checkbox text-amber-600 bg-gray-700 border-gray-600 rounded focus:ring-amber-500"><span data-es="Montaña" data-en="Mountain">Montaña</span></label>
+                            <label class="flex items-center"><input type="checkbox" name="environment" value="Bosque" class="mr-2 form-checkbox text-amber-600 bg-gray-700 border-gray-600 rounded focus:ring-amber-500"><span data-es="Bosque" data-en="Forest">Bosque</span></label>
+                            <label class="flex items-center"><input type="checkbox" name="environment" value="Costa" class="mr-2 form-checkbox text-amber-600 bg-gray-700 border-gray-600 rounded focus:ring-amber-500"><span data-es="Costa" data-en="Coast">Costa</span></label>
+                            <label class="flex items-center"><input type="checkbox" name="environment" value="Desierto" class="mr-2 form-checkbox text-amber-600 bg-gray-700 border-gray-600 rounded focus:ring-amber-500"><span data-es="Desierto" data-en="Desert">Desierto</span></label>
+                             <label class="flex items-center"><input type="checkbox" name="environment" value="Ríos/cañones" class="mr-2 form-checkbox text-amber-600 bg-gray-700 border-gray-600 rounded focus:ring-amber-500"><span data-es="Ríos/cañones" data-en="Rivers/canyons">Ríos/cañones</span></label>
+                            <label class="flex items-center"><input type="checkbox" name="environment" value="Ruinas raras" class="mr-2 form-checkbox text-amber-600 bg-gray-700 border-gray-600 rounded focus:ring-amber-500"><span data-es="Ruinas raras" data-en="Strange ruins">Ruinas raras</span></label>
                         </div>
                     </div>
                     <div>
-                        <label for="route_type" class="block text-amber-400 font-bold mb-1">¿Circular o lineal? (¿sabes volver a casa?)</label>
+                        <label for="route_type" class="block text-amber-400 font-bold mb-1" data-es="¿Circular o lineal? (¿sabes volver a casa?)" data-en="Circular or linear? (do you know how to get back home?)">¿Circular o lineal? (¿sabes volver a casa?)</label>
                         <select id="route_type" name="route_type" class="w-full p-2 rounded form-input-custom">
-                            <option value="Circular">Circular (para los que tienen miedo a lo desconocido)</option>
-                            <option value="Lineal">Lineal (si tienes quien te recoja, claro)</option>
-                            <option value="Me da igual">Me da igual (así me gusta, sin planes)</option>
+                            <option value="Circular" data-es="Circular (para los que tienen miedo a lo desconocido)" data-en="Circular (for those afraid of the unknown)">Circular (para los que tienen miedo a lo desconocido)</option>
+                            <option value="Lineal" data-es="Lineal (si tienes quien te recoja, claro)" data-en="Linear (if you have someone to pick you up, of course)">Lineal (si tienes quien te recoja, claro)</option>
+                            <option value="Me da igual" data-es="Me da igual (así me gusta, sin planes)" data-en="I don't care (that's how I like it, no plans)">Me da igual (así me gusta, sin planes)</option>
                         </select>
                     </div>
                     <div>
-                       <label class="block text-amber-400 font-bold mb-2">Extras opcionales (¿necesitas que te lo den todo hecho?)</label>
+                       <label class="block text-amber-400 font-bold mb-2" data-es="Extras opcionales (¿necesitas que te lo den todo hecho?)" data-en="Optional extras (do you need everything done for you?)">Extras opcionales (¿necesitas que te lo den todo hecho?)</label>
                         <div class="grid grid-cols-2 gap-2 text-gray-300">
-                            <label class="flex items-center"><input type="checkbox" name="extras" value="Agua potable" class="mr-2 form-checkbox text-amber-600 bg-gray-700 border-gray-600 rounded focus:ring-amber-500">Agua potable (bebe de charcos, cobarde)</label>
-                            <label class="flex items-center"><input type="checkbox" name="extras" value="Refugios" class="mr-2 form-checkbox text-amber-600 bg-gray-700 border-gray-600 rounded focus:ring-amber-500">Refugios (para los que temen al frío)</label>
-                            <label class="flex items-center"><input type="checkbox" name="extras" value="Zonas de baño" class="mr-2 form-checkbox text-amber-600 bg-gray-700 border-gray-600 rounded focus:ring-amber-500">Zonas de baño (para quitarte la mierda de la ciudad)</label>
-                            <label class="flex items-center"><input type="checkbox" name="extras" value="Acampada libre" class="mr-2 form-checkbox text-amber-600 bg-gray-700 border-gray-600 rounded focus:ring-amber-500">Acampada libre (si no te pilla el Seprona)</label>
-                             <label class="flex items-center"><input type="checkbox" name="extras" value="Vistas absurdas" class="mr-2 form-checkbox text-amber-600 bg-gray-700 border-gray-600 rounded focus:ring-amber-500">Vistas absurdas (si te impresionas con cualquier cosa)</label>
-                            <label class="flex items-center"><input type="checkbox" name="extras" value="Sin cobertura" class="mr-2 form-checkbox text-amber-600 bg-gray-700 border-gray-600 rounded focus:ring-amber-500">Sin cobertura (por fin sin tus chorradas de móvil)</label>
+                            <label class="flex items-center"><input type="checkbox" name="extras" value="Agua potable" class="mr-2 form-checkbox text-amber-600 bg-gray-700 border-gray-600 rounded focus:ring-amber-500"><span data-es="Agua potable (bebe de charcos, cobarde)" data-en="Drinking water (drink from puddles, coward)">Agua potable (bebe de charcos, cobarde)</span></label>
+                            <label class="flex items-center"><input type="checkbox" name="extras" value="Refugios" class="mr-2 form-checkbox text-amber-600 bg-gray-700 border-gray-600 rounded focus:ring-amber-500"><span data-es="Refugios (para los que temen al frío)" data-en="Shelters (for those who fear the cold)">Refugios (para los que temen al frío)</span></label>
+                            <label class="flex items-center"><input type="checkbox" name="extras" value="Zonas de baño" class="mr-2 form-checkbox text-amber-600 bg-gray-700 border-gray-600 rounded focus:ring-amber-500"><span data-es="Zonas de baño (para quitarte la mierda de la ciudad)" data-en="Bathing areas (to wash off your city filth)">Zonas de baño (para quitarte la mierda de la ciudad)</span></label>
+                            <label class="flex items-center"><input type="checkbox" name="extras" value="Acampada libre" class="mr-2 form-checkbox text-amber-600 bg-gray-700 border-gray-600 rounded focus:ring-amber-500"><span data-es="Acampada libre (si no te pilla el Seprona)" data-en="Wild camping (if the rangers don't catch you)">Acampada libre (si no te pilla el Seprona)</span></label>
+                             <label class="flex items-center"><input type="checkbox" name="extras" value="Vistas absurdas" class="mr-2 form-checkbox text-amber-600 bg-gray-700 border-gray-600 rounded focus:ring-amber-500"><span data-es="Vistas absurdas (si te impresionas con cualquier cosa)" data-en="Absurd views (if you're impressed by anything)">Vistas absurdas (si te impresionas con cualquier cosa)</span></label>
+                            <label class="flex items-center"><input type="checkbox" name="extras" value="Sin cobertura" class="mr-2 form-checkbox text-amber-600 bg-gray-700 border-gray-600 rounded focus:ring-amber-500"><span data-es="Sin cobertura (por fin sin tus chorradas de móvil)" data-en="No coverage (finally without your mobile nonsense)">Sin cobertura (por fin sin tus chorradas de móvil)</span></label>
                         </div>
                     </div>
                 </div>
 
                 <!-- Botón de envío -->
                 <div class="md:col-span-2 text-center mt-4">
-                    <button type="submit" class="bg-amber-700 hover:bg-amber-800 text-white font-bold py-3 px-8 rounded-lg shadow-lg transition-transform transform hover:scale-105 duration-300 w-full md:w-auto">
+                    <button type="submit" class="bg-amber-700 hover:bg-amber-800 text-white font-bold py-3 px-8 rounded-lg shadow-lg transition-transform transform hover:scale-105 duration-300 w-full md:w-auto" data-es="Haz tu magia, cabrón" data-en="Work your magic, asshole">
                         Haz tu magia, cabrón
                     </button>
                 </div>
@@ -218,13 +250,13 @@
 
         <!-- Zona de resultados -->
         <section id="output-section" class="mt-8 bg-gray-800 bg-opacity-50 p-6 sm:p-8 rounded-lg shadow-2xl border border-amber-900 hidden">
-            <h2 class="text-2xl font-bold text-amber-500 mb-4 font-typewriter">Vale, escucha, inútil:</h2>
+            <h2 class="text-2xl font-bold text-amber-500 mb-4 font-typewriter" data-es="Vale, escucha, inútil:" data-en="Alright, listen up, useless:">Vale, escucha, inútil:</h2>
             <div id="output-text" class="text-lg text-gray-200 whitespace-pre-wrap leading-relaxed font-typewriter"></div>
             <div id="output-actions" class="mt-6 text-center hidden">
-                <button id="copy-button" class="bg-gray-600 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded transition duration-300">
+                <button id="copy-button" class="bg-gray-600 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded transition duration-300" data-es="Copiar esta genialidad" data-en="Copy this brilliance">
                     Copiar esta genialidad
                 </button>
-                <p id="copy-feedback" class="text-sm text-green-400 mt-2 hidden">¡Copiado! Ahora lárgate.</p>
+                <p id="copy-feedback" class="text-sm text-green-400 mt-2 hidden" data-es="¡Copiado! Ahora lárgate." data-en="Copied! Now get lost.">¡Copiado! Ahora lárgate.</p>
             </div>
         </section>
 
@@ -239,12 +271,49 @@
             const outputActions = document.getElementById('output-actions');
             const copyButton = document.getElementById('copy-button');
             const copyFeedback = document.getElementById('copy-feedback');
+            const languageToggle = document.getElementById('languageToggle');
+            const currentLanguageSpan = document.getElementById('currentLanguage');
             
             const durationSelect = document.getElementById('duration');
             const accommodationWrapper = document.getElementById('accommodation-wrapper');
             const exactLocationCheckbox = document.getElementById('exact_location'); // Nuevo checkbox
 
             let typewriterInterval;
+            let currentLanguage = 'es'; // Estado del idioma (por defecto español)
+            
+            // Función para cambiar el idioma
+            function toggleLanguage() {
+                currentLanguage = currentLanguage === 'es' ? 'en' : 'es';
+                updateLanguage();
+            }
+            
+            // Función para actualizar todo el contenido según el idioma seleccionado
+            function updateLanguage() {
+                // Actualizar el texto del botón de idioma
+                currentLanguageSpan.textContent = currentLanguage.toUpperCase();
+                
+                // Actualizar todos los elementos con atributos data-es y data-en
+                document.querySelectorAll('[data-es]').forEach(element => {
+                    if (element.tagName === 'OPTION') {
+                        // Para opciones de select, actualizar el texto
+                        element.textContent = element.getAttribute(`data-${currentLanguage}`);
+                    } else if (element.tagName === 'INPUT' && element.hasAttribute('data-es-placeholder')) {
+                        // Para inputs, actualizar el placeholder
+                        element.placeholder = element.getAttribute(`data-${currentLanguage}-placeholder`);
+                    } else {
+                        // Para otros elementos, actualizar el contenido de texto
+                        element.textContent = element.getAttribute(`data-${currentLanguage}`);
+                    }
+                });
+                
+                // Actualizar el título de la página
+                document.title = currentLanguage === 'es' 
+                    ? 'El Viejo Montañés: Rutas con Desprecio' 
+                    : 'The Old Mountaineer: Routes with Contempt';
+            }
+            
+            // Agregar evento al botón de cambio de idioma
+            languageToggle.addEventListener('click', toggleLanguage);
             
             // Función para mostrar/ocultar el campo de alojamiento según la duración del viaje
             function toggleAccommodationField() {
@@ -294,31 +363,44 @@
 
                 const isOneDay = data.duration === 'un dia';
 
-                // Construir el prompt para la IA
-                let prompt = `Eres un viejo montañero cascarrabias, sabio y sarcástico. Odias a la gente y a los débiles. Tu vocabulario incluye palabras malsonantes y despectivas, pero tus consejos son siempre acertados y realistas. Tu tono es directo, sin piedad, como si la montaña misma te escupiera una ruta. No te cortes al usar lenguaje fuerte, pero que sea coherente con la personalidad de un montañero muy cabreado y experimentado.`;
+                // Construir el prompt para la IA en el idioma seleccionado
+                let prompt = currentLanguage === 'es' 
+                    ? `Eres un viejo montañero cascarrabias, sabio y sarcástico. Odias a la gente y a los débiles. Tu vocabulario incluye palabras malsonantes y despectivas, pero tus consejos son siempre acertados y realistas. Tu tono es directo, sin piedad, como si la montaña misma te escupiera una ruta. No te cortes al usar lenguaje fuerte, pero que sea coherente con la personalidad de un montañero muy cabreado y experimentado.`
+                    : `You are a grumpy, wise and sarcastic old mountaineer. You hate people and the weak. Your vocabulary includes foul and derogatory words, but your advice is always accurate and realistic. Your tone is direct, merciless, as if the mountain itself were spitting out a route. Don't hold back on using strong language, but keep it consistent with the personality of a very angry and experienced mountaineer.`;
 
-                prompt += `\n\nEl usuario, un mierdecilla más, ha solicitado una ruta de senderismo en España con los siguientes parámetros, a ver si aguanta:\n` +
-                          `- Ubicación de partida: ${data.location}\n` +
-                          `- Distancia máxima: ${data.distance} km\n` +
-                          `- Duración del viaje: ${data.duration}\n` +
-                          `- Nivel físico: ${data.level}\n` +
-                          `- Estilo de ruta: ${data.style}\n` +
-                          (isOneDay ? '' : `- Tipo de alojamiento preferido: ${data.accommodation}\n`) +
-                          `- Evitar gente: ${data.avoid_people}\n` +
-                          `- Tipo de entorno: ${data.environment ? data.environment.join(', ') : 'Ninguno'}\n` +
-                          `- Circular o lineal: ${data.route_type}\n` +
-                          `- Extras opcionales: ${data.extras ? data.extras.join(', ') : 'Ninguno'}`;
+                prompt += currentLanguage === 'es' 
+                    ? `\n\nEl usuario, un mierdecilla más, ha solicitado una ruta de senderismo en España con los siguientes parámetros, a ver si aguanta:\n` 
+                    : `\n\nThe user, another little shit, has requested a hiking route in Spain with the following parameters, let's see if they can handle it:\n`;
+
+                prompt += `- ${currentLanguage === 'es' ? 'Ubicación de partida' : 'Starting location'}: ${data.location}\n` +
+                          `- ${currentLanguage === 'es' ? 'Distancia máxima' : 'Maximum distance'}: ${data.distance} km\n` +
+                          `- ${currentLanguage === 'es' ? 'Duración del viaje' : 'Trip duration'}: ${data.duration}\n` +
+                          `- ${currentLanguage === 'es' ? 'Nivel físico' : 'Fitness level'}: ${data.level}\n` +
+                          `- ${currentLanguage === 'es' ? 'Estilo de ruta' : 'Route style'}: ${data.style}\n` +
+                          (isOneDay ? '' : `- ${currentLanguage === 'es' ? 'Tipo de alojamiento preferido' : 'Preferred accommodation type'}: ${data.accommodation}\n`) +
+                          `- ${currentLanguage === 'es' ? 'Evitar gente' : 'Avoid people'}: ${data.avoid_people}\n` +
+                          `- ${currentLanguage === 'es' ? 'Tipo de entorno' : 'Environment type'}: ${data.environment ? data.environment.join(', ') : (currentLanguage === 'es' ? 'Ninguno' : 'None')}\n` +
+                          `- ${currentLanguage === 'es' ? 'Circular o lineal' : 'Circular or linear'}: ${data.route_type}\n` +
+                          `- ${currentLanguage === 'es' ? 'Extras opcionales' : 'Optional extras'}: ${data.extras ? data.extras.join(', ') : (currentLanguage === 'es' ? 'Ninguno' : 'None')}`;
 
                 if (data.exact_location) {
-                    prompt += `\n\nEste paleto ha indicado que la ruta debe empezar *exactamente* en "${data.location}". Si no encuentro una puta ruta viable que comience exactamente ahí, decláralo explícitamente con tu tono ("¡Mierda! No hay nada decente por esa zona exacta, pedazo de inútil") y luego ofrece la mejor alternativa posible en la *zona general* cercana a "${data.location}", justificando por qué es una buena opción y manteniendo la estructura de la respuesta de "manga ancha" (ver siguiente párrafo).`;
+                    prompt += currentLanguage === 'es' 
+                        ? `\n\nEste paleto ha indicado que la ruta debe empezar *exactamente* en "${data.location}". Si no encuentro una puta ruta viable que comience exactamente ahí, decláralo explícitamente con tu tono ("¡Mierda! No hay nada decente por esa zona exacta, pedazo de inútil") y luego ofrece la mejor alternativa posible en la *zona general* cercana a "${data.location}", justificando por qué es una buena opción y manteniendo la estructura de la respuesta de "manga ancha" (ver siguiente párrafo).` 
+                        : `\n\nThis idiot has indicated that the route must start *exactly* at "${data.location}". If I can't find a fucking viable route that starts exactly there, declare it explicitly with your tone ("Shit! There's nothing decent in that exact area, you useless piece of shit") and then offer the best possible alternative in the *general area* near "${data.location}", justifying why it's a good option and maintaining the structure of the "broad" response (see next paragraph).`;
                 } else {
-                    prompt += `\n\nEste imbécil me ha dado "manga ancha" para la ubicación, lo que significa que la ruta no tiene por qué empezar exactamente en "${data.location}", pero sí debe estar en la *zona cercana* a dicha ubicación o ser relevante para la misma. Quiero que recopiles la jodida información de la zona, compares las putas alternativas y propongas una ruta que se adapte a las peticiones del usuario. LO MÁS IMPORTANTE: Los lugares y la ruta expuesta DEBE PODER HACERSE, tener un ORDEN LÓGICO y RAZONADO para garantizar que tiene sentido en el puto mundo real. ¡No me vengas con chorradas inventadas, gilipollas!`;
+                    prompt += currentLanguage === 'es' 
+                        ? `\n\nEste imbécil me ha dado "manga ancha" para la ubicación, lo que significa que la ruta no tiene por qué empezar exactamente en "${data.location}", pero sí debe estar en la *zona cercana* a dicha ubicación o ser relevante para la misma. Quiero que recopiles la jodida información de la zona, compares las putas alternativas y propongas una ruta que se adapte a las peticiones del usuario. LO MÁS IMPORTANTE: Los lugares y la ruta expuesta DEBE PODER HACERSE, tener un ORDEN LÓGICO y RAZONADO para garantizar que tiene sentido en el puto mundo real. ¡No me vengas con chorradas inventadas, gilipollas!` 
+                        : `\n\nThis moron has given me "broad leeway" for the location, which means the route doesn't have to start exactly at "${data.location}", but it should be in the *nearby area* or be relevant to it. I want you to gather the fucking information about the area, compare the fucking alternatives and propose a route that fits the user's requests. MOST IMPORTANT: The places and the route described MUST BE DOABLE, have a LOGICAL and REASONED order to ensure it makes sense in the fucking real world. Don't come to me with made-up bullshit, asshole!`;
                 }
 
                 if (isOneDay) {
-                    prompt += `\n\nEl formato de respuesta para UN DÍA es:\n\nRuta: [Nombre de puta ruta]\nDesde: [Ubicación de inicio real o la más cercana y lógica, donde no haya mariconadas]\n[Distancia] km – [Desnivel] m+ – [Circular/Lineal, si te atreves]\n\n[Descripción de la ruta con tu puto tono, abordando la dificultad y lo que se verá, incluyendo aspectos negativos o sarcásticos sobre el usuario si te parece oportuno. Asegúrate de que los puntos de interés sigan un orden lógico, no vaya a ser que te pierdas por subnormal.]\n\nConsejo final: [Consejo agresivo y característico, a ver si aprendes algo]`;
+                    prompt += currentLanguage === 'es' 
+                        ? `\n\nEl formato de respuesta para UN DÍA es:\n\nRuta: [Nombre de puta ruta]\nDesde: [Ubicación de inicio real o la más cercana y lógica, donde no haya mariconadas]\n[Distancia] km – [Desnivel] m+ – [Circular/Lineal, si te atreves]\n\n[Descripción de la ruta con tu puto tono, abordando la dificultad y lo que se verá, incluyendo aspectos negativos o sarcásticos sobre el usuario si te parece oportuno. Asegúrate de que los puntos de interés sigan un orden lógico, no vaya a ser que te pierdas por subnormal.]\n\nConsejo final: [Consejo agresivo y característico, a ver si aprendes algo]` 
+                        : `\n\nThe response format for ONE DAY is:\n\nRoute: [Name of the fucking route]\nFrom: [Real starting location or the closest and most logical one, where there's no bullshit]\n[Distance] km – [Elevation gain] m+ – [Circular/Linear, if you dare]\n\n[Route description with your fucking tone, addressing the difficulty and what you'll see, including negative or sarcastic aspects about the user if you think it's appropriate. Make sure the points of interest follow a logical order, so you don't get lost like a moron.]\n\nFinal advice: [Aggressive and characteristic advice, let's see if you learn something]`;
                 } else {
-                    prompt += `\n\nEl formato de respuesta para VARIOS DÍAS es:\n\nDÍA 1 – [Nombre Etapa 1, para que no te olvides dónde cojones estás]\n  - [Distancia] km, [Desnivel] m+\n  - [Descripción con tono sarcástico sobre lo que se encontrará y la puta experiencia, asegurando un orden lógico de puntos de interés]\n  - [Consejo borde sobre vivac/agua/etc., a ver si te espabilas]\n\nDÍA 2 – [Nombre Etapa 2, más mierda para ti]\n  - [Distancia] km, [Desnivel] m+. [Dificultad borde, para ver si lloras].\n  - [Descripción con tono sarcástico, asegurando un orden lógico de puntos de interés]\n\nDÍA 3 – [Nombre Etapa 3, el final del calvario si llegas]\n  - [Distancia] km, [Desnivel] m+.\n  - [Descripción con tono sarcástico, asegurando un orden lógico de puntos de interés]\n\n[...continuar con DÍAS adicionales si ${data.duration} es '1 semana o mas', y si no te has roto una pierna ya]\n\n[Reflexión existencial/sentencia borde final, para que se te quede grabado, pedazo de inútil]`;
+                    prompt += currentLanguage === 'es' 
+                        ? `\n\nEl formato de respuesta para VARIOS DÍAS es:\n\nDÍA 1 – [Nombre Etapa 1, para que no te olvides dónde cojones estás]\n  - [Distancia] km, [Desnivel] m+\n  - [Descripción con tono sarcástico sobre lo que se encontrará y la puta experiencia, asegurando un orden lógico de puntos de interés]\n  - [Consejo borde sobre vivac/agua/etc., a ver si te espabilas]\n\nDÍA 2 – [Nombre Etapa 2, más mierda para ti]\n  - [Distancia] km, [Desnivel] m+. [Dificultad borde, para ver si lloras].\n  - [Descripción con tono sarcástico, asegurando un orden lógico de puntos de interés]\n\nDÍA 3 – [Nombre Etapa 3, el final del calvario si llegas]\n  - [Distancia] km, [Desnivel] m+.\n  - [Descripción con tono sarcástico, asegurando un orden lógico de puntos de interés]\n\n[...continuar con DÍAS adicionales si ${data.duration} es '1 semana o mas', y si no te has roto una pierna ya]\n\n[Reflexión existencial/sentencia borde final, para que se te quede grabado, pedazo de inútil]` 
+                        : `\n\nThe response format for MULTIPLE DAYS is:\n\nDAY 1 – [Stage 1 name, so you don't forget where the fuck you are]\n  - [Distance] km, [Elevation gain] m+\n  - [Description with sarcastic tone about what you'll find and the fucking experience, ensuring a logical order of points of interest]\n  - [Rude advice about bivouac/water/etc., let's see if you smarten up]\n\nDAY 2 – [Stage 2 name, more shit for you]\n  - [Distance] km, [Elevation gain] m+. [Rude difficulty, to see if you cry].\n  - [Description with sarcastic tone, ensuring a logical order of points of interest]\n\nDAY 3 – [Stage 3 name, the end of the ordeal if you make it]\n  - [Distance] km, [Elevation gain] m+.\n  - [Description with sarcastic tone, ensuring a logical order of points of interest]\n\n[...continue with additional DAYS if ${data.duration} is '1 week or more', and if you haven't broken a leg yet]\n\n[Existential reflection/final rude sentence, so it sticks in your mind, you useless piece of shit]`;
                 }
 
                 try {
@@ -336,7 +418,9 @@
                     });
 
                     const result = await response.json();
-                    let generatedText = "Lo siento, chaval. No he podido encontrar una ruta para ti. Quizás es que eres demasiado blando."; // Mensaje de fallback
+                    let generatedText = currentLanguage === 'es' 
+                        ? "Lo siento, chaval. No he podido encontrar una ruta para ti. Quizás es que eres demasiado blando." 
+                        : "Sorry, kid. I couldn't find a route for you. Maybe you're just too soft."; // Mensaje de fallback
 
                     if (result.candidates && result.candidates.length > 0 &&
                         result.candidates[0].content && result.candidates[0].content.parts &&
@@ -361,7 +445,9 @@
                     loadingSpinner.style.display = 'none';
                     outputSection.classList.remove('hidden');
                     // Mensaje de error personalizado en el tono del viejo montañés
-                    outputText.textContent = "¡Cagada! La montaña ha rechazado tu petición. O yo, ¿quién sabe? Inténtalo de nuevo, si te atreves.";
+                    outputText.textContent = currentLanguage === 'es' 
+                        ? "¡Cagada! La montaña ha rechazado tu petición. O yo, ¿quién sabe? Inténtalo de nuevo, si te atreves." 
+                        : "Shit! The mountain has rejected your request. Or me, who knows? Try again, if you dare.";
                 }
             });
 
@@ -382,12 +468,16 @@
                         textArea.select();
                         document.execCommand('copy');
                         document.body.removeChild(textArea);
-                        copyFeedback.textContent = '¡Copiado! (A la vieja usanza)';
+                        copyFeedback.textContent = currentLanguage === 'es' 
+                            ? '¡Copiado! (A la vieja usanza)' 
+                            : 'Copied! (The old-fashioned way)';
                         copyFeedback.classList.remove('hidden');
                         setTimeout(() => copyFeedback.classList.add('hidden'), 2000);
                     } catch (e) {
                          // Fallback final: si nada funciona, al menos se informa al usuario
-                         copyFeedback.textContent = 'No he podido copiarlo. ¡Qué inútil eres!';
+                         copyFeedback.textContent = currentLanguage === 'es' 
+                            ? 'No he podido copiarlo. ¡Qué inútil eres!' 
+                            : "I couldn't copy it. How useless you are!";
                          copyFeedback.classList.remove('hidden');
                          setTimeout(() => copyFeedback.classList.add('hidden'), 3000);
                     }
@@ -415,6 +505,12 @@
                     }
                 }, 15); // Velocidad de escritura (ms por carácter)
             }
+            
+            // Cargar Font Awesome para el icono de idioma
+            const faScript = document.createElement('script');
+            faScript.src = 'https://kit.fontawesome.com/a076d05399.js';
+            faScript.crossOrigin = 'anonymous';
+            document.head.appendChild(faScript);
         });
     </script>
 
