@@ -5,15 +5,19 @@ class PHMonitor {
         this.writer = null;
         this.isConnected = false;
         this.isLogging = false;
-        this.logInterval = null;
         this.startTime = null;
         
         // Data storage
-        this.phData = [];
-        this.timeData = [];
-        this.displayData = [];
-        this.displayTime = [];
+        this.phData = [];         // pH readings (raw or averaged)
+        this.timeData = [];       // Timestamps
+        this.displayData = [];    // Recent readings for display
+        this.displayTime = [];    // Recent timestamps for display
         this.calibrationPoints = [];
+        
+        // Experiment settings
+        this.experimentType = 'short';    // 'short' or 'long'
+        this.averagingBuffer = [];        // Buffer for long experiment averaging
+        this.averagingTimestamps = [];    // Timestamps for averaging buffer
         
         // Calibration
         this.slope = 1.0;
@@ -331,6 +335,22 @@ class PHMonitor {
         }
     }
 
+    calculateAverage(startTime, endTime) {
+        // Find all raw readings within the time window
+        const readings = [];
+        for (let i = 0; i < this.rawTimeData.length; i++) {
+            if (this.rawTimeData[i] >= startTime && this.rawTimeData[i] <= endTime) {
+                readings.push(this.rawPhData[i]);
+            }
+        }
+        
+        // Calculate average if we have readings
+        if (readings.length > 0) {
+            return readings.reduce((a, b) => a + b, 0) / readings.length;
+        }
+        return null;
+    }
+
     processPHReading(rawPH) {
         // 1. Apply calibration
         const calibratedPH = this.slope * rawPH + this.offset;
@@ -345,29 +365,62 @@ class PHMonitor {
         // 3. Store data and calculate time ONLY if logging is active
         if (this.isLogging) {
             const currentTime = Date.now();
-            
-            // this.startTime is reset in startLogging()
             if (!this.startTime) {
                 this.startTime = currentTime;
             }
             
             const elapsedTime = (currentTime - this.startTime) / 1000;
             
-            this.phData.push(calibratedPH);
-            this.timeData.push(elapsedTime);
-            this.displayData.push(calibratedPH);
-            this.displayTime.push(elapsedTime);
-            
-            // Keep only last 100 points for display
-            if (this.displayData.length > 100) {
-                this.displayData.shift();
-                this.displayTime.shift();
+            if (this.experimentType === 'short') {
+                // Short experiment: Store every reading
+                this.phData.push(calibratedPH);
+                this.timeData.push(elapsedTime);
+                this.displayData.push(calibratedPH);
+                this.displayTime.push(elapsedTime);
+                
+                // Keep display data manageable
+                if (this.displayData.length > 100) {
+                    this.displayData.shift();
+                    this.displayTime.shift();
+                }
+                
+                this.updateChart();
+                this.updateDataTable();
+                this.updateStatistics();
+                this.updateExportUI();
+            } else {
+                // Long experiment: Collect readings for 30-second average
+                this.averagingBuffer.push(calibratedPH);
+                this.averagingTimestamps.push(elapsedTime);
+                
+                // Check if we have 30 seconds worth of data
+                if (elapsedTime >= (this.timeData.length + 1) * 30) {
+                    // Calculate average of buffered data
+                    const sum = this.averagingBuffer.reduce((a, b) => a + b, 0);
+                    const avg = sum / this.averagingBuffer.length;
+                    
+                    // Store the averaged value
+                    this.phData.push(avg);
+                    this.timeData.push(elapsedTime);
+                    this.displayData.push(avg);
+                    this.displayTime.push(elapsedTime);
+                    
+                    // Keep display data manageable
+                    if (this.displayData.length > 100) {
+                        this.displayData.shift();
+                        this.displayTime.shift();
+                    }
+                    
+                    // Clear buffers for next averaging window
+                    this.averagingBuffer = [];
+                    this.averagingTimestamps = [];
+                    
+                    this.updateChart();
+                    this.updateDataTable();
+                    this.updateStatistics();
+                    this.updateExportUI();
+                }
             }
-            
-            this.updateChart();
-            this.updateDataTable();
-            this.updateStatistics();
-            this.updateExportUI();
         }
     }
 
@@ -379,52 +432,43 @@ class PHMonitor {
     }
 
     startLogging() {
-        const interval = parseFloat(document.getElementById('intervalInput').value);
-        if (interval <= 0 || isNaN(interval)) {
-            this.showNotification('Interval must be a positive number of seconds.', 'error');
-            return;
-        }
-
-        // 1. Clear any previous interval to avoid multiple executions
-        if (this.logInterval) {
-            clearInterval(this.logInterval);
-            this.logInterval = null;
-        }
-
+        this.experimentType = document.getElementById('experimentType').value;
         this.isLogging = true;
 
-        // 2. Reset data and time
+        // Reset all data arrays and time
         this.phData = [];
         this.timeData = [];
         this.displayData = [];
         this.displayTime = [];
+        this.averagingBuffer = [];
+        this.averagingTimestamps = [];
+        
         this.startTime = Date.now(); // Reset base time
 
-        // 3. Function to send READ command and handle data
-        const sendReadCommand = async () => {
-            if (this.isConnected && this.isLogging) {
-                await this.sendCommand('READ\n');
-            } else {
-                // Stop logging if disconnected or logging stopped
-                this.stopLogging();
-            }
-        };
-
-        // 4. Send first command immediately
-        sendReadCommand();
-
-        // 5. Set up interval to send READ commands and align data
-        this.logInterval = setInterval(() => {
-            sendReadCommand();
-        }, interval * 1000);
-
+        // Start reading loop
+        this.readLoop();
+        
         this.updateUI();
-        this.showNotification(`Started logging with ${interval}s interval`, 'success');
+        const mode = this.experimentType === 'short' ? 'Short experiment (1s readings)' : 'Long experiment (30s averaged)';
+        this.showNotification(`Started ${mode}`, 'success');
         
         // Add notification about live export capability
         setTimeout(() => {
             this.showNotification('You can export data at any time, even while logging is active!', 'info');
         }, 2000);
+    }
+
+    async readLoop() {
+        while (this.isConnected && this.isLogging) {
+            try {
+                await this.sendCommand('READ\n');
+                await new Promise(resolve => setTimeout(resolve, 1000)); // 1-second delay between readings
+            } catch (error) {
+                console.error('Error in read loop:', error);
+                this.stopLogging();
+                break;
+            }
+        }
     }
 
     stopLogging() {
@@ -655,9 +699,10 @@ class PHMonitor {
                 [`Date: ${now.toLocaleDateString()}`],
                 [`Time: ${now.toLocaleTimeString()}`],
                 [`Export Status: ${this.isLogging ? 'LIVE DATA - Logging Active' : 'Completed Dataset'}`],
+                [`Experiment Type: ${this.experimentType === 'short' ? 'Short (1s readings)' : 'Long (30s averaged)'}`],
                 [],
                 ["Statistics"],
-                ["Number of Measurements", currentData.length],
+                ["Number of Averaged Measurements", currentData.length],
                 ["Average pH", avg.toFixed(2)],
                 ["Minimum pH", min.toFixed(2)],
                 ["Maximum pH", max.toFixed(2)],

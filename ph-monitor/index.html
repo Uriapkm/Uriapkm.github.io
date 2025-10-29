@@ -494,13 +494,16 @@
             <div class="card">
                 <h2><i class="fas fa-record-vinyl"></i> Data Logging</h2>
                 <div class="form-group">
-                    <label for="intervalInput">Sampling Interval (seconds)</label>
-                    <input type="number" id="intervalInput" value="1.0" step="0.1" min="0.1" max="60">
-                    <div class="help-text">Time between measurements. Lower values = more frequent readings</div>
+                    <label for="experimentType">Experiment Type</label>
+                    <select id="experimentType" class="form-control">
+                        <option value="short">Short Experiment (1s readings)</option>
+                        <option value="long">Long Experiment (30s averaged)</option>
+                    </select>
+                    <div class="help-text">Short: Raw 1-second readings. Long: 30-second averaged readings for stability</div>
                 </div>
                 <div class="button-group">
-                    <button id="startLoggingBtn" class="success"><i class="fas fa-play"></i> Start Logging</button>
-                    <button id="stopLoggingBtn" disabled class="danger"><i class="fas fa-stop"></i> Stop Logging</button>
+                    <button id="startLoggingBtn" class="success"><i class="fas fa-play"></i> Start Experiment</button>
+                    <button id="stopLoggingBtn" disabled class="danger"><i class="fas fa-stop"></i> Stop Experiment
                 </div>
                 <div class="stats-grid">
                     <div class="stat-item">
