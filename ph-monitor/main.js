@@ -24,6 +24,9 @@ var PHMonitor = function() {
     
     // Chart
     this.chart = null;
+    // Prevent accidental close
+    this.preventClose = true;
+    this._beforeUnloadHandler = null;
     
     this.init();
 };
@@ -33,6 +36,8 @@ PHMonitor.prototype.init = function() {
     this.setupChart();
     this.loadTheme();
     this.updateUI();
+    // Load and apply prevent-close setting (default: enabled)
+    this.loadPreventCloseSetting();
     
     // Check if Web Serial API is supported
     if (!('serial' in navigator)) {
@@ -107,6 +112,57 @@ PHMonitor.prototype.setupEventListeners = function() {
     document.querySelector('[data-tab="connection"]').addEventListener('click', () => {
         setTimeout(() => this.refreshPorts(), 100);
     });
+};
+
+// Load prevent-close setting from localStorage (default true)
+PHMonitor.prototype.loadPreventCloseSetting = function() {
+    try {
+        const v = localStorage.getItem('phMonitorPreventClose');
+        // Default to true if not set
+        this.preventClose = (v === null) ? true : (v === 'true');
+    } catch (e) {
+        this.preventClose = true;
+    }
+    this.applyPreventCloseSetting();
+
+    // If the checkbox exists in the DOM, set its state and attach listener
+    const checkbox = document.getElementById('preventCloseCheckbox');
+    if (checkbox) {
+        checkbox.checked = this.preventClose;
+        checkbox.addEventListener('change', (e) => {
+            this.setPreventClose(e.target.checked);
+        });
+    }
+};
+
+PHMonitor.prototype.applyPreventCloseSetting = function() {
+    // Remove existing handler if present
+    if (this._beforeUnloadHandler) {
+        window.removeEventListener('beforeunload', this._beforeUnloadHandler);
+        this._beforeUnloadHandler = null;
+    }
+
+    if (this.preventClose) {
+        // Keep a reference to the handler so we can remove it later
+        this._beforeUnloadHandler = (e) => {
+            // Standard way to show confirmation dialog in modern browsers
+            e.preventDefault();
+            // Chrome requires returnValue to be set
+            e.returnValue = '';
+            return '';
+        };
+        window.addEventListener('beforeunload', this._beforeUnloadHandler);
+    }
+};
+
+PHMonitor.prototype.setPreventClose = function(enabled) {
+    this.preventClose = !!enabled;
+    try {
+        localStorage.setItem('phMonitorPreventClose', this.preventClose ? 'true' : 'false');
+    } catch (e) {
+        console.warn('Could not persist preventClose setting:', e);
+    }
+    this.applyPreventCloseSetting();
 };
 
 PHMonitor.prototype.setupChart = function() {
