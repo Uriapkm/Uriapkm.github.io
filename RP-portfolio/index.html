@@ -11,21 +11,21 @@
     <style>
         /* CSS Variables */
         :root {
-            --primary: #2563eb;
-            --primary-dark: #1d4ed8;
-            --secondary: #0ea5e9;
+            --primary: #3b82f6;
+            --primary-dark: #2563eb;
+            --secondary: #06b6d4;
             --accent: #f59e0b;
-            --text-primary: #1e293b;
-            --text-secondary: #64748b;
-            --text-light: #94a3b8;
-            --bg-primary: #ffffff;
-            --bg-secondary: #f8fafc;
-            --bg-tertiary: #f1f5f9;
-            --border: #e2e8f0;
-            --shadow-sm: 0 1px 3px rgba(0,0,0,0.1);
-            --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
-            --shadow-lg: 0 10px 25px rgba(0,0,0,0.15);
-            --shadow-xl: 0 20px 40px rgba(0,0,0,0.2);
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --text-light: #64748b;
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-tertiary: #334155;
+            --border: #475569;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.3);
+            --shadow-md: 0 4px 6px rgba(0,0,0,0.4);
+            --shadow-lg: 0 10px 25px rgba(0,0,0,0.5);
+            --shadow-xl: 0 20px 40px rgba(0,0,0,0.6);
             --radius-sm: 8px;
             --radius-md: 12px;
             --radius-lg: 16px;
@@ -69,7 +69,7 @@
             top: 0;
             left: 0;
             right: 0;
-            background: rgba(255, 255, 255, 0.95);
+            background: rgba(15, 23, 42, 0.95);
             backdrop-filter: blur(10px);
             border-bottom: 1px solid var(--border);
             z-index: 1000;
@@ -167,7 +167,7 @@
             right: -20%;
             width: 800px;
             height: 800px;
-            background: radial-gradient(circle, rgba(37, 99, 235, 0.1) 0%, transparent 70%);
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, transparent 70%);
             border-radius: 50%;
         }
 
@@ -240,7 +240,7 @@
         }
 
         .btn-secondary {
-            background: white;
+            background: transparent;
             color: var(--primary);
             border: 2px solid var(--primary);
         }
@@ -482,7 +482,7 @@
             width: 19px;
             height: 19px;
             background: var(--primary);
-            border: 4px solid white;
+            border: 4px solid var(--bg-secondary);
             border-radius: 50%;
             box-shadow: var(--shadow-md);
         }
@@ -629,7 +629,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(0, 0, 0, 0.9);
+            background: rgba(0, 0, 0, 0.95);
             display: none;
             justify-content: center;
             align-items: center;
@@ -642,7 +642,7 @@
         }
 
         .lightbox-content {
-            max-width: 900px;
+            max-width: 1000px;
             max-height: 90vh;
             overflow-y: auto;
             background: var(--bg-primary);
@@ -666,6 +666,7 @@
             align-items: center;
             justify-content: center;
             transition: var(--transition);
+            z-index: 10;
         }
 
         .lightbox-close:hover {
@@ -678,17 +679,63 @@
             max-height: 500px;
             object-fit: contain;
             border-radius: var(--radius-md);
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .lightbox-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 0.75rem;
+            margin-top: 1.5rem;
+        }
+
+        .lightbox-gallery img {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: var(--transition);
+            border: 2px solid transparent;
+        }
+
+        .lightbox-gallery img:hover,
+        .lightbox-gallery img.active {
+            border-color: var(--primary);
+            transform: scale(1.05);
         }
 
         .lightbox-title {
             font-size: 1.75rem;
-            margin-bottom: 1rem;
+            margin-bottom: 0.75rem;
         }
 
         .lightbox-description {
             color: var(--text-secondary);
             line-height: 1.8;
+        }
+
+        .project-images-preview {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            overflow-x: auto;
+            padding-bottom: 0.5rem;
+        }
+
+        .project-images-preview img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: var(--transition);
+            flex-shrink: 0;
+            border: 2px solid transparent;
+        }
+
+        .project-images-preview img:hover {
+            border-color: var(--primary);
         }
 
         /* Contact Section */
@@ -790,9 +837,10 @@
 
         /* Footer */
         footer {
-            background: var(--text-primary);
-            color: white;
+            background: var(--bg-secondary);
+            color: var(--text-primary);
             padding: 3rem 2rem;
+            border-top: 1px solid var(--border);
         }
 
         .footer-container {
@@ -822,7 +870,7 @@
         }
 
         .footer-links a:hover {
-            color: white;
+            color: var(--primary);
         }
 
         .footer-social {
@@ -833,7 +881,7 @@
         .social-link {
             width: 40px;
             height: 40px;
-            background: rgba(255, 255, 255, 0.1);
+            background: var(--bg-tertiary);
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -849,7 +897,7 @@
             max-width: 1200px;
             margin: 2rem auto 0;
             padding-top: 2rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            border-top: 1px solid var(--border);
             text-align: center;
             color: var(--text-light);
         }
@@ -935,7 +983,7 @@
                 top: 70px;
                 left: 0;
                 right: 0;
-                background: white;
+                background: var(--bg-primary);
                 flex-direction: column;
                 padding: 2rem;
                 gap: 1.5rem;
@@ -1050,10 +1098,10 @@
                     <img src="./images/diseño de laboratorio de redox lab6 cic.PNG" alt="Laboratory Work">
                 </div>
                 <div class="about-content animate-on-scroll">
-                    <h3>Lab technician focused on functional prototyping and test rig design</h3>
-                    <p>With extensive experience in battery R&D and AI-assisted tool development, I specialize in creating custom laboratory equipment and experimental setups that solve real-world research challenges.</p>
-                    <p>I founded Shadowfax Prototyping, a 3D printing and design service supporting R&D teams in the Álava Technology Park. This experience sharpened my ability to quickly understand experimental needs, deliver custom mechanical solutions, and operate under real lab constraints.</p>
-                    <p>My approach combines precision engineering with practical problem-solving, always focused on delivering reliable, cost-effective solutions that enhance research capabilities.</p>
+                    <h3>Lab Technician specialized in functional prototyping and experimental setups</h3>
+                    <p>With extensive experience in battery R&D at CIC energiGUNE, I specialize in designing and manufacturing custom laboratory equipment that solves real research challenges. My expertise spans from CAD design to hands-on fabrication, always focused on delivering reliable, cost-effective solutions.</p>
+                    <p>I combine precision engineering with practical problem-solving skills, developing AI-assisted tools and automated systems that enhance research capabilities. My background includes redox flow battery systems, electroplating processes, and advanced characterization techniques.</p>
+                    <p>Passionate about innovation, I continuously explore new technologies and methodologies to improve experimental workflows. My work has resulted in significant cost savings while maintaining or improving data quality and research outcomes.</p>
                     <div class="about-stats">
                         <div class="stat-card">
                             <div class="stat-number">50+</div>
@@ -1064,8 +1112,8 @@
                             <div class="stat-label">Cost Savings</div>
                         </div>
                         <div class="stat-card">
-                            <div class="stat-number">100%</div>
-                            <div class="stat-label">Client Satisfaction</div>
+                            <div class="stat-number">6+</div>
+                            <div class="stat-label">Years Experience</div>
                         </div>
                     </div>
                 </div>
@@ -1157,18 +1205,9 @@
                     <div class="timeline-dot"></div>
                     <div class="timeline-content">
                         <div class="timeline-date">Present</div>
-                        <h3 class="timeline-title">Lab Technician</h3>
+                        <h3 class="timeline-title">Lab Technician - Battery R&D</h3>
                         <div class="timeline-company">CIC energiGUNE</div>
-                        <p class="timeline-description">Focused on functional prototyping and test rig design for battery R&D. Design and manufacture custom laboratory equipment, develop AI-assisted tools, and support research teams with technical solutions.</p>
-                    </div>
-                </div>
-                <div class="timeline-item animate-on-scroll">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <div class="timeline-date">Founder</div>
-                        <h3 class="timeline-title">Shadowfax Prototyping</h3>
-                        <div class="timeline-company">Álava Technology Park</div>
-                        <p class="timeline-description">3D printing and design service supporting R&D teams. Developed custom mechanical solutions, operated under real lab constraints, and delivered rapid prototyping services.</p>
+                        <p class="timeline-description">Design and manufacture custom laboratory equipment for redox flow battery research. Develop automated synthesis systems, create specialized test fixtures, and support research teams with technical solutions for electrochemical characterization.</p>
                     </div>
                 </div>
                 <div class="timeline-item animate-on-scroll">
@@ -1177,7 +1216,7 @@
                         <div class="timeline-date">Previous</div>
                         <h3 class="timeline-title">Battery R&D Projects</h3>
                         <div class="timeline-company">Various Collaborations</div>
-                        <p class="timeline-description">Extensive experience in redox flow battery systems, cell design, electroplating processes, and laboratory equipment customization for advanced energy storage research.</p>
+                        <p class="timeline-description">Extensive experience in redox flow battery cell design, electroplating processes, CAD modeling for battery systems, and laboratory equipment customization for advanced energy storage research.</p>
                     </div>
                 </div>
             </div>
@@ -1200,204 +1239,274 @@
             </div>
             <div class="projects-grid" id="projectsGrid">
                 <!-- Laboratory Equipment -->
-                <div class="project-card animate-on-scroll" data-category="laboratory">
+                <div class="project-card animate-on-scroll" data-category="laboratory" 
+                     data-images='["./images/laboratory equipment adapters/adaptador compresion instron.PNG", "./images/laboratory equipment adapters/contact angle adapter 2.PNG"]'>
                     <div class="project-image">
                         <img src="./images/laboratory equipment adapters/adaptador compresion instron.PNG" alt="Variable Angle Adapter">
                     </div>
                     <div class="project-content">
                         <div class="project-category">Laboratory</div>
                         <h3 class="project-title">Variable Angle Adapter</h3>
-                        <p class="project-description">Precise analysis adapter for droplet sliding studies. Achieves commercial functionality while saving over €8,000 in equipment costs.</p>
+                        <p class="project-description">Precise analysis adapter for droplet sliding studies. Achieves commercial functionality while saving over €8,000 in equipment costs. Features adjustable angle mechanism for accurate contact angle measurements.</p>
+                        <div class="project-images-preview">
+                            <img src="./images/laboratory equipment adapters/adaptador compresion instron.PNG" alt="View 1">
+                            <img src="./images/laboratory equipment adapters/contact angle adapter 2.PNG" alt="View 2">
+                        </div>
                     </div>
                 </div>
 
-                <div class="project-card animate-on-scroll" data-category="laboratory">
+                <div class="project-card animate-on-scroll" data-category="laboratory"
+                     data-images='["./images/laboratory equipment adapters/adaptador instron traccion.png"]'>
                     <div class="project-image">
                         <img src="./images/laboratory equipment adapters/adaptador instron traccion.png" alt="Instron Custom Design">
                     </div>
                     <div class="project-content">
                         <div class="project-category">Laboratory</div>
                         <h3 class="project-title">Instron Custom Accessories</h3>
-                        <p class="project-description">Specialized components for compression experiments, enhancing testing capabilities and improving experimental accuracy.</p>
+                        <p class="project-description">Specialized components for compression experiments, enhancing testing capabilities and improving experimental accuracy. Custom-designed fixtures for mechanical testing of battery materials.</p>
                     </div>
                 </div>
 
-                <div class="project-card animate-on-scroll" data-category="laboratory">
+                <div class="project-card animate-on-scroll" data-category="laboratory"
+                     data-images='["./images/laboratory equipment adapters/soporte botellas redox.PNG"]'>
                     <div class="project-image">
                         <img src="./images/laboratory equipment adapters/soporte botellas redox.PNG" alt="Redox Flow Setup">
                     </div>
                     <div class="project-content">
                         <div class="project-category">Laboratory</div>
                         <h3 class="project-title">Redox Flow Bottle Support</h3>
-                        <p class="project-description">Custom holder ensuring stability, spill prevention, and easy access during testing, improving lab safety and workflow.</p>
+                        <p class="project-description">Custom holder ensuring stability, spill prevention, and easy access during testing, improving lab safety and workflow. Designed for standard laboratory bottles with secure locking mechanism.</p>
                     </div>
                 </div>
 
-                <div class="project-card animate-on-scroll" data-category="laboratory">
+                <div class="project-card animate-on-scroll" data-category="laboratory"
+                     data-images='["./images/laboratory equipment adapters/soporte celda redox.jpg"]'>
                     <div class="project-image">
                         <img src="./images/laboratory equipment adapters/soporte celda redox.jpg" alt="Redox Cell Support">
                     </div>
                     <div class="project-content">
                         <div class="project-category">Laboratory</div>
                         <h3 class="project-title">Redox Cell Support System</h3>
-                        <p class="project-description">Specialized supports for stable vertical positioning with easy access to electrical and fluid connections.</p>
+                        <p class="project-description">Specialized supports for stable vertical positioning with easy access to electrical and fluid connections. Modular design allows quick assembly and disassembly for maintenance.</p>
                     </div>
                 </div>
 
-                <div class="project-card animate-on-scroll" data-category="laboratory">
+                <div class="project-card animate-on-scroll" data-category="laboratory"
+                     data-images='["./images/laboratory equipment adapters/celda impedancia.PNG"]'>
                     <div class="project-image">
                         <img src="./images/laboratory equipment adapters/celda impedancia.PNG" alt="Impedance Cell">
                     </div>
                     <div class="project-content">
                         <div class="project-category">Laboratory</div>
                         <h3 class="project-title">Impedance Measurement Cell</h3>
-                        <p class="project-description">Custom impedance cell design for precise electrochemical characterization of battery materials.</p>
+                        <p class="project-description">Custom impedance cell design for precise electrochemical characterization of battery materials. Features gold-plated contacts and sealed chamber for accurate measurements.</p>
                     </div>
                 </div>
 
-                <div class="project-card animate-on-scroll" data-category="laboratory">
+                <div class="project-card animate-on-scroll" data-category="laboratory"
+                     data-images='["./images/laboratory equipment adapters/contact angle adapter.jpg", "./images/laboratory equipment adapters/contact angle adapter 2.PNG"]'>
                     <div class="project-image">
                         <img src="./images/laboratory equipment adapters/contact angle adapter.jpg" alt="Contact Angle Adapter">
                     </div>
                     <div class="project-content">
                         <div class="project-category">Laboratory</div>
                         <h3 class="project-title">Contact Angle Adapter</h3>
-                        <p class="project-description">Precision adapter for wettability studies and surface characterization experiments.</p>
+                        <p class="project-description">Precision adapter for wettability studies and surface characterization experiments. Compatible with standard goniometers and provides repeatable measurements.</p>
+                        <div class="project-images-preview">
+                            <img src="./images/laboratory equipment adapters/contact angle adapter.jpg" alt="View 1">
+                            <img src="./images/laboratory equipment adapters/contact angle adapter 2.PNG" alt="View 2">
+                        </div>
                     </div>
                 </div>
 
-                <div class="project-card animate-on-scroll" data-category="laboratory">
+                <div class="project-card animate-on-scroll" data-category="laboratory"
+                     data-images='["./images/laboratory equipment adapters/microscope adapter cristalografy.jpg"]'>
                     <div class="project-image">
                         <img src="./images/laboratory equipment adapters/microscope adapter cristalografy.jpg" alt="Microscope Adapter">
                     </div>
                     <div class="project-content">
                         <div class="project-category">Laboratory</div>
                         <h3 class="project-title">Microscope Adapter</h3>
-                        <p class="project-description">Custom adapter for crystallography microscopy, enabling detailed material analysis.</p>
+                        <p class="project-description">Custom adapter for crystallography microscopy, enabling detailed material analysis. Provides stable mounting and precise positioning for high-magnification imaging.</p>
                     </div>
                 </div>
 
                 <!-- Cell Designs -->
-                <div class="project-card animate-on-scroll" data-category="design">
+                <div class="project-card animate-on-scroll" data-category="design"
+                     data-images='["./images/cell designs/bateria flujo diseño.jpg", "./images/cell designs/bateria flujo diseño cad.png"]'>
+                    <div class="project-image">
+                        <img src="./images/cell designs/bateria flujo diseño.jpg" alt="Custom Redox Flow Battery">
+                    </div>
+                    <div class="project-content">
+                        <div class="project-category">Cell Design</div>
+                        <h3 class="project-title">Custom Redox Flow Battery</h3>
+                        <p class="project-description">Advanced custom-designed redox flow battery cell optimized for research applications. Features modular design for easy maintenance and testing of different membrane and electrode configurations.</p>
+                        <div class="project-images-preview">
+                            <img src="./images/cell designs/bateria flujo diseño.jpg" alt="Design View">
+                            <img src="./images/cell designs/bateria flujo diseño cad.png" alt="CAD View">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card animate-on-scroll" data-category="design"
+                     data-images='["./images/cell designs/bateria flujo diseño cad.png", "./images/cell designs/bipolar vanadium cell design.jpg"]'>
+                    <div class="project-image">
+                        <img src="./images/cell designs/bateria flujo diseño cad.png" alt="Flow Battery CAD Design">
+                    </div>
+                    <div class="project-content">
+                        <div class="project-category">Cell Design</div>
+                        <h3 class="project-title">Flow Battery CAD Design</h3>
+                        <p class="project-description">Comprehensive parametric CAD modeling for redox flow battery systems with optimized flow channels and sealing mechanisms for enhanced performance.</p>
+                    </div>
+                </div>
+
+                <div class="project-card animate-on-scroll" data-category="design"
+                     data-images='["./images/cell designs/bipolar vanadium cell design.jpg", "./images/cell designs/bipolar vanadium cell design 2.jpg"]'>
                     <div class="project-image">
                         <img src="./images/cell designs/bipolar vanadium cell design.jpg" alt="Bipolar Vanadium Cell">
                     </div>
                     <div class="project-content">
                         <div class="project-category">Cell Design</div>
                         <h3 class="project-title">Bipolar Vanadium Cell</h3>
-                        <p class="project-description">Advanced bipolar design for vanadium redox flow batteries, optimizing performance and efficiency.</p>
+                        <p class="project-description">Advanced bipolar design for vanadium redox flow batteries, optimizing current distribution and minimizing pressure drop for improved efficiency.</p>
+                        <div class="project-images-preview">
+                            <img src="./images/cell designs/bipolar vanadium cell design.jpg" alt="View 1">
+                            <img src="./images/cell designs/bipolar vanadium cell design 2.jpg" alt="View 2">
+                        </div>
                     </div>
                 </div>
 
-                <div class="project-card animate-on-scroll" data-category="design">
+                <div class="project-card animate-on-scroll" data-category="design"
+                     data-images='["./images/cell designs/lead battery recycle cell 1.png", "./images/cell designs/lead battery recycle cell 2.png", "./images/cell designs/lead battery recycle cell 3.png"]'>
                     <div class="project-image">
-                        <img src="./images/cell designs/bateria flujo diseño cad.png" alt="Flow Battery CAD">
-                    </div>
-                    <div class="project-content">
-                        <div class="project-category">Cell Design</div>
-                        <h3 class="project-title">Flow Battery CAD Design</h3>
-                        <p class="project-description">Comprehensive CAD modeling for redox flow battery systems with parametric optimization.</p>
-                    </div>
-                </div>
-
-                <div class="project-card animate-on-scroll" data-category="design">
-                    <div class="project-image">
-                        <img src="./images/cell designs/fengjing cell.PNG" alt="Fengjing Cell">
-                    </div>
-                    <div class="project-content">
-                        <div class="project-category">Cell Design</div>
-                        <h3 class="project-title">Fengjing Cell Design</h3>
-                        <p class="project-description">Specialized cell configuration for advanced electrochemical testing and validation.</p>
-                    </div>
-                </div>
-
-                <div class="project-card animate-on-scroll" data-category="design">
-                    <div class="project-image">
-                        <img src="./images/cell designs/lead battery recycle cell 1.png" alt="Lead Battery Recycle">
+                        <img src="./images/cell designs/lead battery recycle cell 1.png" alt="Lead Battery Recycle Cell">
                     </div>
                     <div class="project-content">
                         <div class="project-category">Cell Design</div>
                         <h3 class="project-title">Lead Battery Recycling Cell</h3>
-                        <p class="project-description">Innovative cell design for sustainable lead battery recycling processes.</p>
+                        <p class="project-description">Innovative electrochemical cell design for sustainable lead battery recycling processes, enabling efficient metal recovery and purification.</p>
+                        <div class="project-images-preview">
+                            <img src="./images/cell designs/lead battery recycle cell 1.png" alt="View 1">
+                            <img src="./images/cell designs/lead battery recycle cell 2.png" alt="View 2">
+                            <img src="./images/cell designs/lead battery recycle cell 3.png" alt="View 3">
+                        </div>
                     </div>
                 </div>
 
                 <!-- Electronics -->
-                <div class="project-card animate-on-scroll" data-category="electronics">
+                <div class="project-card animate-on-scroll" data-category="electronics"
+                     data-images='["./images/personal proyects/electronics/portable desktop computer for lan.jpg", "./images/personal proyects/electronics/portable desktop computer for lan 2.jpg", "./images/personal proyects/electronics/portable desktop computer for lan 3.jpg"]'>
                     <div class="project-image">
                         <img src="./images/personal proyects/electronics/portable desktop computer for lan.jpg" alt="Portable LAN Computer">
                     </div>
                     <div class="project-content">
                         <div class="project-category">Electronics</div>
                         <h3 class="project-title">Portable LAN Gaming PC</h3>
-                        <p class="project-description">Custom portable desktop computer designed for LAN gaming events with optimized cooling and power management.</p>
+                        <p class="project-description">Custom portable desktop computer designed for LAN gaming events with optimized cooling and power management. Features compact form factor and integrated handle for easy transport.</p>
+                        <div class="project-images-preview">
+                            <img src="./images/personal proyects/electronics/portable desktop computer for lan.jpg" alt="View 1">
+                            <img src="./images/personal proyects/electronics/portable desktop computer for lan 2.jpg" alt="View 2">
+                            <img src="./images/personal proyects/electronics/portable desktop computer for lan 3.jpg" alt="View 3">
+                        </div>
                     </div>
                 </div>
 
-                <div class="project-card animate-on-scroll" data-category="electronics">
+                <div class="project-card animate-on-scroll" data-category="electronics"
+                     data-images='["./images/personal proyects/electronics/ps2 sd adapter plus battery.jpg", "./images/personal proyects/electronics/ps2 sd adapter plus battery  2.jpg", "./images/personal proyects/electronics/ps2 sd adapter plus battery 3.jpg"]'>
                     <div class="project-image">
                         <img src="./images/personal proyects/electronics/ps2 sd adapter plus battery.jpg" alt="PS2 SD Adapter">
                     </div>
                     <div class="project-content">
                         <div class="project-category">Electronics</div>
                         <h3 class="project-title">PS2 SD Adapter + Battery</h3>
-                        <p class="project-description">Custom SD card adapter with integrated battery system for PlayStation 2 portability.</p>
+                        <p class="project-description">Custom SD card adapter with integrated battery system for PlayStation 2 portability. Enables wireless gaming with extended playtime and modern storage solutions.</p>
+                        <div class="project-images-preview">
+                            <img src="./images/personal proyects/electronics/ps2 sd adapter plus battery.jpg" alt="View 1">
+                            <img src="./images/personal proyects/electronics/ps2 sd adapter plus battery  2.jpg" alt="View 2">
+                            <img src="./images/personal proyects/electronics/ps2 sd adapter plus battery 3.jpg" alt="View 3">
+                        </div>
                     </div>
                 </div>
 
-                <div class="project-card animate-on-scroll" data-category="electronics">
+                <div class="project-card animate-on-scroll" data-category="electronics"
+                     data-images='["./images/personal proyects/electronics/retro-console.jpg", "./images/personal proyects/electronics/various electronics.jpg"]'>
                     <div class="project-image">
                         <img src="./images/personal proyects/electronics/retro-console.jpg" alt="Retro Console">
                     </div>
                     <div class="project-content">
                         <div class="project-category">Electronics</div>
                         <h3 class="project-title">Retro Console Conversions</h3>
-                        <p class="project-description">Transforming retro consoles into battery-powered portable devices with preserved original features.</p>
+                        <p class="project-description">Transforming retro consoles into battery-powered portable devices with preserved original features. Custom PCB design and ergonomic enclosure fabrication.</p>
                     </div>
                 </div>
 
-                <div class="project-card animate-on-scroll" data-category="electronics">
+                <div class="project-card animate-on-scroll" data-category="electronics"
+                     data-images='["./images/personal proyects/electronics/various electronics.jpg", "./images/personal proyects/electronics/various electronics 2.jpg", "./images/personal proyects/electronics/uria-drone.png", "./images/personal proyects/electronics/3d print drone.jpg"]'>
                     <div class="project-image">
                         <img src="./images/personal proyects/electronics/various electronics.jpg" alt="Various Electronics">
                     </div>
                     <div class="project-content">
                         <div class="project-category">Electronics</div>
                         <h3 class="project-title">Custom Electronics Projects</h3>
-                        <p class="project-description">Various electronic projects showcasing circuit design, embedded systems, and hardware integration skills.</p>
+                        <p class="project-description">Various electronic projects showcasing circuit design, embedded systems, and hardware integration skills. Includes drones, custom controllers, and IoT devices.</p>
+                        <div class="project-images-preview">
+                            <img src="./images/personal proyects/electronics/various electronics.jpg" alt="View 1">
+                            <img src="./images/personal proyects/electronics/various electronics 2.jpg" alt="View 2">
+                            <img src="./images/personal proyects/electronics/uria-drone.png" alt="Drone">
+                            <img src="./images/personal proyects/electronics/3d print drone.jpg" alt="3D Drone">
+                        </div>
                     </div>
                 </div>
 
                 <!-- Personal Projects -->
-                <div class="project-card animate-on-scroll" data-category="personal">
+                <div class="project-card animate-on-scroll" data-category="personal"
+                     data-images='["./images/personal proyects/guitar handcrafting/custom-guitar.jpg", "./images/personal proyects/guitar handcrafting/guitar build.jpg", "./images/personal proyects/guitar handcrafting/guitarra 1.jpg"]'>
                     <div class="project-image">
                         <img src="./images/personal proyects/guitar handcrafting/custom-guitar.jpg" alt="Custom Guitar">
                     </div>
                     <div class="project-content">
                         <div class="project-category">Personal</div>
                         <h3 class="project-title">Custom Electric Guitars</h3>
-                        <p class="project-description">Handcrafted electric guitars built from scratch, applying precision fabrication and material selection skills.</p>
+                        <p class="project-description">Handcrafted electric guitars built from scratch, applying precision fabrication and material selection skills. Complete build process from body shaping to electronics installation.</p>
+                        <div class="project-images-preview">
+                            <img src="./images/personal proyects/guitar handcrafting/custom-guitar.jpg" alt="Finished">
+                            <img src="./images/personal proyects/guitar handcrafting/guitar build.jpg" alt="Build Process">
+                            <img src="./images/personal proyects/guitar handcrafting/guitarra 1.jpg" alt="Detail">
+                        </div>
                     </div>
                 </div>
 
-                <div class="project-card animate-on-scroll" data-category="personal">
+                <div class="project-card animate-on-scroll" data-category="personal"
+                     data-images='["./images/personal proyects/3d print painting/alien handpainted.jpg", "./images/personal proyects/3d print painting/ogre handpainted.jpg", "./images/personal proyects/3d print painting/handpainted stuff.jpg"]'>
                     <div class="project-image">
                         <img src="./images/personal proyects/3d print painting/alien handpainted.jpg" alt="3D Printed Miniatures">
                     </div>
                     <div class="project-content">
                         <div class="project-category">Personal</div>
                         <h3 class="project-title">3D Printed & Painted Miniatures</h3>
-                        <p class="project-description">Detailed 3D printed models with professional hand-painting, showcasing attention to detail and artistic skills.</p>
+                        <p class="project-description">Detailed 3D printed models with professional hand-painting, showcasing attention to detail and artistic skills. From modeling to final finish.</p>
+                        <div class="project-images-preview">
+                            <img src="./images/personal proyects/3d print painting/alien handpainted.jpg" alt="Alien">
+                            <img src="./images/personal proyects/3d print painting/ogre handpainted.jpg" alt="Ogre">
+                            <img src="./images/personal proyects/3d print painting/handpainted stuff.jpg" alt="Collection">
+                        </div>
                     </div>
                 </div>
 
-                <div class="project-card animate-on-scroll" data-category="personal">
+                <div class="project-card animate-on-scroll" data-category="personal"
+                     data-images='["./images/python/setup python 25 bombas sintesis automatica arduino.jpg", "./images/python/python code.PNG", "./images/python/python 2.PNG"]'>
                     <div class="project-image">
                         <img src="./images/python/setup python 25 bombas sintesis automatica arduino.jpg" alt="Python Automation">
                     </div>
                     <div class="project-content">
                         <div class="project-category">Personal</div>
                         <h3 class="project-title">Python Automation System</h3>
-                        <p class="project-description">Automated synthesis system controlled by Python and Arduino, managing 25 pumps for precise chemical processes.</p>
+                        <p class="project-description">Automated synthesis system controlled by Python and Arduino, managing 25 pumps for precise chemical processes. Custom software interface for experiment control and data logging.</p>
+                        <div class="project-images-preview">
+                            <img src="./images/python/setup python 25 bombas sintesis automatica arduino.jpg" alt="Setup">
+                            <img src="./images/python/python code.PNG" alt="Code">
+                            <img src="./images/python/python 2.PNG" alt="Interface">
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1563,22 +1672,49 @@
             });
         });
 
-        // Lightbox functionality
+        // Lightbox functionality with gallery support
         const lightbox = document.getElementById('lightbox');
         const lightboxImage = document.getElementById('lightboxImage');
         const lightboxTitle = document.getElementById('lightboxTitle');
         const lightboxDescription = document.getElementById('lightboxDescription');
         const lightboxClose = document.getElementById('lightboxClose');
+        const lightboxContent = document.querySelector('.lightbox-content');
 
         projectCards.forEach(card => {
             card.addEventListener('click', () => {
                 const img = card.querySelector('img');
                 const title = card.querySelector('.project-title').textContent;
                 const description = card.querySelector('.project-description').textContent;
+                const allImages = JSON.parse(card.dataset.images || '[]');
 
                 lightboxImage.src = img.src;
                 lightboxTitle.textContent = title;
                 lightboxDescription.textContent = description;
+                
+                // Create gallery if multiple images exist
+                const existingGallery = lightboxContent.querySelector('.lightbox-gallery');
+                if (existingGallery) existingGallery.remove();
+                
+                if (allImages.length > 1) {
+                    const gallery = document.createElement('div');
+                    gallery.className = 'lightbox-gallery';
+                    
+                    allImages.forEach((src, index) => {
+                        const thumb = document.createElement('img');
+                        thumb.src = src;
+                        thumb.alt = `View ${index + 1}`;
+                        thumb.addEventListener('click', () => {
+                            lightboxImage.src = src;
+                            document.querySelectorAll('.lightbox-gallery img').forEach(i => i.classList.remove('active'));
+                            thumb.classList.add('active');
+                        });
+                        if (src === img.src) thumb.classList.add('active');
+                        gallery.appendChild(thumb);
+                    });
+                    
+                    lightboxContent.appendChild(gallery);
+                }
+                
                 lightbox.classList.add('active');
                 document.body.style.overflow = 'hidden';
             });
