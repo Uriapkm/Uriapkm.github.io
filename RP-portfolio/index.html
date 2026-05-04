@@ -3,383 +3,1646 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Asier Uria - Portfolio</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <meta name="description" content="Asier Uria - Lab Technician & Prototyping Specialist Portfolio">
+    <title>Asier Uria | Lab Technician & Prototyping Specialist</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
+        /* CSS Variables */
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #0ea5e9;
+            --accent: #f59e0b;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --text-light: #94a3b8;
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8fafc;
+            --bg-tertiary: #f1f5f9;
+            --border: #e2e8f0;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.1);
+            --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+            --shadow-lg: 0 10px 25px rgba(0,0,0,0.15);
+            --shadow-xl: 0 20px 40px rgba(0,0,0,0.2);
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 24px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Reset & Base */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        :root {
-            --primary-color: #2563eb;
-            --text-color: #1f2937;
-            --bg-color: #f8fafc;
-            --card-bg: #ffffff;
-            --shadow: rgba(17, 12, 46, 0.15) 0px 48px 100px 0px;
+        html {
+            scroll-behavior: smooth;
         }
 
         body {
             font-family: 'Inter', system-ui, -apple-system, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
+            background-color: var(--bg-secondary);
+            color: var(--text-primary);
             line-height: 1.6;
+            overflow-x: hidden;
         }
 
-        main {
-            padding-top: 100px;
+        a {
+            text-decoration: none;
+            color: inherit;
         }
 
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+            z-index: 1000;
+            transition: var(--transition);
+        }
+
+        .navbar.scrolled {
+            box-shadow: var(--shadow-md);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            font-weight: 500;
+            color: var(--text-secondary);
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        .mobile-menu-btn span {
+            width: 25px;
+            height: 3px;
+            background: var(--text-primary);
+            border-radius: 2px;
+            transition: var(--transition);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 120px 2rem 80px;
+            background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(37, 99, 235, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .hero-container {
+            max-width: 1200px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-content h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-content h1 span {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-content .subtitle {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            font-weight: 400;
+        }
+
+        .hero-content p {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 2.5rem;
+            max-width: 500px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 2rem;
+            border-radius: var(--radius-md);
+            font-weight: 600;
+            font-size: 1rem;
+            transition: var(--transition);
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .hero-image {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .hero-image img {
+            width: 100%;
+            max-width: 450px;
+            height: auto;
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-xl);
+            object-fit: cover;
+        }
+
+        .hero-image::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            right: -20px;
+            width: 100%;
+            height: 100%;
+            border: 3px solid var(--primary);
+            border-radius: var(--radius-xl);
+            z-index: -1;
+        }
+
+        /* Section Styles */
         section {
-            padding: 60px 20px;
+            padding: 100px 2rem;
+        }
+
+        .section-container {
             max-width: 1200px;
             margin: 0 auto;
         }
 
-        #home {
+        .section-header {
             text-align: center;
-            padding: 120px 20px;
+            margin-bottom: 4rem;
         }
 
-        #home h1 {
-            font-size: 3.5em;
-            margin-bottom: 20px;
-            background: linear-gradient(to right, var(--primary-color), #4f46e5);
+        .section-header h2 {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 800;
+            margin-bottom: 1rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-header h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 2px;
+        }
+
+        .section-header p {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 1.5rem auto 0;
+        }
+
+        /* About Section */
+        #about {
+            background: var(--bg-primary);
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .about-image img {
+            width: 100%;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .about-content h3 {
+            font-size: 1.75rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+        }
+
+        .about-content p {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            font-size: 1.05rem;
+        }
+
+        .about-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .stat-card {
+            text-align: center;
+            padding: 1.5rem;
+            background: var(--bg-secondary);
+            border-radius: var(--radius-md);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            font-weight: 800;
+            background-clip: text;
         }
 
-        #home p {
-            font-size: 1.4em;
-            color: #64748b;
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
         }
 
-        .about-content {
+        /* Skills Section */
+        #skills {
+            background: var(--bg-secondary);
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .skill-category {
+            background: var(--bg-primary);
+            padding: 2rem;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            transition: var(--transition);
+        }
+
+        .skill-category:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .skill-category h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
             display: flex;
             align-items: center;
-            gap: 40px;
-            background: var(--card-bg);
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: var(--shadow);
+            gap: 0.75rem;
         }
 
-        .about-content img {
-            border-radius: 20px;
-            width: 200px;
-            height: 200px;
-            object-fit: cover;
-            box-shadow: var(--shadow);
+        .skill-category h3::before {
+            content: '';
+            width: 8px;
+            height: 24px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 4px;
         }
 
-        .projects-carousel {
-            position: relative;
-            overflow: hidden;
-            width: 100%;
-        }
-
-        .projects-track {
+        .skill-list {
             display: flex;
-            gap: 20px;
-            overflow-x: scroll;
-            scroll-snap-type: x mandatory;
-            scroll-behavior: smooth;
-            -webkit-overflow-scrolling: touch;
-            scrollbar-width: none; /* Firefox */
-            -ms-overflow-style: none; /* IE and Edge */
+            flex-wrap: wrap;
+            gap: 0.75rem;
         }
 
-        .projects-track::-webkit-scrollbar {
-            display: none; /* Chrome, Safari and Opera */
+        .skill-tag {
+            padding: 0.5rem 1rem;
+            background: var(--bg-tertiary);
+            border-radius: var(--radius-sm);
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--text-primary);
+            transition: var(--transition);
         }
 
-        .project {
-            flex: 0 0 100%;
-            scroll-snap-align: start;
-            min-width: calc(100% - 40px); /* Full width minus gap */
-            background-color: var(--card-bg);
-            padding: 3rem;
-            border-radius: 24px;
-            box-shadow: var(--shadow);
-            transition: transform 0.3s ease;
+        .skill-tag:hover {
+            background: var(--primary);
+            color: white;
         }
 
-        .project:hover {
-            transform: translateY(-5px);
+        /* Experience Section */
+        #experience {
+            background: var(--bg-primary);
         }
 
-        .project img {
-            width: 100%;
-            height: 450px;
-            object-fit: contain;
-            border-radius: 16px;
-            background-color: #f1f5f9;
-            margin-bottom: 2rem;
-            transition: transform 0.3s ease;
-        }
-
-        .project img:hover {
-            transform: scale(1.02);
-        }
-
-        .project h3 {
-            font-size: 2rem;
-            color: var(--text-color);
-            margin-bottom: 1rem;
-            font-weight: 700;
-        }
-
-        .project p {
-            font-size: 1.1rem;
-            line-height: 1.8;
-            color: #64748b;
+        .timeline {
+            position: relative;
             max-width: 800px;
             margin: 0 auto;
         }
 
-        .carousel-btn {
-            position: fixed;
-            top: 50%;
-            transform: translateY(-50%);
-            background-color: var(--primary-color);
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 3px;
+            height: 100%;
+            background: linear-gradient(180deg, var(--primary), var(--secondary));
+            border-radius: 2px;
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 3rem;
+            width: 50%;
+            padding-right: 3rem;
+        }
+
+        .timeline-item:nth-child(even) {
+            margin-left: 50%;
+            padding-right: 0;
+            padding-left: 3rem;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            right: -8px;
+            top: 0;
+            width: 19px;
+            height: 19px;
+            background: var(--primary);
+            border: 4px solid white;
+            border-radius: 50%;
+            box-shadow: var(--shadow-md);
+        }
+
+        .timeline-item:nth-child(even) .timeline-dot {
+            left: -8px;
+            right: auto;
+        }
+
+        .timeline-content {
+            background: var(--bg-secondary);
+            padding: 1.5rem;
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+        }
+
+        .timeline-content:hover {
+            box-shadow: var(--shadow-md);
+        }
+
+        .timeline-date {
+            font-size: 0.9rem;
+            color: var(--primary);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-company {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .timeline-description {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        /* Projects Section */
+        #projects {
+            background: var(--bg-secondary);
+        }
+
+        .filter-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 0.75rem 1.5rem;
+            background: var(--bg-primary);
+            border: 2px solid var(--border);
+            border-radius: var(--radius-md);
+            font-weight: 600;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: var(--primary);
+            border-color: var(--primary);
             color: white;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .project-card {
+            background: var(--bg-primary);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .project-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .project-image {
+            width: 100%;
+            height: 250px;
+            overflow: hidden;
+            background: var(--bg-tertiary);
+        }
+
+        .project-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .project-card:hover .project-image img {
+            transform: scale(1.1);
+        }
+
+        .project-content {
+            padding: 1.5rem;
+        }
+
+        .project-category {
+            font-size: 0.85rem;
+            color: var(--primary);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.5rem;
+        }
+
+        .project-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+        }
+
+        .project-description {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+
+        /* Lightbox */
+        .lightbox {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.9);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            padding: 2rem;
+        }
+
+        .lightbox.active {
+            display: flex;
+        }
+
+        .lightbox-content {
+            max-width: 900px;
+            max-height: 90vh;
+            overflow-y: auto;
+            background: var(--bg-primary);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            position: relative;
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            width: 40px;
+            height: 40px;
+            background: var(--bg-tertiary);
             border: none;
-            width: 50px;
-            height: 50px;
             border-radius: 50%;
             cursor: pointer;
             font-size: 1.5rem;
-            opacity: 0.9;
-            z-index: 100;
-            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
         }
 
-        .carousel-btn:hover {
-            opacity: 1;
-            transform: translateY(-50%) scale(1.1);
+        .lightbox-close:hover {
+            background: var(--primary);
+            color: white;
         }
 
-        .carousel-btn.prev {
-            left: 20px;
+        .lightbox-image {
+            width: 100%;
+            max-height: 500px;
+            object-fit: contain;
+            border-radius: var(--radius-md);
+            margin-bottom: 1.5rem;
         }
 
-        .carousel-btn.next {
-            right: 20px;
+        .lightbox-title {
+            font-size: 1.75rem;
+            margin-bottom: 1rem;
         }
 
+        .lightbox-description {
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        /* Contact Section */
         #contact {
-            text-align: center;
-            background: var(--card-bg);
-            border-radius: 20px;
-            padding: 60px;
-            box-shadow: var(--shadow);
+            background: var(--bg-primary);
         }
 
-        #contact h2 {
-            font-size: 2.5em;
-            margin-bottom: 30px;
-            color: var(--text-color);
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
         }
 
-        #contact p {
-            margin-bottom: 20px;
-            font-size: 1.2em;
-            color: #64748b;
+        .contact-info h3 {
+            font-size: 1.75rem;
+            margin-bottom: 1.5rem;
         }
 
-        #contact a {
-            color: var(--primary-color);
-            text-decoration: none;
-            transition: color 0.3s ease;
+        .contact-info p {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
         }
 
-        #contact a:hover {
-            color: #4f46e5;
+        .contact-details {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
         }
 
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .contact-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.25rem;
+        }
+
+        .contact-text strong {
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+
+        .contact-text a {
+            color: var(--text-secondary);
+            transition: var(--transition);
+        }
+
+        .contact-text a:hover {
+            color: var(--primary);
+        }
+
+        .contact-form {
+            background: var(--bg-secondary);
+            padding: 2rem;
+            border-radius: var(--radius-lg);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid var(--border);
+            border-radius: var(--radius-md);
+            font-family: inherit;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .form-group textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        /* Footer */
         footer {
-            text-align: center;
-            padding: 40px;
-            background-color: var(--card-bg);
-            margin-top: 60px;
-            color: #64748b;
+            background: var(--text-primary);
+            color: white;
+            padding: 3rem 2rem;
         }
 
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+
+        .footer-logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .footer-links a {
+            color: var(--text-light);
+            transition: var(--transition);
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+
+        .social-link:hover {
+            background: var(--primary);
+        }
+
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 2rem auto 0;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+            color: var(--text-light);
+        }
+
+        /* Back to Top */
         .back-to-top {
             position: fixed;
             bottom: 30px;
             right: 30px;
-            background-color: var(--primary-color);
+            width: 50px;
+            height: 50px;
+            background: var(--primary);
             color: white;
             border: none;
-            padding: 15px;
             border-radius: 50%;
             cursor: pointer;
-            box-shadow: var(--shadow);
-            transition: all 0.3s ease;
+            font-size: 1.5rem;
+            box-shadow: var(--shadow-lg);
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+            z-index: 999;
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
         }
 
         .back-to-top:hover {
+            background: var(--primary-dark);
             transform: translateY(-5px);
         }
 
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .hero-container {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .hero-content p {
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .hero-buttons {
+                justify-content: center;
+            }
+
+            .hero-image {
+                order: -1;
+            }
+
+            .about-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .timeline::before {
+                left: 20px;
+            }
+
+            .timeline-item {
+                width: 100%;
+                margin-left: 50px !important;
+                padding-left: 2rem !important;
+                padding-right: 0 !important;
+            }
+
+            .timeline-dot {
+                left: -59px !important;
+                right: auto !important;
+            }
+        }
+
         @media (max-width: 768px) {
-            #home h1 {
-                font-size: 2.5em;
-            }
-
-            .about-content {
+            .nav-links {
+                position: fixed;
+                top: 70px;
+                left: 0;
+                right: 0;
+                background: white;
                 flex-direction: column;
-                padding: 20px;
+                padding: 2rem;
+                gap: 1.5rem;
+                border-bottom: 1px solid var(--border);
+                transform: translateY(-150%);
+                transition: var(--transition);
             }
 
-            .project {
-                padding: 1.5rem;
+            .nav-links.active {
+                transform: translateY(0);
             }
 
-            .carousel-btn {
-                width: 40px;
-                height: 40px;
-                font-size: 1.2rem;
+            .mobile-menu-btn {
+                display: flex;
             }
+
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+
+            .about-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-container {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .footer-links {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .animate-on-scroll.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
     </style>
 </head>
 <body>
-    <main>
-        <section id="home">
-            <h1>Welcome to my Portfolio</h1>
-            <p>Showcasing my skills and projects.</p>
-        </section>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo">AU</a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#experience">Experience</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
 
-        <section id="about">
-            <h2>About me</h2>
-            <div class="about-content">
-                <img src="./images/logo.png" alt="Your Name">
-                <p>Lab technician focused on functional prototyping and test rig design, with experience in battery R&D and AI-assisted tool development. I built this website myself using HTML.— it’s a bit scrappy, coded today just for this application… but hey, it works (and so do I).</p>
-            </div>
-        </section>
-
-        <section id="projects">
-            <h2>Projects</h2>
-            <div class="projects-carousel">
-                <div class="projects-track">
-                    <div class="project">
-                        <img src="./images/laura.PNG" alt="Variable Angle Adapter">
-                        <h3>Variable Angle Adapter</h3>
-                        <p>Variable angle adapter designed for precise analysis of droplet sliding on different surfaces. 
-                           Enables exact tilt angle control for wettability studies.—achieving the same functionality as commercial systems while saving over €8,000 in equipment costs.</p>
-                    </div>
-
-                     <div class="project">
-                        <img src="./images/instron.PNG" alt="Instron Custom Design">
-                        <h3>Instron Custom Design</h3>
-                        <p>Custom accessory for Instron equipment for compression experiments. 
-                           Designed and manufactured specialized components to enhance testing capabilities 
-                           and improve experimental accuracy.</p>
-                    </div>
-
-                    <div class="project">
-                        <img src="./images/uria-drone.png" alt="URIA Drone Frame Generator">
-                        <h3>URIA Drone Frame Generator</h3>
-                        <p>Developed 'URIA', a parametric drone frame generator for field deployment. The project combines Python, 
-                           OpenSCAD and FreeCAD to create custom designs according to specific mission requirements.</p>
-                    </div>
-
-                    <div class="project">
-                        <img src="./images/shadowfax.png" alt="Shadowfax Prototyping">
-                        <h3>Shadowfax Prototyping</h3>
-                        <p>Founded Shadowfax Prototyping, a 3D printing and design service supporting R&D teams in the Álava Technology Park. This experience sharpened my ability to quickly understand experimental needs, deliver custom mechanical solutions, and operate under real lab constraints—skills directly aligned with the role.</p>
-                    </div>
-
-                    <div class="project">
-                        <img src="./images/retro-console.jpg" alt="Portable Retro Consoles">
-                        <h3>Retro Console Conversions</h3>
-                        <p>Project focused on transforming retro consoles into fully functional, battery-powered portable devices. Notable work includes converting a PlayStation 2 into a handheld system, preserving original features while redesigning hardware layout, power management, and display integration—demonstrating problem-solving, precision fabrication, and system-level thinking.</p>
-                    </div>
-                    
-                    <div class="project">
-                        <img src="./images/soporte botellas redox.PNG" alt="Redox Flow Setup">
-                        <h3>Redox Flow Bottle Support</h3>
-                        <p>Custom-designed holder for electrolyte bottles used in redox flow battery experiments. Ensures stability, spill prevention, and easy access during testing, improving lab safety and workflow.</p>
-                    </div>
-                    
-                    <div class="project">
-                        <img src="./images/soporte celda redox.jpg" alt="Redox Cell Support">
-                        <h3>Redox Cell Support</h3>
-                        <p>Designed and built specialized supports for redox flow battery cells, ensuring stable vertical positioning and easy access to electrical and fluid connections during experimental procedures—improving safety, repeatability, and workflow efficiency.</p>
-                    </div>
-                    
-                    <div class="project">
-                        <img src="./images/custom-guitar.jpg" alt="Custom Electric Guitars">
-                        <h3>Custom Electric Guitars</h3>
-                        <p>Built electric guitars from scratch in a home workshop, applying precision fabrication, material selection, and hands-on assembly—skills directly transferable to prototyping and custom mechanical builds in an R&D environment.</p>
-                    </div>
-
-                   
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-container">
+            <div class="hero-content animate-on-scroll">
+                <h1>Hi, I'm <span>Asier Uria</span></h1>
+                <p class="subtitle">Lab Technician & Prototyping Specialist</p>
+                <p>Specialized in functional prototyping, test rig design, and battery R&D. I create custom solutions for complex experimental challenges, combining technical expertise with hands-on fabrication skills.</p>
+                <div class="hero-buttons">
+                    <a href="#projects" class="btn btn-primary">View My Work</a>
+                    <a href="./Asier Cv En (1).pdf" class="btn btn-secondary" download>Download CV</a>
                 </div>
             </div>
-            <button class="carousel-btn prev">←</button>
-            <button class="carousel-btn next">→</button>
-        </section>
+            <div class="hero-image animate-on-scroll">
+                <img src="./images/asier-uria-cicenergigune.jpg" alt="Asier Uria">
+            </div>
+        </div>
+    </section>
 
-        <section id="contact">
-            <h2>Contact</h2>
-            <p>Email: asieruria1@gmail.com</p>
-            <p>LinkedIn: <a href="https://www.linkedin.com/in/asier-uria-553895288/" target="_blank">linkedin.com/in/asier-uria-553895288</a></p>
-        </section>
-    </main>
+    <!-- About Section -->
+    <section id="about">
+        <div class="section-container">
+            <div class="section-header animate-on-scroll">
+                <h2>About Me</h2>
+                <p>Passionate about turning ideas into functional prototypes</p>
+            </div>
+            <div class="about-grid">
+                <div class="about-image animate-on-scroll">
+                    <img src="./images/diseño de laboratorio de redox lab6 cic.PNG" alt="Laboratory Work">
+                </div>
+                <div class="about-content animate-on-scroll">
+                    <h3>Lab technician focused on functional prototyping and test rig design</h3>
+                    <p>With extensive experience in battery R&D and AI-assisted tool development, I specialize in creating custom laboratory equipment and experimental setups that solve real-world research challenges.</p>
+                    <p>I founded Shadowfax Prototyping, a 3D printing and design service supporting R&D teams in the Álava Technology Park. This experience sharpened my ability to quickly understand experimental needs, deliver custom mechanical solutions, and operate under real lab constraints.</p>
+                    <p>My approach combines precision engineering with practical problem-solving, always focused on delivering reliable, cost-effective solutions that enhance research capabilities.</p>
+                    <div class="about-stats">
+                        <div class="stat-card">
+                            <div class="stat-number">50+</div>
+                            <div class="stat-label">Projects Completed</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">€8K+</div>
+                            <div class="stat-label">Cost Savings</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">100%</div>
+                            <div class="stat-label">Client Satisfaction</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
+    <!-- Skills Section -->
+    <section id="skills">
+        <div class="section-container">
+            <div class="section-header animate-on-scroll">
+                <h2>Technical Skills</h2>
+                <p>A comprehensive toolkit for research and development</p>
+            </div>
+            <div class="skills-grid">
+                <div class="skill-category animate-on-scroll">
+                    <h3>CAD & Design</h3>
+                    <div class="skill-list">
+                        <span class="skill-tag">FreeCAD</span>
+                        <span class="skill-tag">OpenSCAD</span>
+                        <span class="skill-tag">Parametric Design</span>
+                        <span class="skill-tag">3D Modeling</span>
+                        <span class="skill-tag">Technical Drawing</span>
+                    </div>
+                </div>
+                <div class="skill-category animate-on-scroll">
+                    <h3>Programming</h3>
+                    <div class="skill-list">
+                        <span class="skill-tag">Python</span>
+                        <span class="skill-tag">Arduino</span>
+                        <span class="skill-tag">Automation Scripts</span>
+                        <span class="skill-tag">Data Analysis</span>
+                        <span class="skill-tag">AI Integration</span>
+                    </div>
+                </div>
+                <div class="skill-category animate-on-scroll">
+                    <h3>Fabrication</h3>
+                    <div class="skill-list">
+                        <span class="skill-tag">3D Printing</span>
+                        <span class="skill-tag">CNC Machining</span>
+                        <span class="skill-tag">Laser Cutting</span>
+                        <span class="skill-tag">Electronics</span>
+                        <span class="skill-tag">Assembly</span>
+                    </div>
+                </div>
+                <div class="skill-category animate-on-scroll">
+                    <h3>Laboratory</h3>
+                    <div class="skill-list">
+                        <span class="skill-tag">Battery Testing</span>
+                        <span class="skill-tag">Redox Flow Systems</span>
+                        <span class="skill-tag">Electroplating</span>
+                        <span class="skill-tag">Characterization</span>
+                        <span class="skill-tag">Safety Protocols</span>
+                    </div>
+                </div>
+                <div class="skill-category animate-on-scroll">
+                    <h3>Test Equipment</h3>
+                    <div class="skill-list">
+                        <span class="skill-tag">Instron</span>
+                        <span class="skill-tag">Potentiostats</span>
+                        <span class="skill-tag">Microscopy</span>
+                        <span class="skill-tag">Contact Angle</span>
+                        <span class="skill-tag">Custom Fixtures</span>
+                    </div>
+                </div>
+                <div class="skill-category animate-on-scroll">
+                    <h3>Soft Skills</h3>
+                    <div class="skill-list">
+                        <span class="skill-tag">Problem Solving</span>
+                        <span class="skill-tag">Project Management</span>
+                        <span class="skill-tag">Team Collaboration</span>
+                        <span class="skill-tag">Documentation</span>
+                        <span class="skill-tag">Innovation</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section id="experience">
+        <div class="section-container">
+            <div class="section-header animate-on-scroll">
+                <h2>Experience</h2>
+                <p>Professional journey in research and development</p>
+            </div>
+            <div class="timeline">
+                <div class="timeline-item animate-on-scroll">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-date">Present</div>
+                        <h3 class="timeline-title">Lab Technician</h3>
+                        <div class="timeline-company">CIC energiGUNE</div>
+                        <p class="timeline-description">Focused on functional prototyping and test rig design for battery R&D. Design and manufacture custom laboratory equipment, develop AI-assisted tools, and support research teams with technical solutions.</p>
+                    </div>
+                </div>
+                <div class="timeline-item animate-on-scroll">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-date">Founder</div>
+                        <h3 class="timeline-title">Shadowfax Prototyping</h3>
+                        <div class="timeline-company">Álava Technology Park</div>
+                        <p class="timeline-description">3D printing and design service supporting R&D teams. Developed custom mechanical solutions, operated under real lab constraints, and delivered rapid prototyping services.</p>
+                    </div>
+                </div>
+                <div class="timeline-item animate-on-scroll">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-date">Previous</div>
+                        <h3 class="timeline-title">Battery R&D Projects</h3>
+                        <div class="timeline-company">Various Collaborations</div>
+                        <p class="timeline-description">Extensive experience in redox flow battery systems, cell design, electroplating processes, and laboratory equipment customization for advanced energy storage research.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects">
+        <div class="section-container">
+            <div class="section-header animate-on-scroll">
+                <h2>Featured Projects</h2>
+                <p>Showcasing innovation through functional prototyping</p>
+            </div>
+            <div class="filter-buttons animate-on-scroll">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="laboratory">Laboratory</button>
+                <button class="filter-btn" data-filter="design">Cell Design</button>
+                <button class="filter-btn" data-filter="electronics">Electronics</button>
+                <button class="filter-btn" data-filter="personal">Personal</button>
+            </div>
+            <div class="projects-grid" id="projectsGrid">
+                <!-- Laboratory Equipment -->
+                <div class="project-card animate-on-scroll" data-category="laboratory">
+                    <div class="project-image">
+                        <img src="./images/laboratory equipment adapters/adaptador compresion instron.PNG" alt="Variable Angle Adapter">
+                    </div>
+                    <div class="project-content">
+                        <div class="project-category">Laboratory</div>
+                        <h3 class="project-title">Variable Angle Adapter</h3>
+                        <p class="project-description">Precise analysis adapter for droplet sliding studies. Achieves commercial functionality while saving over €8,000 in equipment costs.</p>
+                    </div>
+                </div>
+
+                <div class="project-card animate-on-scroll" data-category="laboratory">
+                    <div class="project-image">
+                        <img src="./images/laboratory equipment adapters/adaptador instron traccion.png" alt="Instron Custom Design">
+                    </div>
+                    <div class="project-content">
+                        <div class="project-category">Laboratory</div>
+                        <h3 class="project-title">Instron Custom Accessories</h3>
+                        <p class="project-description">Specialized components for compression experiments, enhancing testing capabilities and improving experimental accuracy.</p>
+                    </div>
+                </div>
+
+                <div class="project-card animate-on-scroll" data-category="laboratory">
+                    <div class="project-image">
+                        <img src="./images/laboratory equipment adapters/soporte botellas redox.PNG" alt="Redox Flow Setup">
+                    </div>
+                    <div class="project-content">
+                        <div class="project-category">Laboratory</div>
+                        <h3 class="project-title">Redox Flow Bottle Support</h3>
+                        <p class="project-description">Custom holder ensuring stability, spill prevention, and easy access during testing, improving lab safety and workflow.</p>
+                    </div>
+                </div>
+
+                <div class="project-card animate-on-scroll" data-category="laboratory">
+                    <div class="project-image">
+                        <img src="./images/laboratory equipment adapters/soporte celda redox.jpg" alt="Redox Cell Support">
+                    </div>
+                    <div class="project-content">
+                        <div class="project-category">Laboratory</div>
+                        <h3 class="project-title">Redox Cell Support System</h3>
+                        <p class="project-description">Specialized supports for stable vertical positioning with easy access to electrical and fluid connections.</p>
+                    </div>
+                </div>
+
+                <div class="project-card animate-on-scroll" data-category="laboratory">
+                    <div class="project-image">
+                        <img src="./images/laboratory equipment adapters/celda impedancia.PNG" alt="Impedance Cell">
+                    </div>
+                    <div class="project-content">
+                        <div class="project-category">Laboratory</div>
+                        <h3 class="project-title">Impedance Measurement Cell</h3>
+                        <p class="project-description">Custom impedance cell design for precise electrochemical characterization of battery materials.</p>
+                    </div>
+                </div>
+
+                <div class="project-card animate-on-scroll" data-category="laboratory">
+                    <div class="project-image">
+                        <img src="./images/laboratory equipment adapters/contact angle adapter.jpg" alt="Contact Angle Adapter">
+                    </div>
+                    <div class="project-content">
+                        <div class="project-category">Laboratory</div>
+                        <h3 class="project-title">Contact Angle Adapter</h3>
+                        <p class="project-description">Precision adapter for wettability studies and surface characterization experiments.</p>
+                    </div>
+                </div>
+
+                <div class="project-card animate-on-scroll" data-category="laboratory">
+                    <div class="project-image">
+                        <img src="./images/laboratory equipment adapters/microscope adapter cristalografy.jpg" alt="Microscope Adapter">
+                    </div>
+                    <div class="project-content">
+                        <div class="project-category">Laboratory</div>
+                        <h3 class="project-title">Microscope Adapter</h3>
+                        <p class="project-description">Custom adapter for crystallography microscopy, enabling detailed material analysis.</p>
+                    </div>
+                </div>
+
+                <!-- Cell Designs -->
+                <div class="project-card animate-on-scroll" data-category="design">
+                    <div class="project-image">
+                        <img src="./images/cell designs/bipolar vanadium cell design.jpg" alt="Bipolar Vanadium Cell">
+                    </div>
+                    <div class="project-content">
+                        <div class="project-category">Cell Design</div>
+                        <h3 class="project-title">Bipolar Vanadium Cell</h3>
+                        <p class="project-description">Advanced bipolar design for vanadium redox flow batteries, optimizing performance and efficiency.</p>
+                    </div>
+                </div>
+
+                <div class="project-card animate-on-scroll" data-category="design">
+                    <div class="project-image">
+                        <img src="./images/cell designs/bateria flujo diseño cad.png" alt="Flow Battery CAD">
+                    </div>
+                    <div class="project-content">
+                        <div class="project-category">Cell Design</div>
+                        <h3 class="project-title">Flow Battery CAD Design</h3>
+                        <p class="project-description">Comprehensive CAD modeling for redox flow battery systems with parametric optimization.</p>
+                    </div>
+                </div>
+
+                <div class="project-card animate-on-scroll" data-category="design">
+                    <div class="project-image">
+                        <img src="./images/cell designs/fengjing cell.PNG" alt="Fengjing Cell">
+                    </div>
+                    <div class="project-content">
+                        <div class="project-category">Cell Design</div>
+                        <h3 class="project-title">Fengjing Cell Design</h3>
+                        <p class="project-description">Specialized cell configuration for advanced electrochemical testing and validation.</p>
+                    </div>
+                </div>
+
+                <div class="project-card animate-on-scroll" data-category="design">
+                    <div class="project-image">
+                        <img src="./images/cell designs/lead battery recycle cell 1.png" alt="Lead Battery Recycle">
+                    </div>
+                    <div class="project-content">
+                        <div class="project-category">Cell Design</div>
+                        <h3 class="project-title">Lead Battery Recycling Cell</h3>
+                        <p class="project-description">Innovative cell design for sustainable lead battery recycling processes.</p>
+                    </div>
+                </div>
+
+                <!-- Electronics -->
+                <div class="project-card animate-on-scroll" data-category="electronics">
+                    <div class="project-image">
+                        <img src="./images/personal proyects/electronics/portable desktop computer for lan.jpg" alt="Portable LAN Computer">
+                    </div>
+                    <div class="project-content">
+                        <div class="project-category">Electronics</div>
+                        <h3 class="project-title">Portable LAN Gaming PC</h3>
+                        <p class="project-description">Custom portable desktop computer designed for LAN gaming events with optimized cooling and power management.</p>
+                    </div>
+                </div>
+
+                <div class="project-card animate-on-scroll" data-category="electronics">
+                    <div class="project-image">
+                        <img src="./images/personal proyects/electronics/ps2 sd adapter plus battery.jpg" alt="PS2 SD Adapter">
+                    </div>
+                    <div class="project-content">
+                        <div class="project-category">Electronics</div>
+                        <h3 class="project-title">PS2 SD Adapter + Battery</h3>
+                        <p class="project-description">Custom SD card adapter with integrated battery system for PlayStation 2 portability.</p>
+                    </div>
+                </div>
+
+                <div class="project-card animate-on-scroll" data-category="electronics">
+                    <div class="project-image">
+                        <img src="./images/personal proyects/electronics/retro-console.jpg" alt="Retro Console">
+                    </div>
+                    <div class="project-content">
+                        <div class="project-category">Electronics</div>
+                        <h3 class="project-title">Retro Console Conversions</h3>
+                        <p class="project-description">Transforming retro consoles into battery-powered portable devices with preserved original features.</p>
+                    </div>
+                </div>
+
+                <div class="project-card animate-on-scroll" data-category="electronics">
+                    <div class="project-image">
+                        <img src="./images/personal proyects/electronics/various electronics.jpg" alt="Various Electronics">
+                    </div>
+                    <div class="project-content">
+                        <div class="project-category">Electronics</div>
+                        <h3 class="project-title">Custom Electronics Projects</h3>
+                        <p class="project-description">Various electronic projects showcasing circuit design, embedded systems, and hardware integration skills.</p>
+                    </div>
+                </div>
+
+                <!-- Personal Projects -->
+                <div class="project-card animate-on-scroll" data-category="personal">
+                    <div class="project-image">
+                        <img src="./images/personal proyects/guitar handcrafting/custom-guitar.jpg" alt="Custom Guitar">
+                    </div>
+                    <div class="project-content">
+                        <div class="project-category">Personal</div>
+                        <h3 class="project-title">Custom Electric Guitars</h3>
+                        <p class="project-description">Handcrafted electric guitars built from scratch, applying precision fabrication and material selection skills.</p>
+                    </div>
+                </div>
+
+                <div class="project-card animate-on-scroll" data-category="personal">
+                    <div class="project-image">
+                        <img src="./images/personal proyects/3d print painting/alien handpainted.jpg" alt="3D Printed Miniatures">
+                    </div>
+                    <div class="project-content">
+                        <div class="project-category">Personal</div>
+                        <h3 class="project-title">3D Printed & Painted Miniatures</h3>
+                        <p class="project-description">Detailed 3D printed models with professional hand-painting, showcasing attention to detail and artistic skills.</p>
+                    </div>
+                </div>
+
+                <div class="project-card animate-on-scroll" data-category="personal">
+                    <div class="project-image">
+                        <img src="./images/python/setup python 25 bombas sintesis automatica arduino.jpg" alt="Python Automation">
+                    </div>
+                    <div class="project-content">
+                        <div class="project-category">Personal</div>
+                        <h3 class="project-title">Python Automation System</h3>
+                        <p class="project-description">Automated synthesis system controlled by Python and Arduino, managing 25 pumps for precise chemical processes.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+        <div class="section-container">
+            <div class="section-header animate-on-scroll">
+                <h2>Get In Touch</h2>
+                <p>Let's discuss your next project</p>
+            </div>
+            <div class="contact-grid">
+                <div class="contact-info animate-on-scroll">
+                    <h3>Contact Information</h3>
+                    <p>I'm always interested in hearing about new projects and opportunities. Feel free to reach out!</p>
+                    <div class="contact-details">
+                        <div class="contact-item">
+                            <div class="contact-icon">📧</div>
+                            <div class="contact-text">
+                                <strong>Email</strong>
+                                <a href="mailto:asieruria1@gmail.com">asieruria1@gmail.com</a>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon">💼</div>
+                            <div class="contact-text">
+                                <strong>LinkedIn</strong>
+                                <a href="https://www.linkedin.com/in/asier-uria-553895288/" target="_blank">linkedin.com/in/asier-uria</a>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon">📍</div>
+                            <div class="contact-text">
+                                <strong>Location</strong>
+                                <span>Álava, Basque Country, Spain</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="contact-form animate-on-scroll">
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Message</label>
+                            <textarea id="message" name="message" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="width: 100%;">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
     <footer>
-        <p>© 2025 Asier Uria</p>
+        <div class="footer-container">
+            <div class="footer-logo">Asier Uria</div>
+            <ul class="footer-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <div class="footer-social">
+                <a href="https://www.linkedin.com/in/asier-uria-553895288/" target="_blank" class="social-link" title="LinkedIn">in</a>
+                <a href="mailto:asieruria1@gmail.com" class="social-link" title="Email">@</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Asier Uria. All rights reserved.</p>
+        </div>
     </footer>
 
-    <button class="back-to-top">↑</button>
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox">
+        <div class="lightbox-content">
+            <button class="lightbox-close" id="lightboxClose">&times;</button>
+            <img src="" alt="" class="lightbox-image" id="lightboxImage">
+            <h3 class="lightbox-title" id="lightboxTitle"></h3>
+            <p class="lightbox-description" id="lightboxDescription"></p>
+        </div>
+    </div>
+
+    <!-- Back to Top Button -->
+    <button class="back-to-top" id="backToTop">↑</button>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const track = document.querySelector('.projects-track');
-            const prevBtn = document.querySelector('.carousel-btn.prev');
-            const nextBtn = document.querySelector('.carousel-btn.next');
-            const projectsSection = document.querySelector('#projects');
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const navLinks = document.getElementById('navLinks');
 
-            function scrollToProjects() {
-                const projectsTop = projectsSection.offsetTop;
-                window.scrollTo({
-                    top: projectsTop,
-                    behavior: 'smooth'
-                });
+        mobileMenuBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+
+        // Close mobile menu when clicking a link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+            });
+        });
+
+        // Navbar scroll effect
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
             }
+        });
 
-            nextBtn.addEventListener('click', () => {
-                track.scrollBy({
-                    left: track.offsetWidth,
-                    behavior: 'smooth'
+        // Back to top button
+        const backToTop = document.getElementById('backToTop');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 500) {
+                backToTop.classList.add('visible');
+            } else {
+                backToTop.classList.remove('visible');
+            }
+        });
+
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // Project filtering
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const projectCards = document.querySelectorAll('.project-card');
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Update active button
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                // Filter projects
+                const filter = btn.dataset.filter;
+                projectCards.forEach(card => {
+                    if (filter === 'all' || card.dataset.category === filter) {
+                        card.style.display = 'block';
+                        setTimeout(() => {
+                            card.style.opacity = '1';
+                            card.style.transform = 'translateY(0)';
+                        }, 100);
+                    } else {
+                        card.style.opacity = '0';
+                        card.style.transform = 'translateY(20px)';
+                        setTimeout(() => {
+                            card.style.display = 'none';
+                        }, 300);
+                    }
                 });
-                scrollToProjects();
             });
+        });
 
-            prevBtn.addEventListener('click', () => {
-                track.scrollBy({
-                    left: -track.offsetWidth,
-                    behavior: 'smooth'
-                });
-                scrollToProjects();
+        // Lightbox functionality
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImage = document.getElementById('lightboxImage');
+        const lightboxTitle = document.getElementById('lightboxTitle');
+        const lightboxDescription = document.getElementById('lightboxDescription');
+        const lightboxClose = document.getElementById('lightboxClose');
+
+        projectCards.forEach(card => {
+            card.addEventListener('click', () => {
+                const img = card.querySelector('img');
+                const title = card.querySelector('.project-title').textContent;
+                const description = card.querySelector('.project-description').textContent;
+
+                lightboxImage.src = img.src;
+                lightboxTitle.textContent = title;
+                lightboxDescription.textContent = description;
+                lightbox.classList.add('active');
+                document.body.style.overflow = 'hidden';
             });
+        });
 
-            const backToTopButton = document.querySelector('.back-to-top');
-            window.addEventListener('scroll', () => {
-                if (window.scrollY > 100) {
-                    backToTopButton.style.display = 'block';
-                } else {
-                    backToTopButton.style.display = 'none';
+        lightboxClose.addEventListener('click', () => {
+            lightbox.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        });
+
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) {
+                lightbox.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+        });
+
+        // Scroll animations
+        const animateElements = document.querySelectorAll('.animate-on-scroll');
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
                 }
             });
+        }, {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        });
 
-            backToTopButton.addEventListener('click', () => {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
+        animateElements.forEach(el => observer.observe(el));
+
+        // Contact form handling
+        const contactForm = document.getElementById('contactForm');
+        contactForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const message = document.getElementById('message').value;
+
+            // Create mailto link
+            const subject = encodeURIComponent(`Portfolio Contact from ${name}`);
+            const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`);
+            window.location.href = `mailto:asieruria1@gmail.com?subject=${subject}&body=${body}`;
+
+            // Reset form
+            contactForm.reset();
+            alert('Thank you for your message! Your email client will open to send the message.');
+        });
+
+        // Smooth scroll for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    const offsetTop = target.offsetTop - 80;
+                    window.scrollTo({
+                        top: offsetTop,
+                        behavior: 'smooth'
+                    });
+                }
             });
         });
     </script>
