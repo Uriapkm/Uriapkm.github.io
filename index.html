@@ -3,75 +3,132 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Asier Uria - Design, Ideas and Projects</title>
+  <title>Asier Uria - Rapid Prototyping & Design</title>
   <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
     body {
-      background-color: #fdfdfd;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       display: flex;
       justify-content: center;
       align-items: center;
       min-height: 100vh;
-      margin: 0;
+      padding: 2rem;
     }
     .container {
       text-align: center;
       background: #ffffff;
-      padding: 2rem;
-      border-radius: 16px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-      max-width: 500px;
+      padding: 3rem;
+      border-radius: 20px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+      max-width: 600px;
+      width: 100%;
+    }
+    .avatar {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.5rem;
+      font-size: 3rem;
+      color: white;
     }
     h1 {
-      font-size: 2rem;
+      font-size: 2.2rem;
       color: #333;
+      margin-bottom: 0.5rem;
+    }
+    .subtitle {
+      font-size: 1.1rem;
+      color: #667eea;
+      margin-bottom: 1.5rem;
+      font-weight: 600;
     }
     p {
       margin: 1rem 0;
       color: #666;
+      line-height: 1.6;
     }
-    a {
-      display: inline-block;
-      margin: 0.5rem 0;
-      font-size: 1rem;
-      color: #007acc;
-      text-decoration: none;
-    }
-    a:hover {
-      text-decoration: underline;
+    .projects-title {
+      font-size: 1.3rem;
+      color: #333;
+      margin: 2rem 0 1rem;
+      font-weight: 600;
     }
     .links {
-      margin-top: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+    a.project-link {
+      display: block;
+      padding: 0.8rem 1.5rem;
+      font-size: 1rem;
+      color: #fff;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      text-decoration: none;
+      border-radius: 8px;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    a.project-link:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
     }
     .contact {
-      font-size: 0.95rem;
-      margin-top: 2rem;
-      color: #555;
+      margin-top: 2.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid #eee;
+    }
+    .contact a {
+      color: #667eea;
+      text-decoration: none;
+      margin: 0 0.5rem;
+    }
+    .contact a:hover {
+      text-decoration: underline;
+    }
+    .social-links {
+      margin-top: 1rem;
+    }
+    .social-links a {
+      display: inline-block;
+      margin: 0.5rem;
+      color: #667eea;
+      font-weight: 600;
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>Hi! I'm Asier Uria 👋</h1>
+    <div class="avatar">👋</div>
+    <h1>Hi! I'm Asier Uria</h1>
+    <p class="subtitle">Rapid Prototyping & Design Enthusiast</p>
     <p>Creative, curious, and always working on a new project. I'm passionate about designing useful things (and sometimes useless but fun ones!).</p>
     <p>From custom pieces to prototypes you didn't know you needed, here's part of what I do:</p>
     
+    <h2 class="projects-title">🚀 My Projects</h2>
     <div class="links">
-  
-      <a href="https://uriapkm.github.io/web-creator/" target="_blank">🤖 AI Web Creator</a><br>
-      <a href="https://uriapkm.github.io/digital-preppernaut/" target="_blank">🎮 Digital Preppernaut</a><br>
-      <a href="https://uriapkm.github.io/viejo-montanero/" target="_blank"> 🏞️ Viejo Montañero</a><br>
-      <a href="https://uriapkm.github.io/viejo-pescador/" target="_blank">🐡 Viejo Pescador</a><br>
-      <a href="https://uriapkm.github.io/ph-monitor/" target="_blank">Ph live-monitor</a><br>
-      <a href="https://uriapkm.github.io/monero-usb/" target="_blank">Monero miner setup USB</a><br>
-      <a href="https://uriapkm.github.io/cic/" target="_blank">CIC FOLDER</a><br>
-      <a href="https://uriapkm.github.io/random-quest/" target="_blank">Random Quest</a><br>
-
+      <a href="https://uriapkm.github.io/RP-portfolio/" target="_blank" class="project-link">🎨 Portfolio</a>
+      <a href="https://uriapkm.github.io/ph-monitor/" target="_blank" class="project-link">🧪 pH Live Monitor</a>
+      <a href="https://uriapkm.github.io/monero-usb/" target="_blank" class="project-link">💰 Monero Miner Setup USB</a>
+      <a href="https://uriapkm.github.io/cic/" target="_blank" class="project-link">📁 CIC Folder</a>
+      <a href="https://uriapkm.github.io/random-quest/" target="_blank" class="project-link">🎲 Random Quest</a>
+      <a href="https://uriapkm.github.io/lcos-calculator/" target="_blank" class="project-link">🧮 LCOS Calculator</a>
     </div>
 
     <div class="contact">
-      <p>📧 <a href="mailto:asieruria1@gmail.com">asieruria1@gmail.com</a><br>
-          💼 <a href="https://www.linkedin.com/in/asier-uria-553895288/" target="_blank">My LinkedIn Profile</a></p>
+      <p>📧 <a href="mailto:asieruria1@gmail.com">asieruria1@gmail.com</a></p>
+      <div class="social-links">
+        <a href="https://www.linkedin.com/in/asier-uria-553895288/" target="_blank">💼 LinkedIn</a>
+        <a href="https://github.com/uriapkm" target="_blank">🐙 GitHub</a>
+      </div>
     </div>
   </div>
 </body>
