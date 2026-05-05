@@ -634,6 +634,33 @@
             font-size: 0.95rem;
         }
 
+        .timeline-details {
+            list-style: none;
+            padding: 0;
+            margin-top: 1rem;
+        }
+
+        .timeline-details li {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 0.75rem;
+            line-height: 1.6;
+            padding-left: 1.25rem;
+            position: relative;
+        }
+
+        .timeline-details li::before {
+            content: '▹';
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+            font-weight: bold;
+        }
+
+        .timeline-details strong {
+            color: var(--text-primary);
+        }
+
         /* Projects Section */
         #projects {
             background: var(--bg-secondary);
@@ -1418,19 +1445,44 @@
                 <div class="timeline-item animate-on-scroll">
                     <div class="timeline-dot"></div>
                     <div class="timeline-content">
-                        <div class="timeline-date">Current</div>
-                        <h3 class="timeline-title">Laboratory Technician - Battery R&D</h3>
+                        <div class="timeline-date">Feb 2024 – Present</div>
+                        <h3 class="timeline-title">Laboratory Technician (Automation & Prototyping)</h3>
                         <div class="timeline-company">CIC energiGUNE</div>
-                        <p class="timeline-description">Design and fabrication of custom equipment for redox flow battery research. I develop automated synthesis systems, create specialized fixtures, and provide technical support to research teams in electrochemical characterization.</p>
+                        <p class="timeline-description">Specialized in transforming complex research requirements into functional tools by combining CAD design, Python automation, and advanced fabrication.</p>
+                        <ul class="timeline-details">
+                            <li><strong>Process Automation:</strong> Developed a Python-based control system for synthesis setups, reducing manual intervention from 3 hours to 10 minutes through automated sequencing and remote reporting.</li>
+                            <li><strong>Custom Engineering:</strong> Designed and fabricated over 100 technical parts and 5 complete flow cells, including a specialized lead-acid/redox hybrid experimental battery.</li>
+                            <li><strong>Cost Optimization:</strong> Led the sourcing and validation of alternative suppliers, achieving up to 90% cost savings on critical laboratory components.</li>
+                            <li><strong>Infrastructure Management:</strong> Responsible for the center's 3D printing lab, providing technical support and training to researchers and multidisciplinary teams.</li>
+                            <li><strong>Analytical Support:</strong> Conducted advanced material characterization via SEM and independent analysis of battery performance data.</li>
+                        </ul>
                     </div>
                 </div>
                 <div class="timeline-item animate-on-scroll">
                     <div class="timeline-dot"></div>
                     <div class="timeline-content">
-                        <div class="timeline-date">Previously</div>
-                        <h3 class="timeline-title">Battery R&D Projects</h3>
-                        <div class="timeline-company">Various Collaborations</div>
-                        <p class="timeline-description">Extensive experience in cell design for redox flow batteries, electroplating processes, CAD modeling for battery systems, and customization of laboratory equipment for advanced energy storage research.</p>
+                        <div class="timeline-date">2023 (3 months)</div>
+                        <h3 class="timeline-title">Lab Technician Intern (Neuroscience)</h3>
+                        <div class="timeline-company">Czech Academy of Sciences</div>
+                        <p class="timeline-description">Designed experimental rigs and maintained laboratory setups in an international research environment, gaining experience in neuroscience laboratory operations and equipment calibration.</p>
+                    </div>
+                </div>
+                <div class="timeline-item animate-on-scroll">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-date">2021 (3 months)</div>
+                        <h3 class="timeline-title">Quality Control Technician</h3>
+                        <div class="timeline-company">Boga Brewery</div>
+                        <p class="timeline-description">Performed microbiological and chemical analysis to ensure quality standards during fermentation processes, developing expertise in laboratory quality control protocols.</p>
+                    </div>
+                </div>
+                <div class="timeline-item animate-on-scroll">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-date">2015 – 2022</div>
+                        <h3 class="timeline-title">Handcrafted Fabrication (Personal Hobby)</h3>
+                        <div class="timeline-company">Custom Guitar Workshop</div>
+                        <p class="timeline-description">Designed and handcrafted 10+ precision electric guitars from scratch while studying, developing advanced manual skills and expertise in processing wood and composite materials.</p>
                     </div>
                 </div>
             </div>
@@ -1712,15 +1764,6 @@
                         </div>
                     </div>
                 </div>
-                        <p class="project-description">Various electronic projects showcasing circuit design, embedded systems, and hardware integration skills. Includes drones, custom controllers, and IoT devices.</p>
-                        <div class="project-images-preview">
-                            <img src="./images/personal proyects/electronics/various electronics.jpg" alt="Vista 1">
-                            <img src="./images/personal proyects/electronics/various electronics 2.jpg" alt="Vista 2">
-                            <img src="./images/personal proyects/electronics/uria-drone.png" alt="Drone">
-                            <img src="./images/personal proyects/electronics/3d print drone.jpg" alt="3D Drone">
-                        </div>
-                    </div>
-                </div>
 
                 <!-- Personal Projects -->
                 <div class="project-card animate-on-scroll" data-category="personal"
@@ -1757,7 +1800,7 @@
                     </div>
                 </div>
 
-                <div class="project-card animate-on-scroll" data-category="personal"
+                <div class="project-card animate-on-scroll" data-category="electronics"
                      data-images='["./images/python/setup python 25 bombas sintesis automatica arduino.jpg", "./images/python/python code.PNG", "./images/python/python 2.PNG"]'>
                     <div class="project-image">
                         <img src="./images/python/setup python 25 bombas sintesis automatica arduino.jpg" alt="Python + Arduino Automation System">
