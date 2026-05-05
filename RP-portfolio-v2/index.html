@@ -3,20 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Asier Uria - Mechanical Design Engineer specializing in precision CAD design, functional prototyping, and manufacturing solutions. Expert in FreeCAD, parametric modeling, DFM/DFA, and bringing complex mechanical concepts to reality.">
-    <meta name="keywords" content="mechanical design, CAD engineer, FreeCAD, parametric design, prototyping, product design, DFM, DFA, tolerance analysis, 3D printing, CNC machining, product development, mechanical engineering">
+    <meta name="description" content="Asier Uria - Technical Designer & Prototyping Specialist. Self-taught expert in CAD design, mechanical prototyping, and lab automation with 6+ years delivering functional solutions for research and manufacturing.">
+    <meta name="keywords" content="CAD design, mechanical prototyping, product design, Fusion 360, fabrication, 3D printing, lab automation, technical design, custom tooling, precision machining">
     <meta name="author" content="Asier Uria">
     <meta name="robots" content="index, follow">
     
     <!-- Open Graph / Social Media -->
     <meta property="og:type" content="website">
-    <meta property="og:title" content="Asier Uria | Mechanical Design Engineer">
-    <meta property="og:description" content="Mechanical Design Engineer specializing in precision CAD, functional prototyping, and manufacturing-ready solutions for complex products.">
+    <meta property="og:title" content="Asier Uria | Technical Designer & Prototyping Specialist">
+    <meta property="og:description" content="Self-taught designer turning complex challenges into functional prototypes. CAD, fabrication, and automation expertise.">
     <meta property="og:image" content="./images/logo.png">
     <meta property="og:url" content="https://asieruria.com">
     <meta name="twitter:card" content="summary_large_image">
     
-    <title>Asier Uria | Mechanical Design Engineer</title>
+    <title>Asier Uria | Technical Designer & Prototyping Specialist</title>
     <link rel="icon" type="image/png" href="./images/logo.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -581,52 +581,41 @@
             gap: 1rem;
         }
 
-        .experience-title-group h3 {
-            font-size: 1.3rem;
+        .experience-title h3 {
+            font-size: 1.25rem;
             color: var(--text-primary);
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.25rem;
         }
 
-        .experience-company {
-            font-weight: 600;
+        .experience-title .company {
             color: var(--primary);
-            font-size: 1rem;
+            font-weight: 600;
+            font-size: 0.95rem;
         }
 
         .experience-date {
-            color: var(--text-secondary);
+            color: var(--text-light);
             font-size: 0.9rem;
             white-space: nowrap;
         }
 
-        .experience-description {
-            color: var(--text-secondary);
-            margin-bottom: 1rem;
-            font-size: 1rem;
-        }
-
-        .experience-details {
+        .experience-card ul {
             list-style: none;
-            padding-left: 0;
+            margin-top: 1rem;
         }
 
-        .experience-details li {
+        .experience-card li {
             color: var(--text-secondary);
             margin-bottom: 0.75rem;
             padding-left: 1.5rem;
             position: relative;
-            font-size: 0.95rem;
         }
 
-        .experience-details li::before {
+        .experience-card li::before {
             content: '▹';
             position: absolute;
             left: 0;
             color: var(--primary);
-        }
-
-        .experience-details strong {
-            color: var(--text-primary);
         }
 
         /* Projects Section */
@@ -648,7 +637,7 @@
             border: 2px solid var(--border);
             border-radius: var(--radius-md);
             color: var(--text-secondary);
-            font-weight: 500;
+            font-weight: 600;
             cursor: pointer;
             transition: var(--transition);
         }
@@ -673,7 +662,7 @@
             box-shadow: var(--shadow-md);
             transition: var(--transition);
             opacity: 0;
-            transform: translateY(30px);
+            transform: translateY(20px);
         }
 
         .project-card.visible {
@@ -686,22 +675,11 @@
             box-shadow: var(--shadow-xl);
         }
 
-        .project-card.featured-project {
-            grid-column: 1 / -1;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-        }
-
         .project-image {
             width: 100%;
-            height: 250px;
+            height: 220px;
             overflow: hidden;
-            position: relative;
-        }
-
-        .project-card.featured-project .project-image {
-            height: 100%;
-            min-height: 400px;
+            background: var(--bg-tertiary);
         }
 
         .project-image img {
@@ -719,83 +697,57 @@
             padding: 1.5rem;
         }
 
-        .project-card.featured-project .project-content {
-            padding: 2.5rem;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .project-category {
-            font-size: 0.85rem;
-            color: var(--primary);
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 0.75rem;
-        }
-
-        .project-title {
-            font-size: 1.4rem;
-            color: var(--text-primary);
-            margin-bottom: 0.75rem;
-            font-weight: 700;
-        }
-
-        .project-subtitle {
-            font-size: 1rem;
-            color: var(--secondary);
-            margin-bottom: 1rem;
-            font-weight: 500;
-        }
-
-        .project-description,
-        .project-star-content {
-            color: var(--text-secondary);
-            font-size: 0.95rem;
-            line-height: 1.7;
-        }
-
-        .project-star-content p {
-            margin-bottom: 1rem;
-        }
-
         .project-tags {
             display: flex;
             flex-wrap: wrap;
             gap: 0.5rem;
-            margin-top: 1.5rem;
+            margin-bottom: 1rem;
         }
 
-        .tag {
-            padding: 0.4rem 0.8rem;
+        .project-tag {
+            padding: 0.25rem 0.75rem;
             background: var(--bg-tertiary);
             border-radius: var(--radius-sm);
-            font-size: 0.8rem;
+            font-size: 0.75rem;
+            color: var(--secondary);
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .project-content h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.75rem;
+            color: var(--text-primary);
+        }
+
+        .project-content p {
             color: var(--text-secondary);
-            font-weight: 500;
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+            line-height: 1.5;
         }
 
-        .project-images-preview {
+        .project-metrics {
             display: flex;
-            gap: 0.5rem;
-            margin-top: 1.5rem;
-            overflow-x: auto;
-            padding-bottom: 0.5rem;
+            gap: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border);
         }
 
-        .project-images-preview img {
-            width: 80px;
-            height: 60px;
-            object-fit: cover;
-            border-radius: var(--radius-sm);
-            cursor: pointer;
-            transition: var(--transition);
-            flex-shrink: 0;
+        .metric {
+            display: flex;
+            flex-direction: column;
         }
 
-        .project-images-preview img:hover {
-            transform: scale(1.1);
+        .metric-value {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .metric-label {
+            font-size: 0.75rem;
+            color: var(--text-light);
         }
 
         /* Contact Section */
@@ -814,7 +766,14 @@
             padding: 3rem;
             border-radius: var(--radius-lg);
             box-shadow: var(--shadow-lg);
-            margin-top: 2rem;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: var(--transition);
+        }
+
+        .contact-content.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         .contact-content h3 {
@@ -831,93 +790,43 @@
 
         .contact-info {
             display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
             margin-top: 2rem;
         }
 
         .contact-item {
             display: flex;
             align-items: center;
-            justify-content: center;
-            gap: 1rem;
+            gap: 0.75rem;
             color: var(--text-secondary);
+            transition: var(--transition);
+        }
+
+        .contact-item:hover {
+            color: var(--primary);
         }
 
         .contact-item svg {
             width: 24px;
             height: 24px;
-            color: var(--primary);
-        }
-
-        .contact-item a {
-            color: var(--primary);
-            font-weight: 600;
-            transition: var(--transition);
-        }
-
-        .contact-item a:hover {
-            color: var(--secondary);
         }
 
         /* Footer */
         footer {
             background: var(--bg-secondary);
-            padding: 3rem 2rem;
-            border-top: 1px solid var(--border);
-        }
-
-        .footer-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
-            align-items: center;
-        }
-
-        .footer-brand p {
-            color: var(--text-secondary);
-            margin-top: 0.5rem;
-        }
-
-        .footer-links {
-            display: flex;
-            justify-content: flex-end;
-            gap: 2rem;
-            list-style: none;
-        }
-
-        .footer-links a {
-            color: var(--text-secondary);
-            transition: var(--transition);
-        }
-
-        .footer-links a:hover {
-            color: var(--primary);
-        }
-
-        .copyright {
+            padding: 2rem;
             text-align: center;
-            color: var(--text-light);
-            margin-top: 2rem;
-            padding-top: 2rem;
             border-top: 1px solid var(--border);
         }
 
-        /* Animations */
-        .animate-on-scroll {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: var(--transition);
+        footer p {
+            color: var(--text-light);
+            font-size: 0.9rem;
         }
 
-        .animate-on-scroll.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* Responsive */
+        /* Responsive Design */
         @media (max-width: 968px) {
             .hero-container {
                 grid-template-columns: 1fr;
@@ -940,6 +849,10 @@
                 order: -1;
             }
 
+            .hero-image img {
+                max-width: 350px;
+            }
+
             .about-grid {
                 grid-template-columns: 1fr;
                 gap: 3rem;
@@ -950,24 +863,9 @@
             }
 
             .about-stats {
-                justify-content: center;
+                grid-template-columns: repeat(3, 1fr);
             }
 
-            .project-card.featured-project {
-                grid-template-columns: 1fr;
-            }
-
-            .footer-container {
-                grid-template-columns: 1fr;
-                text-align: center;
-            }
-
-            .footer-links {
-                justify-content: center;
-            }
-        }
-
-        @media (max-width: 640px) {
             .nav-links {
                 display: none;
             }
@@ -976,12 +874,19 @@
                 display: flex;
             }
 
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 640px) {
             .about-stats {
                 grid-template-columns: 1fr;
             }
 
-            .projects-grid {
-                grid-template-columns: 1fr;
+            .contact-info {
+                flex-direction: column;
+                gap: 1rem;
             }
 
             .filter-buttons {
@@ -997,9 +902,9 @@
 </head>
 <body>
     <!-- Navigation -->
-    <nav class="navbar" id="navbar">
+    <nav class="navbar">
         <div class="nav-container">
-            <a href="#home" class="logo">ASIER URIA</a>
+            <a href="#" class="logo">AU</a>
             <ul class="nav-links">
                 <li><a href="#about">About</a></li>
                 <li><a href="#skills">Skills</a></li>
@@ -1007,7 +912,7 @@
                 <li><a href="#projects">Projects</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
-            <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle menu">
+            <button class="mobile-menu-btn" aria-label="Toggle menu">
                 <span></span>
                 <span></span>
                 <span></span>
@@ -1016,28 +921,34 @@
     </nav>
 
     <!-- Hero Section -->
-    <section class="hero" id="home">
+    <section class="hero">
         <div class="hero-container">
-            <div class="hero-content animate-on-scroll">
-                <h1>Mechanical Design Engineer turning complex ideas into <span>precision-engineered products</span></h1>
-                <p class="subtitle">CAD Design | Functional Prototyping | Manufacturing Solutions</p>
-                <p>From parametric CAD models to manufacturing-ready prototypes, I specialize in designing precise mechanical solutions. With expertise in FreeCAD, tolerance analysis, and DFM principles, I bring products from concept through production—saving time and costs while ensuring quality.</p>
+            <div class="hero-content">
                 <div class="availability-badge">
                     <span class="badge-dot"></span>
-                    <span>Available for full-time roles & contract work</span>
+                    <span>Open to Mechanical Design Opportunities</span>
                 </div>
+                <h1>Technical Designer & <span>Prototyping Specialist</span></h1>
+                <p class="subtitle">Self-taught expert turning complex challenges into functional reality</p>
+                <p>I combine CAD design, hands-on fabrication, and automation to create custom solutions that save time and money. No formal engineering degree—just 6+ years of solving real problems through continuous learning and practical expertise.</p>
                 <div class="hero-buttons">
                     <a href="#projects" class="btn btn-primary">
-                        View My Work
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                            <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
                         </svg>
+                        View My Work
                     </a>
-                    <a href="#contact" class="btn btn-secondary">Get In Touch</a>
+                    <a href="#contact" class="btn btn-secondary">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                            <polyline points="22,6 12,13 2,6"></polyline>
+                        </svg>
+                        Get In Touch
+                    </a>
                 </div>
             </div>
-            <div class="hero-image animate-on-scroll">
-                <img src="./images/asier-uria-cicenergigune.jpg" alt="Asier Uria - Mechanical Design Engineer">
+            <div class="hero-image">
+                <img src="./images/asier-uria-cicenergigune.jpg" alt="Asier Uria working on technical design">
             </div>
         </div>
     </section>
@@ -1045,32 +956,27 @@
     <!-- About Section -->
     <section id="about">
         <div class="section-container">
-            <div class="section-header animate-on-scroll">
-                <h2>About Me</h2>
-                <p>Passionate about precision engineering and product development</p>
-            </div>
             <div class="about-grid">
-                <div class="about-image animate-on-scroll">
-                    <img src="./images/diseño de laboratorio de redox lab6 cic.PNG" alt="CAD Design and Engineering Work">
+                <div class="about-image">
+                    <img src="./images/asier-uria-cicenergigune.jpg" alt="Asier Uria">
                 </div>
-                <div class="about-content animate-on-scroll">
-                    <h3>Mechanical Design Engineer with a Focus on Functional Prototyping</h3>
-                    <p><strong>The challenge:</strong> Great product ideas often fail due to poor mechanical design, unrealistic tolerances, or designs that can't be manufactured efficiently.</p>
-                    <p><strong>My approach:</strong> I combine precision CAD design with hands-on prototyping expertise. Using parametric modeling in FreeCAD, I create designs optimized for manufacturing (DFM/DFA), perform tolerance analysis, and rapidly iterate through physical prototypes using 3D printing and CNC machining.</p>
-                    <p><strong>The outcome:</strong> Products that work reliably from day one, reduced development costs, and faster time-to-market. My designs have saved over €8,000 per project on average while improving performance and manufacturability.</p>
-                    <p>With 6+ years of experience developing 50+ functional prototypes and precision mechanisms, I bridge the gap between concept and production-ready designs across diverse industries.</p>
+                <div class="about-content">
+                    <h3>Solving Problems Through Design & Making</h3>
+                    <p>I'm a self-taught technical designer who learned by doing. While my formal education is in laboratory sciences, my passion for understanding how things work led me to master CAD design, precision fabrication, and automation independently.</p>
+                    <p>My approach is simple: understand the real problem, design a practical solution, and build it right. I've delivered over 100 custom parts and systems, saving organizations thousands of euros while enabling critical research and development work.</p>
+                    <p>What I lack in traditional engineering credentials, I make up for with relentless curiosity, hands-on experience across multiple domains, and a track record of delivering results that work in the real world.</p>
                     <div class="about-stats">
-                        <div class="stat-card">
-                            <div class="stat-number">50+</div>
-                            <div class="stat-label">Products Designed</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-number">€8K+</div>
-                            <div class="stat-label">Avg Cost Savings</div>
-                        </div>
                         <div class="stat-card">
                             <div class="stat-number">6+</div>
                             <div class="stat-label">Years Experience</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">100+</div>
+                            <div class="stat-label">Parts Delivered</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">€23K+</div>
+                            <div class="stat-label">Cost Savings</div>
                         </div>
                     </div>
                 </div>
@@ -1081,74 +987,59 @@
     <!-- Skills Section -->
     <section id="skills">
         <div class="section-container">
-            <div class="section-header animate-on-scroll">
-                <h2>Technical Skills</h2>
-                <p>Comprehensive toolkit for mechanical design and product development</p>
+            <div class="section-header">
+                <h2>Technical Capabilities</h2>
+                <p>Broad skill set developed through hands-on projects and continuous self-directed learning</p>
             </div>
             <div class="skills-grid">
-                <div class="skill-category animate-on-scroll">
-                    <h3>CAD & Design</h3>
+                <div class="skill-category">
+                    <h3>CAD & Mechanical Design</h3>
                     <div class="skill-list">
-                        <span class="skill-tag">FreeCAD</span>
-                        <span class="skill-tag">OpenSCAD</span>
+                        <span class="skill-tag">Fusion 360</span>
+                        <span class="skill-tag">Onshape</span>
                         <span class="skill-tag">Parametric Modeling</span>
-                        <span class="skill-tag">3D Modeling</span>
-                        <span class="skill-tag">Technical Drawing</span>
-                        <span class="skill-tag">GD&T</span>
-                        <span class="skill-tag">Tolerance Analysis</span>
-                    </div>
-                </div>
-                <div class="skill-category animate-on-scroll">
-                    <h3>Manufacturing</h3>
-                    <div class="skill-list">
-                        <span class="skill-tag">DFM/DFA</span>
-                        <span class="skill-tag">3D Printing (FDM/SLA)</span>
-                        <span class="skill-tag">CNC Machining</span>
-                        <span class="skill-tag">Laser Cutting</span>
-                        <span class="skill-tag">Material Selection</span>
-                        <span class="skill-tag">Prototype Testing</span>
-                    </div>
-                </div>
-                <div class="skill-category animate-on-scroll">
-                    <h3>Engineering</h3>
-                    <div class="skill-list">
-                        <span class="skill-tag">Mechanism Design</span>
-                        <span class="skill-tag">Precision Engineering</span>
                         <span class="skill-tag">Assembly Design</span>
-                        <span class="skill-tag">Fastener Selection</span>
-                        <span class="skill-tag">Sealing Solutions</span>
-                        <span class="skill-tag">Structural Analysis</span>
+                        <span class="skill-tag">Enclosure Design</span>
+                        <span class="skill-tag">Mechanism Design</span>
+                        <span class="skill-tag">Custom Tooling</span>
+                        <span class="skill-tag">Experimental Fixtures</span>
                     </div>
                 </div>
-                <div class="skill-category animate-on-scroll">
-                    <h3>Programming & Automation</h3>
+                <div class="skill-category">
+                    <h3>Fabrication & Prototyping</h3>
                     <div class="skill-list">
-                        <span class="skill-tag">Python</span>
+                        <span class="skill-tag">FDM 3D Printing</span>
+                        <span class="skill-tag">SLA 3D Printing</span>
+                        <span class="skill-tag">Precision Machining</span>
+                        <span class="skill-tag">Composite Fabrication</span>
+                        <span class="skill-tag">Woodworking</span>
+                        <span class="skill-tag">Manual Fabrication</span>
+                        <span class="skill-tag">Finishing & Assembly</span>
+                        <span class="skill-tag">Workshop Management</span>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <h3>Automation & Electronics</h3>
+                    <div class="skill-list">
+                        <span class="skill-tag">Python Programming</span>
                         <span class="skill-tag">Arduino</span>
-                        <span class="skill-tag">Automation Scripts</span>
-                        <span class="skill-tag">Data Analysis</span>
-                        <span class="skill-tag">Test Equipment Integration</span>
+                        <span class="skill-tag">Instrument Control</span>
+                        <span class="skill-tag">Data Acquisition</span>
+                        <span class="skill-tag">Process Automation</span>
+                        <span class="skill-tag">Embedded Systems</span>
+                        <span class="skill-tag">Workflow Optimization</span>
                     </div>
                 </div>
-                <div class="skill-category animate-on-scroll">
-                    <h3>Product Development</h3>
+                <div class="skill-category">
+                    <h3>Technical Operations</h3>
                     <div class="skill-list">
-                        <span class="skill-tag">Concept Development</span>
-                        <span class="skill-tag">Rapid Prototyping</span>
-                        <span class="skill-tag">Design Iteration</span>
+                        <span class="skill-tag">Equipment Maintenance</span>
+                        <span class="skill-tag">Quality Control</span>
+                        <span class="skill-tag">Supplier Validation</span>
                         <span class="skill-tag">Cost Optimization</span>
-                        <span class="skill-tag">Supplier Coordination</span>
-                        <span class="skill-tag">Documentation</span>
-                    </div>
-                </div>
-                <div class="skill-category animate-on-scroll">
-                    <h3>Soft Skills</h3>
-                    <div class="skill-list">
-                        <span class="skill-tag">Problem Solving</span>
-                        <span class="skill-tag">Project Management</span>
+                        <span class="skill-tag">Safety Protocols</span>
+                        <span class="skill-tag">Technical Documentation</span>
                         <span class="skill-tag">Cross-functional Collaboration</span>
-                        <span class="skill-tag">Technical Communication</span>
-                        <span class="skill-tag">Innovation</span>
                     </div>
                 </div>
             </div>
@@ -1158,57 +1049,66 @@
     <!-- Experience Section -->
     <section id="experience">
         <div class="section-container">
-            <div class="section-header animate-on-scroll">
-                <h2>Professional Experience</h2>
-                <p>Building expertise in mechanical design and precision engineering</p>
+            <div class="section-header">
+                <h2>Professional Journey</h2>
+                <p>Built expertise through diverse roles focused on problem-solving and technical innovation</p>
             </div>
             <div class="experience-grid">
-                <div class="experience-card animate-on-scroll">
+                <div class="experience-card">
                     <div class="experience-header">
-                        <div class="experience-title-group">
+                        <div class="experience-title">
                             <h3>Laboratory Technician (Automation & Prototyping)</h3>
-                            <div class="experience-company">CIC energiGUNE</div>
+                            <div class="company">CIC energiGUNE</div>
                         </div>
                         <div class="experience-date">Feb 2024 – Present</div>
                     </div>
-                    <p class="experience-description">Specialize in transforming complex research requirements into functional tools by combining CAD design, Python automation, and advanced fabrication.</p>
-                    <ul class="experience-details">
-                        <li><strong>Process Automation:</strong> Developed a Python-based control system for synthesis setups, reducing manual intervention from 3 hours to 10 minutes through automated sequencing and remote reporting.</li>
-                        <li><strong>Custom Engineering:</strong> Designed and fabricated over 100 technical parts and 5 complete flow cells, including a specialized lead-acid/redox hybrid experimental battery.</li>
-                        <li><strong>Cost Optimization:</strong> Led the sourcing and validation of alternative suppliers, achieving up to 90% cost savings on critical laboratory components.</li>
-                        <li><strong>Infrastructure Management:</strong> Responsible for the center's 3D printing lab, providing technical support and training to researchers and multidisciplinary teams.</li>
-                        <li><strong>Analytical Support:</strong> Conducted advanced material characterization via SEM and independent analysis of battery performance data.</li>
+                    <ul>
+                        <li>Developed Python-based control system reducing manual intervention from 3 hours to 10 minutes through automated sequencing</li>
+                        <li>Designed and fabricated 100+ technical parts and 5 complete flow cells using parametric CAD</li>
+                        <li>Achieved up to 90% cost savings on laboratory components through alternative supplier validation</li>
+                        <li>Manage center's 3D printing lab, providing technical support and training to multidisciplinary teams</li>
+                        <li>Conduct advanced material characterization via SEM and independent battery performance analysis</li>
                     </ul>
                 </div>
-                <div class="experience-card animate-on-scroll">
+                <div class="experience-card">
                     <div class="experience-header">
-                        <div class="experience-title-group">
+                        <div class="experience-title">
                             <h3>Lab Technician Intern (Neuroscience)</h3>
-                            <div class="experience-company">Czech Academy of Sciences</div>
+                            <div class="company">Czech Academy of Sciences</div>
                         </div>
                         <div class="experience-date">2023 (3 months)</div>
                     </div>
-                    <p class="experience-description">Designed experimental rigs and maintained laboratory setups in an international research environment, developing precision mechanical solutions for neuroscience experiments.</p>
+                    <ul>
+                        <li>Designed and built experimental rigs for neuroscience research in international environment</li>
+                        <li>Maintained laboratory setups and supported cross-functional research teams</li>
+                    </ul>
                 </div>
-                <div class="experience-card animate-on-scroll">
+                <div class="experience-card">
                     <div class="experience-header">
-                        <div class="experience-title-group">
+                        <div class="experience-title">
                             <h3>Quality Control Technician</h3>
-                            <div class="experience-company">Boga Brewery</div>
+                            <div class="company">Boga Brewery</div>
                         </div>
                         <div class="experience-date">2021 (3 months)</div>
                     </div>
-                    <p class="experience-description">Performed microbiological and chemical analysis to ensure quality standards during fermentation processes, developing attention to detail and process optimization skills.</p>
+                    <ul>
+                        <li>Performed microbiological and chemical analysis ensuring quality standards during fermentation</li>
+                        <li>Developed attention to detail and systematic approach to technical processes</li>
+                    </ul>
                 </div>
-                <div class="experience-card animate-on-scroll">
+                <div class="experience-card">
                     <div class="experience-header">
-                        <div class="experience-title-group">
-                            <h3>Custom Guitar Fabrication (Personal Project)</h3>
-                            <div class="experience-company">Independent Workshop</div>
+                        <div class="experience-title">
+                            <h3>Handcrafted Guitar Fabrication</h3>
+                            <div class="company">Personal Workshop</div>
                         </div>
                         <div class="experience-date">2015 – 2022</div>
                     </div>
-                    <p class="experience-description">Designed and handcrafted 10+ precision electric guitars from scratch while studying, developing advanced manual skills and expertise in processing wood and composite materials. This hobby honed my understanding of ergonomics, aesthetics, and precision assembly—skills directly transferable to professional mechanical design.</p>
+                    <ul>
+                        <li>Designed and handcrafted 10+ precision electric guitars from scratch</li>
+                        <li>Developed advanced manual skills in wood processing, composite materials, and precision assembly</li>
+                        <li>Mastered finishing techniques and quality craftsmanship through iterative practice</li>
+                    </ul>
                 </div>
             </div>
         </div>
@@ -1217,209 +1117,202 @@
     <!-- Projects Section -->
     <section id="projects">
         <div class="section-container">
-            <div class="section-header animate-on-scroll">
+            <div class="section-header">
                 <h2>Featured Projects</h2>
-                <p>Showcasing precision mechanical design and functional prototyping</p>
+                <p>Real-world solutions demonstrating design thinking, technical execution, and measurable impact</p>
             </div>
-            <div class="filter-buttons animate-on-scroll">
+            
+            <div class="filter-buttons">
                 <button class="filter-btn active" data-filter="all">All Projects</button>
                 <button class="filter-btn" data-filter="mechanical">Mechanical Design</button>
-                <button class="filter-btn" data-filter="product">Product Design</button>
-                <button class="filter-btn" data-filter="prototyping">Prototyping</button>
+                <button class="filter-btn" data-filter="automation">Automation</button>
+                <button class="filter-btn" data-filter="fabrication">Fabrication</button>
             </div>
-            <div class="projects-grid" id="projectsGrid">
-                <!-- Featured Project 1: Variable Angle Adapter (STAR Format) -->
-                <div class="project-card animate-on-scroll featured-project" data-category="mechanical" 
-                     data-images='["./images/laboratory equipment adapters/contact angle adapter.jpg", "./images/laboratory equipment adapters/contact angle adapter 2.PNG"]'>
+
+            <div class="projects-grid">
+                <!-- Project 1 -->
+                <div class="project-card visible" data-category="mechanical">
                     <div class="project-image">
-                        <img src="./images/laboratory equipment adapters/contact angle adapter.jpg" alt="Variable Angle Adapter for Precision Measurements">
+                        <img src="./images/laboratory equipment adapters/IMG-20241129-WA0016.jpg" alt="Wettability Studies Adapter">
                     </div>
                     <div class="project-content">
-                        <div class="project-category">Mechanical Design</div>
-                        <h3 class="project-title">Precision Variable Angle Mechanism</h3>
-                        <p class="project-subtitle">Commercial precision at a fraction of the cost: €8,000+ saved</p>
-                        <div class="project-star-content">
-                            <p><strong>🎯 The challenge:</strong> Researchers needed to measure dynamic contact angles with precision, but commercial equipment cost over €8,000 and didn't allow fine adjustments.</p>
-                            <p><strong>💡 What I did:</strong> I designed a precision adapter with a continuously variable angle mechanism using FreeCAD. I combined high-precision 3D printing with machined components to ensure rigidity and measurement repeatability, applying tolerance analysis for optimal fit.</p>
-                            <p><strong>✅ Outcome:</strong> Saved over €8,000, achieved greater flexibility than commercial equipment, and delivered more consistent measurements. The mechanism is now routinely used in the lab.</p>
-                        </div>
                         <div class="project-tags">
-                            <span class="tag">FreeCAD</span>
-                            <span class="tag">Precision Mechanisms</span>
-                            <span class="tag">Tolerance Analysis</span>
-                            <span class="tag">3D Printing</span>
-                            <span class="tag">CNC Machining</span>
-                            <span class="tag">Cost Savings: €8K+</span>
+                            <span class="project-tag">CAD Design</span>
+                            <span class="project-tag">Cost Reduction</span>
+                            <span class="project-tag">Precision Fixture</span>
                         </div>
-                        <div class="project-images-preview">
-                            <img src="./images/laboratory equipment adapters/contact angle adapter.jpg" alt="View 1">
-                            <img src="./images/laboratory equipment adapters/contact angle adapter 2.PNG" alt="View 2">
+                        <h3>Wettability Studies Adapter</h3>
+                        <p><strong>Challenge:</strong> Commercial adapter priced at €10,000+ with long lead time.<br><strong>Solution:</strong> Designed and fabricated custom adapter using parametric CAD and precision 3D printing.<br><strong>Result:</strong> Achieved identical functionality at fraction of cost, saving €8,000+ with immediate availability.</p>
+                        <div class="project-metrics">
+                            <div class="metric">
+                                <div class="metric-value">€8,000+</div>
+                                <div class="metric-label">Saved</div>
+                            </div>
+                            <div class="metric">
+                                <div class="metric-value">100%</div>
+                                <div class="metric-label">Functional</div>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Project: Parametric Flow Battery Cell -->
-                <div class="project-card animate-on-scroll" data-category="product"
-                     data-images='["./images/cell designs/bateria flujo diseño.jpg", "./images/cell designs/bateria flujo diseño cad.png", "./images/cell designs/bateria flujo diseño cad - Copy.png", "./images/cell designs/bateria flujo diseño - Copy.jpg"]'>
+                <!-- Project 2 -->
+                <div class="project-card visible" data-category="automation">
                     <div class="project-image">
-                        <img src="./images/cell designs/bateria flujo diseño.jpg" alt="Parametric CAD Design for Flow Batteries">
+                        <img src="./images/python/Screenshot 2025-03-03 175050.png" alt="Python + Arduino Automation System">
                     </div>
                     <div class="project-content">
-                        <div class="project-category">Product Design</div>
-                        <h3 class="project-title">Modular Parametric Flow Cell</h3>
-                        <p class="project-subtitle">Flexible design optimized for rapid iteration</p>
-                        <div class="project-star-content">
-                            <p><strong>🎯 The challenge:</strong> Needed a flexible test cell to evaluate different membrane and electrode configurations without high fabrication costs.</p>
-                            <p><strong>💡 What I did:</strong> Designed a modular parametric cell in FreeCAD with optimized flow channels and improved sealing mechanism. Applied DFM principles for 3D printing and CNC machining of critical components.</p>
-                            <p><strong>✅ Outcome:</strong> Ability to test over 10 different configurations with the same base cell, 60% reduction in assembly time, and zero leaks during continuous operation.</p>
-                        </div>
                         <div class="project-tags">
-                            <span class="tag">FreeCAD</span>
-                            <span class="tag">Parametric Design</span>
-                            <span class="tag">DFM</span>
-                            <span class="tag">Modular Design</span>
-                            <span class="tag">Sealing Solutions</span>
+                            <span class="project-tag">Python</span>
+                            <span class="project-tag">Arduino</span>
+                            <span class="project-tag">Process Automation</span>
                         </div>
-                        <div class="project-images-preview">
-                            <img src="./images/cell designs/bateria flujo diseño.jpg" alt="Design View">
-                            <img src="./images/cell designs/bateria flujo diseño cad.png" alt="CAD View">
-                            <img src="./images/cell designs/bateria flujo diseño cad - Copy.png" alt="CAD View 2">
-                            <img src="./images/cell designs/bateria flujo diseño - Copy.jpg" alt="Design View 2">
+                        <h3>Automated Synthesis Control System</h3>
+                        <p><strong>Challenge:</strong> Manual synthesis process required 3 hours of constant monitoring per run.<br><strong>Solution:</strong> Built integrated Python + Arduino system for automated sequencing, monitoring, and remote reporting.<br><strong>Result:</strong> Reduced manual time to 10 minutes, eliminated human error, enabled overnight operations.</p>
+                        <div class="project-metrics">
+                            <div class="metric">
+                                <div class="metric-value">15 min</div>
+                                <div class="metric-label">vs 3 hours</div>
+                            </div>
+                            <div class="metric">
+                                <div class="metric-value">€15K+</div>
+                                <div class="metric-label">Annual Value</div>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Project: Custom Instron Accessories -->
-                <div class="project-card animate-on-scroll" data-category="mechanical"
-                     data-images='["./images/laboratory equipment adapters/adaptador instron traccion.png", "./images/laboratory equipment adapters/adaptador compresion instron.PNG"]'>
+                <!-- Project 3 -->
+                <div class="project-card visible" data-category="mechanical">
                     <div class="project-image">
-                        <img src="./images/laboratory equipment adapters/adaptador instron traccion.png" alt="Custom Instron Accessories">
+                        <img src="./images/cell designs/flow cell exploded view.png" alt="Parametric Flow Battery Cell">
                     </div>
                     <div class="project-content">
-                        <div class="project-category">Mechanical Design</div>
-                        <h3 class="project-title">Custom Mechanical Test Fixtures</h3>
-                        <p class="project-description">Specialized fixtures for compression and tension testing, improving experimental precision and repeatability. Designed with proper load distribution and alignment features for accurate mechanical characterization of materials.</p>
                         <div class="project-tags">
-                            <span class="tag">CAD Design</span>
-                            <span class="tag">Fixture Design</span>
-                            <span class="tag">Mechanical Testing</span>
-                            <span class="tag">Precision Alignment</span>
+                            <span class="project-tag">Parametric CAD</span>
+                            <span class="project-tag">Design Iteration</span>
                         </div>
-                        <div class="project-images-preview">
-                            <img src="./images/laboratory equipment adapters/adaptador instron traccion.png" alt="Tension Adapter">
-                            <img src="./images/laboratory equipment adapters/adaptador compresion instron.PNG" alt="Compression Adapter">
+                        <h3>Parametric Flow Battery Cell Design</h3>
+                        <p><strong>Challenge:</strong> Research team needed rapid iteration of flow cell geometries without redesigning from scratch.<br><strong>Solution:</strong> Created fully parametric CAD model allowing instant adjustment of channel geometry, compression, and port configuration.<br><strong>Result:</strong> Reduced design time from days to minutes, accelerated research iterations significantly.</p>
+                        <div class="project-metrics">
+                            <div class="metric">
+                                <div class="metric-value">5+</div>
+                                <div class="metric-label">Cells Built</div>
+                            </div>
+                            <div class="metric">
+                                <div class="metric-value">90%</div>
+                                <div class="metric-label">Time Saved</div>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Project: Secure Electrolyte Bottle Holder -->
-                <div class="project-card animate-on-scroll" data-category="product"
-                     data-images='["./images/laboratory equipment adapters/soporte botellas redox.PNG"]'>
+                <!-- Project 4 -->
+                <div class="project-card visible" data-category="mechanical">
                     <div class="project-image">
-                        <img src="./images/laboratory equipment adapters/soporte botellas redox.PNG" alt="Secure Bottle Holder - Zero Spills">
+                        <img src="./images/laboratory equipment adapters/custom impedance cell.jpg" alt="Custom Impedance Cell">
                     </div>
                     <div class="project-content">
-                        <div class="project-category">Product Design</div>
-                        <h3 class="project-title">Secure Laboratory Bottle Holder</h3>
-                        <p class="project-subtitle">Zero spills, maximum access</p>
-                        <p class="project-description">Custom holder ensuring stability, spill prevention, and easy access during testing. Designed with secure locking mechanism and ergonomic features for improved lab safety and workflow efficiency.</p>
                         <div class="project-tags">
-                            <span class="tag">Safety Design</span>
-                            <span class="tag">Functional Design</span>
-                            <span class="tag">Ergonomics</span>
+                            <span class="project-tag">Precision Design</span>
+                            <span class="project-tag">Electrochemistry</span>
                         </div>
-                        <div class="project-images-preview">
-                            <img src="./images/laboratory equipment adapters/soporte botellas redox.PNG" alt="Bottle Holder">
+                        <h3>Custom Impedance Measurement Cell</h3>
+                        <p>Designed specialized cell for precise electrochemical impedance characterization with controlled electrode positioning and minimal parasitic effects. Enables reproducible measurements for membrane and electrolyte research.</p>
+                        <div class="project-metrics">
+                            <div class="metric">
+                                <div class="metric-value">Custom</div>
+                                <div class="metric-label">Solution</div>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Project: Impedance Measurement Cell -->
-                <div class="project-card animate-on-scroll" data-category="prototyping"
-                     data-images='["./images/laboratory equipment adapters/celda impedancia.PNG"]'>
+                <!-- Project 5 -->
+                <div class="project-card visible" data-category="mechanical">
                     <div class="project-image">
-                        <img src="./images/laboratory equipment adapters/celda impedancia.PNG" alt="Impedance Measurement Cell">
+                        <img src="./images/laboratory equipment adapters/SEM sample holder.jpg" alt="SEM Sample Holder Adapter">
                     </div>
                     <div class="project-content">
-                        <div class="project-category">Prototyping</div>
-                        <h3 class="project-title">Precision Impedance Cell</h3>
-                        <p class="project-description">Custom impedance cell design for precise electrochemical characterization. Features gold-plated contacts, sealed chamber, and precision-machined components for accurate, repeatable measurements.</p>
                         <div class="project-tags">
-                            <span class="tag">Precision Engineering</span>
-                            <span class="tag">Sealed Design</span>
-                            <span class="tag">Material Selection</span>
+                            <span class="project-tag">Microscopy</span>
+                            <span class="project-tag">Adapter Design</span>
                         </div>
-                        <div class="project-images-preview">
-                            <img src="./images/laboratory equipment adapters/celda impedancia.PNG" alt="Impedance Cell">
+                        <h3>SEM Sample Holder Adapters</h3>
+                        <p>Created custom adapters enabling non-standard sample geometries for Scanning Electron Microscopy. Precise tolerances ensure proper alignment and conductivity while maintaining vacuum integrity.</p>
+                        <div class="project-metrics">
+                            <div class="metric">
+                                <div class="metric-value">Multiple</div>
+                                <div class="metric-label">Variants</div>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Project: Portable LAN Gaming PC -->
-                <div class="project-card animate-on-scroll" data-category="product"
-                     data-images='["./images/personal proyects/electronics/portable desktop computer for lan.jpg", "./images/personal proyects/electronics/portable desktop computer for lan 2.jpg", "./images/personal proyects/electronics/portable desktop computer for lan 3.jpg"]'>
+                <!-- Project 6 -->
+                <div class="project-card visible" data-category="fabrication">
                     <div class="project-image">
-                        <img src="./images/personal proyects/electronics/portable desktop computer for lan.jpg" alt="Portable LAN Gaming PC">
+                        <img src="./images/personal proyects/guitarra final.jpg" alt="Handcrafted Electric Guitar">
                     </div>
                     <div class="project-content">
-                        <div class="project-category">Product Design</div>
-                        <h3 class="project-title">Compact Portable Computer Enclosure</h3>
-                        <p class="project-description">Designed and fabricated a portable desktop computer enclosure optimized for LAN gaming events. Features include integrated cooling system, efficient cable management, compact form factor, and integrated handle for transport. Demonstrates expertise in thermal management, structural design, and user-centered product development.</p>
                         <div class="project-tags">
-                            <span class="tag">Enclosure Design</span>
-                            <span class="tag">Thermal Management</span>
-                            <span class="tag">Product Design</span>
-                            <span class="tag">Fabrication</span>
+                            <span class="project-tag">Woodworking</span>
+                            <span class="project-tag">Precision Craft</span>
+                            <span class="project-tag">Full Build</span>
                         </div>
-                        <div class="project-images-preview">
-                            <img src="./images/personal proyects/electronics/portable desktop computer for lan.jpg" alt="View 1">
-                            <img src="./images/personal proyects/electronics/portable desktop computer for lan 2.jpg" alt="View 2">
-                            <img src="./images/personal proyects/electronics/portable desktop computer for lan 3.jpg" alt="View 3">
+                        <h3>Handcrafted Electric Guitars</h3>
+                        <p>Designed and built 10+ electric guitars from raw materials. Developed expertise in wood selection, body contouring, neck construction, electronics integration, and high-quality finishing. Demonstrates mastery of precision manual fabrication and attention to detail.</p>
+                        <div class="project-metrics">
+                            <div class="metric">
+                                <div class="metric-value">10+</div>
+                                <div class="metric-label">Instruments Built</div>
+                            </div>
+                            <div class="metric">
+                                <div class="metric-value">7 Years</div>
+                                <div class="metric-label">Development</div>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Project: Custom Guitar Handcrafting -->
-                <div class="project-card animate-on-scroll" data-category="prototyping"
-                     data-images='["./images/personal proyects/guitar handcrafting/custom-guitar.jpg", "./images/personal proyects/guitar handcrafting/guitar build.jpg", "./images/personal proyects/guitar handcrafting/guitarra 1.jpg"]'>
+                <!-- Project 7 -->
+                <div class="project-card visible" data-category="mechanical">
                     <div class="project-image">
-                        <img src="./images/personal proyects/guitar handcrafting/custom-guitar.jpg" alt="Custom Handcrafted Guitar">
+                        <img src="./images/electroplating/electroplating setup.jpg" alt="Electroplating Setup">
                     </div>
                     <div class="project-content">
-                        <div class="project-category">Prototyping</div>
-                        <h3 class="project-title">Custom Electric Guitar Fabrication</h3>
-                        <p class="project-description">Designed and handcrafted 10+ precision electric guitars from raw materials. This project demonstrates mastery of material selection, precision woodworking, ergonomic design, finishing techniques, and complete product realization from concept to finished instrument.</p>
                         <div class="project-tags">
-                            <span class="tag">Material Processing</span>
-                            <span class="tag">Precision Craftsmanship</span>
-                            <span class="tag">Ergonomic Design</span>
-                            <span class="tag">Full Product Lifecycle</span>
+                            <span class="project-tag">System Design</span>
+                            <span class="project-tag">Process Engineering</span>
                         </div>
-                        <div class="project-images-preview">
-                            <img src="./images/personal proyects/guitar handcrafting/custom-guitar.jpg" alt="Custom Guitar">
-                            <img src="./images/personal proyects/guitar handcrafting/guitar build.jpg" alt="Build Process">
-                            <img src="./images/personal proyects/guitar handcrafting/guitarra 1.jpg" alt="Finished Product">
+                        <h3>Custom Electroplating System</h3>
+                        <p>Designed and assembled complete electroplating workstation with controlled current delivery, solution circulation, and safety features. Enables precise metal deposition for research and prototyping applications.</p>
+                        <div class="project-metrics">
+                            <div class="metric">
+                                <div class="metric-value">Complete</div>
+                                <div class="metric-label">System</div>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Project: Redox Cell Support System -->
-                <div class="project-card animate-on-scroll" data-category="mechanical"
-                     data-images='["./images/laboratory equipment adapters/soporte celda redox.jpg"]'>
+                <!-- Project 8 -->
+                <div class="project-card visible" data-category="automation">
                     <div class="project-image">
-                        <img src="./images/laboratory equipment adapters/soporte celda redox.jpg" alt="Modular Cell Support System">
+                        <img src="./images/python/data export interface.png" alt="Data Export Automation">
                     </div>
                     <div class="project-content">
-                        <div class="project-category">Mechanical Design</div>
-                        <h3 class="project-title">Modular Equipment Support System</h3>
-                        <p class="project-description">Specialized supports for stable vertical positioning with easy access to connections. Modular design allows quick assembly/disassembly for maintenance, demonstrating expertise in modular architecture and serviceability considerations.</p>
                         <div class="project-tags">
-                            <span class="tag">Modular Design</span>
-                            <span class="tag">Structural Design</span>
-                            <span class="tag">Serviceability</span>
+                            <span class="project-tag">Python</span>
+                            <span class="project-tag">Data Processing</span>
                         </div>
-                        <div class="project-images-preview">
-                            <img src="./images/laboratory equipment adapters/soporte celda redox.jpg" alt="Cell Support">
+                        <h3>Automated Data Export Tools</h3>
+                        <p>Built Python utilities for automated extraction and formatting of experimental data from various instruments. Eliminates manual copy-paste errors and saves hours of repetitive work weekly.</p>
+                        <div class="project-metrics">
+                            <div class="metric">
+                                <div class="metric-value">Hours/Week</div>
+                                <div class="metric-label">Saved</div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1430,36 +1323,30 @@
     <!-- Contact Section -->
     <section id="contact">
         <div class="section-container">
-            <div class="section-header animate-on-scroll">
-                <h2>Let's Work Together</h2>
-                <p>Ready to bring your mechanical design projects to life</p>
-            </div>
             <div class="contact-container">
-                <div class="contact-content animate-on-scroll">
-                    <h3>What mechanical challenge shall we solve together?</h3>
-                    <p>Whether you need precision CAD design, functional prototyping, or manufacturing support, I'm ready to help turn your ideas into reality. Typical projects range from 2-8 weeks depending on complexity.</p>
+                <div class="contact-content">
+                    <h3>Let's Solve Your Design Challenge</h3>
+                    <p>Whether you need custom mechanical design, rapid prototyping, or process automation, I can help turn your requirements into functional solutions. Typical projects range from 2-8 weeks depending on complexity.</p>
+                    <a href="mailto:asieruria1@gmail.com" class="btn btn-primary">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                            <polyline points="22,6 12,13 2,6"></polyline>
+                        </svg>
+                        asieruria1@gmail.com
+                    </a>
                     <div class="contact-info">
-                        <div class="contact-item">
+                        <a href="tel:+34649848252" class="contact-item">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-                                <polyline points="22,6 12,13 2,6"/>
+                                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
                             </svg>
-                            <a href="mailto:asieruria@example.com">asieruria@example.com</a>
-                        </div>
-                        <div class="contact-item">
+                            +34 649 848 252
+                        </a>
+                        <a href="mailto:asieruria1@gmail.com" class="contact-item">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-                                <circle cx="12" cy="7" r="4"/>
+                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                                <polyline points="22,6 12,13 2,6"></polyline>
                             </svg>
-                            <span>Based in Basque Country, Spain - Open to Remote & Relocation</span>
-                        </div>
-                    </div>
-                    <div class="hero-buttons" style="margin-top: 2rem; justify-content: center;">
-                        <a href="mailto:asieruria@example.com" class="btn btn-primary">
-                            Start a Conversation
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M5 12h14M12 5l7 7-7 7"/>
-                            </svg>
+                            Email Me
                         </a>
                     </div>
                 </div>
@@ -1469,25 +1356,12 @@
 
     <!-- Footer -->
     <footer>
-        <div class="footer-container">
-            <div class="footer-brand">
-                <h3>ASIER URIA</h3>
-                <p>Mechanical Design Engineer | CAD Specialist | Functional Prototyping</p>
-            </div>
-            <ul class="footer-links">
-                <li><a href="#about">About</a></li>
-                <li><a href="#projects">Projects</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-        </div>
-        <div class="copyright">
-            <p>&copy; 2024 Asier Uria. All rights reserved.</p>
-        </div>
+        <p>&copy; 2025 Asier Uria Martínez. All rights reserved.</p>
     </footer>
 
     <script>
         // Mobile Menu Toggle
-        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
         const navLinks = document.querySelector('.nav-links');
 
         mobileMenuBtn.addEventListener('click', () => {
@@ -1495,7 +1369,7 @@
         });
 
         // Navbar Scroll Effect
-        const navbar = document.getElementById('navbar');
+        const navbar = document.querySelector('.navbar');
         window.addEventListener('scroll', () => {
             if (window.scrollY > 50) {
                 navbar.classList.add('scrolled');
@@ -1504,7 +1378,7 @@
             }
         });
 
-        // Scroll Animation Observer
+        // Intersection Observer for Animations
         const observerOptions = {
             threshold: 0.1,
             rootMargin: '0px 0px -50px 0px'
@@ -1514,30 +1388,38 @@
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('visible');
+                    
+                    // Add staggered animation for stat cards
+                    if (entry.target.classList.contains('stat-card')) {
+                        const index = Array.from(entry.target.parentElement.children).indexOf(entry.target);
+                        entry.target.style.transitionDelay = `${index * 0.1}s`;
+                    }
                 }
             });
         }, observerOptions);
 
-        document.querySelectorAll('.animate-on-scroll').forEach(el => {
+        // Observe elements
+        document.querySelectorAll('.about-content, .about-image, .stat-card, .skill-category, .experience-card, .project-card, .contact-content').forEach(el => {
             observer.observe(el);
         });
 
         // Project Filter
-        const filterBtns = document.querySelectorAll('.filter-btn');
+        const filterButtons = document.querySelectorAll('.filter-btn');
         const projectCards = document.querySelectorAll('.project-card');
 
-        filterBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
+        filterButtons.forEach(button => {
+            button.addEventListener('click', () => {
                 // Update active button
-                filterBtns.forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
 
-                const filter = btn.dataset.filter;
+                const filter = button.dataset.filter;
 
+                // Filter projects
                 projectCards.forEach(card => {
                     if (filter === 'all' || card.dataset.category === filter) {
-                        card.style.display = '';
-                        setTimeout(() => card.classList.add('visible'), 100);
+                        card.style.display = 'block';
+                        setTimeout(() => card.classList.add('visible'), 50);
                     } else {
                         card.classList.remove('visible');
                         setTimeout(() => card.style.display = 'none', 300);
@@ -1546,7 +1428,7 @@
             });
         });
 
-        // Smooth scroll for anchor links
+        // Smooth scroll for navigation links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function(e) {
                 e.preventDefault();
@@ -1557,7 +1439,7 @@
                         block: 'start'
                     });
                     // Close mobile menu if open
-                    if (window.innerWidth <= 640) {
+                    if (window.innerWidth <= 968) {
                         navLinks.style.display = 'none';
                     }
                 }
