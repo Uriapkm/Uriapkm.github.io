@@ -3,10 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Asier Uria - Functional Prototyping and Battery Test Bench Specialist. I help researchers save thousands of euros by creating custom prototypes that solve real problems in battery labs.">
-    <meta name="keywords" content="prototyping, batteries, redox flow, FreeCAD, Python, Arduino, laboratory, research, CAD design, automation">
+    <meta name="description" content="Asier Uria - Functional Prototyping Specialist for Battery Research. I help researchers save thousands of euros by creating custom prototypes, CAD designs, and automated test benches for redox flow batteries and energy storage labs.">
+    <meta name="keywords" content="prototyping, batteries, redox flow, FreeCAD, Python, Arduino, laboratory, research, CAD design, automation, electrochemistry, energy storage">
     <meta name="author" content="Asier Uria">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Asier Uria | Functional Prototyping Specialist for Battery Research">
+    <meta property="og:description" content="I help researchers save thousands of euros by creating custom prototypes that solve real problems in battery labs.">
+    <meta property="og:image" content="./images/logo.png">
+    <meta property="og:url" content="https://asieruria.com">
+    <meta name="twitter:card" content="summary_large_image">
+    
     <title>Asier Uria | Functional Prototyping Specialist for Battery Research</title>
+    <link rel="icon" type="image/png" href="./images/logo.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -188,6 +199,18 @@
             font-weight: 800;
             line-height: 1.1;
             margin-bottom: 1.5rem;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .hero-content h1 span {
@@ -373,6 +396,27 @@
             box-shadow: var(--shadow-lg);
         }
 
+        .about-content {
+            opacity: 0;
+            transform: translateX(30px);
+            transition: var(--transition);
+        }
+
+        .about-content.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .about-image {
+            opacity: 0;
+            transform: translateX(-30px);
+            transition: var(--transition);
+        }
+
+        .about-image.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
         .about-content h3 {
             font-size: 1.75rem;
             margin-bottom: 1.5rem;
@@ -397,6 +441,19 @@
             padding: 1.5rem;
             background: var(--bg-secondary);
             border-radius: var(--radius-md);
+            transition: var(--transition);
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .stat-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
         }
 
         .stat-number {
@@ -431,6 +488,13 @@
             border-radius: var(--radius-lg);
             box-shadow: var(--shadow-md);
             transition: var(--transition);
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .skill-category.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         .skill-category:hover {
@@ -533,6 +597,13 @@
             border-radius: var(--radius-md);
             box-shadow: var(--shadow-sm);
             transition: var(--transition);
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .timeline-content.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         .timeline-content:hover {
@@ -607,6 +678,13 @@
             box-shadow: var(--shadow-md);
             transition: var(--transition);
             cursor: pointer;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .project-card.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         .project-card:hover {
@@ -845,6 +923,28 @@
             gap: 4rem;
         }
 
+        .contact-info {
+            opacity: 0;
+            transform: translateX(-30px);
+            transition: var(--transition);
+        }
+
+        .contact-info.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .contact-form-container {
+            opacity: 0;
+            transform: translateX(30px);
+            transition: var(--transition);
+        }
+
+        .contact-form-container.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
         .contact-info h3 {
             font-size: 1.75rem;
             margin-bottom: 1.5rem;
@@ -937,6 +1037,14 @@
             color: var(--text-primary);
             padding: 3rem 2rem;
             border-top: 1px solid var(--border);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: var(--transition);
+        }
+
+        footer.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         .footer-container {
@@ -1346,7 +1454,7 @@
             <div class="projects-grid" id="projectsGrid">
                 <!-- Featured Project 1: Variable Angle Adapter for Wettability Studies (STAR Format) -->
                 <div class="project-card animate-on-scroll featured-project" data-category="laboratory" 
-                     data-images='["./images/laboratory equipment adapters/contact angle adapter.jpg", "./images/laboratory equipment adapters/contact angle adapter 2.PNG", "./images/laboratory equipment adapters/adaptador compresion instron.PNG"]'>
+                     data-images='["./images/laboratory equipment adapters/contact angle adapter.jpg", "./images/laboratory equipment adapters/contact angle adapter 2.PNG"]'>
                     <div class="project-image">
                         <img src="./images/laboratory equipment adapters/contact angle adapter.jpg" alt="Variable Angle Adapter for Wettability Studies">
                     </div>
@@ -1368,7 +1476,6 @@
                         <div class="project-images-preview">
                             <img src="./images/laboratory equipment adapters/contact angle adapter.jpg" alt="View 1">
                             <img src="./images/laboratory equipment adapters/contact angle adapter 2.PNG" alt="View 2">
-                            <img src="./images/laboratory equipment adapters/adaptador compresion instron.PNG" alt="View 3">
                         </div>
                     </div>
                 </div>
@@ -1387,6 +1494,10 @@
                             <span class="tag">CAD Design</span>
                             <span class="tag">Mechanical Testing</span>
                         </div>
+                        <div class="project-images-preview">
+                            <img src="./images/laboratory equipment adapters/adaptador instron traccion.png" alt="Tension Adapter">
+                            <img src="./images/laboratory equipment adapters/adaptador compresion instron.PNG" alt="Compression Adapter">
+                        </div>
                     </div>
                 </div>
 
@@ -1404,6 +1515,9 @@
                             <span class="tag">Safety</span>
                             <span class="tag">Functional Design</span>
                         </div>
+                        <div class="project-images-preview">
+                            <img src="./images/laboratory equipment adapters/soporte botellas redox.PNG" alt="Bottle Holder">
+                        </div>
                     </div>
                 </div>
 
@@ -1419,6 +1533,9 @@
                         <div class="project-tags">
                             <span class="tag">Modular Design</span>
                             <span class="tag">Stability</span>
+                        </div>
+                        <div class="project-images-preview">
+                            <img src="./images/laboratory equipment adapters/soporte celda redox.jpg" alt="Cell Support">
                         </div>
                     </div>
                 </div>
@@ -1436,6 +1553,9 @@
                             <span class="tag">Electrochemistry</span>
                             <span class="tag">Precision</span>
                         </div>
+                        <div class="project-images-preview">
+                            <img src="./images/laboratory equipment adapters/celda impedancia.PNG" alt="Impedance Cell">
+                        </div>
                     </div>
                 </div>
 
@@ -1452,11 +1572,14 @@
                             <span class="tag">Microscopy</span>
                             <span class="tag">Precision</span>
                         </div>
+                        <div class="project-images-preview">
+                            <img src="./images/laboratory equipment adapters/microscope adapter cristalografy.jpg" alt="Microscopy Adapter">
+                        </div>
                     </div>
                 </div>
 
                 <!-- Cell Designs -->
-                <div class="project-card animate-on-scroll featured-project" data-category="design"
+                <div class="project-card animate-on-scroll" data-category="design"
                      data-images='["./images/cell designs/bateria flujo diseño.jpg", "./images/cell designs/bateria flujo diseño cad.png", "./images/cell designs/bateria flujo diseño cad - Copy.png", "./images/cell designs/bateria flujo diseño - Copy.jpg"]'>
                     <div class="project-image">
                         <img src="./images/cell designs/bateria flujo diseño.jpg" alt="Parametric CAD Design for Flow Batteries">
@@ -1634,7 +1757,7 @@
                     </div>
                 </div>
 
-                <div class="project-card animate-on-scroll featured-project" data-category="personal"
+                <div class="project-card animate-on-scroll" data-category="personal"
                      data-images='["./images/python/setup python 25 bombas sintesis automatica arduino.jpg", "./images/python/python code.PNG", "./images/python/python 2.PNG"]'>
                     <div class="project-image">
                         <img src="./images/python/setup python 25 bombas sintesis automatica arduino.jpg" alt="Python + Arduino Automation System">
@@ -1728,7 +1851,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="contact-form animate-on-scroll">
+                <div class="contact-form-container animate-on-scroll">
                     <form id="contactForm">
                         <div class="form-group">
                             <label for="name">Name</label>
@@ -1750,7 +1873,7 @@
     </section>
 
     <!-- Footer -->
-    <footer>
+    <footer class="animate-on-scroll">
         <div class="footer-container">
             <div class="footer-logo">Asier Uria</div>
             <ul class="footer-links">
