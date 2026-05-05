@@ -1,0 +1,1568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Asier Uria - Mechanical Design Engineer specializing in precision CAD design, functional prototyping, and manufacturing solutions. Expert in FreeCAD, parametric modeling, DFM/DFA, and bringing complex mechanical concepts to reality.">
+    <meta name="keywords" content="mechanical design, CAD engineer, FreeCAD, parametric design, prototyping, product design, DFM, DFA, tolerance analysis, 3D printing, CNC machining, product development, mechanical engineering">
+    <meta name="author" content="Asier Uria">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Asier Uria | Mechanical Design Engineer">
+    <meta property="og:description" content="Mechanical Design Engineer specializing in precision CAD, functional prototyping, and manufacturing-ready solutions for complex products.">
+    <meta property="og:image" content="./images/logo.png">
+    <meta property="og:url" content="https://asieruria.com">
+    <meta name="twitter:card" content="summary_large_image">
+    
+    <title>Asier Uria | Mechanical Design Engineer</title>
+    <link rel="icon" type="image/png" href="./images/logo.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Variables */
+        :root {
+            --primary: #3b82f6;
+            --primary-dark: #2563eb;
+            --secondary: #06b6d4;
+            --accent: #f59e0b;
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --text-light: #64748b;
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-tertiary: #334155;
+            --border: #475569;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.3);
+            --shadow-md: 0 4px 6px rgba(0,0,0,0.4);
+            --shadow-lg: 0 10px 25px rgba(0,0,0,0.5);
+            --shadow-xl: 0 20px 40px rgba(0,0,0,0.6);
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 24px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Reset & Base */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-secondary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+            z-index: 1000;
+            transition: var(--transition);
+        }
+
+        .navbar.scrolled {
+            box-shadow: var(--shadow-md);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            font-weight: 500;
+            color: var(--text-secondary);
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        .mobile-menu-btn span {
+            width: 25px;
+            height: 3px;
+            background: var(--text-primary);
+            border-radius: 2px;
+            transition: var(--transition);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 120px 2rem 80px;
+            background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .hero-container {
+            max-width: 1200px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-content h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero-content h1 span {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-content .subtitle {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            font-weight: 400;
+        }
+
+        .hero-content p {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 2.5rem;
+            max-width: 500px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 2rem;
+            border-radius: var(--radius-md);
+            font-weight: 600;
+            font-size: 1rem;
+            transition: var(--transition);
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .hero-image {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .hero-image img {
+            width: 100%;
+            max-width: 450px;
+            height: auto;
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-xl);
+            object-fit: cover;
+        }
+
+        .hero-image::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            right: -20px;
+            width: 100%;
+            height: 100%;
+            border: 3px solid var(--primary);
+            border-radius: var(--radius-xl);
+            z-index: -1;
+        }
+
+        /* Availability Badge */
+        .availability-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: rgba(6, 182, 212, 0.1);
+            border: 1px solid rgba(6, 182, 212, 0.3);
+            border-radius: var(--radius-md);
+            font-size: 0.9rem;
+            color: var(--secondary);
+            margin-bottom: 1.5rem;
+            animation: pulse-glow 2s infinite;
+        }
+
+        .badge-dot {
+            width: 8px;
+            height: 8px;
+            background: #10b981;
+            border-radius: 50%;
+            animation: blink 1.5s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(6, 182, 212, 0.2); }
+            50% { box-shadow: 0 0 0 8px rgba(6, 182, 212, 0); }
+        }
+
+        /* Section Styles */
+        section {
+            padding: 100px 2rem;
+        }
+
+        .section-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-header h2 {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 800;
+            margin-bottom: 1rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-header h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 2px;
+        }
+
+        .section-header p {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 1.5rem auto 0;
+        }
+
+        /* About Section */
+        #about {
+            background: var(--bg-primary);
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .about-image img {
+            width: 100%;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .about-content {
+            opacity: 0;
+            transform: translateX(30px);
+            transition: var(--transition);
+        }
+
+        .about-content.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .about-image {
+            opacity: 0;
+            transform: translateX(-30px);
+            transition: var(--transition);
+        }
+
+        .about-image.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        .about-content h3 {
+            font-size: 1.75rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+        }
+
+        .about-content p {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            font-size: 1.05rem;
+        }
+
+        .about-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .stat-card {
+            text-align: center;
+            padding: 1.5rem;
+            background: var(--bg-secondary);
+            border-radius: var(--radius-md);
+            transition: var(--transition);
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .stat-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+
+        /* Skills Section */
+        #skills {
+            background: var(--bg-secondary);
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .skill-category {
+            background: var(--bg-primary);
+            padding: 2rem;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            transition: var(--transition);
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .skill-category.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .skill-category:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .skill-category h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .skill-category h3::before {
+            content: '';
+            width: 8px;
+            height: 24px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 4px;
+        }
+
+        .skill-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .skill-tag {
+            padding: 0.5rem 1rem;
+            background: var(--bg-tertiary);
+            border-radius: var(--radius-sm);
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--text-primary);
+            transition: var(--transition);
+        }
+
+        .skill-tag:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* Experience Section */
+        #experience {
+            background: var(--bg-primary);
+        }
+
+        .experience-grid {
+            display: grid;
+            gap: 2rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .experience-card {
+            background: var(--bg-secondary);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            box-shadow: var(--shadow-md);
+            transition: var(--transition);
+            border-left: 4px solid var(--primary);
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .experience-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .experience-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .experience-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .experience-title-group h3 {
+            font-size: 1.3rem;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .experience-company {
+            font-weight: 600;
+            color: var(--primary);
+            font-size: 1rem;
+        }
+
+        .experience-date {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            white-space: nowrap;
+        }
+
+        .experience-description {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            font-size: 1rem;
+        }
+
+        .experience-details {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .experience-details li {
+            color: var(--text-secondary);
+            margin-bottom: 0.75rem;
+            padding-left: 1.5rem;
+            position: relative;
+            font-size: 0.95rem;
+        }
+
+        .experience-details li::before {
+            content: '▹';
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+        }
+
+        .experience-details strong {
+            color: var(--text-primary);
+        }
+
+        /* Projects Section */
+        #projects {
+            background: var(--bg-secondary);
+        }
+
+        .filter-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 0.75rem 1.5rem;
+            background: var(--bg-primary);
+            border: 2px solid var(--border);
+            border-radius: var(--radius-md);
+            color: var(--text-secondary);
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: white;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .project-card {
+            background: var(--bg-primary);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            transition: var(--transition);
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .project-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .project-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .project-card.featured-project {
+            grid-column: 1 / -1;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .project-image {
+            width: 100%;
+            height: 250px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .project-card.featured-project .project-image {
+            height: 100%;
+            min-height: 400px;
+        }
+
+        .project-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .project-card:hover .project-image img {
+            transform: scale(1.05);
+        }
+
+        .project-content {
+            padding: 1.5rem;
+        }
+
+        .project-card.featured-project .project-content {
+            padding: 2.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .project-category {
+            font-size: 0.85rem;
+            color: var(--primary);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.75rem;
+        }
+
+        .project-title {
+            font-size: 1.4rem;
+            color: var(--text-primary);
+            margin-bottom: 0.75rem;
+            font-weight: 700;
+        }
+
+        .project-subtitle {
+            font-size: 1rem;
+            color: var(--secondary);
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+
+        .project-description,
+        .project-star-content {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+
+        .project-star-content p {
+            margin-bottom: 1rem;
+        }
+
+        .project-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .tag {
+            padding: 0.4rem 0.8rem;
+            background: var(--bg-tertiary);
+            border-radius: var(--radius-sm);
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .project-images-preview {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1.5rem;
+            overflow-x: auto;
+            padding-bottom: 0.5rem;
+        }
+
+        .project-images-preview img {
+            width: 80px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: var(--transition);
+            flex-shrink: 0;
+        }
+
+        .project-images-preview img:hover {
+            transform: scale(1.1);
+        }
+
+        /* Contact Section */
+        #contact {
+            background: var(--bg-primary);
+        }
+
+        .contact-container {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .contact-content {
+            background: var(--bg-secondary);
+            padding: 3rem;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            margin-top: 2rem;
+        }
+
+        .contact-content h3 {
+            font-size: 1.75rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .contact-content p {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            font-size: 1.05rem;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            color: var(--text-secondary);
+        }
+
+        .contact-item svg {
+            width: 24px;
+            height: 24px;
+            color: var(--primary);
+        }
+
+        .contact-item a {
+            color: var(--primary);
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .contact-item a:hover {
+            color: var(--secondary);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--bg-secondary);
+            padding: 3rem 2rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .footer-brand p {
+            color: var(--text-secondary);
+            margin-top: 0.5rem;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: flex-end;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            transition: var(--transition);
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+        }
+
+        .copyright {
+            text-align: center;
+            color: var(--text-light);
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+        }
+
+        /* Animations */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: var(--transition);
+        }
+
+        .animate-on-scroll.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .hero-container {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+
+            .hero-content {
+                text-align: center;
+            }
+
+            .hero-content p {
+                margin: 0 auto 2.5rem;
+            }
+
+            .hero-buttons {
+                justify-content: center;
+            }
+
+            .hero-image {
+                order: -1;
+            }
+
+            .about-grid {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+
+            .about-content {
+                text-align: center;
+            }
+
+            .about-stats {
+                justify-content: center;
+            }
+
+            .project-card.featured-project {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-container {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .footer-links {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .nav-links {
+                display: none;
+            }
+
+            .mobile-menu-btn {
+                display: flex;
+            }
+
+            .about-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .filter-buttons {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .filter-btn {
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="#home" class="logo">ASIER URIA</a>
+            <ul class="nav-links">
+                <li><a href="#about">About</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#experience">Experience</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-container">
+            <div class="hero-content animate-on-scroll">
+                <h1>Mechanical Design Engineer turning complex ideas into <span>precision-engineered products</span></h1>
+                <p class="subtitle">CAD Design | Functional Prototyping | Manufacturing Solutions</p>
+                <p>From parametric CAD models to manufacturing-ready prototypes, I specialize in designing precise mechanical solutions. With expertise in FreeCAD, tolerance analysis, and DFM principles, I bring products from concept through production—saving time and costs while ensuring quality.</p>
+                <div class="availability-badge">
+                    <span class="badge-dot"></span>
+                    <span>Available for full-time roles & contract work</span>
+                </div>
+                <div class="hero-buttons">
+                    <a href="#projects" class="btn btn-primary">
+                        View My Work
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                    </a>
+                    <a href="#contact" class="btn btn-secondary">Get In Touch</a>
+                </div>
+            </div>
+            <div class="hero-image animate-on-scroll">
+                <img src="./images/asier-uria-cicenergigune.jpg" alt="Asier Uria - Mechanical Design Engineer">
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about">
+        <div class="section-container">
+            <div class="section-header animate-on-scroll">
+                <h2>About Me</h2>
+                <p>Passionate about precision engineering and product development</p>
+            </div>
+            <div class="about-grid">
+                <div class="about-image animate-on-scroll">
+                    <img src="./images/diseño de laboratorio de redox lab6 cic.PNG" alt="CAD Design and Engineering Work">
+                </div>
+                <div class="about-content animate-on-scroll">
+                    <h3>Mechanical Design Engineer with a Focus on Functional Prototyping</h3>
+                    <p><strong>The challenge:</strong> Great product ideas often fail due to poor mechanical design, unrealistic tolerances, or designs that can't be manufactured efficiently.</p>
+                    <p><strong>My approach:</strong> I combine precision CAD design with hands-on prototyping expertise. Using parametric modeling in FreeCAD, I create designs optimized for manufacturing (DFM/DFA), perform tolerance analysis, and rapidly iterate through physical prototypes using 3D printing and CNC machining.</p>
+                    <p><strong>The outcome:</strong> Products that work reliably from day one, reduced development costs, and faster time-to-market. My designs have saved over €8,000 per project on average while improving performance and manufacturability.</p>
+                    <p>With 6+ years of experience developing 50+ functional prototypes and precision mechanisms, I bridge the gap between concept and production-ready designs across diverse industries.</p>
+                    <div class="about-stats">
+                        <div class="stat-card">
+                            <div class="stat-number">50+</div>
+                            <div class="stat-label">Products Designed</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">€8K+</div>
+                            <div class="stat-label">Avg Cost Savings</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">6+</div>
+                            <div class="stat-label">Years Experience</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills">
+        <div class="section-container">
+            <div class="section-header animate-on-scroll">
+                <h2>Technical Skills</h2>
+                <p>Comprehensive toolkit for mechanical design and product development</p>
+            </div>
+            <div class="skills-grid">
+                <div class="skill-category animate-on-scroll">
+                    <h3>CAD & Design</h3>
+                    <div class="skill-list">
+                        <span class="skill-tag">FreeCAD</span>
+                        <span class="skill-tag">OpenSCAD</span>
+                        <span class="skill-tag">Parametric Modeling</span>
+                        <span class="skill-tag">3D Modeling</span>
+                        <span class="skill-tag">Technical Drawing</span>
+                        <span class="skill-tag">GD&T</span>
+                        <span class="skill-tag">Tolerance Analysis</span>
+                    </div>
+                </div>
+                <div class="skill-category animate-on-scroll">
+                    <h3>Manufacturing</h3>
+                    <div class="skill-list">
+                        <span class="skill-tag">DFM/DFA</span>
+                        <span class="skill-tag">3D Printing (FDM/SLA)</span>
+                        <span class="skill-tag">CNC Machining</span>
+                        <span class="skill-tag">Laser Cutting</span>
+                        <span class="skill-tag">Material Selection</span>
+                        <span class="skill-tag">Prototype Testing</span>
+                    </div>
+                </div>
+                <div class="skill-category animate-on-scroll">
+                    <h3>Engineering</h3>
+                    <div class="skill-list">
+                        <span class="skill-tag">Mechanism Design</span>
+                        <span class="skill-tag">Precision Engineering</span>
+                        <span class="skill-tag">Assembly Design</span>
+                        <span class="skill-tag">Fastener Selection</span>
+                        <span class="skill-tag">Sealing Solutions</span>
+                        <span class="skill-tag">Structural Analysis</span>
+                    </div>
+                </div>
+                <div class="skill-category animate-on-scroll">
+                    <h3>Programming & Automation</h3>
+                    <div class="skill-list">
+                        <span class="skill-tag">Python</span>
+                        <span class="skill-tag">Arduino</span>
+                        <span class="skill-tag">Automation Scripts</span>
+                        <span class="skill-tag">Data Analysis</span>
+                        <span class="skill-tag">Test Equipment Integration</span>
+                    </div>
+                </div>
+                <div class="skill-category animate-on-scroll">
+                    <h3>Product Development</h3>
+                    <div class="skill-list">
+                        <span class="skill-tag">Concept Development</span>
+                        <span class="skill-tag">Rapid Prototyping</span>
+                        <span class="skill-tag">Design Iteration</span>
+                        <span class="skill-tag">Cost Optimization</span>
+                        <span class="skill-tag">Supplier Coordination</span>
+                        <span class="skill-tag">Documentation</span>
+                    </div>
+                </div>
+                <div class="skill-category animate-on-scroll">
+                    <h3>Soft Skills</h3>
+                    <div class="skill-list">
+                        <span class="skill-tag">Problem Solving</span>
+                        <span class="skill-tag">Project Management</span>
+                        <span class="skill-tag">Cross-functional Collaboration</span>
+                        <span class="skill-tag">Technical Communication</span>
+                        <span class="skill-tag">Innovation</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section id="experience">
+        <div class="section-container">
+            <div class="section-header animate-on-scroll">
+                <h2>Professional Experience</h2>
+                <p>Building expertise in mechanical design and precision engineering</p>
+            </div>
+            <div class="experience-grid">
+                <div class="experience-card animate-on-scroll">
+                    <div class="experience-header">
+                        <div class="experience-title-group">
+                            <h3>Laboratory Technician (Automation & Prototyping)</h3>
+                            <div class="experience-company">CIC energiGUNE</div>
+                        </div>
+                        <div class="experience-date">Feb 2024 – Present</div>
+                    </div>
+                    <p class="experience-description">Specialize in transforming complex research requirements into functional tools by combining CAD design, Python automation, and advanced fabrication.</p>
+                    <ul class="experience-details">
+                        <li><strong>Process Automation:</strong> Developed a Python-based control system for synthesis setups, reducing manual intervention from 3 hours to 10 minutes through automated sequencing and remote reporting.</li>
+                        <li><strong>Custom Engineering:</strong> Designed and fabricated over 100 technical parts and 5 complete flow cells, including a specialized lead-acid/redox hybrid experimental battery.</li>
+                        <li><strong>Cost Optimization:</strong> Led the sourcing and validation of alternative suppliers, achieving up to 90% cost savings on critical laboratory components.</li>
+                        <li><strong>Infrastructure Management:</strong> Responsible for the center's 3D printing lab, providing technical support and training to researchers and multidisciplinary teams.</li>
+                        <li><strong>Analytical Support:</strong> Conducted advanced material characterization via SEM and independent analysis of battery performance data.</li>
+                    </ul>
+                </div>
+                <div class="experience-card animate-on-scroll">
+                    <div class="experience-header">
+                        <div class="experience-title-group">
+                            <h3>Lab Technician Intern (Neuroscience)</h3>
+                            <div class="experience-company">Czech Academy of Sciences</div>
+                        </div>
+                        <div class="experience-date">2023 (3 months)</div>
+                    </div>
+                    <p class="experience-description">Designed experimental rigs and maintained laboratory setups in an international research environment, developing precision mechanical solutions for neuroscience experiments.</p>
+                </div>
+                <div class="experience-card animate-on-scroll">
+                    <div class="experience-header">
+                        <div class="experience-title-group">
+                            <h3>Quality Control Technician</h3>
+                            <div class="experience-company">Boga Brewery</div>
+                        </div>
+                        <div class="experience-date">2021 (3 months)</div>
+                    </div>
+                    <p class="experience-description">Performed microbiological and chemical analysis to ensure quality standards during fermentation processes, developing attention to detail and process optimization skills.</p>
+                </div>
+                <div class="experience-card animate-on-scroll">
+                    <div class="experience-header">
+                        <div class="experience-title-group">
+                            <h3>Custom Guitar Fabrication (Personal Project)</h3>
+                            <div class="experience-company">Independent Workshop</div>
+                        </div>
+                        <div class="experience-date">2015 – 2022</div>
+                    </div>
+                    <p class="experience-description">Designed and handcrafted 10+ precision electric guitars from scratch while studying, developing advanced manual skills and expertise in processing wood and composite materials. This hobby honed my understanding of ergonomics, aesthetics, and precision assembly—skills directly transferable to professional mechanical design.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects">
+        <div class="section-container">
+            <div class="section-header animate-on-scroll">
+                <h2>Featured Projects</h2>
+                <p>Showcasing precision mechanical design and functional prototyping</p>
+            </div>
+            <div class="filter-buttons animate-on-scroll">
+                <button class="filter-btn active" data-filter="all">All Projects</button>
+                <button class="filter-btn" data-filter="mechanical">Mechanical Design</button>
+                <button class="filter-btn" data-filter="product">Product Design</button>
+                <button class="filter-btn" data-filter="prototyping">Prototyping</button>
+            </div>
+            <div class="projects-grid" id="projectsGrid">
+                <!-- Featured Project 1: Variable Angle Adapter (STAR Format) -->
+                <div class="project-card animate-on-scroll featured-project" data-category="mechanical" 
+                     data-images='["./images/laboratory equipment adapters/contact angle adapter.jpg", "./images/laboratory equipment adapters/contact angle adapter 2.PNG"]'>
+                    <div class="project-image">
+                        <img src="./images/laboratory equipment adapters/contact angle adapter.jpg" alt="Variable Angle Adapter for Precision Measurements">
+                    </div>
+                    <div class="project-content">
+                        <div class="project-category">Mechanical Design</div>
+                        <h3 class="project-title">Precision Variable Angle Mechanism</h3>
+                        <p class="project-subtitle">Commercial precision at a fraction of the cost: €8,000+ saved</p>
+                        <div class="project-star-content">
+                            <p><strong>🎯 The challenge:</strong> Researchers needed to measure dynamic contact angles with precision, but commercial equipment cost over €8,000 and didn't allow fine adjustments.</p>
+                            <p><strong>💡 What I did:</strong> I designed a precision adapter with a continuously variable angle mechanism using FreeCAD. I combined high-precision 3D printing with machined components to ensure rigidity and measurement repeatability, applying tolerance analysis for optimal fit.</p>
+                            <p><strong>✅ Outcome:</strong> Saved over €8,000, achieved greater flexibility than commercial equipment, and delivered more consistent measurements. The mechanism is now routinely used in the lab.</p>
+                        </div>
+                        <div class="project-tags">
+                            <span class="tag">FreeCAD</span>
+                            <span class="tag">Precision Mechanisms</span>
+                            <span class="tag">Tolerance Analysis</span>
+                            <span class="tag">3D Printing</span>
+                            <span class="tag">CNC Machining</span>
+                            <span class="tag">Cost Savings: €8K+</span>
+                        </div>
+                        <div class="project-images-preview">
+                            <img src="./images/laboratory equipment adapters/contact angle adapter.jpg" alt="View 1">
+                            <img src="./images/laboratory equipment adapters/contact angle adapter 2.PNG" alt="View 2">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project: Parametric Flow Battery Cell -->
+                <div class="project-card animate-on-scroll" data-category="product"
+                     data-images='["./images/cell designs/bateria flujo diseño.jpg", "./images/cell designs/bateria flujo diseño cad.png", "./images/cell designs/bateria flujo diseño cad - Copy.png", "./images/cell designs/bateria flujo diseño - Copy.jpg"]'>
+                    <div class="project-image">
+                        <img src="./images/cell designs/bateria flujo diseño.jpg" alt="Parametric CAD Design for Flow Batteries">
+                    </div>
+                    <div class="project-content">
+                        <div class="project-category">Product Design</div>
+                        <h3 class="project-title">Modular Parametric Flow Cell</h3>
+                        <p class="project-subtitle">Flexible design optimized for rapid iteration</p>
+                        <div class="project-star-content">
+                            <p><strong>🎯 The challenge:</strong> Needed a flexible test cell to evaluate different membrane and electrode configurations without high fabrication costs.</p>
+                            <p><strong>💡 What I did:</strong> Designed a modular parametric cell in FreeCAD with optimized flow channels and improved sealing mechanism. Applied DFM principles for 3D printing and CNC machining of critical components.</p>
+                            <p><strong>✅ Outcome:</strong> Ability to test over 10 different configurations with the same base cell, 60% reduction in assembly time, and zero leaks during continuous operation.</p>
+                        </div>
+                        <div class="project-tags">
+                            <span class="tag">FreeCAD</span>
+                            <span class="tag">Parametric Design</span>
+                            <span class="tag">DFM</span>
+                            <span class="tag">Modular Design</span>
+                            <span class="tag">Sealing Solutions</span>
+                        </div>
+                        <div class="project-images-preview">
+                            <img src="./images/cell designs/bateria flujo diseño.jpg" alt="Design View">
+                            <img src="./images/cell designs/bateria flujo diseño cad.png" alt="CAD View">
+                            <img src="./images/cell designs/bateria flujo diseño cad - Copy.png" alt="CAD View 2">
+                            <img src="./images/cell designs/bateria flujo diseño - Copy.jpg" alt="Design View 2">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project: Custom Instron Accessories -->
+                <div class="project-card animate-on-scroll" data-category="mechanical"
+                     data-images='["./images/laboratory equipment adapters/adaptador instron traccion.png", "./images/laboratory equipment adapters/adaptador compresion instron.PNG"]'>
+                    <div class="project-image">
+                        <img src="./images/laboratory equipment adapters/adaptador instron traccion.png" alt="Custom Instron Accessories">
+                    </div>
+                    <div class="project-content">
+                        <div class="project-category">Mechanical Design</div>
+                        <h3 class="project-title">Custom Mechanical Test Fixtures</h3>
+                        <p class="project-description">Specialized fixtures for compression and tension testing, improving experimental precision and repeatability. Designed with proper load distribution and alignment features for accurate mechanical characterization of materials.</p>
+                        <div class="project-tags">
+                            <span class="tag">CAD Design</span>
+                            <span class="tag">Fixture Design</span>
+                            <span class="tag">Mechanical Testing</span>
+                            <span class="tag">Precision Alignment</span>
+                        </div>
+                        <div class="project-images-preview">
+                            <img src="./images/laboratory equipment adapters/adaptador instron traccion.png" alt="Tension Adapter">
+                            <img src="./images/laboratory equipment adapters/adaptador compresion instron.PNG" alt="Compression Adapter">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project: Secure Electrolyte Bottle Holder -->
+                <div class="project-card animate-on-scroll" data-category="product"
+                     data-images='["./images/laboratory equipment adapters/soporte botellas redox.PNG"]'>
+                    <div class="project-image">
+                        <img src="./images/laboratory equipment adapters/soporte botellas redox.PNG" alt="Secure Bottle Holder - Zero Spills">
+                    </div>
+                    <div class="project-content">
+                        <div class="project-category">Product Design</div>
+                        <h3 class="project-title">Secure Laboratory Bottle Holder</h3>
+                        <p class="project-subtitle">Zero spills, maximum access</p>
+                        <p class="project-description">Custom holder ensuring stability, spill prevention, and easy access during testing. Designed with secure locking mechanism and ergonomic features for improved lab safety and workflow efficiency.</p>
+                        <div class="project-tags">
+                            <span class="tag">Safety Design</span>
+                            <span class="tag">Functional Design</span>
+                            <span class="tag">Ergonomics</span>
+                        </div>
+                        <div class="project-images-preview">
+                            <img src="./images/laboratory equipment adapters/soporte botellas redox.PNG" alt="Bottle Holder">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project: Impedance Measurement Cell -->
+                <div class="project-card animate-on-scroll" data-category="prototyping"
+                     data-images='["./images/laboratory equipment adapters/celda impedancia.PNG"]'>
+                    <div class="project-image">
+                        <img src="./images/laboratory equipment adapters/celda impedancia.PNG" alt="Impedance Measurement Cell">
+                    </div>
+                    <div class="project-content">
+                        <div class="project-category">Prototyping</div>
+                        <h3 class="project-title">Precision Impedance Cell</h3>
+                        <p class="project-description">Custom impedance cell design for precise electrochemical characterization. Features gold-plated contacts, sealed chamber, and precision-machined components for accurate, repeatable measurements.</p>
+                        <div class="project-tags">
+                            <span class="tag">Precision Engineering</span>
+                            <span class="tag">Sealed Design</span>
+                            <span class="tag">Material Selection</span>
+                        </div>
+                        <div class="project-images-preview">
+                            <img src="./images/laboratory equipment adapters/celda impedancia.PNG" alt="Impedance Cell">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project: Portable LAN Gaming PC -->
+                <div class="project-card animate-on-scroll" data-category="product"
+                     data-images='["./images/personal proyects/electronics/portable desktop computer for lan.jpg", "./images/personal proyects/electronics/portable desktop computer for lan 2.jpg", "./images/personal proyects/electronics/portable desktop computer for lan 3.jpg"]'>
+                    <div class="project-image">
+                        <img src="./images/personal proyects/electronics/portable desktop computer for lan.jpg" alt="Portable LAN Gaming PC">
+                    </div>
+                    <div class="project-content">
+                        <div class="project-category">Product Design</div>
+                        <h3 class="project-title">Compact Portable Computer Enclosure</h3>
+                        <p class="project-description">Designed and fabricated a portable desktop computer enclosure optimized for LAN gaming events. Features include integrated cooling system, efficient cable management, compact form factor, and integrated handle for transport. Demonstrates expertise in thermal management, structural design, and user-centered product development.</p>
+                        <div class="project-tags">
+                            <span class="tag">Enclosure Design</span>
+                            <span class="tag">Thermal Management</span>
+                            <span class="tag">Product Design</span>
+                            <span class="tag">Fabrication</span>
+                        </div>
+                        <div class="project-images-preview">
+                            <img src="./images/personal proyects/electronics/portable desktop computer for lan.jpg" alt="View 1">
+                            <img src="./images/personal proyects/electronics/portable desktop computer for lan 2.jpg" alt="View 2">
+                            <img src="./images/personal proyects/electronics/portable desktop computer for lan 3.jpg" alt="View 3">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project: Custom Guitar Handcrafting -->
+                <div class="project-card animate-on-scroll" data-category="prototyping"
+                     data-images='["./images/personal proyects/guitar handcrafting/custom-guitar.jpg", "./images/personal proyects/guitar handcrafting/guitar build.jpg", "./images/personal proyects/guitar handcrafting/guitarra 1.jpg"]'>
+                    <div class="project-image">
+                        <img src="./images/personal proyects/guitar handcrafting/custom-guitar.jpg" alt="Custom Handcrafted Guitar">
+                    </div>
+                    <div class="project-content">
+                        <div class="project-category">Prototyping</div>
+                        <h3 class="project-title">Custom Electric Guitar Fabrication</h3>
+                        <p class="project-description">Designed and handcrafted 10+ precision electric guitars from raw materials. This project demonstrates mastery of material selection, precision woodworking, ergonomic design, finishing techniques, and complete product realization from concept to finished instrument.</p>
+                        <div class="project-tags">
+                            <span class="tag">Material Processing</span>
+                            <span class="tag">Precision Craftsmanship</span>
+                            <span class="tag">Ergonomic Design</span>
+                            <span class="tag">Full Product Lifecycle</span>
+                        </div>
+                        <div class="project-images-preview">
+                            <img src="./images/personal proyects/guitar handcrafting/custom-guitar.jpg" alt="Custom Guitar">
+                            <img src="./images/personal proyects/guitar handcrafting/guitar build.jpg" alt="Build Process">
+                            <img src="./images/personal proyects/guitar handcrafting/guitarra 1.jpg" alt="Finished Product">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project: Redox Cell Support System -->
+                <div class="project-card animate-on-scroll" data-category="mechanical"
+                     data-images='["./images/laboratory equipment adapters/soporte celda redox.jpg"]'>
+                    <div class="project-image">
+                        <img src="./images/laboratory equipment adapters/soporte celda redox.jpg" alt="Modular Cell Support System">
+                    </div>
+                    <div class="project-content">
+                        <div class="project-category">Mechanical Design</div>
+                        <h3 class="project-title">Modular Equipment Support System</h3>
+                        <p class="project-description">Specialized supports for stable vertical positioning with easy access to connections. Modular design allows quick assembly/disassembly for maintenance, demonstrating expertise in modular architecture and serviceability considerations.</p>
+                        <div class="project-tags">
+                            <span class="tag">Modular Design</span>
+                            <span class="tag">Structural Design</span>
+                            <span class="tag">Serviceability</span>
+                        </div>
+                        <div class="project-images-preview">
+                            <img src="./images/laboratory equipment adapters/soporte celda redox.jpg" alt="Cell Support">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+        <div class="section-container">
+            <div class="section-header animate-on-scroll">
+                <h2>Let's Work Together</h2>
+                <p>Ready to bring your mechanical design projects to life</p>
+            </div>
+            <div class="contact-container">
+                <div class="contact-content animate-on-scroll">
+                    <h3>What mechanical challenge shall we solve together?</h3>
+                    <p>Whether you need precision CAD design, functional prototyping, or manufacturing support, I'm ready to help turn your ideas into reality. Typical projects range from 2-8 weeks depending on complexity.</p>
+                    <div class="contact-info">
+                        <div class="contact-item">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                                <polyline points="22,6 12,13 2,6"/>
+                            </svg>
+                            <a href="mailto:asieruria@example.com">asieruria@example.com</a>
+                        </div>
+                        <div class="contact-item">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                                <circle cx="12" cy="7" r="4"/>
+                            </svg>
+                            <span>Based in Basque Country, Spain - Open to Remote & Relocation</span>
+                        </div>
+                    </div>
+                    <div class="hero-buttons" style="margin-top: 2rem; justify-content: center;">
+                        <a href="mailto:asieruria@example.com" class="btn btn-primary">
+                            Start a Conversation
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M5 12h14M12 5l7 7-7 7"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-brand">
+                <h3>ASIER URIA</h3>
+                <p>Mechanical Design Engineer | CAD Specialist | Functional Prototyping</p>
+            </div>
+            <ul class="footer-links">
+                <li><a href="#about">About</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2024 Asier Uria. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const navLinks = document.querySelector('.nav-links');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
+        });
+
+        // Navbar Scroll Effect
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Scroll Animation Observer
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.animate-on-scroll').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Project Filter
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const projectCards = document.querySelectorAll('.project-card');
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Update active button
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                const filter = btn.dataset.filter;
+
+                projectCards.forEach(card => {
+                    if (filter === 'all' || card.dataset.category === filter) {
+                        card.style.display = '';
+                        setTimeout(() => card.classList.add('visible'), 100);
+                    } else {
+                        card.classList.remove('visible');
+                        setTimeout(() => card.style.display = 'none', 300);
+                    }
+                });
+            });
+        });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                    // Close mobile menu if open
+                    if (window.innerWidth <= 640) {
+                        navLinks.style.display = 'none';
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
