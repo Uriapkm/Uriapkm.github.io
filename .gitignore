@@ -1,14 +1,1 @@
-```
-# Image-related temporary files (from change list analysis)
-"RP-portfolio-v2/images/cell*
-"RP-portfolio-v2/images/dise\\303\\261o*
-"RP-portfolio-v2/images/electroplating/celda*
-"RP-portfolio-v2/images/laboratory*
-"RP-portfolio-v2/images/personal*
-"RP-portfolio-v2/images/python/python*
-"RP-portfolio-v2/images/python/setup*
-
-# Text files in images directory (from change list)
-"RP-portfolio-v2/images/electroplating/electroplating.txt
-"RP-portfolio-v2/images/python/py.txt
-```
+Nothing should be ignored based on the provided file changes. The only modified file is 'RP-portfolio-v2/index.html', which is a source code file and should not be added to .gitignore.
