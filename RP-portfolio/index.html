@@ -544,121 +544,110 @@
             background: var(--bg-primary);
         }
 
-        .timeline {
-            position: relative;
-            max-width: 800px;
+        .experience-grid {
+            display: grid;
+            gap: 2rem;
+            max-width: 900px;
             margin: 0 auto;
         }
 
-        .timeline::before {
-            content: '';
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 3px;
-            height: 100%;
-            background: linear-gradient(180deg, var(--primary), var(--secondary));
-            border-radius: 2px;
-        }
-
-        .timeline-item {
-            position: relative;
-            margin-bottom: 3rem;
-            width: 50%;
-            padding-right: 3rem;
-        }
-
-        .timeline-item:nth-child(even) {
-            margin-left: 50%;
-            padding-right: 0;
-            padding-left: 3rem;
-        }
-
-        .timeline-dot {
-            position: absolute;
-            right: -8px;
-            top: 0;
-            width: 19px;
-            height: 19px;
-            background: var(--primary);
-            border: 4px solid var(--bg-secondary);
-            border-radius: 50%;
-            box-shadow: var(--shadow-md);
-        }
-
-        .timeline-item:nth-child(even) .timeline-dot {
-            left: -8px;
-            right: auto;
-        }
-
-        .timeline-content {
+        .experience-card {
             background: var(--bg-secondary);
-            padding: 1.5rem;
-            border-radius: var(--radius-md);
-            box-shadow: var(--shadow-sm);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            box-shadow: var(--shadow-md);
             transition: var(--transition);
+            border-left: 4px solid var(--primary);
             opacity: 0;
-            transform: translateY(20px);
+            transform: translateY(30px);
         }
 
-        .timeline-content.visible {
+        .experience-card.visible {
             opacity: 1;
             transform: translateY(0);
         }
 
-        .timeline-content:hover {
-            box-shadow: var(--shadow-md);
+        .experience-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
         }
 
-        .timeline-date {
-            font-size: 0.9rem;
-            color: var(--primary);
-            font-weight: 600;
-            margin-bottom: 0.5rem;
+        .experience-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+            gap: 1rem;
         }
 
-        .timeline-title {
-            font-size: 1.25rem;
+        .experience-title-group h3 {
+            font-size: 1.4rem;
             font-weight: 700;
-            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+            margin-bottom: 0.25rem;
         }
 
-        .timeline-company {
+        .experience-company {
+            color: var(--secondary);
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .experience-date {
+            background: rgba(59, 130, 246, 0.15);
+            color: var(--primary);
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius-sm);
+            font-weight: 600;
+            font-size: 0.9rem;
+            white-space: nowrap;
+        }
+
+        .experience-description {
             color: var(--text-secondary);
             font-size: 1rem;
-            margin-bottom: 1rem;
+            margin-bottom: 1.25rem;
+            line-height: 1.7;
         }
 
-        .timeline-description {
-            color: var(--text-secondary);
-            font-size: 0.95rem;
-        }
-
-        .timeline-details {
+        .experience-details {
             list-style: none;
             padding: 0;
-            margin-top: 1rem;
+            margin: 0;
         }
 
-        .timeline-details li {
+        .experience-details li {
             color: var(--text-secondary);
-            font-size: 0.9rem;
-            margin-bottom: 0.75rem;
+            font-size: 0.95rem;
+            margin-bottom: 0.875rem;
             line-height: 1.6;
-            padding-left: 1.25rem;
+            padding-left: 1.5rem;
             position: relative;
         }
 
-        .timeline-details li::before {
-            content: '▹';
+        .experience-details li::before {
+            content: '✓';
             position: absolute;
             left: 0;
-            color: var(--primary);
+            color: var(--secondary);
             font-weight: bold;
+            font-size: 1rem;
         }
 
-        .timeline-details strong {
+        .experience-details strong {
             color: var(--text-primary);
+        }
+
+        @media (max-width: 768px) {
+            .experience-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .experience-date {
+                align-self: flex-start;
+            }
         }
 
         /* Projects Section */
@@ -1190,22 +1179,6 @@
             .contact-grid {
                 grid-template-columns: 1fr;
             }
-
-            .timeline::before {
-                left: 20px;
-            }
-
-            .timeline-item {
-                width: 100%;
-                margin-left: 50px !important;
-                padding-left: 2rem !important;
-                padding-right: 0 !important;
-            }
-
-            .timeline-dot {
-                left: -59px !important;
-                right: auto !important;
-            }
         }
 
         @media (max-width: 768px) {
@@ -1441,49 +1414,53 @@
                 <h2>Professional Experience</h2>
                 <p>Lab Technician & Specialist in Automation and Technical Design</p>
             </div>
-            <div class="timeline">
-                <div class="timeline-item animate-on-scroll">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <div class="timeline-date">Feb 2024 – Present</div>
-                        <h3 class="timeline-title">Laboratory Technician (Automation & Prototyping)</h3>
-                        <div class="timeline-company">CIC energiGUNE</div>
-                        <p class="timeline-description">Specialize in transforming complex research requirements into functional tools by combining CAD design, Python automation, and advanced fabrication.</p>
-                        <ul class="timeline-details">
-                            <li><strong>Process Automation:</strong> Developed a Python-based control system for synthesis setups, reducing manual intervention from 3 hours to 10 minutes through automated sequencing and remote reporting.</li>
-                            <li><strong>Custom Engineering:</strong> Designed and fabricated over 100 technical parts and 5 complete flow cells, including a specialized lead-acid/redox hybrid experimental battery.</li>
-                            <li><strong>Cost Optimization:</strong> Led the sourcing and validation of alternative suppliers, achieving up to 90% cost savings on critical laboratory components.</li>
-                            <li><strong>Infrastructure Management:</strong> Responsible for the center's 3D printing lab, providing technical support and training to researchers and multidisciplinary teams.</li>
-                            <li><strong>Analytical Support:</strong> Conducted advanced material characterization via SEM and independent analysis of battery performance data.</li>
-                        </ul>
+            <div class="experience-grid">
+                <div class="experience-card animate-on-scroll">
+                    <div class="experience-header">
+                        <div class="experience-title-group">
+                            <h3>Laboratory Technician (Automation & Prototyping)</h3>
+                            <div class="experience-company">CIC energiGUNE</div>
+                        </div>
+                        <div class="experience-date">Feb 2024 – Present</div>
                     </div>
+                    <p class="experience-description">Specialize in transforming complex research requirements into functional tools by combining CAD design, Python automation, and advanced fabrication.</p>
+                    <ul class="experience-details">
+                        <li><strong>Process Automation:</strong> Developed a Python-based control system for synthesis setups, reducing manual intervention from 3 hours to 10 minutes through automated sequencing and remote reporting.</li>
+                        <li><strong>Custom Engineering:</strong> Designed and fabricated over 100 technical parts and 5 complete flow cells, including a specialized lead-acid/redox hybrid experimental battery.</li>
+                        <li><strong>Cost Optimization:</strong> Led the sourcing and validation of alternative suppliers, achieving up to 90% cost savings on critical laboratory components.</li>
+                        <li><strong>Infrastructure Management:</strong> Responsible for the center's 3D printing lab, providing technical support and training to researchers and multidisciplinary teams.</li>
+                        <li><strong>Analytical Support:</strong> Conducted advanced material characterization via SEM and independent analysis of battery performance data.</li>
+                    </ul>
                 </div>
-                <div class="timeline-item animate-on-scroll">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <div class="timeline-date">2023 (3 months)</div>
-                        <h3 class="timeline-title">Lab Technician Intern (Neuroscience)</h3>
-                        <div class="timeline-company">Czech Academy of Sciences</div>
-                        <p class="timeline-description">Designed experimental rigs and maintained laboratory setups in an international research environment.</p>
+                <div class="experience-card animate-on-scroll">
+                    <div class="experience-header">
+                        <div class="experience-title-group">
+                            <h3>Lab Technician Intern (Neuroscience)</h3>
+                            <div class="experience-company">Czech Academy of Sciences</div>
+                        </div>
+                        <div class="experience-date">2023 (3 months)</div>
                     </div>
+                    <p class="experience-description">Designed experimental rigs and maintained laboratory setups in an international research environment.</p>
                 </div>
-                <div class="timeline-item animate-on-scroll">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <div class="timeline-date">2021 (3 months)</div>
-                        <h3 class="timeline-title">Quality Control Technician</h3>
-                        <div class="timeline-company">Boga Brewery</div>
-                        <p class="timeline-description">Performed microbiological and chemical analysis to ensure quality standards during fermentation processes.</p>
+                <div class="experience-card animate-on-scroll">
+                    <div class="experience-header">
+                        <div class="experience-title-group">
+                            <h3>Quality Control Technician</h3>
+                            <div class="experience-company">Boga Brewery</div>
+                        </div>
+                        <div class="experience-date">2021 (3 months)</div>
                     </div>
+                    <p class="experience-description">Performed microbiological and chemical analysis to ensure quality standards during fermentation processes.</p>
                 </div>
-                <div class="timeline-item animate-on-scroll">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <div class="timeline-date">2015 – 2022</div>
-                        <h3 class="timeline-title">Handcrafted Fabrication (Personal Hobby)</h3>
-                        <div class="timeline-company">Custom Guitar Workshop</div>
-                        <p class="timeline-description">Designed and handcrafted 10+ precision electric guitars from scratch while studying, developing advanced manual skills and expertise in processing wood and composite materials.</p>
+                <div class="experience-card animate-on-scroll">
+                    <div class="experience-header">
+                        <div class="experience-title-group">
+                            <h3>Handcrafted Fabrication (Personal Hobby)</h3>
+                            <div class="experience-company">Custom Guitar Workshop</div>
+                        </div>
+                        <div class="experience-date">2015 – 2022</div>
                     </div>
+                    <p class="experience-description">Designed and handcrafted 10+ precision electric guitars from scratch while studying, developing advanced manual skills and expertise in processing wood and composite materials.</p>
                 </div>
             </div>
         </div>
