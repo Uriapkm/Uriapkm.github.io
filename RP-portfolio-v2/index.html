@@ -680,6 +680,7 @@
             height: 220px;
             overflow: hidden;
             background: var(--bg-tertiary);
+            position: relative;
         }
 
         .project-image img {
@@ -691,6 +692,83 @@
 
         .project-card:hover .project-image img {
             transform: scale(1.05);
+        }
+
+        /* Image Gallery Styles */
+        .project-gallery {
+            position: relative;
+            width: 100%;
+            height: 220px;
+            overflow: hidden;
+            background: var(--bg-tertiary);
+        }
+
+        .gallery-container {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+            height: 100%;
+        }
+
+        .gallery-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+
+        .gallery-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(15, 23, 42, 0.8);
+            border: none;
+            color: white;
+            padding: 0.5rem;
+            cursor: pointer;
+            z-index: 10;
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+
+        .gallery-nav:hover {
+            background: var(--primary);
+        }
+
+        .gallery-prev {
+            left: 10px;
+        }
+
+        .gallery-next {
+            right: 10px;
+        }
+
+        .gallery-dots {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 8px;
+            z-index: 10;
+        }
+
+        .gallery-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .gallery-dot.active {
+            background: var(--primary);
+            transform: scale(1.2);
         }
 
         .project-content {
@@ -1130,10 +1208,21 @@
             </div>
 
             <div class="projects-grid">
-                <!-- Project 1 -->
+                <!-- Project 1: Wettability Studies Adapter -->
                 <div class="project-card visible" data-category="mechanical">
-                    <div class="project-image">
-                        <img src="./images/laboratory equipment adapters/contact angle adapter.jpg" alt="Wettability Studies Adapter">
+                    <div class="project-gallery" data-gallery-id="1">
+                        <button id="prev-1" class="gallery-nav gallery-prev">&#10094;</button>
+                        <div id="gallery-1" class="gallery-container">
+                            <img src="./images/laboratory equipment adapters/contact angle adapter.jpg" alt="Wettability Studies Adapter - Contact Angle">
+                            <img src="./images/laboratory equipment adapters/contact angle adapter 2.PNG" alt="Wettability Studies Adapter - Side View">
+                            <img src="./images/laboratory equipment adapters/soporte celda redox.jpg" alt="Wettability Studies Adapter - Setup">
+                        </div>
+                        <button id="next-1" class="gallery-nav gallery-next">&#10095;</button>
+                        <div id="dots-1" class="gallery-dots">
+                            <span class="gallery-dot"></span>
+                            <span class="gallery-dot"></span>
+                            <span class="gallery-dot"></span>
+                        </div>
                     </div>
                     <div class="project-content">
                         <div class="project-tags">
@@ -1156,10 +1245,21 @@
                     </div>
                 </div>
 
-                <!-- Project 2 -->
+                <!-- Project 2: Automated Synthesis Control System -->
                 <div class="project-card visible" data-category="automation">
-                    <div class="project-image">
-                        <img src="./images/python/setup python 25 bombas sintesis automatica arduino.jpg" alt="Python + Arduino Automation System">
+                    <div class="project-gallery" data-gallery-id="2">
+                        <button id="prev-2" class="gallery-nav gallery-prev">&#10094;</button>
+                        <div id="gallery-2" class="gallery-container">
+                            <img src="./images/python/setup python 25 bombas sintesis automatica arduino.jpg" alt="Python + Arduino Automation System">
+                            <img src="./images/python/python code.PNG" alt="Python Code Interface">
+                            <img src="./images/python/python 2.PNG" alt="Automation Software GUI">
+                        </div>
+                        <button id="next-2" class="gallery-nav gallery-next">&#10095;</button>
+                        <div id="dots-2" class="gallery-dots">
+                            <span class="gallery-dot"></span>
+                            <span class="gallery-dot"></span>
+                            <span class="gallery-dot"></span>
+                        </div>
                     </div>
                     <div class="project-content">
                         <div class="project-tags">
@@ -1182,22 +1282,46 @@
                     </div>
                 </div>
 
-                <!-- Project 3 -->
+                <!-- Project 3: Parametric Flow Battery Cell Design -->
                 <div class="project-card visible" data-category="mechanical">
-                    <div class="project-image">
-                        <img src="./images/cell designs/lead battery recycle cell 3.png" alt="Parametric Flow Battery Cell">
+                    <div class="project-gallery" data-gallery-id="3">
+                        <button id="prev-3" class="gallery-nav gallery-prev">&#10094;</button>
+                        <div id="gallery-3" class="gallery-container">
+                            <img src="./images/cell designs/lead battery recycle cell 3.png" alt="Parametric Flow Battery Cell">
+                            <img src="./images/cell designs/lead battery recycle cell 1.png" alt="Flow Battery Cell Design 1">
+                            <img src="./images/cell designs/lead battery recycle cell 2.png" alt="Flow Battery Cell Design 2">
+                            <img src="./images/cell designs/lead battery recycle cell 4.jpg" alt="Flow Battery Cell Assembly">
+                            <img src="./images/cell designs/lead battery recycle cell 5.jpg" alt="Flow Battery Cell Final">
+                            <img src="./images/cell designs/bipolar vanadium cell design.jpg" alt="Vanadium Cell Design">
+                            <img src="./images/cell designs/bipolar vanadium cell design 2.jpg" alt="Vanadium Cell Design 2">
+                            <img src="./images/cell designs/bateria flujo diseño.jpg" alt="Flow Battery CAD Design">
+                            <img src="./images/cell designs/bateria flujo diseño cad.png" alt="Flow Battery CAD Model">
+                        </div>
+                        <button id="next-3" class="gallery-nav gallery-next">&#10095;</button>
+                        <div id="dots-3" class="gallery-dots">
+                            <span class="gallery-dot"></span>
+                            <span class="gallery-dot"></span>
+                            <span class="gallery-dot"></span>
+                            <span class="gallery-dot"></span>
+                            <span class="gallery-dot"></span>
+                            <span class="gallery-dot"></span>
+                            <span class="gallery-dot"></span>
+                            <span class="gallery-dot"></span>
+                            <span class="gallery-dot"></span>
+                        </div>
                     </div>
                     <div class="project-content">
                         <div class="project-tags">
                             <span class="project-tag">Parametric CAD</span>
                             <span class="project-tag">Design Iteration</span>
+                            <span class="project-tag">Redox Flow Batteries</span>
                         </div>
                         <h3>Parametric Flow Battery Cell Design</h3>
-                        <p><strong>Challenge:</strong> Research team needed rapid iteration of flow cell geometries without redesigning from scratch.<br><strong>Solution:</strong> Created fully parametric CAD model allowing instant adjustment of channel geometry, compression, and port configuration.<br><strong>Result:</strong> Reduced design time from days to minutes, accelerated research iterations significantly.</p>
+                        <p><strong>Challenge:</strong> Research team needed rapid iteration of flow cell geometries without redesigning from scratch.<br><strong>Solution:</strong> Created fully parametric CAD model allowing instant adjustment of channel geometry, compression, and port configuration.<br><strong>Result:</strong> Reduced design time from days to minutes, accelerated research iterations significantly. Designs used in top European research centers like CIC EnergiGUNE.</p>
                         <div class="project-metrics">
                             <div class="metric">
                                 <div class="metric-value">5+</div>
-                                <div class="metric-label">Cells Built</div>
+                                <div class="metric-label">Cell Types</div>
                             </div>
                             <div class="metric">
                                 <div class="metric-value">90%</div>
@@ -1207,10 +1331,19 @@
                     </div>
                 </div>
 
-                <!-- Project 4 -->
+                <!-- Project 4: Custom Impedance Measurement Cell -->
                 <div class="project-card visible" data-category="mechanical">
-                    <div class="project-image">
-                        <img src="./images/laboratory equipment adapters/celda impedancia.PNG" alt="Custom Impedance Cell">
+                    <div class="project-gallery" data-gallery-id="4">
+                        <button id="prev-4" class="gallery-nav gallery-prev">&#10094;</button>
+                        <div id="gallery-4" class="gallery-container">
+                            <img src="./images/laboratory equipment adapters/celda impedancia.PNG" alt="Custom Impedance Cell">
+                            <img src="./images/laboratory equipment adapters/soporte botellas redox.PNG" alt="Impedance Cell Setup">
+                        </div>
+                        <button id="next-4" class="gallery-nav gallery-next">&#10095;</button>
+                        <div id="dots-4" class="gallery-dots">
+                            <span class="gallery-dot"></span>
+                            <span class="gallery-dot"></span>
+                        </div>
                     </div>
                     <div class="project-content">
                         <div class="project-tags">
@@ -1228,18 +1361,30 @@
                     </div>
                 </div>
 
-                <!-- Project 5 -->
+                <!-- Project 5: SEM Sample Holder Adapters -->
                 <div class="project-card visible" data-category="mechanical">
-                    <div class="project-image">
-                        <img src="./images/laboratory equipment adapters/microscope adapter cristalografy.jpg" alt="Cristalography Sample Holder Adapter">
+                    <div class="project-gallery" data-gallery-id="5">
+                        <button id="prev-5" class="gallery-nav gallery-prev">&#10094;</button>
+                        <div id="gallery-5" class="gallery-container">
+                            <img src="./images/laboratory equipment adapters/microscope adapter cristalografy.jpg" alt="Cristalography Sample Holder Adapter">
+                            <img src="./images/laboratory equipment adapters/adaptador instron traccion.png" alt="Microscopy Adapter - Tensile">
+                            <img src="./images/laboratory equipment adapters/adaptador compresion instron.PNG" alt="Microscopy Adapter - Compression">
+                        </div>
+                        <button id="next-5" class="gallery-nav gallery-next">&#10095;</button>
+                        <div id="dots-5" class="gallery-dots">
+                            <span class="gallery-dot"></span>
+                            <span class="gallery-dot"></span>
+                            <span class="gallery-dot"></span>
+                        </div>
                     </div>
                     <div class="project-content">
                         <div class="project-tags">
                             <span class="project-tag">Microscopy</span>
                             <span class="project-tag">Adapter Design</span>
+                            <span class="project-tag">Characterization</span>
                         </div>
                         <h3>SEM Sample Holder Adapters</h3>
-                        <p>Created custom adapters enabling non-standard sample geometries for Microscopy. Allows sample rotation and precise positioning for crystalography studies.</p>
+                        <p>Created custom adapters enabling non-standard sample geometries for Microscopy. Allows sample rotation and precise positioning for crystallography studies. Multiple variants designed for different characterization equipment including Instron testing systems.</p>
                         <div class="project-metrics">
                             <div class="metric">
                                 <div class="metric-value">Multiple</div>
@@ -1249,10 +1394,25 @@
                     </div>
                 </div>
 
-                <!-- Project 6 -->
+                <!-- Project 6: Handcrafted Electric Guitars -->
                 <div class="project-card visible" data-category="fabrication">
-                    <div class="project-image">
-                        <img src="./images/personal proyects/guitar handcrafting/guitarra 1.jpg" alt="Handcrafted Electric Guitar">
+                    <div class="project-gallery" data-gallery-id="6">
+                        <button id="prev-6" class="gallery-nav gallery-prev">&#10094;</button>
+                        <div id="gallery-6" class="gallery-container">
+                            <img src="./images/personal proyects/guitar handcrafting/guitarra 1.jpg" alt="Handcrafted Electric Guitar">
+                            <img src="./images/personal proyects/guitar handcrafting/guitarra 2.jpg" alt="Guitar Build Process">
+                            <img src="./images/personal proyects/guitar handcrafting/guitarra 3.jpg" alt="Guitar Detail Work">
+                            <img src="./images/personal proyects/guitar handcrafting/guitar build.jpg" alt="Guitar Construction">
+                            <img src="./images/personal proyects/guitar handcrafting/custom-guitar.jpg" alt="Custom Guitar Final">
+                        </div>
+                        <button id="next-6" class="gallery-nav gallery-next">&#10095;</button>
+                        <div id="dots-6" class="gallery-dots">
+                            <span class="gallery-dot"></span>
+                            <span class="gallery-dot"></span>
+                            <span class="gallery-dot"></span>
+                            <span class="gallery-dot"></span>
+                            <span class="gallery-dot"></span>
+                        </div>
                     </div>
                     <div class="project-content">
                         <div class="project-tags">
@@ -1275,18 +1435,30 @@
                     </div>
                 </div>
 
-                <!-- Project 7 -->
-                <div class="project-card visible" data-category="mechanical">
-                    <div class="project-image">
-                        <img src="./images/electroplating/electroplating printed.jpg" alt="Electroplating Setup">
+                <!-- Project 7: Custom Electroplating System -->
+                <div class="project-card visible" data-category="fabrication">
+                    <div class="project-gallery" data-gallery-id="7">
+                        <button id="prev-7" class="gallery-nav gallery-prev">&#10094;</button>
+                        <div id="gallery-7" class="gallery-container">
+                            <img src="./images/electroplating/electroplating printed.jpg" alt="Electroplating Setup">
+                            <img src="./images/electroplating/celda electroplating 1.png" alt="Electroplating Cell Design 1">
+                            <img src="./images/electroplating/celda electroplating 2.png" alt="Electroplating Cell Design 2">
+                        </div>
+                        <button id="next-7" class="gallery-nav gallery-next">&#10095;</button>
+                        <div id="dots-7" class="gallery-dots">
+                            <span class="gallery-dot"></span>
+                            <span class="gallery-dot"></span>
+                            <span class="gallery-dot"></span>
+                        </div>
                     </div>
                     <div class="project-content">
                         <div class="project-tags">
                             <span class="project-tag">System Design</span>
                             <span class="project-tag">Process Engineering</span>
+                            <span class="project-tag">Electrochemistry</span>
                         </div>
                         <h3>Custom Electroplating System</h3>
-                        <p>Designed and assembled complete electroplating workstation with controlled current delivery, solution circulation, and safety features. Enables precise metal deposition for research and prototyping applications.</p>
+                        <p>Designed and assembled complete electroplating workstation with controlled current delivery, solution circulation, and safety features. Enables precise metal deposition for research and prototyping applications. Used by PhD researchers at CIC EnergiGUNE.</p>
                         <div class="project-metrics">
                             <div class="metric">
                                 <div class="metric-value">Complete</div>
@@ -1296,22 +1468,136 @@
                     </div>
                 </div>
 
-                <!-- Project 8 -->
-                <div class="project-card visible" data-category="automation">
-                    <div class="project-image">
-                        <img src="./images/python/python code.PNG" alt="Data Export Automation">
+                <!-- Project 8: Laboratory Equipment Adapters -->
+                <div class="project-card visible" data-category="mechanical">
+                    <div class="project-gallery" data-gallery-id="8">
+                        <button id="prev-8" class="gallery-nav gallery-prev">&#10094;</button>
+                        <div id="gallery-8" class="gallery-container">
+                            <img src="./images/diseño de laboratorio de redox lab6 cic.PNG" alt="Laboratory Redox Lab Design">
+                            <img src="./images/laboratory equipment adapters/soporte botellas redox.PNG" alt="Bottle Support for Redox">
+                            <img src="./images/laboratory equipment adapters/soporte celda redox.jpg" alt="Cell Support for Redox">
+                        </div>
+                        <button id="next-8" class="gallery-nav gallery-next">&#10095;</button>
+                        <div id="dots-8" class="gallery-dots">
+                            <span class="gallery-dot"></span>
+                            <span class="gallery-dot"></span>
+                            <span class="gallery-dot"></span>
+                        </div>
                     </div>
                     <div class="project-content">
                         <div class="project-tags">
-                            <span class="project-tag">Python</span>
-                            <span class="project-tag">Data Processing</span>
+                            <span class="project-tag">Lab Equipment</span>
+                            <span class="project-tag">Custom Solutions</span>
+                            <span class="project-tag">Cost Savings</span>
                         </div>
-                        <h3>Automated Data Export Tools</h3>
-                        <p>Built Python utilities for automated extraction and formatting of experimental data from various instruments. Eliminates manual copy-paste errors and saves hours of repetitive work weekly.</p>
+                        <h3>Laboratory Equipment & Adapters</h3>
+                        <p>Designed multiple solutions for different laboratory equipment and specific tests, making possible various assays without waiting times or expenses for specific equipment. Includes supports, adapters, and custom fixtures for redox flow battery testing.</p>
                         <div class="project-metrics">
                             <div class="metric">
-                                <div class="metric-value">Hours/Week</div>
-                                <div class="metric-label">Saved</div>
+                                <div class="metric-value">Multiple</div>
+                                <div class="metric-label">Solutions</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 9: 3D Printing & Hand Painting -->
+                <div class="project-card visible" data-category="fabrication">
+                    <div class="project-gallery" data-gallery-id="9">
+                        <button id="prev-9" class="gallery-nav gallery-prev">&#10094;</button>
+                        <div id="gallery-9" class="gallery-container">
+                            <img src="./images/personal proyects/3d print painting/3d fishing lures.jpg" alt="3D Printed Fishing Lures">
+                            <img src="./images/personal proyects/3d print painting/alien handpainted.jpg" alt="Hand-painted Alien Figure">
+                            <img src="./images/personal proyects/3d print painting/alien handpainted 2.jpg" alt="Alien Figure Detail">
+                            <img src="./images/personal proyects/3d print painting/ogre handpainted.jpg" alt="Hand-painted Ogre">
+                            <img src="./images/personal proyects/3d print painting/ogre handpainted 1.jpg" alt="Ogre Figure Front">
+                            <img src="./images/personal proyects/3d print painting/ogre handpainted 3.jpg" alt="Ogre Figure Side">
+                            <img src="./images/personal proyects/3d print painting/handpainted stuff.jpg" alt="Various Hand-painted Items">
+                            <img src="./images/personal proyects/3d print painting/handpainted stuff 2.jpg" alt="Painted Collection">
+                        </div>
+                        <button id="next-9" class="gallery-nav gallery-next">&#10095;</button>
+                        <div id="dots-9" class="gallery-dots">
+                            <span class="gallery-dot"></span>
+                            <span class="gallery-dot"></span>
+                            <span class="gallery-dot"></span>
+                            <span class="gallery-dot"></span>
+                            <span class="gallery-dot"></span>
+                            <span class="gallery-dot"></span>
+                            <span class="gallery-dot"></span>
+                            <span class="gallery-dot"></span>
+                        </div>
+                    </div>
+                    <div class="project-content">
+                        <div class="project-tags">
+                            <span class="project-tag">3D Printing</span>
+                            <span class="project-tag">Hand Painting</span>
+                            <span class="project-tag">Attention to Detail</span>
+                        </div>
+                        <h3>3D Printing & Hand Painting</h3>
+                        <p>Hobby project involving 3D printing and hand-painting miniatures and figures. Demonstrates attention to detail, patience, and fine motor skills applicable to professional work. Includes fishing lures, fantasy figures, and custom models.</p>
+                        <div class="project-metrics">
+                            <div class="metric">
+                                <div class="metric-value">50+</div>
+                                <div class="metric-label">Pieces Created</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 10: Electronics & Hardware Modification -->
+                <div class="project-card visible" data-category="automation">
+                    <div class="project-gallery" data-gallery-id="10">
+                        <button id="prev-10" class="gallery-nav gallery-prev">&#10094;</button>
+                        <div id="gallery-10" class="gallery-container">
+                            <img src="./images/personal proyects/electronics/portable desktop computer for lan.jpg" alt="Portable Desktop Computer">
+                            <img src="./images/personal proyects/electronics/portable desktop computer for lan 2.jpg" alt="Portable PC Build 2">
+                            <img src="./images/personal proyects/electronics/portable desktop computer for lan 3.jpg" alt="Portable PC Build 3">
+                            <img src="./images/personal proyects/electronics/portable desktop computer for lan 4.jpg" alt="Portable PC Build 4">
+                            <img src="./images/personal proyects/electronics/portable desktop computer for lan 5.jpg" alt="Portable PC Build 5">
+                            <img src="./images/personal proyects/electronics/portable desktop computer for lan 6.jpg" alt="Portable PC Build 6">
+                            <img src="./images/personal proyects/electronics/portable desktop computer for lan 7.jpg" alt="Portable PC Build 7">
+                            <img src="./images/personal proyects/electronics/portable desktop computer for lan 8.jpg" alt="Portable PC Build 8">
+                            <img src="./images/personal proyects/electronics/ps2 sd adapter plus battery.jpg" alt="PS2 SD Adapter with Battery">
+                            <img src="./images/personal proyects/electronics/ps2 sd adapter plus battery  2.jpg" alt="PS2 Mod Detail">
+                            <img src="./images/personal proyects/electronics/ps2 sd adapter plus battery 3.jpg" alt="PS2 Mod Complete">
+                            <img src="./images/personal proyects/electronics/retro-console.jpg" alt="Retro Console Mod">
+                            <img src="./images/personal proyects/electronics/various electronics.jpg" alt="Various Electronics Projects">
+                            <img src="./images/personal proyects/electronics/various electronics 2.jpg" alt="Electronics Collection">
+                            <img src="./images/personal proyects/electronics/uria-drone.png" alt="Custom Drone Build">
+                            <img src="./images/personal proyects/electronics/3d print drone.jpg" alt="3D Printed Drone">
+                        </div>
+                        <button id="next-10" class="gallery-nav gallery-next">&#10095;</button>
+                        <div id="dots-10" class="gallery-dots">
+                            <span class="gallery-dot"></span>
+                            <span class="gallery-dot"></span>
+                            <span class="gallery-dot"></span>
+                            <span class="gallery-dot"></span>
+                            <span class="gallery-dot"></span>
+                            <span class="gallery-dot"></span>
+                            <span class="gallery-dot"></span>
+                            <span class="gallery-dot"></span>
+                            <span class="gallery-dot"></span>
+                            <span class="gallery-dot"></span>
+                            <span class="gallery-dot"></span>
+                            <span class="gallery-dot"></span>
+                            <span class="gallery-dot"></span>
+                            <span class="gallery-dot"></span>
+                            <span class="gallery-dot"></span>
+                            <span class="gallery-dot"></span>
+                        </div>
+                    </div>
+                    <div class="project-content">
+                        <div class="project-tags">
+                            <span class="project-tag">Hardware Modding</span>
+                            <span class="project-tag">Electronics</span>
+                            <span class="project-tag">Custom Enclosures</span>
+                        </div>
+                        <h3>Electronics & Hardware Modification</h3>
+                        <p>Dedicates significant free time to hardware modification and "electronic carpentry" - modifying cases, creating custom enclosures for specific hardware, modding consoles (adding SD readers, HDMI output, portable screens, drone batteries for PS2), building drones, and various electronic projects. Shows adaptability and ability to work with available resources.</p>
+                        <div class="project-metrics">
+                            <div class="metric">
+                                <div class="metric-value">20+</div>
+                                <div class="metric-label">Projects</div>
                             </div>
                         </div>
                     </div>
@@ -1444,6 +1730,58 @@
                     }
                 }
             });
+        });
+
+        // Project Gallery Navigation
+        function initGallery(galleryId, images) {
+            const container = document.getElementById(`gallery-${galleryId}`);
+            const dotsContainer = document.getElementById(`dots-${galleryId}`);
+            let currentIndex = 0;
+
+            function updateGallery() {
+                container.style.transform = `translateX(-${currentIndex * 100}%)`;
+                document.querySelectorAll(`#dots-${galleryId} .gallery-dot`).forEach((dot, idx) => {
+                    dot.classList.toggle('active', idx === currentIndex);
+                });
+            }
+
+            function nextImage() {
+                currentIndex = (currentIndex + 1) % images.length;
+                updateGallery();
+            }
+
+            function prevImage() {
+                currentIndex = (currentIndex - 1 + images.length) % images.length;
+                updateGallery();
+            }
+
+            // Add click handlers to navigation buttons
+            const prevBtn = document.getElementById(`prev-${galleryId}`);
+            const nextBtn = document.getElementById(`next-${galleryId}`);
+            
+            if (prevBtn) prevBtn.addEventListener('click', (e) => { e.stopPropagation(); prevImage(); });
+            if (nextBtn) nextBtn.addEventListener('click', (e) => { e.stopPropagation(); nextImage(); });
+
+            // Add click handlers to dots
+            document.querySelectorAll(`#dots-${galleryId} .gallery-dot`).forEach((dot, idx) => {
+                dot.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    currentIndex = idx;
+                    updateGallery();
+                });
+            });
+
+            // Initialize dots
+            updateGallery();
+        }
+
+        // Initialize all galleries
+        document.querySelectorAll('.project-gallery').forEach(gallery => {
+            const galleryId = gallery.dataset.galleryId;
+            const images = gallery.querySelectorAll('img');
+            if (images.length > 1) {
+                initGallery(galleryId, images);
+            }
         });
     </script>
 </body>
