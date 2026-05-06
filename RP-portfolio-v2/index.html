@@ -771,6 +771,58 @@
             transform: scale(1.2);
         }
 
+        /* Image Zoom Overlay */
+        .image-zoom-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 23, 42, 0.95);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+            cursor: zoom-out;
+        }
+
+        .image-zoom-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .image-zoom-overlay img {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .project-image:hover,
+        .project-gallery:hover {
+            cursor: zoom-in;
+        }
+
+        .zoom-hint {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .project-image:hover .zoom-hint,
+        .project-gallery:hover .zoom-hint {
+            opacity: 1;
+        }
+
         .project-content {
             padding: 1.5rem;
         }
@@ -1221,6 +1273,7 @@
                             <span class="gallery-dot"></span>
                             <span class="gallery-dot"></span>
                         </div>
+                        <div class="zoom-hint">Click to view full image</div>
                     </div>
                     <div class="project-content">
                         <div class="project-tags">
@@ -1257,6 +1310,7 @@
                             <span class="gallery-dot"></span>
                             <span class="gallery-dot"></span>
                         </div>
+                        <div class="zoom-hint">Click to view full image</div>
                     </div>
                     <div class="project-content">
                         <div class="project-tags">
@@ -1306,6 +1360,7 @@
                             <span class="gallery-dot"></span>
                             <span class="gallery-dot"></span>
                         </div>
+                        <div class="zoom-hint">Click to view full image</div>
                     </div>
                     <div class="project-content">
                         <div class="project-tags">
@@ -1366,6 +1421,7 @@
                             <img src="./images/personal proyects/guitar handcrafting/custom-guitar.jpg" alt="Custom Guitar Final">
                         </div>
                         <button id="next-6" class="gallery-nav gallery-next">&#10095;</button>
+                        <div class="zoom-hint">Click to view full image</div>
                         <div id="dots-6" class="gallery-dots">
                             <span class="gallery-dot"></span>
                             <span class="gallery-dot"></span>
@@ -1410,6 +1466,7 @@
                             <span class="gallery-dot"></span>
                             <span class="gallery-dot"></span>
                         </div>
+                        <div class="zoom-hint">Click to view full image</div>
                     </div>
                     <div class="project-content">
                         <div class="project-tags">
@@ -1441,6 +1498,7 @@
 
                         </div>
                         <button id="next-8" class="gallery-nav gallery-next">&#10095;</button>
+                        <div class="zoom-hint">Click to view full image</div>
                         <div id="dots-8" class="gallery-dots">
                             <span class="gallery-dot"></span>
                             <span class="gallery-dot"></span>
@@ -1482,6 +1540,7 @@
                         </div>
                         <button id="next-9" class="gallery-nav gallery-next">&#10095;</button>
                         <div id="dots-9" class="gallery-dots">
+                        <div class="zoom-hint">Click to view full image</div>
                             <span class="gallery-dot"></span>
                             <span class="gallery-dot"></span>
                             <span class="gallery-dot"></span>
@@ -1534,6 +1593,7 @@
                         <button id="next-10" class="gallery-nav gallery-next">&#10095;</button>
                         <div id="dots-10" class="gallery-dots">
                             <span class="gallery-dot"></span>
+                        <div class="zoom-hint">Click to view full image</div>
                             <span class="gallery-dot"></span>
                             <span class="gallery-dot"></span>
                             <span class="gallery-dot"></span>
@@ -1747,6 +1807,43 @@
             if (images.length > 1) {
                 initGallery(galleryId, images);
             }
+        });
+
+        // Image Zoom Overlay Functionality
+        const zoomOverlay = document.createElement('div');
+        zoomOverlay.className = 'image-zoom-overlay';
+        const zoomImg = document.createElement('img');
+        zoomOverlay.appendChild(zoomImg);
+        document.body.appendChild(zoomOverlay);
+
+        // Add click event to all project images and galleries
+        document.querySelectorAll('.project-image img, .project-gallery img').forEach(img => {
+            img.addEventListener('click', (e) => {
+                e.stopPropagation();
+                zoomImg.src = img.src;
+                zoomImg.alt = img.alt;
+                zoomOverlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            });
+        });
+
+        // Close overlay on click
+        zoomOverlay.addEventListener('click', () => {
+            zoomOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+        });
+
+        // Close overlay on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && zoomOverlay.classList.contains('active')) {
+                zoomOverlay.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        });
+
+        // Prevent image drag default behavior
+        document.querySelectorAll('.project-image img, .project-gallery img').forEach(img => {
+            img.addEventListener('dragstart', (e) => e.preventDefault());
         });
     </script>
 </body>
